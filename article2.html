@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Meth is Safer Than Adderall — Neuroscience with RPrime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0ece4;
+    --muted: #888;
+    --accent: #c8ff00;
+    --accent2: #ff6b35;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .site { max-width: 760px; margin: 0 auto; padding: 0 24px 80px; }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0 48px;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 56px;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  .back {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .back:hover { color: var(--accent); }
+  .article-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 16px;
+  }
+  .article-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .article-subtitle {
+    font-size: 17px;
+    color: #888;
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+  .article-meta {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 48px;
+  }
+  .divider {
+    height: 0.5px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    margin-top: 48px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .body-text {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #ccc;
+    margin-bottom: 20px;
+  }
+  .body-text strong { color: var(--text); font-weight: 500; }
+  .highlight-block {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 24px 28px;
+    margin: 28px 0;
+  }
+  .highlight-block p {
+    font-size: 15px;
+    color: #bbb;
+    line-height: 1.85;
+    margin-bottom: 12px;
+  }
+  .highlight-block p:last-child { margin-bottom: 0; }
+  .note-block {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 28px 0;
+  }
+  .note-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: var(--font-display);
+    margin-bottom: 8px;
+  }
+  .note-block p { font-size: 15px; color: #aaa; line-height: 1.8; }
+  .quote-block {
+    border-left: 3px solid #555;
+    padding: 16px 24px;
+    margin: 28px 0;
+  }
+  .quote-block p {
+    font-size: 17px;
+    color: #999;
+    line-height: 1.8;
+    font-style: italic;
+  }
+  .conclusion-block {
+    background: var(--surface);
+    border: 0.5px solid rgba(200,255,0,0.15);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-top: 40px;
+  }
+  .conclusion-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 12px;
+  }
+  .conclusion-block p {
+    font-size: 16px;
+    color: #ccc;
+    line-height: 1.85;
+  }
+  .footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-note { font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="site">
+
+  <nav class="nav">
+    <a href="/" class="logo">Neuroscience with <span>RPrime</span></a>
+    <a href="/" class="back">← Back to home</a>
+  </nav>
+
+  <div class="article-eyebrow">Article 02 — Amphetamines</div>
+  <h1 class="article-title">Why methamphetamine is safer than amphetamine — cardiovascularly</h1>
+  <p class="article-subtitle">"Meth" is associated with crime and destruction. But at therapeutic doses, its cardiovascular profile is actually more favorable than the Adderall your doctor prescribes without hesitation.</p>
+  <p class="article-meta">By Rishik Pannala | March 15, 2026</p>
+
+  <div class="divider"></div>
+
+  <p class="body-text">"Meth" — a drug associated with crime, abuse, and addiction — is actually used in children above the age of 6 for ADHD and in some cases obesity. Yes, you heard that right. This isn't saying Adderall equals meth, because they are chemically similar but have several major differences. If we set addiction aside for now, methamphetamine is far less dangerous than amphetamine cardiovascularly — and here is why.</p>
+
+  <h2 class="section-heading">The N-methyl group changes everything</h2>
+  <p class="body-text">Methamphetamine has an additional CH3 group on the backbone of amphetamine. This makes it significantly more lipophilic — easier to enter the brain — stimulating the release of dopamine more efficiently centrally.</p>
+
+  <div class="highlight-block">
+    <p>When a drug is less lipophilic and less able to enter the brain easily, more of it gets distributed peripherally — throughout the body rather than the brain. Peripheral amphetamine distribution is associated with cardiovascular side effects: tachycardia, hyperthermia, jitters, muscle strain, and vasoconstriction (reduced blood flow).</p>
+    <p>Methamphetamine is far less peripheral than amphetamine. It acts more centrally, meaning more of its effect happens in the brain and less in the cardiovascular system.</p>
+  </div>
+
+  <h2 class="section-heading">Dopamine vs norepinephrine — why the distinction matters</h2>
+  <p class="body-text">Methamphetamine has a much stronger dopamine release than amphetamine. Some studies have shown it increases dopamine levels to 1200–2600% baseline in animal models, producing more than 5x the dopamine release of amphetamine. Methamphetamine is therefore more dangerous in terms of addictive potential.</p>
+
+  <p class="body-text">However — dopamine and norepinephrine are not the same. Norepinephrine is related to focus, attention, alertness, stress response, and arousal, and has strong cardiovascular effects. It directly stimulates the heart and the sympathetic nervous system. Amphetamine releases significantly more norepinephrine than methamphetamine, which is the primary driver of its cardiovascular side effects.</p>
+
+  <div class="note-block">
+    <div class="note-label">Metabolic note</div>
+    <p>Methamphetamine is metabolized into amphetamine at approximately 15–30%. This is why people report more cardiovascular stimulation after the methamphetamine peak wears off — not withdrawal, but the transition to the amphetamine metabolite, which carries a stronger norepinephrine release and more SNS activation.</p>
+  </div>
+
+  <h2 class="section-heading">Can dopamine release be calming?</h2>
+  <p class="body-text">Dopamine is associated with reward, motivation, focus, emotional regulation, clear thinking, planning, and associative learning. You can have significant dopamine release and remain completely relaxed — and norepinephrine release can do the same in the right context. This seems counterintuitive until you understand what's happening in severe treatment-resistant ADHD.</p>
+
+  <h2 class="section-heading">Treatment-resistant ADHD — why stimulants calm instead of excite</h2>
+  <p class="body-text">In severe treatment-resistant ADHD, there is an excitatory neurotransmitter — glutamate — which becomes hyperactive as the brain's maladaptive attempt to compensate for severely low dopamine and norepinephrine. This compensation fails to address the underlying deficit while making the brain hyperexcitable, restless, and agitated — which can risk excitotoxicity in the long term. Chronic overstimulation may push the patient into collapse sleep as a protective mechanism against brain damage.</p>
+
+  <div class="quote-block">
+    <p>"A stress so horrifying it's reported you want to crawl out of your own skin and beg for mercy on the ground while feeling you're being pushed to your maximum every second before you collapse mentally."</p>
+  </div>
+
+  <p class="body-text">This is well beyond typical extreme ADHD. Executive functioning, focus, motivation, clear thinking, and rational behavior are all severely impaired — beyond the impairment seen in typical presentations. This type of ADHD can be treatment resistant, and stimulant therapy often produces a paradoxical effect: rather than increasing hyperactivity and energy, it calms the person down, helps them sleep, sustains focus and motivation, and reduces addictive potential rather than increasing it.</p>
+
+  <p class="body-text">This is rare, but not unheard of. Different stimulants produce this effect differently — some patients are sleepy on methylphenidate but agitated, some are focused but angry on amphetamine. In some cases methamphetamine becomes the only agent that produces the least side effects and the cleanest therapeutic response.</p>
+
+  <div class="note-block">
+    <div class="note-label">Why glutamate quiets on stimulants in this context</div>
+    <p>When the underlying catecholamine deficit is corrected by the stimulant, glutamate has nothing left to compensate for. Its hyperactivity diminishes, reducing PFC noise — which is why the therapeutic effect in severe treatment-resistant cases feels like calm and clarity rather than stimulation.</p>
+  </div>
+
+  <p class="body-text">Some patients in this category have described methamphetamine as producing fewer side effects than any other stimulant — with some referring to it in terms that reflect how dramatically it changed their quality of life. This refers strictly to therapeutic use under medical supervision in treatment-resistant cases, not recreational use.</p>
+
+  <div class="conclusion-block">
+    <div class="conclusion-label">Conclusion</div>
+    <p>This isn't the street meth you've heard about. It's a legitimate medication used to treat a severe and profoundly misunderstood condition. The stigma around the name has prevented countless patients from accessing a treatment that may be the only one that works for them. The pharmacology doesn't change based on public perception. The molecule is the molecule.</p>
+  </div>
+
+  <footer class="footer">
+    <a href="/" class="footer-logo">Neuroscience with <span>RPrime</span></a>
+    <div class="footer-note">Independent neuroscience research</div>
+  </footer>
+
+</div>
+</body>
+</html>

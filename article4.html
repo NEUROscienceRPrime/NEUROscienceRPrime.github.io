@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Standard ADHD Model Is Incomplete — Neuroscience with RPrime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0ece4;
+    --muted: #888;
+    --accent: #c8ff00;
+    --accent2: #ff6b35;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .site { max-width: 760px; margin: 0 auto; padding: 0 24px 80px; }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0 48px;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 56px;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  .back {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .back:hover { color: var(--accent); }
+  .article-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 16px;
+  }
+  .article-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .article-subtitle {
+    font-size: 17px;
+    color: #888;
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+  .article-meta {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 48px;
+  }
+  .divider {
+    height: 0.5px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    margin-top: 48px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .body-text {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #ccc;
+    margin-bottom: 20px;
+  }
+  .body-text strong { color: var(--text); font-weight: 500; }
+  .highlight-block {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 24px 28px;
+    margin: 28px 0;
+  }
+  .highlight-block p {
+    font-size: 15px;
+    color: #bbb;
+    line-height: 1.85;
+    margin-bottom: 12px;
+  }
+  .highlight-block p:last-child { margin-bottom: 0; }
+  .note-block {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 28px 0;
+  }
+  .note-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: var(--font-display);
+    margin-bottom: 8px;
+  }
+  .note-block p { font-size: 15px; color: #aaa; line-height: 1.8; }
+  .quote-block {
+    border-left: 3px solid #555;
+    padding: 16px 24px;
+    margin: 28px 0;
+  }
+  .quote-block p {
+    font-size: 17px;
+    color: #999;
+    line-height: 1.8;
+    font-style: italic;
+  }
+  .conclusion-block {
+    background: var(--surface);
+    border: 0.5px solid rgba(200,255,0,0.15);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-top: 40px;
+  }
+  .conclusion-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 12px;
+  }
+  .conclusion-block p {
+    font-size: 16px;
+    color: #ccc;
+    line-height: 1.85;
+  }
+  .footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-note { font-size: 12px; color: var(--muted); }
+  .issue-list {
+    list-style: none;
+    margin: 16px 0 20px 0;
+    padding: 0;
+  }
+  .issue-list li {
+    font-size: 15px;
+    color: #bbb;
+    line-height: 1.85;
+    padding: 8px 0 8px 20px;
+    border-bottom: 0.5px solid var(--border);
+    position: relative;
+  }
+  .issue-list li:last-child { border-bottom: none; }
+  .issue-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+<div class="site">
+
+  <nav class="nav">
+    <a href="/" class="logo">Neuroscience with <span>RPrime</span></a>
+    <a href="/" class="back">← Back to home</a>
+  </nav>
+
+  <div class="article-eyebrow">Article 04 — ADHD Theory</div>
+  <h1 class="article-title">The Standard ADHD Model Is Incomplete</h1>
+  <p class="article-subtitle">The catecholamine deficit hypothesis explains the symptoms. It doesn't explain why stimulants calm instead of excite, why the wrong drug worsens agitation, or why most diagnosed patients respond nothing like you'd expect.</p>
+  <p class="article-meta">By Rishik Pannala | March 25, 2026</p>
+
+  <div class="divider"></div>
+
+  <div class="note-block">
+    <div class="note-label">Note to the reader</div>
+    <p>This article ends with a section arguing that the ADHD described here is the only neurochemically valid definition of ADHD. See that section for the full justification.</p>
+  </div>
+
+  <div class="highlight-block">
+    <p>This hypothesis specifically addresses a severe treatment-resistant subtype characterized by psychomotor agitation, paradoxical stimulant response, and inadequate response to methylphenidate.</p>
+  </div>
+
+  <p class="body-text">Attention-Deficit Hyperactivity Disorder is a neurochemical deficit hypothesized to be caused by low norepinephrine and dopamine activity in the PFC and NAc.</p>
+
+  <p class="body-text"><strong>PFC dopaminergic deficiency</strong> leads to cognitive impairment, poor impulse control, inability to self-initiate, executive function disorder, and impaired concentration. <strong>NAc deficiency</strong> makes it difficult to sustain cognitive effort, reduces motivation for unstimulating tasks, reduces resilience to cognitive setbacks, and produces anhedonia.</p>
+
+  <p class="body-text">Currently in mainstream medical literature and practice, there is no consensus definition of ADHD and no agreed-upon underlying mechanism. The current hypothesis — that lower dopamine and norepinephrine activity in the PFC and NAc is the cause — is fundamentally incomplete. It does not address why patients under stimulant therapy have anxiolytic-like effects and calming effects while maintaining focus and clarity, rather than the typical stimulating effects. Dopamine and norepinephrine are not sedatory chemicals. They are responsible for alertness, wakefulness, cognition, reward, focus, and sensory arousal — not inhibition.</p>
+
+  <div class="highlight-block">
+    <p><strong>The NMDA hypothesis:</strong> NMDA receptor hyperexcitability in dopaminergic neurons in the PFC and NAc attempts to promote dopamine release. This fails. It is maladaptive — resulting in neuronal noise and more excitability without release. This produces prolonged, intense symptoms resembling akathisia and psychomotor agitation.</p>
+    <p>When the catecholamine deficit is corrected by a stimulant, glutamate has nothing left to compensate for. Its overactivity diminishes. The leading hypothesis concludes that restoration of these neurotransmitters leads to decreased excitability and reduced CNS overstimulation — because there is no hypodopaminergia left to compensate for.</p>
+  </div>
+
+  <p class="body-text">In a documented case, all stimulants produced calming and non-energizing effects rather than the typical energizing response. Methylphenidate-type drugs produced this calming but simultaneously increased agitation and depression — because inhibition of reuptake without significant release does not resolve the underlying deficit. Amphetamines provided a better resolution through DAT phosphorylation and reuptake inhibition: the concurrent glutamate noise decreased, leading to calmness, focus, and motivation.</p>
+
+  <p class="body-text">The person in this case was also highly sensitive to tolerance — not as reduced efficacy, but as an almost abrupt return of psychomotor agitation symptoms. If there is no glutamate hypercompensation, ADHD is not present. Low dopamine and norepinephrine alone leads to fatigue and low blood pressure, not hyperactivity.</p>
+
+  <h2 class="section-heading">Section 1 — Mechanisms: what works, what doesn't, and how to identify this subtype</h2>
+
+  <p class="body-text">Such forms of ADHD are very unlikely to respond to methylphenidate well.</p>
+
+  <p class="body-text">Methylphenidate's primary mechanism is NDRI — mechanistically similar to cocaine (SNDRI), though dramatically different in potency and side effects. Methylphenidate's affinity to inhibit NET and increase NE is higher than amphetamine's, whereas amphetamines have been shown to increase dopamine 4x more than methylphenidate-type drugs.</p>
+
+  <p class="body-text">Amphetamine is mechanically different from methylphenidate in two critical ways:</p>
+
+  <ul class="issue-list">
+    <li>DAT reversal — "reverse reuptake" — which intrinsically inhibits reuptake</li>
+    <li>DAT reversal is triggered by DAT phosphorylation, which amphetamine achieves by increasing PKC activity</li>
+  </ul>
+
+  <p class="body-text">In patients already deficient in catecholamine signaling, NMDA overactivation on dopamine neurons exists primarily because of the inability to release — not because of excessive reuptake. Methylphenidate is better for brain subtypes which have no issue with release but struggle to maintain the signal before reuptake occurs. That is not this subtype.</p>
+
+  <div class="highlight-block">
+    <p>The NMDA hypothesis does not support methylphenidate for this form of ADHD. The issue is not a reuptake problem. The overcompensatory NMDA response in dopaminergic neurons — with inadequate release — is the primary driver of not just severe ADHD symptoms, but more serious psychiatric conditions including psychomotor agitation. There are multiple simultaneous failures:</p>
+  </div>
+
+  <ul class="issue-list">
+    <li>Dopamine and NE struggle to be released</li>
+    <li>Glutamate overcompensates for the deficiency but is maladaptive, leading to severe behavioral and cognitive deficits</li>
+    <li>This creates an extreme hypodopaminergic state which further intensifies NMDA's response, leading to increased agitation and severe psychiatric effects</li>
+  </ul>
+
+  <p class="body-text">The intensity may not be extreme for everyone with this mechanism. Some people may have NMDA overcompensation to a limited extent. But it can reach these severe states.</p>
+
+  <p class="body-text">This directly explains why amphetamines cause calmness, relaxation, lack of euphoria, focus, motivation, and tranquility in these patients — the amphetamine enhances the signal-to-noise ratio. Increased DA leads to substantial decrease in NMDA overcompensation, which causes the almost supernatural relief described by some patients.</p>
+
+  <div class="note-block">
+    <div class="note-label">Why methylphenidate fails here</div>
+    <p>Methylphenidate doesn't target dopamine release nearly as much as it targets NE. It doesn't release the dopamine needed to silence glutamate. Increased DA activity from methylphenidate may modestly decrease glutamate overcompensation short-term, but will not resolve the underlying issue. Additionally, more NE without sufficient DA may actually increase the risk of agitation and behavioral dysregulation even while inducing physical calm.</p>
+  </div>
+
+  <p class="body-text">Methylphenidate may reduce physical energy and increase physical calmness while simultaneously increasing agitation, anger, and obsessive behaviors. These are not contradictory — they reflect the split between the noradrenergic and dopaminergic effects of the drug in a system where DA release is the missing piece.</p>
+
+  <h2 class="section-heading">Why not GABA-enhancing drugs like benzodiazepines?</h2>
+
+  <p class="body-text">The NMDA overactivation is the reason the patient is not experiencing severe fatigue, lethargy, and critically low blood pressure. The glutamate overcompensation is actually <strong>preventing</strong> the worst consequences of the DA and NE deficit. It is a protective mechanism.</p>
+
+  <div class="highlight-block">
+    <p>The problem is not the NMDA overactivation itself — it's that this compensation is maladaptive. If you were to suppress it with GABAergic drugs, psychomotor agitation would likely decrease, but energy levels, cardiovascular function, and blood pressure would worsen significantly. Severe hypersomnia would likely follow. The patient would be calm and nonfunctional.</p>
+  </div>
+
+  <p class="body-text">This is the only mechanism that explains why stimulants physically slow these patients down — reduce hyperactivity, induce calm — while simultaneously restoring cognition, focus, and motivation. The calming is not a side effect. It is the signal that the underlying pathology is being corrected.</p>
+
+  <h2 class="section-heading">Amantadine — and why it's different from benzodiazepines</h2>
+
+  <p class="body-text">Amantadine is an NMDA antagonist, but a very mild one compared to ketamine or PCP. It is also a mild dopaminergic agent, which can enhance stimulants but is not a substitute due to its lower potency. This is why it is not sedating — it reduces pathological NMDA overactivation without silencing the compensatory activity entirely, and does not suppress global inhibitory tone the way GABAergic drugs do.</p>
+
+  <p class="body-text">Doctors typically recommend taking amantadine early in the day for other conditions. It has been studied and used off-label to help mitigate stimulant tolerance — consistent with the hypothesis that NMDA overactivity plays a role in the tolerance mechanism as well.</p>
+
+  <div class="note-block">
+    <div class="note-label">Why amantadine alone is not sufficient</div>
+    <p>Amantadine addresses the glutamate noise but does not fix the underlying catecholamine deficit. Without stimulants, quieting the NMDA overcompensation would leave a patient with calm neurons that still are not releasing adequate dopamine. The agitation resolves but cognition, motivation, and executive function do not recover. Stimulants are still required to restore the DA/NE signal. Together, they address both problems simultaneously.</p>
+  </div>
+
+  <h2 class="section-heading">Why there is only one neurochemically valid ADHD</h2>
+
+  <p class="body-text">The question of whether most ADHD diagnoses are legitimate has been raised repeatedly, largely due to the well-documented overprescription of stimulants. The neurochemical distinction here provides a testable answer.</p>
+
+  <p class="body-text">The actual distinction between ADHD and misdiagnosed "ADHD" is this: people with the real condition have an underlying deficit that stimulants calm and control. People without it are energized by stimulants like the rest of the population. The misconception is that because stimulants help someone focus, they must have ADHD. Stimulants are abused by neurotypical people in college to increase alertness and concentration — this is not a paradoxical response, it is the expected pharmacological effect.</p>
+
+  <div class="note-block">
+    <div class="note-label">The MDD comparison</div>
+    <p>Energy and motivation from a stimulant is a typical response in people with low dopamine but without NMDA overcompensation — as seen in MDD, where bupropion is used to provide energy and relieve depression. That is a dopamine deficit without hyperactivity. If "ADHD" were simply low dopamine and NE, the person before treatment should exhibit lack of energy, apathy, depression, and fatigue — not hyperactivity. The NMDA compensation theory predicts calming from stimulants, not excitement. If excitement is present, the theory fails for that patient. They do not have this condition.</p>
+  </div>
+
+  <p class="body-text">People who do not have a paradoxical calming response to all stimulant classes do not have the NMDA-related hypercompensation. The calming response — especially across stimulant types, doses, and combinations — is the neurochemical signature of genuine pathology being corrected. If increased energy is present instead, it is more likely another condition misdiagnosed as ADHD.</p>
+
+  <div class="conclusion-block">
+    <div class="conclusion-label">Conclusion</div>
+    <p>The standard ADHD model is a starting point, not a complete explanation. It accounts for the deficit but not for the compensatory glutamate dysregulation that drives the most severe presentations. The paradoxical stimulant response — calming instead of excitation, sleep instead of wakefulness — is not a mystery. It is the expected outcome of correcting a condition where the brain's own compensation mechanism was causing more damage than the deficit itself. That response is also a diagnostic. If stimulants calm you down across every class, every dose, and every combination — the mechanism described here is the most likely explanation for why.</p>
+  </div>
+
+  <footer class="footer">
+    <a href="/" class="footer-logo">Neuroscience with <span>RPrime</span></a>
+    <div class="footer-note">Independent neuroscience research</div>
+  </footer>
+
+</div>
+</body>
+</html>

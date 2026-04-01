@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Methamphetamine — Neuroscience with RPrime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0ece4;
+    --muted: #888;
+    --accent: #c8ff00;
+    --accent2: #ff6b35;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .site { max-width: 760px; margin: 0 auto; padding: 0 24px 80px; }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0 48px;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 56px;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  .back {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .back:hover { color: var(--accent); }
+  .warning {
+    background: #1a1200;
+    border: 0.5px solid rgba(255,200,0,0.2);
+    border-left: 3px solid #c8a000;
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin-bottom: 48px;
+  }
+  .warning-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #c8a000;
+    font-family: var(--font-display);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .warning p {
+    font-size: 14px;
+    color: #aaa;
+    line-height: 1.7;
+  }
+  .article-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 16px;
+  }
+  .article-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .article-subtitle {
+    font-size: 18px;
+    color: #888;
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+  .article-meta {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 48px;
+  }
+  .divider {
+    height: 0.5px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    margin-top: 48px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .body-text {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #ccc;
+    margin-bottom: 20px;
+  }
+  .body-text strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .highlight-block {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 24px 28px;
+    margin: 28px 0;
+  }
+  .highlight-block p {
+    font-size: 15px;
+    color: #bbb;
+    line-height: 1.85;
+    margin-bottom: 12px;
+  }
+  .highlight-block p:last-child { margin-bottom: 0; }
+  .note-block {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 28px 0;
+  }
+  .note-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: var(--font-display);
+    margin-bottom: 8px;
+  }
+  .note-block p {
+    font-size: 14px;
+    color: #aaa;
+    line-height: 1.8;
+  }
+  .footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-note { font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="site">
+
+  <nav class="nav">
+    <a href="/" class="logo">Neuroscience with <span>RPrime</span></a>
+    <a href="/" class="back">← Back to home</a>
+  </nav>
+
+  <div class="warning">
+    <div class="warning-label">For pharmacists and graduate students only</div>
+    <p>If you are younger and interested, you are welcome to read this — but be aware the content is dense and technical. A simplified version of this article will be published separately.</p>
+  </div>
+
+  <div class="article-eyebrow">Article 01 — Amphetamines</div>
+  <h1 class="article-title">Methamphetamine</h1>
+  <p class="article-subtitle">Mechanism, history, clinical use, and tolerance — a pharmacological deep dive into the most potent dopamine releaser known.</p>
+  <p class="article-meta">By Rishik Pannala | March 14, 2026</p>
+
+  <div class="divider"></div>
+
+  <h2 class="section-heading">What is methamphetamine?</h2>
+  <p class="body-text">Methamphetamine (C10H15N) belongs to the phenylethylamine family — the same chemical backbone shared by dopamine itself. It is structurally amphetamine with a modified N-methyl group added to its backbone, a modification that dramatically increases its lipophilicity and central nervous system penetration.</p>
+  <p class="body-text">It is a Schedule II controlled substance approved by the FDA to treat ADHD and obesity, and in exceptional cases narcolepsy when traditional agents — modafinil, mixed amphetamine salts — have failed.</p>
+
+  <h2 class="section-heading">Primary mechanism of action</h2>
+  <p class="body-text">Methamphetamine increases synaptic levels of dopamine, norepinephrine, and serotonin through several distinct mechanisms. It is the most potent dopamine releaser among all stimulants — including cocaine, which is not a direct releaser at all but a reuptake inhibitor, functionally similar to but more potent than methylphenidate. Cocaine blocks the reuptake of DA, NE, and serotonin simultaneously, producing euphoria, energy, increased confidence, talkativity, and appetite suppression.</p>
+
+  <div class="highlight-block">
+    <p><strong>DAT reversal:</strong> Methamphetamine reverses the Dopamine Transporter (DAT) — the protein that normally clears dopamine from the synapse back into the presynaptic neuron. Instead of clearing dopamine, DAT runs in reverse, actively pumping dopamine into the synapse while simultaneously blocking normal reuptake. This produces a massive surge of synaptic dopamine and increased catecholaminergic signaling.</p>
+    <p>Effects include euphoria, talkativity, energy, diminished appetite, anxiety, obsessive behavior, agitation, and insomnia.</p>
+  </div>
+
+  <div class="note-block">
+    <div class="note-label">VMAT2 reversal — high-dose abuse only</div>
+    <p>At high doses administered rapidly — injection, smoking crystal meth, insufflation — methamphetamine alkalizes the VMAT2 transporter, disrupting the H+ gradient and causing cytosolic dopamine to be released directly into the cytoplasm. This bypasses normal vesicular storage and produces reactive oxygen species (ROS), contributing to the dopaminergic neurotoxicity seen in chronic heavy abuse. This mechanism is not relevant at therapeutic doses.</p>
+  </div>
+
+  <h2 class="section-heading">Methamphetamine vs amphetamine — what's actually different</h2>
+  <p class="body-text">The N-methyl addition gives methamphetamine unprecedented lipophilicity, allowing it to cross the blood-brain barrier more efficiently and be processed more cerebrally than peripherally. This intrinsically reduces peripheral side effects — tachycardia, appetite suppression — that are more prominent with amphetamine at equivalent doses.</p>
+  <p class="body-text">Methamphetamine has been shown to increase dopamine approximately five times more than amphetamine. Counterintuitively, methamphetamine shows relatively more selective affinity for DAT at therapeutic doses, while amphetamine releases a more significant amount of norepinephrine. Amphetamine carries a greater risk for cardiovascular side effects at misused doses while having lower abuse risk than methamphetamine due to the dopamine differential.</p>
+
+  <div class="highlight-block">
+    <p><strong>On Adderall vs Dexedrine:</strong> Adderall contains four salts — D-amphetamine saccharate, D-amphetamine sulfate, levoamphetamine saccharate, and levoamphetamine sulfate — in a 3:1 D to L ratio. Despite d-amphetamine being primarily responsible for euphoria and dopamine release, Adderall carries higher addictive potential than Dexedrine because of the levoamphetamine component. Lisdexamfetamine (Vyvanse) and Mydayis were developed in part to resolve this abuse potential while providing longer duration. Mydayis contains three bead types with staggered release times — its utility is individual and depends heavily on metabolism and stimulant processing differences across patients.</p>
+  </div>
+
+  <p class="body-text">In severe and treatment-resistant cases of ADHD, patients administered Desoxyn (pharmaceutical-grade methamphetamine HCl) frequently report fewer side effects and withdrawal symptoms compared to both methylphenidate and mixed amphetamine salts, describing a cleaner and smoother therapeutic effect.</p>
+
+  <h2 class="section-heading">History</h2>
+  <p class="body-text">Amphetamine's history precedes the 20th century. In the 19th century, a man who accidentally ingested a high dose reported euphoria, decreased appetite, and insomnia — the drug was subsequently marketed as Benzedrine. It was widely administered to children labeled as "retarded" or behaviorally disruptive in school settings. Jazz musicians sought it at restaurants. Adolf Hitler was reported to have abused amphetamines, which is consistent with the rapid-onset parkinsonian tremors he displayed in his final years.</p>
+  <p class="body-text">Methamphetamine was first synthesized from ephedrine by Nagai Nagayoshi in 1893, then refined into its current form by Akira Ogata in 1919. Ephedrine itself derives from the ephedra plant — one reason why ephedrine has been tightly regulated since the late 20th century. Pseudoephedrine regulation was eventually formalized through negotiations between the DEA, the pharmaceutical industry, and the Reagan administration, culminating in the Combat Methamphetamine Epidemic Act of 2005.</p>
+  <p class="body-text">Marketed as Methedrine, the drug was used clinically for PTSD, ADHD, depression, and PMDD. Widespread addiction became notable through the 1960s, leading to its Schedule II classification in 1971. Desoxyn remains one of the least studied ADHD medications — its last dedicated clinical trial was conducted around 1972.</p>
+
+  <h2 class="section-heading">Tolerance mechanisms</h2>
+  <p class="body-text">Tolerance and dependence to methamphetamine develop through several converging molecular pathways:</p>
+
+  <div class="highlight-block">
+    <p><strong>DeltaFosB / CDK5 / DARPP-32 pathway:</strong> Chronic methamphetamine exposure drives repeated D1 receptor activation, which activates PKA, which phosphorylates CREB, which upregulates FosB gene transcription. The truncated stable form — DeltaFosB — accumulates across doses and binds to the CDK5 gene promoter. Increased CDK5 activity phosphorylates DARPP-32 at Threonine 75, which switches DARPP-32 from a PKA amplifier into a PKA inhibitor. PKA can no longer phosphorylate DARPP-32 at Threonine 34. Without T34 phosphorylation, PP1 runs unchecked, dephosphorylating essential synaptic proteins and progressively blunting D1 signaling. Glutamate compensation via NMDA receptor upregulation further counteracts dopaminergic signaling.</p>
+    <p><strong>Beta-arrestin recruitment:</strong> Persistent D1 receptor activation causes GRK2 to phosphorylate the active receptor. Beta-arrestin binds to the phosphorylated receptor, sterically blocking G-protein coupling and initiating receptor internalization via clathrin-mediated endocytosis. Surface receptor density decreases, reducing dopaminergic signal transduction even when dopamine is present.</p>
+  </div>
+
+  <h2 class="section-heading">Smoking — amphetamine vs methamphetamine</h2>
+  <p class="body-text">Amphetamine sulfate cannot be smoked effectively. Methamphetamine is smokable, producing an extremely rapid onset of intense euphoria and correspondingly faster tolerance development. Addicts describe withdrawal as intensely dysphoric.</p>
+  <p class="body-text">From the standpoint of severe catecholaminergic deficit — as seen in treatment-resistant ADHD — discontinuation of therapeutic Desoxyn is far less severe and in some individuals produces little to no withdrawal. This is highly individual and not something most clinicians are willing to discuss openly, given how severely methamphetamine has been polarized in public perception since the 1960s as a cause of widespread crime, poverty, and community devastation.</p>
+  <p class="body-text">The pharmacology does not change based on political context. The molecule is the molecule.</p>
+
+  <footer class="footer">
+    <a href="/" class="footer-logo">Neuroscience with <span>RPrime</span></a>
+    <div class="footer-note">Independent neuroscience research</div>
+  </footer>
+
+</div>
+</body>
+</html>

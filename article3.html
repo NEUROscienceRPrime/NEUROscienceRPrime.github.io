@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dopamine — Neuroscience with RPrime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0ece4;
+    --muted: #888;
+    --accent: #c8ff00;
+    --accent2: #ff6b35;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .site { max-width: 760px; margin: 0 auto; padding: 0 24px 80px; }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0 48px;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 56px;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  .back {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .back:hover { color: var(--accent); }
+  .article-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 16px;
+  }
+  .article-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .article-subtitle {
+    font-size: 17px;
+    color: #888;
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+  .article-meta {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 48px;
+  }
+  .divider {
+    height: 0.5px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    margin-top: 48px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .body-text {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #ccc;
+    margin-bottom: 20px;
+  }
+  .body-text strong { color: var(--text); font-weight: 500; }
+  .highlight-block {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 24px 28px;
+    margin: 28px 0;
+  }
+  .highlight-block p {
+    font-size: 15px;
+    color: #bbb;
+    line-height: 1.85;
+    margin-bottom: 12px;
+  }
+  .highlight-block p:last-child { margin-bottom: 0; }
+  .note-block {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 28px 0;
+  }
+  .note-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: var(--font-display);
+    margin-bottom: 8px;
+  }
+  .note-block p { font-size: 15px; color: #aaa; line-height: 1.8; }
+  .quote-block {
+    border-left: 3px solid #555;
+    padding: 16px 24px;
+    margin: 28px 0;
+  }
+  .quote-block p {
+    font-size: 17px;
+    color: #999;
+    line-height: 1.8;
+    font-style: italic;
+  }
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 28px 0;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .conclusion-block {
+    background: var(--surface);
+    border: 0.5px solid rgba(200,255,0,0.15);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-top: 40px;
+  }
+  .conclusion-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 12px;
+  }
+  .conclusion-block p {
+    font-size: 16px;
+    color: #ccc;
+    line-height: 1.85;
+    margin-bottom: 12px;
+  }
+  .conclusion-block p:last-child { margin-bottom: 0; }
+  .footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-note { font-size: 12px; color: var(--muted); }
+  @media (max-width: 600px) {
+    .stat-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="site">
+
+  <nav class="nav">
+    <a href="/" class="logo">Neuroscience with <span>RPrime</span></a>
+    <a href="/" class="back">← Back to home</a>
+  </nav>
+
+  <div class="article-eyebrow">Article 03 — Dopamine</div>
+  <h1 class="article-title">Dopamine</h1>
+  <p class="article-subtitle">Where it comes from, what it actually does, why addiction is permanent, and what your health teacher isn't telling you.</p>
+  <p class="article-meta">By Rishik Pannala | March 22, 2026</p>
+
+  <div class="divider"></div>
+
+  <h2 class="section-heading">Where dopamine comes from</h2>
+  <p class="body-text">Before talking about dopamine we need to understand where it comes from. When you eat eggs, dark chocolate, or almonds — foods containing tyrosine — your body receives a molecule called Tyrosine. Tyrosine is the precursor to levodopa, converted by an enzyme called Tyrosine Hydroxylase. Levodopa is then converted into dopamine by AADC — Aromatic L-amino acid decarboxylase.</p>
+  <p class="body-text">For this conversion to happen, your body requires Vitamin B6 for decarboxylation. When you hear "Vitamin B6" and think it's just an abstract supplement with no measurable impact on your life, you're wrong. This vitamin is required to synthesize your dopamine — which is why B6 is given to patients suffering from akathisia, a condition of severe inner restlessness and agitation that develops after antipsychotic use. Antipsychotics are D2 partial antagonists that reduce dopamine levels. Less dopamine synthesis means less available dopamine. B6 becomes clinically relevant.</p>
+
+  <div class="highlight-block">
+    <p><strong>The synthesis chain:</strong> Tyrosine → (Tyrosine Hydroxylase) → Levodopa → (AADC + Vitamin B6) → Dopamine</p>
+    <p>Levodopa derived from mucuna pruriens is used clinically to treat Parkinson's disease — a condition of progressive dopaminergic neuron death in the substantia nigra. Excess levodopa can trigger dyskinesia, abnormal involuntary movements, because dopamine also regulates fine motor control through the basal ganglia. This is why Parkinson's treatment requires careful dose calibration.</p>
+  </div>
+
+  <h2 class="section-heading">What dopamine actually does</h2>
+  <p class="body-text">Dopamine is not one thing. It operates across multiple brain regions simultaneously and its effects depend entirely on where it's acting.</p>
+  <p class="body-text">In the PFC — prefrontal cortex — dopamine drives focus, motivation, clear thinking, planning, and task performance. In the nucleus accumbens it produces reward and pleasure. In the dorsal striatum it governs habit formation, dependency, and motor control. In the basal ganglia it regulates fine motor movements. The same molecule, completely different outcomes depending on location.</p>
+  <p class="body-text">Dopamine release is not a simple flood. It is a tightly regulated process — governed by VMAT2 storage, D2 autoreceptor feedback, reuptake via DAT, and calcium-dependent vesicular release. The VMAT2 transporter takes dopamine from the cytosol into vesicles inside the presynaptic neuron, ready for release. A calcium influx signal — triggered when the neuron fires — causes those vesicles to fuse with the membrane and release dopamine into the synapse. D2 autoreceptors act as a brake, sensing when enough dopamine has been released and inhibiting further Ca2+ influx to prevent excess.</p>
+
+  <div class="note-block">
+    <div class="note-label">How methamphetamine bypasses this entirely</div>
+    <p>Methamphetamine reverses VMAT2 — causing dopamine to leak out of vesicles directly into the cytosol without needing a calcium signal. It then reverses DAT, flooding that cytosolic dopamine into the synapse. Studies have shown this produces dopamine increases of up to 2,600% above baseline. An orgasm produces approximately 200%. Cocaine produces 300-500%. The scale of what 2,600% means for the reward system is difficult to overstate.</p>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num">200%</div>
+      <div class="stat-label">Dopamine increase from orgasm</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">300-500%</div>
+      <div class="stat-label">Dopamine increase from cocaine</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">2,600%</div>
+      <div class="stat-label">Dopamine increase from methamphetamine</div>
+    </div>
+  </div>
+
+  <h2 class="section-heading">The dopamine trap — what health teachers don't tell you</h2>
+  <p class="body-text">Health teachers talk about drugs being "bad for you." That's not the right frame. The real danger of stimulant abuse has nothing to do with being unhealthy in the abstract — it has to do with falling into a trap your brain constructs specifically to keep you in it.</p>
+  <p class="body-text">Initially, stimulant abuse activates the VTA-to-NAc pathway — the one associated with reward, pleasure, and euphoria. This is the hook. But over time, as NMDA receptors "learn" that dopamine is being chronically superstimulated, the signaling shifts. The VTA-to-dorsal striatum pathway takes over. Reward and pleasure diminish. What remains is dependency, habit formation, and compulsive use — no longer about feeling good, but about being unable to stop.</p>
+
+  <div class="quote-block">
+    <p>"You will believe you can quit. You feel it, you know you can — but that's all a lie your brain constructs to keep you attached to the drug. In reality, almost most people once they reach this state never stop until much later in their addiction, or maybe until they die."</p>
+  </div>
+
+  <p class="body-text">Teachers give you hope. That hope is, unfortunately, often false. Once the NAc dopamine signaling shifts to the dorsal striatum, you will not truly come back. You can improve, you can function, you can recover significantly — but the pre-addiction neurochemistry is gone. Most addicts know this. They won't say it, but they do. They feel it's all or nothing now, that they can't stop having come this far, and underneath that is a wish they could go back to who they were before. They can't.</p>
+  <p class="body-text">There is one important caveat health teachers also miss: not everyone will follow this path. In severe ADHD and other psychiatric conditions, stimulants can have paradoxical stabilizing effects rather than producing euphoria. The underlying neurochemical deficit changes the entire equation. Risk is always present — but the outcome is not the same for everyone.</p>
+
+  <h2 class="section-heading">The molecular mechanism — DeltaFosB and permanent tolerance</h2>
+  <p class="body-text">Once the dorsal striatum shift occurs, something called DeltaFosB takes over. This is where the biology becomes irreversible.</p>
+
+  <div class="highlight-block">
+    <p><strong>The tolerance chain:</strong> Chronic stimulant exposure → repeated D1 activation → PKA → phospho-CREB → FosB gene transcription → DeltaFosB accumulates → binds CDK5 gene promoter → CDK5 transcription increases → CDK5 phosphorylates DARPP-32 at T75 → DARPP-32 switches from PKA amplifier to PKA inhibitor → PKA cannot phosphorylate T34 → PP1 runs unchecked → dopaminergic signal transduction blunted → tolerance.</p>
+    <p>In parallel: GRK2 phosphorylates active D1 receptors → beta-arrestin recruited → receptor internalized → surface receptor density falls → less signal even when dopamine is present.</p>
+    <p>The brain also increases DAT reuptake efficacy, upregulates glutamate compensation, and runs multiple other adaptive mechanisms simultaneously. It will find a way. Every time.</p>
+  </div>
+
+  <p class="body-text">If this cascade never happened, stimulant tolerance wouldn't exist — or would be far weaker. Reverse-tolerance, where effects strengthen over time, would actually occur. Instead the opposite happens. T34 phosphorylation — the mechanism that keeps dopaminergic signaling active and responsive — gets progressively suppressed. The drug stops working not because you take too much, but because your brain systematically dismantles the machinery that made it work.</p>
+  <p class="body-text">This has been demonstrated in animal models. Mice with compromised T34 phosphorylation showed dramatically reduced response to amphetamines compared to controls with normalized T34. The mechanism is real, documented, and currently has no clean reversal. Amantadine helps by blocking NMDA-mediated glutamate compensation — but it addresses one arm of a multi-arm problem. The game has too many moves.</p>
+
+  <div class="note-block">
+    <div class="note-label">Why SSRIs take weeks — the same principle</div>
+    <p>Tolerance isn't only about drugs losing their effect. It's also the reason SSRIs work. Initially, Zoloft blocking SERT raises serotonin but also activates presynaptic 5-HT1A autoreceptors which reduce serotonin release — partially canceling the effect. Over weeks, those autoreceptors downregulate through GRK2/beta-arrestin internalization. Once they're desensitized, the full effect of SERT blockade is realized. The therapeutic effect of SSRIs is neuroplastic adaptation — the same class of mechanism that creates stimulant tolerance, applied in the other direction.</p>
+  </div>
+
+  <div class="conclusion-block">
+    <div class="conclusion-label">The bottom line</div>
+    <p>Your brain did not evolve for constant dopamine. It evolved to use dopamine as a signal — motivation, survival, reward for things that matter. When you flood that system artificially and repeatedly, the system adapts. Not gradually. Not forgivingly. Permanently.</p>
+    <p>Health teachers tell you drugs are bad. That's not specific enough to be useful. The real message is: the molecular machinery your brain uses to feel anything — motivation, pleasure, focus — can be permanently recalibrated by sustained abuse. And it will be. That's not a warning. That's biology.</p>
+  </div>
+
+  <footer class="footer">
+    <a href="/" class="footer-logo">Neuroscience with <span>RPrime</span></a>
+    <div class="footer-note">Independent neuroscience research</div>
+  </footer>
+
+</div>
+</body>
+</html>

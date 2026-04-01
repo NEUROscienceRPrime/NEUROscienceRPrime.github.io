@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>An Analysis of Four Good Days — Neuroscience with RPrime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0ece4;
+    --muted: #888;
+    --accent: #c8ff00;
+    --accent2: #ff6b35;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .site { max-width: 760px; margin: 0 auto; padding: 0 24px 80px; }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0 48px;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 56px;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  .back {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .back:hover { color: var(--accent); }
+  .article-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 16px;
+  }
+  .article-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .article-subtitle {
+    font-size: 17px;
+    color: #888;
+    margin-bottom: 48px;
+    line-height: 1.6;
+  }
+  .divider {
+    height: 0.5px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    margin-top: 48px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .body-text {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #ccc;
+    margin-bottom: 20px;
+  }
+  .body-text strong { color: var(--text); font-weight: 500; }
+  .highlight-block {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 24px 28px;
+    margin: 28px 0;
+  }
+  .highlight-block p {
+    font-size: 15px;
+    color: #bbb;
+    line-height: 1.85;
+    margin-bottom: 12px;
+  }
+  .highlight-block p:last-child { margin-bottom: 0; }
+  .note-block {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 28px 0;
+  }
+  .note-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: var(--font-display);
+    margin-bottom: 8px;
+  }
+  .note-block p { font-size: 15px; color: #aaa; line-height: 1.8; }
+  .quote-block {
+    border-left: 3px solid #555;
+    padding: 16px 24px;
+    margin: 28px 0;
+  }
+  .quote-block p {
+    font-size: 17px;
+    color: #999;
+    line-height: 1.8;
+    font-style: italic;
+  }
+  .conclusion-block {
+    background: var(--surface);
+    border: 0.5px solid rgba(200,255,0,0.15);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-top: 40px;
+  }
+  .conclusion-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 12px;
+  }
+  .conclusion-block p {
+    font-size: 16px;
+    color: #ccc;
+    line-height: 1.85;
+  }
+  .article-meta {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 12px;
+  }
+  .spoiler-note {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 48px;
+    font-style: italic;
+  }
+  .footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-note { font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="site">
+
+  <nav class="nav">
+    <a href="/" class="logo">Neuroscience with <span>RPrime</span></a>
+    <a href="/" class="back">← Back to home</a>
+  </nav>
+
+  <div class="article-eyebrow">Article 05 — Addiction</div>
+  <h1 class="article-title">An Analysis of Four Good Days: A Story Based on a Real Addict in Her 30s</h1>
+  <p class="article-subtitle">A film about a mother, a daughter, and heroin. What the movie shows you is devastating. What it doesn't explain is why the brain made it inevitable.</p>
+  <p class="article-meta">By Rishik Pannala | March 31, 2026</p>
+  <p class="spoiler-note">Note: This contains spoilers.</p>
+
+  <div class="divider"></div>
+
+  <p class="body-text">Molly is seen begging with agony, unbearable, with bruises and scars from all the times she injected heroin. She begs her mother to open the door and let her live with her. She begs, saying she hadn't showered in weeks, and claiming she wants to start a new life and go back to school and maybe get a job and see her kids again.</p>
+
+  <p class="body-text">Molly is 31 years old and has relapsed at least 15 times from heroin. She has been in and out of rehab centers, without success. She had robbed her mother blind for years — stealing her jewelry, her wedding ring, her grandmother's wedding ring — selling them all away to afford more heroin, or pretending to take online Zumba classes when really she used that money to buy heroin.</p>
+
+  <p class="body-text">The mother did not trust her after everything. She had trusted her more than a dozen times and Molly relapsed still, breaking every promise she made about recovering.</p>
+
+  <p class="body-text">Molly told her she recently took heroin and is not clean yet. This made her mother reject her from entering the house until she had gotten clean. And she closed the door. Molly kept banging. Eventually she was furious, after addressing all of her wrongdoing, saying:</p>
+
+  <div class="quote-block">
+    <p>"Your right, I will just detox under a highway with prostitutes and rats CAUSE THAT'S A MUCH BETTER PLAN MOM!"</p>
+  </div>
+
+  <p class="body-text">She said it with anger, anxiety, tweaking while hiding her mouth — where she had severe dental decay and teeth loss. Her mom notices she is covering her mouth and tells her to show it. She sees it and cries: "Oh my god." She felt a sudden rush of tears blister her eyes, her heart felt sunken. She just couldn't help but cry looking at what her daughter did to herself.</p>
+
+  <p class="body-text">She couldn't handle the pain anymore and told Molly to get well soon and closed the door on her. The mother lay awake that night with eyes filled with worry and sorrow — but at this stage, she is absolutely correct. You cannot trust heroin addicts in this state. The neuroscience explains why.</p>
+
+  <p class="body-text">Molly was shivering outside with hot and cold flashes, in absolute agonizing pain, suffering in the pits of hell, extreme insomnia. Her mother just watched her all night from the kitchen seeing her suffer.</p>
+
+  <h2 class="section-heading">Clinical Analysis: It Wasn't Her Fault</h2>
+
+  <p class="body-text">This is a very sad situation that should have never happened. It wasn't her fault. She was a 17-year-old who sprained her knee from waterskiing and was given 75 tablets of OxyContin with never a refill denied. This eventually led her to heroin.</p>
+
+  <p class="body-text">There are 3 opioid receptors in the brain. Mu, kappa, and delta. These receptors are ancient — they have existed far longer than dinosaurs. <strong>MOR (mu opioid receptor)</strong> is responsible for euphoria, pain-relief, analgesia, and respiratory depression.</p>
+
+  <div class="highlight-block">
+    <p>You may call kappa "the devil" of your brain — it is part of the anti-reward region called the lateral habenula. This area suppresses dopamine release, and it's where dynorphins are expressed for KOR activation. KOR causes depression, anxiety, dysphoria, discomfort, agitation, insomnia, fatigue, anhedonia, lack of motivation, PTSD, and various other psychiatric disorders. This is the very mechanism behind why people who abuse THC at very high doses or psychotropic drugs like LSD sometimes have a deeply distressing experience that traumatizes them for life.</p>
+    <p>Delta relieves pain and helps manage mood and anxiety without providing the euphoria MOR does. This is where research is now headed — developing DOR biased agonists for pain-relief as an alternative to MOR.</p>
+  </div>
+
+  <h2 class="section-heading">What OxyContin Does</h2>
+
+  <p class="body-text">OxyContin binds to MOR, and this has a cascade of effects. It activates Gi, which inhibits adenylyl cyclase, leading to inhibition of cAMP. PKA activity decreases because cAMP is required for PKA activation. This is one of the reasons its analgesic effect is so strong — PKA is responsible for phosphorylating nociceptors, which lowers the threshold required to activate pain signaling. When you inhibit this, pain tolerance increases dramatically.</p>
+
+  <p class="body-text">OxyContin also enhances GIRK channels, resulting in potassium ions hyperpolarizing pyramidal neurons and VTA interneurons. Before opioid use, GABAergic neurons are functioning normally — inhibiting excess dopamine release. When the GABAergic neurons themselves are inhibited by MOR activation, excess dopamine is projected onto the NAc, leading to intense euphoria and reward. Note: the intensity varies due to differences in individual metabolism, neurochemistry, dose, and route of administration.</p>
+
+  <div class="note-block">
+    <div class="note-label">Norepinephrine suppression</div>
+    <p>MOR is located on norepinephrine terminals in the locus coeruleus. When activated, it suppresses norepinephrine release — the neurotransmitter responsible for keeping individuals alert, focused, agitated, wired, and anxious. This doesn't apply to dopamine as easily, because there is no MOR directly on the dopamine neuron. Dopamine is disinhibited indirectly. If there were MOR on the dopamine neuron, dopamine too would be inhibited — but the architecture doesn't allow that. That's why the drug simultaneously silences anxiety and floods reward.</p>
+  </div>
+
+  <p class="body-text">Additionally, OxyContin inhibits substance P — a neuropeptide that induces both psychological and physical pain, whose hyperactivity is linked to chronic pain, PTSD, depression, and neuroinflammation.</p>
+
+  <p class="body-text">When Molly first took it, she experienced MOR activation inhibiting PKA, cAMP, substance P, and norepinephrine while increasing dopamine — making her feel euphoric, relieved of pain, relaxed, at peace.</p>
+
+  <div class="highlight-block">
+    <p>However, her brain couldn't give a damn about her. While it may seem symbolic, it's true. The brain doesn't care that you have relieved yourself from pain. It doesn't even care if you're happy. If MOR activation is prolonged and unnatural, it will fight like hell to shut off the opioid's effects.</p>
+  </div>
+
+  <h2 class="section-heading">Scene 2: The Detox Ward</h2>
+
+  <p class="body-text">Her mother explains that if Molly was serious, she would get clean by going to a rehab center for three days. Molly begs not to, but that's the only way she would be able to live at home again. Her mother drives her to the hospital and checks her in. Molly begins to rage as her mother exits. She shares a room with other heroin addicts — all of them suffering, crying, shaking, restless, enduring unbearable pain where every second they beg for relief.</p>
+
+  <p class="body-text">Before explaining why her brain did this to her, it's important to realize: her brain damage is not because of heroin. It's because of her brain's adaptation to heroin.</p>
+
+  <p class="body-text">What's the first thing you do when music is blasted too loud in your ears? You reduce the volume. That's what the brain is trying to do. It's something evolution made sure you cannot fight off. This is nearly impossible to fix because so many parts of the brain simultaneously overlap to create tolerance.</p>
+
+  <h2 class="section-heading">The Molecular Machinery of Tolerance</h2>
+
+  <p class="body-text">There is something called <strong>GRK2</strong> — G-protein receptor kinase 2. A kinase transfers phosphate groups to other molecules. GRK2 phosphorylates MOR. Something called <strong>Beta-Arrestin2</strong> is then recruited to the phosphorylated receptor. Beta-Arrestin2 internalizes MOR — reducing the number of surface receptors, leading to downregulation. If there aren't enough receptors for heroin to bind to, the drug's potency decreases dramatically.</p>
+
+  <p class="body-text">cAMP begins to upregulate to counteract being chronically suppressed. When the drug is stopped, this upregulated cAMP system is suddenly unmasked — hyperactivating PKA and suppressing GIRK. Dopamine release in the VTA is immediately suppressed far below pre-drug baseline. This is why Molly is unable to feel pleasure, is agitated, and is depressed during withdrawal.</p>
+
+  <div class="highlight-block">
+    <p><strong>The cascade goes deeper.</strong> CREB — in response to cAMP hyperactivation — binds to DNA and increases CDK5 activity and prodynorphin expression. CDK5 phosphorylates DARPP-32 at T75, which inhibits PKA from phosphorylating T34. This leaves PP1 — a potent inhibitor of dopamine release — uninhibited. Dopamine release is significantly dampened, which further intensifies Molly's experience of withdrawal.</p>
+    <p>Dynorphin transcription is upregulated. More dynorphin binds to KOR. The anti-reward system activates on top of the dopamine crash.</p>
+  </div>
+
+  <p class="body-text">Your brain induces this on yourself. Recovery as it's commonly understood — returning to the person you were before — is not what neuroscience supports. The brain doesn't recover fully, and nowhere near full recovery. This is why heroin has such a high relapse rate. The anterior cortex, amygdala, PFC, and vmPFC have long-term hypoactivity. Look at Molly — she relapsed 15 times. She tried her hardest each time, but her own neurobiology wouldn't give.</p>
+
+  <h2 class="section-heading">The Permanent Damage</h2>
+
+  <p class="body-text">Dopamine transporters are reduced by 31–35% in the striatum of heroin users compared to normal people. Studies have shown that even after many years of stopping heroin with adequate treatment, dopamine release does not return to normal levels.</p>
+
+  <p class="body-text">However, it's not a one-sided story. People have shown gray-matter density increases after stopping for a month, and some regions can return to near-normal. But other findings remain permanent.</p>
+
+  <div class="note-block">
+    <div class="note-label">What doesn't come back</div>
+    <p>The vmPFC and other regions of the PFC have decreased thickness and size compared to normal people. The NAc has significantly lower activity and reduced size — which is why addicts have permanent damage to pleasure and reward processing. Over a quarter of heroin addicts relapse after even 15 years of abstinence. After 11 years, many are still undergoing treatment. After 10–30 years of abstinence, the odds of maintaining sobriety are less than 30%. Statistically, they are more likely to fail than succeed. This is not to provide negativity — it is the truth about addiction.</p>
+  </div>
+
+  <p class="body-text">Also worth noting: if recovered addicts have children, they risk passing susceptibility to opioid addiction to the next generation. Their epigenetics change to adapt to opioids. As some put it: "When the father's sperm met the egg, they were already an addict waiting to happen."</p>
+
+  <p class="body-text">The mortality rate remains high regardless of how much help you get. Studies have shown the risk of death is 6–20 times higher than the regular population.</p>
+
+  <h2 class="section-heading">The NAc to Dorsal Striatum Shift</h2>
+
+  <p class="body-text">When Molly was using heroin to get high, her NAc was flooded with dopamine — the reward circuit dominant, choice still somewhat intact. But over time, glutamatergic input from the PFC, amygdala, and hippocampus shifted. Rather than projecting onto the NAc, it increasingly drove the dorsal striatum — the habit circuit. This is why pleasure decreases with prolonged use while compulsive behavior strengthens. Addicts fall into the trap of escalating doses which only further reinforces the dorsal striatum. The behavior is no longer chosen. It runs on autopilot.</p>
+
+  <h2 class="section-heading">The Treatment We're Using Is Wrong</h2>
+
+  <p class="body-text">We are treating opioid addiction with methadone — which further enhances tolerance by binding to MOR receptors that have already been downregulated from chronic opioid exposure. Methadone is longer acting, lasting 24–36 hours, but accumulates in fat tissue due to its high lipophilicity, creating an unpredictable and dangerously long half-life that makes methadone withdrawal more prolonged and unpredictable than heroin withdrawal.</p>
+
+  <p class="body-text">Paroxetine-based GRK2 inhibitors have been studied as alternatives. But when rats were exposed to morphine and given a GRK2 inhibitor, tolerance was only reduced for a few days longer. After 20 days of morphine exposure, the inhibitor did not meaningfully help. This is a good reminder that tolerance is not linear — and that blocking one mechanism does not address the layered cascade underneath it.</p>
+
+  <h2 class="section-heading">The Naltrexone Shot — and Why Molly Avoided It</h2>
+
+  <p class="body-text">Molly was staying clean to get the 30-day long-acting naltrexone shot. The patient must be clean for at least a week before taking it — if taken earlier, it precipitates rapid withdrawal, which is dangerous. Naltrexone is a MOR antagonist, far stronger in MOR binding than even fentanyl. It does not activate MOR. It simply binds and does not cause a conformational change to activate it. This physically blocks opioids from binding to the receptors for 30 days.</p>
+
+  <p class="body-text">She lied to her mother — faking an agitated phone call with a "doctor" — saying the shot was rescheduled to Monday. She did this to avoid the withdrawal. She got high at her ex-boyfriend's house and broke the promise. Even after everything, she couldn't stay clean.</p>
+
+  <h2 class="section-heading">The Scariest Part Isn't the Collapsed Veins</h2>
+
+  <p class="body-text">The scariest thing is not the collapsed veins. It's the unbreakable confidence itself — which is a sign of brain damage.</p>
+
+  <p class="body-text">The fact that former addicts think they "won't break" — that some are now counselors — is a sign of impaired insight, not resilience. It's been shown that heroin addicts have less gray-matter volume in the rostral anterior cingulate cortex (rACC), which is responsible for self-monitoring, error-detection, and updating beliefs based on new information. This is the part of the brain responsible for the feeling that something is wrong. When it's damaged, you can tell an addict anything about their condition, and they may intellectually acknowledge it — then shrug it off. That's not resilience. That's a broken alarm.</p>
+
+  <p class="body-text">Someone who truly recovered would be afraid. They would accept the information and try to improve their lives because of it. Not deny it.</p>
+
+  <div class="conclusion-block">
+    <div class="conclusion-label">Verdict</div>
+    <p>This is not strength. This is anosognosia — the same phenomenon that makes stroke patients unable to perceive their own paralysis is the same thing that impairs an addict's ability to perceive the fragility of their recovery. The only path forward is not through medication therapy or rehab alone, but through tolerance reversal. Gene modulation — increasing OPRM1 expression, suppressing CDK5 and prodynorphin, reducing arrestin recruitment. No drug can do all of this at once. But there are promising compounds still in early phases that may one day make this possible. Until then, the brain wins. Every time.</p>
+  </div>
+
+  <footer class="footer">
+    <a href="/" class="footer-logo">Neuroscience with <span>RPrime</span></a>
+    <div class="footer-note">Independent neuroscience research</div>
+  </footer>
+
+</div>
+</body>
+</html>

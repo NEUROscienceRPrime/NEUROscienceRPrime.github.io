@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neuroscience with RPrime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0ece4;
+    --muted: #888;
+    --accent: #c8ff00;
+    --accent2: #ff6b35;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .site { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0 48px;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 64px;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  .nav-tag {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .hero { margin-bottom: 72px; }
+  .hero-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 20px;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    margin-bottom: 32px;
+    color: var(--text);
+  }
+  .hero-title .highlight { color: var(--accent); }
+  .hero-body {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #bbb;
+    max-width: 640px;
+    margin-bottom: 24px;
+  }
+  .divider {
+    height: 0.5px;
+    background: var(--border);
+    margin: 56px 0;
+  }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: var(--font-display);
+    margin-bottom: 28px;
+  }
+  .intro-block {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 32px 36px;
+    margin-bottom: 24px;
+  }
+  .intro-block p {
+    font-size: 16px;
+    line-height: 1.85;
+    color: #ccc;
+    margin-bottom: 16px;
+  }
+  .intro-block p:last-child { margin-bottom: 0; }
+  .intro-block p strong { color: var(--text); font-weight: 500; }
+  .kensington {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 28px 32px;
+    margin: 32px 0;
+  }
+  .kensington-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 12px;
+    font-family: var(--font-display);
+  }
+  .kensington p { font-size: 15px; color: #aaa; line-height: 1.8; }
+  .closing-block {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    padding: 32px 36px;
+    margin-top: 32px;
+  }
+  .closing-block p {
+    font-size: 16px;
+    color: #bbb;
+    line-height: 1.85;
+    font-style: italic;
+  }
+  .expertise-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 28px;
+  }
+  .expertise-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 22px;
+    transition: border-color 0.2s;
+  }
+  .expertise-card:hover { border-color: rgba(200,255,0,0.25); }
+  .expertise-num {
+    font-size: 11px;
+    color: var(--accent);
+    font-family: var(--font-display);
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 0.08em;
+  }
+  .expertise-text { font-size: 14px; color: #bbb; line-height: 1.6; }
+  .articles-section { margin-top: 16px; }
+  .article-card {
+    display: block;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    padding: 24px 28px;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+    margin-bottom: 12px;
+  }
+  .article-card:hover {
+    border-color: rgba(200,255,0,0.3);
+    background: #151515;
+  }
+  .article-card-num {
+    font-size: 11px;
+    color: var(--accent);
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .article-card-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .article-card-desc {
+    font-size: 14px;
+    color: #888;
+    line-height: 1.6;
+  }
+  .article-card-tag {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #555;
+    font-family: var(--font-display);
+  }
+  .footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-note { font-size: 12px; color: var(--muted); }
+  @media (max-width: 600px) {
+    .expertise-grid { grid-template-columns: 1fr; }
+    .hero-title { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+<div class="site">
+  <nav class="nav">
+    <a href="/" class="logo">Neuroscience with <span>RPrime</span></a>
+    <div class="nav-tag">Independent Research</div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-eyebrow">Introduction</div>
+    <h1 class="hero-title">Your brain doesn't<br>care about your <span class="highlight">prime.</span></h1>
+    <p class="hero-body">Ever wanted to be at your prime, doing everything you wanted to, getting all the recognition and feeling euphoric? Your own brain doesn't give a damn about any of that. All it will do is ensure your survival.</p>
+    <p class="hero-body">You could have autism, or ADHD and take medicine to ease the symptoms — but your own brain will try to counteract the drug, even if it helps.</p>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <div class="section-label">The real stakes</div>
+    <div class="intro-block">
+      <p>The brain's neurochemistry isn't as abstract as you think it is. If you want to get recognition, if you want to have presence, if you want to be at your maximum peak — it all breaks down to neuroscience. The perception of other people, the bonding and reward from human connection, the confidence you feel — all of it originates in the brain.</p>
+      <p>To all those doing this mostly for the credits and the recognition: if you knew neuroscience well enough like you claim to, you would know no one cares about that. This has a larger-than-life meaning — where you discover yourself, where you realize why you do things, where you understand what's happening inside you as you read this right now.</p>
+      <p>Don't want to feel sad? Your brain is going to do what it thinks is right regardless. <strong>Unless you understand the machinery of your own brain, you won't be able to work with it.</strong> Once you can, you will reach a level you once thought was impossible. This isn't about showing how smart you are. It's about self-discovery.</p>
+    </div>
+
+    <div class="kensington">
+      <div class="kensington-label">Real world — what tolerance looks like</div>
+      <p>Go downtown to Kensington, Philadelphia (which I recommend you don't), or try NYC, and you will see stimulant and opioid addicts nodding their heads on the street, losing their own lives for a drug. Children of addicts who didn't feel raised by a parent — they felt raised by that drug. Why does this happen? How can such things make you feel like you're burning in hell, facing severe anxiety, going through opioid withdrawal? That's the connection I will be making here.</p>
+    </div>
+
+    <div class="kensington" style="border-left-color: #7b68ee;">
+      <div class="kensington-label" style="color: #9b88ff;">Real world — memory and trauma</div>
+      <p>Take survivors of extreme trauma who couldn't remember the events they faced. They didn't simply forget — it's never that simple. Their brain was hiding it from them. No matter how much you beg your brain to tell you what happened, it will refuse. That's not weakness. That's a survival mechanism running exactly as designed.</p>
+    </div>
+
+    <div class="closing-block">
+      <p>Your enemies are just pawns the brain uses to checkmate you. We think people hurt us — but often it's our own mind replaying and amplifying the event that actually keeps us stuck.</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <div class="section-label">Articles</div>
+    <div class="articles-section">
+      <a href="/article1.html" class="article-card">
+        <div class="article-card-num">01</div>
+        <div class="article-card-title">Methamphetamine</div>
+        <div class="article-card-desc">Mechanism, history, clinical use, and tolerance — a pharmacological deep dive into the most potent dopamine releaser known.</div>
+        <div class="article-card-tag">For pharmacists &amp; graduate students →</div>
+      </a>
+      <a href="/article2.html" class="article-card">
+        <div class="article-card-num">02</div>
+        <div class="article-card-title">Why methamphetamine is safer than amphetamine — cardiovascularly</div>
+        <div class="article-card-desc">The counterintuitive truth about peripheral vs central stimulant effects, norepinephrine, and why the "dangerous" drug may be easier on your heart.</div>
+        <div class="article-card-tag">General audience →</div>
+      </a>
+      <a href="/article3.html" class="article-card">
+        <div class="article-card-num">03</div>
+        <div class="article-card-title">Dopamine</div>
+        <div class="article-card-desc">Where it comes from, what it actually does, why addiction is permanent, and what your health teacher isn't telling you.</div>
+        <div class="article-card-tag">General audience →</div>
+      </a>
+      <a href="/article4.html" class="article-card">
+        <div class="article-card-num">04</div>
+        <div class="article-card-title">The Standard ADHD Model Is Incomplete</div>
+        <div class="article-card-desc">The catecholamine deficit hypothesis doesn't explain why stimulants calm instead of excite. The NMDA overcompensation hypothesis does — and it redefines what ADHD actually is.</div>
+        <div class="article-card-tag">Pharmacists &amp; graduate students →</div>
+      </a>
+      <a href="/article5.html" class="article-card">
+        <div class="article-card-num">05</div>
+        <div class="article-card-title">An Analysis of Four Good Days</div>
+        <div class="article-card-desc">A film about heroin addiction. What it shows you is devastating. What it doesn't explain is why the brain made it inevitable.</div>
+        <div class="article-card-tag">General audience →</div>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <div class="section-label">Areas of focus</div>
+    <div class="expertise-grid">
+      <div class="expertise-card">
+        <div class="expertise-num">01</div>
+        <div class="expertise-text">Pharmacology of amphetamines — specifically methamphetamine and its clinical applications</div>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-num">02</div>
+        <div class="expertise-text">Disorders — Bipolar, ADHD, schizophrenia, opioid use disorder, MDD, anxiety, stimulant use disorder</div>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-num">03</div>
+        <div class="expertise-text">Tolerance and brain adaptation to psychoactive compounds</div>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-num">04</div>
+        <div class="expertise-text">Treatment-resistant ADHD and treatment-resistant MDD</div>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-num">05</div>
+        <div class="expertise-text">SSRIs — side effects, efficacy, mechanism, and autoreceptor downregulation for therapeutic effect</div>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-num">06</div>
+        <div class="expertise-text">Psychomotor agitation, akathisia, and antipsychotic use — haloperidol, aripiprazole</div>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-num">07</div>
+        <div class="expertise-text">Amphetamine tolerance — beta-arrestin2 recruitment, cAMP downregulation, DARPP-32 phosphorylation at T75</div>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-num">08</div>
+        <div class="expertise-text">Dopamine in pleasure, reward, motivation, and executive function — and why dysregulation causes akathisia or mania</div>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-num">09</div>
+        <div class="expertise-text">Norepinephrine — its role in arousal, attention, and psychiatric pharmacology</div>
+      </div>
+      <div class="expertise-card">
+        <div class="expertise-num">10</div>
+        <div class="expertise-text">Serotonergic activity — 5-HT receptor pharmacology and clinical relevance</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <div class="section-label">Contact</div>
+    <div class="intro-block">
+      <p style="margin-bottom: 8px;">If you have any suggestions, questions, or topics you would like discussed:</p>
+      <p style="margin-bottom: 0;"><a href="mailto:neurosciencerprime@gmail.com" style="color: #c8ff00; text-decoration: none; font-weight: 500;">neurosciencerprime@gmail.com</a></p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <a href="/" class="footer-logo">Neuroscience with <span>RPrime</span></a>
+    <div class="footer-note">Independent neuroscience research</div>
+  </footer>
+</div>
+</body>
+</html>
