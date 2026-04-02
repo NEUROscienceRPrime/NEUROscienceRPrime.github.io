@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naloxone vs MOR — Neuroscience with RPrime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0ece4;
+    --muted: #888;
+    --accent: #c8ff00;
+    --accent2: #ff6b35;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); }
+
+  .site { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+
+  .nav { display: flex; justify-content: space-between; align-items: center; padding: 32px 0 48px; }
+  .logo { font-family: var(--font-display); font-weight: 800; font-size: 18px; color: var(--text); text-decoration: none; }
+  .logo span { color: var(--accent); }
+  .back { font-family: var(--font-display); font-size: 13px; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; }
+  .back:hover { color: var(--text); }
+
+  .eyebrow { font-family: var(--font-display); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 5vw, 44px); letter-spacing: -1px; line-height: 1.1; margin-bottom: 16px; }
+  .subtitle { font-size: 17px; color: #aaa; line-height: 1.6; margin-bottom: 48px; }
+
+  .divider { height: 1px; background: var(--border); margin: 40px 0; }
+
+  .sim-container { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 32px; }
+
+  canvas#simCanvas { display: block; width: 100%; background: #0d0d0d; }
+
+  .sim-info { padding: 24px; border-top: 1px solid var(--border); }
+  .scene-label { font-family: var(--font-display); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .scene-title { font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--text); margin-bottom: 12px; }
+  .scene-desc { font-size: 15px; color: #ccc; line-height: 1.7; }
+  .scene-desc strong { color: var(--text); font-weight: 500; }
+  .scene-desc .acc { color: var(--accent); font-weight: 500; }
+  .scene-desc .org { color: var(--accent2); font-weight: 500; }
+
+  .nav-controls { display: flex; align-items: center; gap: 16px; padding: 20px 24px; border-top: 1px solid var(--border); }
+  .btn { font-family: var(--font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 20px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface2); color: var(--text); cursor: pointer; transition: all 0.15s; }
+  .btn:hover { border-color: rgba(255,255,255,0.2); background: #222; }
+  .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .btn.primary { background: var(--accent); color: #000; border-color: var(--accent); }
+  .btn.primary:hover { background: #d4ff20; }
+  .scene-counter { font-family: var(--font-display); font-size: 13px; color: var(--muted); margin-left: auto; }
+
+  .section-heading { font-family: var(--font-display); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; margin-top: 48px; }
+
+  .graph-container { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .graph-title { font-family: var(--font-display); font-weight: 700; font-size: 17px; margin-bottom: 8px; }
+  .graph-desc { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+
+  .sliders { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+  @media (max-width: 600px) { .sliders { grid-template-columns: 1fr; } }
+  .slider-group label { display: block; font-family: var(--font-display); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .slider-group .val { font-family: var(--font-display); font-weight: 700; font-size: 20px; margin-bottom: 8px; }
+  .slider-group input[type=range] { width: 100%; accent-color: var(--accent); }
+
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  .highlight-block { border-left: 3px solid var(--accent); padding: 16px 20px; background: rgba(200,255,0,0.04); margin: 24px 0; border-radius: 0 8px 8px 0; }
+  .highlight-block p { font-size: 15px; color: #ccc; line-height: 1.7; }
+  .highlight-block strong { color: var(--text); font-weight: 500; }
+
+  .note-block { border-left: 3px solid var(--accent2); padding: 16px 20px; background: rgba(255,107,53,0.04); margin: 24px 0; border-radius: 0 8px 8px 0; }
+  .note-label { font-family: var(--font-display); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent2); margin-bottom: 8px; }
+  .note-block p { font-size: 15px; color: #ccc; line-height: 1.7; }
+  .note-block strong { color: var(--text); font-weight: 500; }
+
+  footer { padding: 48px 0 0; border-top: 1px solid var(--border); margin-top: 64px; }
+  .footer-logo { font-family: var(--font-display); font-weight: 800; font-size: 16px; color: var(--text); text-decoration: none; display: block; margin-bottom: 8px; }
+  .footer-logo span { color: var(--accent); }
+  .footer-note { font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="site">
+
+  <nav class="nav">
+    <a href="/" class="logo">Neuroscience with <span>RPrime</span></a>
+    <a href="/" class="back">← Back to home</a>
+  </nav>
+
+  <div class="eyebrow">Interactive Simulation — Receptor Pharmacology</div>
+  <h1>Naloxone vs MOR</h1>
+  <p class="subtitle">How a stiff arm on a nitrogen locks a receptor out of its active conformation — and blocks an overdose.</p>
+
+  <div class="divider"></div>
+
+  <div class="sim-container">
+    <canvas id="simCanvas" height="420"></canvas>
+    <div class="sim-info">
+      <div class="scene-label" id="sceneLabel"></div>
+      <div class="scene-title" id="sceneTitle"></div>
+      <div class="scene-desc" id="sceneDesc"></div>
+    </div>
+    <div class="nav-controls">
+      <button class="btn" id="btnBack" onclick="prevScene()">← Back</button>
+      <button class="btn primary" id="btnNext" onclick="nextScene()">Next →</button>
+      <span class="scene-counter" id="sceneCounter"></span>
+    </div>
+  </div>
+
+  <div class="highlight-block">
+    <p><strong>Key principle:</strong> Naloxone and morphine compete for the exact same binding pocket on MOR. Naloxone wins because its Kd (~1.5 nM) is roughly 3× lower than morphine's (~4 nM). Higher affinity = longer average dwell time = dominates at equal concentrations.</p>
+  </div>
+
+  <div class="note-block">
+    <div class="note-label">Why repeat doses in overdose</div>
+    <p>Naloxone is <strong>short-acting</strong> (t½ ~60–90 min). Fentanyl and carfentanil have much longer durations. Once naloxone dissociates, the opioid rebinds and the overdose returns. EMS gives repeat doses not because the first failed — because it wore off.</p>
+  </div>
+
+  <div class="section-heading">Pharmacodynamic Model — Competitive Binding</div>
+
+  <div class="graph-container">
+    <div class="graph-title">Receptor Occupancy at MOR</div>
+    <div class="graph-desc">Adjust concentrations. Occupancy is calculated using the Cheng-Prusoff competitive binding equation. Gi activation tracks morphine occupancy only — naloxone produces zero signal.</div>
+    <div class="sliders">
+      <div class="slider-group">
+        <label>Naloxone</label>
+        <div class="val" id="nalVal" style="color:#c8ff00">0 nM</div>
+        <input type="range" id="nalSlider" min="0" max="100" value="0" step="0.5" oninput="updateGraph()">
+      </div>
+      <div class="slider-group">
+        <label>Morphine</label>
+        <div class="val" id="morVal" style="color:#ff6b35">10 nM</div>
+        <input type="range" id="morSlider" min="0" max="100" value="10" step="0.5" oninput="updateGraph()">
+      </div>
+    </div>
+    <canvas id="gCanvas" height="220" style="width:100%;border-radius:8px;"></canvas>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#c8ff00"></div>Naloxone occupancy</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ff6b35"></div>Morphine occupancy</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2a2a2a"></div>Unoccupied</div>
+    </div>
+  </div>
+
+  <div class="graph-container">
+    <div class="graph-title">G-protein Activation vs [Naloxone]</div>
+    <div class="graph-desc">Fixed morphine at 10 nM. As naloxone rises, morphine occupancy collapses. Below ~30% morphine occupancy, Gi signaling is effectively abolished.</div>
+    <canvas id="g2Canvas" height="220" style="width:100%;border-radius:8px;"></canvas>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#ff6b35"></div>Morphine occupancy (= Gi activation)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#c8ff00"></div>Naloxone occupancy</div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <a href="/" class="footer-logo">Neuroscience with <span>RPrime</span></a>
+    <div class="footer-note">Independent neuroscience research</div>
+  </footer>
+
+</div>
+<script>
+// ─── SCENE DEFINITIONS ───────────────────────────────────────────────────────
+
+const SCENES = [
+  {
+    label: 'Scene 1 — Resting State',
+    title: 'MOR at Rest: Inactive Conformation',
+    desc: 'The mu-opioid receptor sits in the membrane. Binding pocket is <strong>open and empty</strong>. In the inactive conformation, the intracellular face is closed — no cavity for Gi to dock into. No signaling. Just a lock waiting for a key.',
+    draw: s1
+  },
+  {
+    label: 'Scene 2 — Agonist Approaching',
+    title: 'Morphine Approaches the Pocket',
+    desc: 'Morphine drifts toward the pocket. Its <span class="org">N-methyl group</span> is small and compact — it fits cleanly without friction. The protonated amine orients toward <strong>Asp147</strong> in TM3, forming the ionic anchor that locks it in place.',
+    draw: s2
+  },
+  {
+    label: 'Scene 3 — Active Conformation',
+    title: 'Morphine Binds: Receptor Activates',
+    desc: 'Morphine is seated. N-methyl tucks away without jamming anything. The receptor shifts — <strong>TM5 and TM6 swing outward</strong> on the intracellular side, opening a cavity. Gi docks into that cavity. cAMP drops. Analgesia begins. The lock turned.',
+    draw: s3
+  },
+  {
+    label: 'Scene 4 — Competition',
+    title: 'Naloxone Enters: Competitive Binding',
+    desc: 'Naloxone arrives. Same scaffold as morphine. Same pocket. Both competing. Naloxone\'s Kd is <span class="acc">~1.5 nM</span> vs morphine\'s <span class="org">~4 nM</span>. That means naloxone spends roughly <strong>3× more time bound</strong>. At equal concentrations, it wins.',
+    draw: s4
+  },
+  {
+    label: 'Scene 5 — Displacement',
+    title: 'Naloxone Displaces Morphine',
+    desc: 'Morphine is out. Naloxone seated. Now the <span class="acc">allyl group</span> matters — that stiff arm at a fixed angle jams against the pocket wall when the receptor tries to shift into the active conformation. <strong>TM5/TM6 cannot open. Gi cannot dock.</strong> The lock will not turn.',
+    draw: s5
+  },
+  {
+    label: 'Scene 6 — Locked Inactive',
+    title: 'Receptor Locked: No Gi Coupling',
+    desc: 'Naloxone is bound. Receptor frozen in its inactive conformation. No Gi coupling. No cAMP drop. No analgesia. No respiratory depression. <strong>The overdose is reversed.</strong> Naloxone is pharmacologically silent — occupies the site, triggers nothing.',
+    draw: s6
+  },
+  {
+    label: 'Scene 7 — Reversibility',
+    title: 'Naloxone Dissociates: The Clock Starts',
+    desc: 'Naloxone is reversible. t½ ~60–90 min. Once it leaves, the pocket is open again. If fentanyl (t½ ~3–8 hrs) is still in the system, it <strong>rebinds and the overdose returns</strong>. The battle for the pocket continues as long as the opioid is in circulation.',
+    draw: s7
+  }
+];
+
+let scene = 0;
+let raf = null;
+let t = 0;
+
+const simCanvas = document.getElementById('simCanvas');
+const ctx = simCanvas.getContext('2d');
+
+function resize() {
+  const w = simCanvas.parentElement.getBoundingClientRect().width;
+  simCanvas.width = w;
+  simCanvas.height = 420;
+}
+window.addEventListener('resize', () => { resize(); });
+resize();
+
+// ─── LAYOUT HELPERS ──────────────────────────────────────────────────────────
+
+function W() { return simCanvas.width; }
+function H() { return simCanvas.height; }
+function layout() {
+  const memY1 = H() * 0.26;
+  const memY2 = H() * 0.72;
+  const cx = W() * 0.5;
+  return { memY1, memY2, cx, mH: memY2 - memY1 };
+}
+
+function clr() {
+  ctx.fillStyle = '#0d0d0d';
+  ctx.fillRect(0, 0, W(), H());
+}
+
+// ─── DRAW MEMBRANE ───────────────────────────────────────────────────────────
+
+function drawMembrane(memY1, memY2) {
+  ctx.fillStyle = 'rgba(45,35,15,0.45)';
+  ctx.fillRect(0, memY1, W(), memY2 - memY1);
+
+  ctx.strokeStyle = 'rgba(200,160,60,0.22)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([5, 5]);
+  const y1 = memY1 + (memY2 - memY1) * 0.33;
+  const y2 = memY1 + (memY2 - memY1) * 0.67;
+  ctx.beginPath(); ctx.moveTo(0, y1); ctx.lineTo(W(), y1); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0, y2); ctx.lineTo(W(), y2); ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.font = '11px Syne, sans-serif';
+  ctx.fillStyle = 'rgba(200,160,60,0.45)';
+  ctx.textAlign = 'left';
+  ctx.fillText('EXTRACELLULAR', 14, memY1 - 10);
+  ctx.fillText('MEMBRANE', 14, (memY1 + memY2) / 2 + 4);
+  ctx.fillText('INTRACELLULAR', 14, memY2 + 18);
+}
+
+// ─── DRAW HELICES ────────────────────────────────────────────────────────────
+// openFrac 0 = inactive, 1 = active (TM5/TM6 spread)
+
+function drawHelices(cx, memY1, memY2, openFrac) {
+  const mH = memY2 - memY1;
+  const hW = 20;
+  const hH = mH * 0.88;
+  const hY = memY1 + mH * 0.06;
+  const sp = 33;
+
+  const defs = [
+    { id: 'TM1', dx: -sp * 2.8, movable: false },
+    { id: 'TM2', dx: -sp * 1.9, movable: false },
+    { id: 'TM3', dx: -sp * 1.0, movable: false, asp: true },
+    { id: 'TM4', dx: -sp * 0.15, movable: false },
+    { id: 'TM5', dx:  sp * 0.7,  movable: true },
+    { id: 'TM6', dx:  sp * 1.6,  movable: true },
+    { id: 'TM7', dx:  sp * 2.5,  movable: false },
+  ];
+
+  defs.forEach(h => {
+    let x = cx + h.dx;
+    if (h.movable) {
+      const spread = openFrac * 20;
+      x += (h.id === 'TM5') ? spread * 0.4 : spread;
+    }
+
+    const g = ctx.createLinearGradient(x - hW/2, 0, x + hW/2, 0);
+    if (h.asp) {
+      g.addColorStop(0, '#152515'); g.addColorStop(0.5, '#1e3a1e'); g.addColorStop(1, '#152515');
+    } else if (h.movable && openFrac > 0.2) {
+      g.addColorStop(0, '#151528'); g.addColorStop(0.5, '#22224a'); g.addColorStop(1, '#151528');
+    } else {
+      g.addColorStop(0, '#1a1a1a'); g.addColorStop(0.5, '#262626'); g.addColorStop(1, '#1a1a1a');
+    }
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.roundRect(x - hW/2, hY, hW, hH, 4);
+    ctx.fill();
+
+    ctx.strokeStyle = h.asp ? 'rgba(80,180,80,0.35)' : h.movable && openFrac > 0.2 ? 'rgba(80,80,200,0.35)' : 'rgba(255,255,255,0.07)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    ctx.font = '9px Syne, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.22)';
+    ctx.textAlign = 'center';
+    ctx.fillText(h.id, x, hY - 5);
+
+    if (h.asp && openFrac < 0.3) {
+      ctx.font = '9px DM Sans, sans-serif';
+      ctx.fillStyle = 'rgba(80,200,80,0.65)';
+      ctx.fillText('Asp147', x, memY1 + mH * 0.52);
+    }
+  });
+
+  // Intracellular cavity glow when open
+  if (openFrac > 0.05) {
+    const tm5x = cx + sp * 0.7  + openFrac * 0.4 * 20;
+    const tm6x = cx + sp * 1.6  + openFrac * 20;
+    const cavY = memY2 - mH * 0.14;
+    const cavH = mH * 0.12;
+    ctx.fillStyle = `rgba(60,60,200,${openFrac * 0.45})`;
+    ctx.beginPath();
+    ctx.roundRect(tm5x - 4, cavY, tm6x - tm5x + 8, cavH, 4);
+    ctx.fill();
+    if (openFrac > 0.75) {
+      ctx.font = '10px DM Sans, sans-serif';
+      ctx.fillStyle = 'rgba(140,140,255,0.85)';
+      ctx.textAlign = 'center';
+      ctx.fillText('Gi cavity open', (tm5x + tm6x) / 2, cavY - 5);
+    }
+  }
+
+  // Return pocket center
+  const pocketX = cx - sp * 0.1;
+  const pocketY = memY1 + mH * 0.38;
+  return { px: pocketX, py: pocketY };
+}
+
+// ─── DRAW POCKET OUTLINE ─────────────────────────────────────────────────────
+
+function drawPocket(cx, memY1, memY2) {
+  const mH = memY2 - memY1;
+  const px = cx - 4;
+  const py = memY1 + mH * 0.12;
+  const pw = 52;
+  const ph = mH * 0.58;
+  ctx.strokeStyle = 'rgba(200,255,0,0.12)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath();
+  ctx.roundRect(px - pw/2, py, pw, ph, 6);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  return { px, py: py + ph * 0.32 };
+}
+
+// ─── MOLECULES ───────────────────────────────────────────────────────────────
+
+function mol(x, y, label, color, sub, r) {
+  r = r || 15;
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  ctx.font = `bold 11px Syne, sans-serif`;
+  ctx.fillStyle = '#000';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(label, x, y);
+  ctx.textBaseline = 'alphabetic';
+  if (sub) {
+    ctx.font = '10px DM Sans, sans-serif';
+    ctx.fillStyle = color;
+    ctx.fillText(sub, x, y + r + 13);
+  }
+}
+
+// ─── Gi PROTEIN ──────────────────────────────────────────────────────────────
+
+function drawGi(cx, memY2, docked, alpha) {
+  const gx = cx + 28;
+  const gy = memY2 + (docked ? 6 : 44);
+  ctx.globalAlpha = alpha;
+  ctx.fillStyle = 'rgba(70,70,175,0.65)';
+  ctx.beginPath();
+  ctx.ellipse(gx, gy + 20, 34, 20, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = 'rgba(90,90,200,0.75)';
+  ctx.beginPath(); ctx.arc(gx - 11, gy + 10, 11, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = 'rgba(55,55,150,0.75)';
+  ctx.beginPath(); ctx.arc(gx + 11, gy + 10, 9, 0, Math.PI*2); ctx.fill();
+  ctx.font = 'bold 10px Syne, sans-serif';
+  ctx.fillStyle = 'rgba(180,180,255,0.9)';
+  ctx.textAlign = 'center';
+  ctx.fillText('Gi', gx, gy + 24);
+  ctx.globalAlpha = 1;
+}
+
+// ─── cAMP DOTS ───────────────────────────────────────────────────────────────
+
+function drawCAMP(cx, y, count) {
+  for (let i = 0; i < count; i++) {
+    const x = cx - 90 + (i % 5) * 38;
+    const dy = Math.floor(i / 5) * 26;
+    ctx.beginPath();
+    ctx.arc(x, y + dy, 7, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(255,200,50,0.55)';
+    ctx.fill();
+    ctx.font = '7px DM Sans';
+    ctx.fillStyle = '#000';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('c', x, y + dy);
+    ctx.textBaseline = 'alphabetic';
+  }
+}
+
+// ─── BLOCK X ─────────────────────────────────────────────────────────────────
+
+function blockX(x, y) {
+  ctx.strokeStyle = 'rgba(255,70,70,0.85)';
+  ctx.lineWidth = 3;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(x - 9, y - 9); ctx.lineTo(x + 9, y + 9);
+  ctx.moveTo(x + 9, y - 9); ctx.lineTo(x - 9, y + 9);
+  ctx.stroke();
+  ctx.lineCap = 'butt';
+}
+
+// ─── SCENES ──────────────────────────────────────────────────────────────────
+
+function s1(t) {
+  clr();
+  const { memY1, memY2, cx } = layout();
+  drawMembrane(memY1, memY2);
+  drawHelices(cx, memY1, memY2, 0);
+  drawPocket(cx, memY1, memY2);
+  ctx.font = 'bold 12px Syne, sans-serif';
+  ctx.fillStyle = 'rgba(200,255,0,0.45)';
+  ctx.textAlign = 'center';
+  ctx.fillText('INACTIVE CONFORMATION', cx, memY1 - 18);
+  ctx.font = '11px DM Sans, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.22)';
+  ctx.fillText('binding pocket — empty', cx, memY1 + (memY2 - memY1) * 0.45);
+  drawGi(cx, memY2, false, 0.22);
+  ctx.font = '11px DM Sans, sans-serif';
+  ctx.fillStyle = 'rgba(100,100,200,0.45)';
+  ctx.textAlign = 'center';
+  ctx.fillText('Gi — not coupled', cx + 28, memY2 + 82);
+}
+
+function s2(t) {
+  clr();
+  const { memY1, memY2, cx } = layout();
+  drawMembrane(memY1, memY2);
+  drawHelices(cx, memY1, memY2, 0);
+  const { px, py } = drawPocket(cx, memY1, memY2);
+  const drift = Math.sin(t * 0.035) * 7;
+  const mx = px + 90 + drift;
+  const my = memY1 - 38 + drift * 0.3;
+  mol(mx, my, 'M', '#ff6b35', 'Morphine');
+  ctx.strokeStyle = 'rgba(255,107,53,0.4)';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 3]);
+  ctx.beginPath();
+  ctx.moveTo(mx - 10, my + 10);
+  ctx.lineTo(px + 12, py - 10);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.font = '11px DM Sans, sans-serif';
+  ctx.fillStyle = 'rgba(255,107,53,0.8)';
+  ctx.textAlign = 'center';
+  ctx.fillText('N-CH₃ — small, compact', mx, my - 26);
+  ctx.fillStyle = 'rgba(80,200,80,0.65)';
+  ctx.fillText('→ Asp147', px - 8, py + 14);
+  drawGi(cx, memY2, false, 0.22);
+}
+
+function s3(t) {
+  clr();
+  const { memY1, memY2, cx } = layout();
+  drawMembrane(memY1, memY2);
+  drawHelices(cx, memY1, memY2, 1);
+  const { px, py } = drawPocket(cx, memY1, memY2);
+  mol(px, py - 4, 'M', '#ff6b35', null);
+  ctx.font = 'bold 12px Syne, sans-serif';
+  ctx.fillStyle = 'rgba(255,107,53,0.85)';
+  ctx.textAlign = 'center';
+  ctx.fillText('ACTIVE CONFORMATION', cx, memY1 - 18);
+  drawGi(cx, memY2, true, 1);
+  const campN = Math.max(1, 5 - Math.floor(t * 0.015));
+  drawCAMP(cx - 70, memY2 + 65, campN);
+  ctx.font = '11px DM Sans, sans-serif';
+  ctx.fillStyle = 'rgba(255,200,50,0.6)';
+  ctx.textAlign = 'left';
+  ctx.fillText('cAMP ↓', cx - 70, memY2 + 55);
+}
+
+function s4(t) {
+  clr();
+  const { memY1, memY2, cx } = layout();
+  drawMembrane(memY1, memY2);
+  drawHelices(cx, memY1, memY2, 0.4);
+  const { px, py } = drawPocket(cx, memY1, memY2);
+  const wM = Math.sin(t * 0.045) * 3;
+  mol(px + wM, py - 4, 'M', '#ff6b35', null);
+  const dN = Math.sin(t * 0.038 + 1.2) * 6;
+  const nx = px - 85 + dN;
+  const ny = memY1 - 42 + dN * 0.25;
+  mol(nx, ny, 'N', '#c8ff00', 'Naloxone');
+  ctx.strokeStyle = 'rgba(200,255,0,0.45)';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 3]);
+  ctx.beginPath();
+  ctx.moveTo(nx + 12, ny + 10);
+  ctx.lineTo(px - 12, py - 8);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  const ky = H() * 0.87;
+  ctx.font = '12px DM Sans, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(200,255,0,0.9)';
+  ctx.fillText('Naloxone Kd ≈ 1.5 nM', cx - 90, ky);
+  ctx.fillStyle = 'rgba(255,107,53,0.9)';
+  ctx.fillText('Morphine Kd ≈ 4 nM', cx + 90, ky);
+  ctx.fillStyle = 'rgba(255,255,255,0.35)';
+  ctx.fillText('naloxone wins', cx, ky + 18);
+  drawGi(cx, memY2, false, 0.25);
+}
+
+function s5(t) {
+  clr();
+  const { memY1, memY2, cx } = layout();
+  drawMembrane(memY1, memY2);
+  drawHelices(cx, memY1, memY2, 0);
+  const { px, py } = drawPocket(cx, memY1, memY2);
+  mol(px, py - 4, 'N', '#c8ff00', null);
+
+  // Draw allyl arm
+  const ax = px + 14, ay = py - 6;
+  const bx = ax + 24, by = ay - 10;
+  ctx.strokeStyle = 'rgba(200,255,0,0.95)';
+  ctx.lineWidth = 2.5;
+  ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+  // double bond indicator
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'rgba(200,255,0,0.45)';
+  ctx.beginPath(); ctx.moveTo(ax + 9, ay + 3); ctx.lineTo(bx - 2, by + 4); ctx.stroke();
+  ctx.lineCap = 'butt';
+  ctx.font = '10px DM Sans, sans-serif';
+  ctx.fillStyle = 'rgba(200,255,0,0.85)';
+  ctx.textAlign = 'left';
+  ctx.fillText('allyl arm (rigid)', bx + 5, by - 2);
+  ctx.fillText('fixed angle — jams here', bx + 5, by + 10);
+
+  // Block TM6 movement
+  blockX(cx + 96, memY2 - 26);
+  ctx.font = '10px DM Sans, sans-serif';
+  ctx.fillStyle = 'rgba(255,70,70,0.75)';
+  ctx.textAlign = 'center';
+  ctx.fillText('TM6 blocked', cx + 96, memY2 - 10);
+
+  // Morphine ejected
+  mol(cx + 85, memY1 - 55, 'M', 'rgba(255,107,53,0.35)', null, 13);
+  ctx.font = '10px DM Sans, sans-serif';
+  ctx.fillStyle = 'rgba(255,107,53,0.4)';
+  ctx.textAlign = 'center';
+  ctx.fillText('morphine out', cx + 85, memY1 - 75);
+
+  drawGi(cx, memY2, false, 0.22);
+  blockX(cx + 28, memY2 + 18);
+}
+
+function s6(t) {
+  clr();
+  const { memY1, memY2, cx } = layout();
+  drawMembrane(memY1, memY2);
+  drawHelices(cx, memY1, memY2, 0);
+  const { px, py } = drawPocket(cx, memY1, memY2);
+  mol(px, py - 4, 'N', '#c8ff00', null);
+  ctx.font = 'bold 12px Syne, sans-serif';
+  ctx.fillStyle = 'rgba(200,255,0,0.65)';
+  ctx.textAlign = 'center';
+  ctx.fillText('INACTIVE — LOCKED', cx, memY1 - 18);
+  const items = [
+    { label: 'Gi coupling', status: 'BLOCKED', color: 'rgba(255,70,70,0.85)' },
+    { label: 'cAMP drop',   status: 'NONE',    color: 'rgba(255,70,70,0.85)' },
+    { label: 'Analgesia',   status: 'NONE',    color: 'rgba(255,70,70,0.85)' },
+    { label: 'Resp. dep.',  status: 'BLOCKED', color: 'rgba(100,220,100,0.85)' },
+  ];
+  const sy = memY2 + 28;
+  items.forEach((item, i) => {
+    const x = (cx - 160) + i * 84;
+    ctx.font = '10px DM Sans, sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    ctx.textAlign = 'center';
+    ctx.fillText(item.label, x, sy);
+    ctx.font = 'bold 11px Syne, sans-serif';
+    ctx.fillStyle = item.color;
+    ctx.fillText(item.status, x, sy + 17);
+  });
+  drawGi(cx, memY2, false, 0.15);
+}
+
+function s7(t) {
+  clr();
+  const { memY1, memY2, cx } = layout();
+  drawMembrane(memY1, memY2);
+  const { px, py } = drawPocket(cx, memY1, memY2);
+  const prog = (Math.sin(t * 0.022) + 1) / 2; // 0→1 oscillating
+  drawHelices(cx, memY1, memY2, prog * 0.3);
+
+  // Naloxone leaving
+  const nx = px + prog * 95;
+  const ny = py - 4 - prog * 72;
+  ctx.globalAlpha = 1 - prog * 0.65;
+  mol(nx, ny, 'N', '#c8ff00', null);
+  ctx.globalAlpha = 1;
+
+  // Fentanyl approaching when naloxone is half gone
+  if (prog > 0.45) {
+    const fp = (prog - 0.45) / 0.55;
+    const fx = cx - 80 - (1 - fp) * 55;
+    const fy = memY1 - 44 + (1 - fp) * 20;
+    ctx.globalAlpha = fp;
+    mol(fx, fy, 'F', '#cc6aff', 'Fentanyl');
+    ctx.globalAlpha = 1;
+  }
+
+  const ty = H() * 0.88;
+  ctx.font = '12px DM Sans, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(200,255,0,0.7)';
+  ctx.fillText('Naloxone t½  ~60–90 min', cx, ty);
+  ctx.fillStyle = 'rgba(200,106,255,0.7)';
+  ctx.fillText('Fentanyl t½  ~3–8 hrs', cx, ty + 18);
+  ctx.fillStyle = 'rgba(255,255,255,0.3)';
+  ctx.fillText('overdose can return once naloxone clears', cx, ty + 36);
+}
+
+// ─── ANIMATION ENGINE ────────────────────────────────────────────────────────
+
+function render() {
+  SCENES[scene].draw(t++);
+  raf = requestAnimationFrame(render);
+}
+
+function startRender() {
+  if (raf) cancelAnimationFrame(raf);
+  t = 0;
+  render();
+}
+
+function updateUI() {
+  const s = SCENES[scene];
+  document.getElementById('sceneLabel').textContent = s.label;
+  document.getElementById('sceneTitle').textContent = s.title;
+  document.getElementById('sceneDesc').innerHTML = s.desc;
+  document.getElementById('sceneCounter').textContent = `${scene + 1} / ${SCENES.length}`;
+  document.getElementById('btnBack').disabled = scene === 0;
+  const nextBtn = document.getElementById('btnNext');
+  nextBtn.disabled = false;
+  nextBtn.textContent = scene === SCENES.length - 1 ? 'Done' : 'Next →';
+}
+
+function nextScene() { if (scene < SCENES.length - 1) { scene++; updateUI(); startRender(); } }
+function prevScene() { if (scene > 0) { scene--; updateUI(); startRender(); } }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') nextScene();
+  if (e.key === 'ArrowLeft')  prevScene();
+});
+
+updateUI();
+startRender();
+
+// ─── OCCUPANCY GRAPH ─────────────────────────────────────────────────────────
+
+const KDN = 1.5; // naloxone Kd nM
+const KDM = 4.0; // morphine Kd nM
+
+function compOcc(cN, cM) {
+  const n = cN / KDN, m = cM / KDM, d = 1 + n + m;
+  return { n: n/d, m: m/d, e: 1/d };
+}
+
+const gCv = document.getElementById('gCanvas');
+const gCx = gCv.getContext('2d');
+
+function resizeGCv() {
+  const w = gCv.parentElement.getBoundingClientRect().width - 48;
+  gCv.width = w; gCv.height = 220;
+}
+window.addEventListener('resize', () => { resizeGCv(); updateGraph(); });
+resizeGCv();
+
+function updateGraph() {
+  const cN = parseFloat(document.getElementById('nalSlider').value);
+  const cM = parseFloat(document.getElementById('morSlider').value);
+  document.getElementById('nalVal').textContent = cN.toFixed(1) + ' nM';
+  document.getElementById('morVal').textContent = cM.toFixed(1) + ' nM';
+
+  const w = gCv.width, h = gCv.height;
+  gCx.fillStyle = '#0d0d0d';
+  gCx.fillRect(0, 0, w, h);
+
+  const occ = compOcc(cN, cM);
+  const padL = 60, barY = h * 0.18, barH = h * 0.28, barW = w - padL - 20;
+
+  // Bar background
+  gCx.fillStyle = '#1e1e1e';
+  gCx.beginPath(); gCx.roundRect(padL, barY, barW, barH, 6); gCx.fill();
+
+  // Naloxone fill
+  if (occ.n > 0) {
+    const nW = barW * occ.n;
+    gCx.fillStyle = '#c8ff00';
+    gCx.beginPath();
+    gCx.roundRect(padL, barY, nW, barH, occ.n > 0.98 ? 6 : [6, 0, 0, 6]);
+    gCx.fill();
+    if (occ.n > 0.06) {
+      gCx.font = 'bold 12px Syne, sans-serif';
+      gCx.fillStyle = '#000';
+      gCx.textAlign = 'center';
+      gCx.fillText(Math.round(occ.n * 100) + '%', padL + nW/2, barY + barH/2 + 4);
+    }
+  }
+
+  // Morphine fill
+  if (occ.m > 0) {
+    const nW = barW * occ.n;
+    const mW = barW * occ.m;
+    gCx.fillStyle = '#ff6b35';
+    gCx.beginPath();
+    gCx.roundRect(padL + nW, barY, mW, barH, occ.m > 0.98 ? 6 : (occ.n < 0.01 ? [6,0,0,6] : 0));
+    gCx.fill();
+    if (occ.m > 0.06) {
+      gCx.font = 'bold 12px Syne, sans-serif';
+      gCx.fillStyle = '#000';
+      gCx.textAlign = 'center';
+      gCx.fillText(Math.round(occ.m * 100) + '%', padL + nW + mW/2, barY + barH/2 + 4);
+    }
+  }
+
+  // Empty % label
+  if (occ.e > 0.06) {
+    const filled = barW * (occ.n + occ.m);
+    gCx.font = '11px DM Sans, sans-serif';
+    gCx.fillStyle = 'rgba(255,255,255,0.28)';
+    gCx.textAlign = 'center';
+    gCx.fillText(Math.round(occ.e * 100) + '% unoccupied', padL + filled + (barW - filled)/2, barY + barH/2 + 4);
+  }
+
+  // MOR label
+  gCx.font = '11px Syne, sans-serif';
+  gCx.fillStyle = 'rgba(255,255,255,0.4)';
+  gCx.textAlign = 'right';
+  gCx.fillText('MOR', padL - 8, barY + barH/2 + 4);
+
+  // Gi activation bar
+  const giY = barY + barH + 36;
+  gCx.font = '11px DM Sans, sans-serif';
+  gCx.fillStyle = 'rgba(255,255,255,0.35)';
+  gCx.textAlign = 'right';
+  gCx.fillText('Gi activation', padL - 8, giY + 4);
+
+  gCx.fillStyle = '#1e1e1e';
+  gCx.beginPath(); gCx.roundRect(padL, giY - 10, barW * 0.65, 16, 3); gCx.fill();
+
+  const giW = barW * 0.65 * occ.m;
+  if (giW > 0) {
+    gCx.fillStyle = occ.m > 0.5 ? '#ff6b35' : occ.m > 0.2 ? '#ff9a35' : '#555';
+    gCx.beginPath(); gCx.roundRect(padL, giY - 10, giW, 16, 3); gCx.fill();
+  }
+
+  gCx.font = 'bold 11px Syne, sans-serif';
+  gCx.fillStyle = 'rgba(255,255,255,0.5)';
+  gCx.textAlign = 'left';
+  gCx.fillText(Math.round(occ.m * 100) + '%', padL + barW * 0.65 + 8, giY + 4);
+
+  // Equation
+  gCx.font = '11px DM Sans, sans-serif';
+  gCx.fillStyle = 'rgba(255,255,255,0.2)';
+  gCx.textAlign = 'center';
+  gCx.fillText('Occupancy = [L]/Kd  ÷  (1 + [N]/Kd_N + [M]/Kd_M)', w/2, h - 12);
+}
+updateGraph();
+
+// ─── GRAPH 2 — SWEEP ─────────────────────────────────────────────────────────
+
+const g2Cv = document.getElementById('g2Canvas');
+const g2Cx = g2Cv.getContext('2d');
+
+function resizeG2() {
+  const w = g2Cv.parentElement.getBoundingClientRect().width - 48;
+  g2Cv.width = w; g2Cv.height = 220;
+}
+window.addEventListener('resize', () => { resizeG2(); drawGraph2(); });
+resizeG2();
+
+function drawGraph2() {
+  const w = g2Cv.width, h = g2Cv.height;
+  const pL = 52, pR = 20, pT = 22, pB = 48;
+  const pW = w - pL - pR, pH = h - pT - pB;
+  const maxC = 50, fixM = 10;
+
+  g2Cx.fillStyle = '#0d0d0d';
+  g2Cx.fillRect(0, 0, w, h);
+
+  // Grid lines
+  for (let i = 0; i <= 4; i++) {
+    const y = pT + pH - pH * i / 4;
+    g2Cx.strokeStyle = 'rgba(255,255,255,0.05)';
+    g2Cx.lineWidth = 1;
+    g2Cx.beginPath(); g2Cx.moveTo(pL, y); g2Cx.lineTo(pL + pW, y); g2Cx.stroke();
+    g2Cx.font = '10px DM Sans, sans-serif';
+    g2Cx.fillStyle = 'rgba(255,255,255,0.28)';
+    g2Cx.textAlign = 'right';
+    g2Cx.fillText(i * 25 + '%', pL - 5, y + 4);
+  }
+
+  // X axis labels
+  for (let c = 0; c <= 50; c += 10) {
+    const x = pL + (c / maxC) * pW;
+    g2Cx.font = '10px DM Sans, sans-serif';
+    g2Cx.fillStyle = 'rgba(255,255,255,0.28)';
+    g2Cx.textAlign = 'center';
+    g2Cx.fillText(c + ' nM', x, h - pB + 16);
+  }
+
+  // Axis labels
+  g2Cx.save();
+  g2Cx.translate(12, pT + pH/2);
+  g2Cx.rotate(-Math.PI/2);
+  g2Cx.font = '10px DM Sans, sans-serif';
+  g2Cx.fillStyle = 'rgba(255,255,255,0.28)';
+  g2Cx.textAlign = 'center';
+  g2Cx.fillText('Occupancy', 0, 0);
+  g2Cx.restore();
+  g2Cx.font = '10px DM Sans, sans-serif';
+  g2Cx.fillStyle = 'rgba(255,255,255,0.28)';
+  g2Cx.textAlign = 'center';
+  g2Cx.fillText('[Naloxone] — fixed [Morphine] = 10 nM', pL + pW/2, h - 6);
+
+  // 30% threshold line
+  const ty = pT + pH - pH * 0.3;
+  g2Cx.strokeStyle = 'rgba(255,255,255,0.12)';
+  g2Cx.setLineDash([4, 4]);
+  g2Cx.beginPath(); g2Cx.moveTo(pL, ty); g2Cx.lineTo(pL + pW, ty); g2Cx.stroke();
+  g2Cx.setLineDash([]);
+  g2Cx.font = '10px DM Sans, sans-serif';
+  g2Cx.fillStyle = 'rgba(255,255,255,0.25)';
+  g2Cx.textAlign = 'right';
+  g2Cx.fillText('30% signaling threshold', pL + pW, ty - 4);
+
+  // Morphine occupancy curve
+  g2Cx.beginPath();
+  g2Cx.strokeStyle = '#ff6b35';
+  g2Cx.lineWidth = 2.5;
+  for (let i = 0; i <= pW; i++) {
+    const cN = (i / pW) * maxC;
+    const { m } = compOcc(cN, fixM);
+    const x = pL + i, y = pT + pH - m * pH;
+    i === 0 ? g2Cx.moveTo(x, y) : g2Cx.lineTo(x, y);
+  }
+  g2Cx.stroke();
+
+  // Naloxone occupancy curve
+  g2Cx.beginPath();
+  g2Cx.strokeStyle = '#c8ff00';
+  g2Cx.lineWidth = 2.5;
+  for (let i = 0; i <= pW; i++) {
+    const cN = (i / pW) * maxC;
+    const { n } = compOcc(cN, fixM);
+    const x = pL + i, y = pT + pH - n * pH;
+    i === 0 ? g2Cx.moveTo(x, y) : g2Cx.lineTo(x, y);
+  }
+  g2Cx.stroke();
+}
+drawGraph2();
+</script>
+</body>
+</html>
