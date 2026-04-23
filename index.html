@@ -3,214 +3,718 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Neuroscience with RPrime</title>
+<title>RPrime — Neuroscience, Research &amp; Neurotech</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
   :root {
-    --bg: #0a0a0a;
-    --surface: #111111;
-    --surface2: #1a1a1a;
-    --border: rgba(255,255,255,0.08);
+    --bg: #080808;
+    --surface: rgba(255,255,255,0.03);
+    --border: rgba(255,255,255,0.07);
     --text: #f0ece4;
-    --muted: #888;
+    --muted: #555;
+    --muted2: #888;
     --accent: #c8ff00;
     --accent2: #ff6b35;
     --font-display: 'Syne', sans-serif;
     --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
   }
+
+  html { scroll-behavior: smooth; }
+
   body {
     background: var(--bg);
     color: var(--text);
     font-family: var(--font-body);
     font-size: 16px;
     line-height: 1.7;
+    overflow-x: hidden;
+    min-height: 100vh;
   }
-  .site { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* NOISE TEXTURE */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 9998;
+    mix-blend-mode: overlay;
+  }
+
+  /* AURORA BLOBS */
+  .aurora {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(110px);
+    animation: drift linear infinite;
+  }
+  .blob-1 {
+    width: 750px; height: 750px;
+    background: radial-gradient(circle, rgba(200,255,0,0.18), transparent 65%);
+    top: -250px; left: -200px;
+    animation-duration: 28s;
+    animation-name: drift1;
+  }
+  .blob-2 {
+    width: 550px; height: 550px;
+    background: radial-gradient(circle, rgba(255,107,53,0.15), transparent 65%);
+    top: 35%; right: -180px;
+    animation-duration: 34s;
+    animation-name: drift2;
+    animation-delay: -12s;
+  }
+  .blob-3 {
+    width: 450px; height: 450px;
+    background: radial-gradient(circle, rgba(120,80,220,0.12), transparent 65%);
+    bottom: 5%; left: 15%;
+    animation-duration: 26s;
+    animation-name: drift3;
+    animation-delay: -7s;
+  }
+  .blob-4 {
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(200,255,0,0.1), transparent 65%);
+    bottom: -80px; right: 25%;
+    animation-duration: 32s;
+    animation-name: drift1;
+    animation-delay: -18s;
+  }
+
+  @keyframes drift1 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(50px,-40px) scale(1.06); }
+    66% { transform: translate(-35px,55px) scale(0.95); }
+  }
+  @keyframes drift2 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    40% { transform: translate(-60px,30px) scale(1.08); }
+    70% { transform: translate(40px,-50px) scale(0.93); }
+  }
+  @keyframes drift3 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    30% { transform: translate(30px,60px) scale(1.04); }
+    60% { transform: translate(-50px,-30px) scale(0.97); }
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* NAV */
   .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(8,8,8,0.72);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+    height: 64px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 28px 0 48px;
-    border-bottom: 0.5px solid var(--border);
-    margin-bottom: 64px;
+    justify-content: space-between;
   }
   .logo {
     font-family: var(--font-display);
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 800;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.3px;
     color: var(--text);
     text-decoration: none;
   }
   .logo span { color: var(--accent); }
-  .nav-tag {
-    font-size: 12px;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
   }
-  .hero { margin-bottom: 72px; }
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted2);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 120px 0 90px;
+    overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(200,255,0,0.055) 0%, transparent 65%);
+    top: 50%; left: -80px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+  }
   .hero-eyebrow {
-    font-size: 12px;
-    letter-spacing: 0.12em;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--accent);
-    font-family: var(--font-display);
-    margin-bottom: 20px;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.2s;
   }
   .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(36px, 6vw, 64px);
+    font-size: clamp(46px, 7.5vw, 92px);
     font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -1.5px;
-    margin-bottom: 32px;
-    color: var(--text);
+    line-height: 1.0;
+    letter-spacing: -2.5px;
+    margin-bottom: 36px;
+    text-wrap: balance;
   }
-  .hero-title .highlight { color: var(--accent); }
-  .hero-body {
-    font-size: 17px;
+  .word {
+    display: inline-block;
+    opacity: 0;
+    animation: fadeUp 0.75s ease forwards;
+  }
+  .word:nth-child(1) { animation-delay: 0.38s; }
+  .word:nth-child(2) { animation-delay: 0.52s; }
+  .word:nth-child(3) { animation-delay: 0.66s; }
+  .word:nth-child(4) { animation-delay: 0.80s; }
+  .word:nth-child(5) { animation-delay: 0.94s; }
+  .word:nth-child(6) { animation-delay: 1.08s; color: var(--accent); }
+  .hero-sub {
+    font-size: 18px;
     line-height: 1.8;
-    color: #bbb;
-    max-width: 640px;
-    margin-bottom: 24px;
+    color: #888;
+    max-width: 560px;
+    margin-bottom: 44px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 1.3s;
+    text-wrap: balance;
   }
+  .hero-cta {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 1.5s;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 30px;
+    background: var(--accent);
+    color: #080808;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 7px;
+    letter-spacing: 0.01em;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 48px rgba(200,255,0,0.28);
+  }
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 24px;
+    color: var(--muted2);
+    font-size: 14px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 7px;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.22); color: var(--text); }
+
+  /* EEG WAVEFORM */
+  .hero-eeg {
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 540px;
+    opacity: 0;
+    z-index: 1;
+    animation: eegAppear 1s ease forwards 2s;
+  }
+  @keyframes eegAppear { to { opacity: 0.11; } }
+  .eeg-path {
+    stroke-dasharray: 1400;
+    stroke-dashoffset: 1400;
+    animation: drawEEG 3s ease forwards 2.2s;
+  }
+  @keyframes drawEEG { to { stroke-dashoffset: 0; } }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(26px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* DIVIDER */
   .divider {
-    height: 0.5px;
+    height: 1px;
     background: var(--border);
-    margin: 56px 0;
+    margin: 88px 0;
+    position: relative;
+    z-index: 1;
   }
+
+  /* SECTION LABEL */
   .section-label {
-    font-size: 11px;
-    letter-spacing: 0.14em;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--muted);
-    font-family: var(--font-display);
-    margin-bottom: 28px;
+    margin-bottom: 44px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
   }
-  .intro-block {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-left: 3px solid var(--accent);
-    border-radius: 0 8px 8px 0;
-    padding: 32px 36px;
-    margin-bottom: 24px;
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
   }
-  .intro-block p {
-    font-size: 16px;
-    line-height: 1.85;
-    color: #ccc;
-    margin-bottom: 16px;
-  }
-  .intro-block p:last-child { margin-bottom: 0; }
-  .intro-block p strong { color: var(--text); font-weight: 500; }
-  .kensington {
-    background: var(--surface2);
-    border: 0.5px solid var(--border);
-    border-left: 3px solid var(--accent2);
-    border-radius: 0 8px 8px 0;
-    padding: 28px 32px;
-    margin: 32px 0;
-  }
-  .kensington-label {
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent2);
-    margin-bottom: 12px;
-    font-family: var(--font-display);
-  }
-  .kensington p { font-size: 15px; color: #aaa; line-height: 1.8; }
-  .closing-block {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: 8px;
-    padding: 32px 36px;
-    margin-top: 32px;
-  }
-  .closing-block p {
-    font-size: 16px;
-    color: #bbb;
-    line-height: 1.85;
-    font-style: italic;
-  }
-  .expertise-grid {
+
+  /* ABOUT */
+  .about-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 28px;
+    gap: 16px;
   }
-  .expertise-card {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: 8px;
-    padding: 20px 22px;
-    transition: border-color 0.2s;
+  .about-main {
+    grid-column: 1 / -1;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 14px;
+    padding: 44px 52px;
   }
-  .expertise-card:hover { border-color: rgba(200,255,0,0.25); }
-  .expertise-num {
-    font-size: 11px;
+  .about-main p {
+    font-size: 17px;
+    line-height: 1.9;
+    color: #bbb;
+    margin-bottom: 20px;
+    text-wrap: balance;
+  }
+  .about-main p:last-child { margin-bottom: 0; }
+  .about-main strong { color: var(--text); font-weight: 500; }
+
+  .reality-card {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 32px;
+    position: relative;
+  }
+  .reality-card::before, .reality-card::after {
+    content: '';
+    position: absolute;
+    width: 10px; height: 10px;
+    opacity: 0.3;
+  }
+  .reality-card::before { top: 10px; left: 10px; border-top: 1px solid var(--accent); border-left: 1px solid var(--accent); }
+  .reality-card::after  { bottom: 10px; right: 10px; border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); }
+  .reality-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .reality-card p { font-size: 14px; line-height: 1.75; color: #888; }
+
+  /* NEUROTECH SECTION */
+  .neurotech-section {
+    position: relative;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(200,255,0,0.1);
+    border-radius: 20px;
+    padding: 88px 72px;
+    overflow: hidden;
+  }
+  .neurotech-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 10% 20%, rgba(200,255,0,0.055) 0%, transparent 55%),
+                radial-gradient(ellipse at 90% 80%, rgba(255,107,53,0.055) 0%, transparent 55%);
+    pointer-events: none;
+  }
+  .nt-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 18px;
+    background: rgba(200,255,0,0.07);
+    border: 1px solid rgba(200,255,0,0.18);
+    border-radius: 100px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
     color: var(--accent);
-    font-family: var(--font-display);
-    font-weight: 700;
-    margin-bottom: 8px;
-    letter-spacing: 0.08em;
+    margin-bottom: 44px;
   }
-  .expertise-text { font-size: 14px; color: #bbb; line-height: 1.6; }
-  .articles-section { margin-top: 16px; }
+  .nt-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: blink 2s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .nt-title {
+    font-family: var(--font-display);
+    font-size: clamp(38px, 6vw, 82px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -2px;
+    margin-bottom: 28px;
+    text-wrap: balance;
+  }
+  .nt-title .a1 { color: var(--accent); }
+  .nt-hook {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2.5vw, 26px);
+    font-weight: 700;
+    color: rgba(240,236,228,0.8);
+    line-height: 1.35;
+    margin-bottom: 56px;
+    max-width: 680px;
+    text-wrap: balance;
+  }
+  .nt-body { max-width: 740px; }
+  .nt-body p {
+    font-size: 17px;
+    line-height: 1.9;
+    color: #999;
+    margin-bottom: 22px;
+  }
+  .nt-body strong { color: var(--text); font-weight: 500; }
+  .big-line {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1.4;
+    margin: 36px 0;
+    padding-left: 24px;
+    border-left: 3px solid var(--accent);
+  }
+  .big-line.orange { color: var(--accent2); border-left-color: var(--accent2); }
+
+  .nt-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 64px;
+  }
+  .nt-stat {
+    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(200,255,0,0.1);
+    border-radius: 12px;
+    padding: 28px;
+    position: relative;
+  }
+  .nt-stat::before, .nt-stat::after {
+    content: '';
+    position: absolute;
+    width: 8px; height: 8px;
+    border-color: rgba(200,255,0,0.25);
+  }
+  .nt-stat::before { top: 8px; left: 8px; border-top: 1px solid; border-left: 1px solid; }
+  .nt-stat::after  { bottom: 8px; right: 8px; border-bottom: 1px solid; border-right: 1px solid; }
+  .nt-stat-num {
+    font-family: var(--font-mono);
+    font-size: 34px;
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 10px;
+    letter-spacing: -1px;
+  }
+  .nt-stat-label { font-size: 13px; color: #777; line-height: 1.55; }
+
+  /* ARTICLES */
+  .articles-category { margin-bottom: 72px; }
+  .category-label {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+    letter-spacing: -0.4px;
+  }
+  .category-desc {
+    font-size: 14px;
+    color: var(--muted2);
+    margin-bottom: 24px;
+    max-width: 480px;
+    line-height: 1.65;
+  }
+  .bento-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .span-2 { grid-column: 1 / -1; }
+
   .article-card {
     display: block;
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: 8px;
-    padding: 24px 28px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.065);
+    border-radius: 12px;
+    padding: 28px 32px;
     text-decoration: none;
-    transition: border-color 0.2s, background 0.2s;
-    margin-bottom: 12px;
+    transition: border-color 0.25s, background 0.25s, transform 0.2s, box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
   }
+  .article-card::before, .article-card::after {
+    content: '';
+    position: absolute;
+    width: 10px; height: 10px;
+    border-color: rgba(200,255,0,0.22);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .article-card::before { top: 10px; left: 10px; border-top: 1px solid; border-left: 1px solid; }
+  .article-card::after  { bottom: 10px; right: 10px; border-bottom: 1px solid; border-right: 1px solid; }
   .article-card:hover {
-    border-color: rgba(200,255,0,0.3);
-    background: #151515;
+    border-color: rgba(200,255,0,0.18);
+    background: rgba(255,255,255,0.04);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 48px rgba(0,0,0,0.4);
   }
+  .article-card:hover::before, .article-card:hover::after { opacity: 1; }
+
   .article-card-num {
-    font-size: 11px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
     color: var(--accent);
-    font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    margin-bottom: 8px;
+    margin-bottom: 14px;
+    opacity: 0.75;
   }
   .article-card-title {
     font-family: var(--font-display);
-    font-size: 20px;
+    font-size: 19px;
     font-weight: 700;
     color: var(--text);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    line-height: 1.25;
+    letter-spacing: -0.3px;
+    text-wrap: balance;
   }
+  .article-card.featured .article-card-title { font-size: 26px; }
   .article-card-desc {
     font-size: 14px;
-    color: #888;
-    line-height: 1.6;
+    color: #666;
+    line-height: 1.65;
   }
   .article-card-tag {
     display: inline-block;
-    margin-top: 12px;
-    font-size: 11px;
-    letter-spacing: 0.08em;
+    margin-top: 18px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #555;
-    font-family: var(--font-display);
+    color: #3a3a3a;
+    transition: color 0.2s;
   }
+  .article-card:hover .article-card-tag { color: var(--accent); }
+
+  .article-card.sim {
+    border-color: rgba(255,107,53,0.1);
+  }
+  .article-card.sim .article-card-num { color: var(--accent2); }
+  .article-card.sim::before, .article-card.sim::after { border-color: rgba(255,107,53,0.22); }
+  .article-card.sim:hover { border-color: rgba(255,107,53,0.2); }
+  .article-card.sim:hover .article-card-tag { color: var(--accent2); }
+
+  /* FOCUS AREAS */
+  .focus-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .focus-card {
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.018);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 24px;
+    transition: border-color 0.2s;
+  }
+  .focus-card:hover { border-color: rgba(200,255,0,0.14); }
+  .focus-num {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    opacity: 0.5;
+    margin-bottom: 10px;
+  }
+  .focus-text { font-size: 13px; color: #777; line-height: 1.65; }
+
+  /* CONTACT */
+  .contact-block {
+    backdrop-filter: blur(14px);
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 56px;
+    text-align: center;
+    position: relative;
+  }
+  .contact-block::before, .contact-block::after {
+    content: '';
+    position: absolute;
+    width: 18px; height: 18px;
+    border-color: rgba(200,255,0,0.18);
+  }
+  .contact-block::before { top: 18px; left: 18px; border-top: 1px solid; border-left: 1px solid; }
+  .contact-block::after  { bottom: 18px; right: 18px; border-bottom: 1px solid; border-right: 1px solid; }
+  .contact-block h3 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 6vw, 56px);
+    font-weight: 800;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+  .contact-block .contact-sub {
+    color: var(--muted2);
+    font-size: 17px;
+    margin-bottom: 12px;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .contact-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 40px;
+    margin-top: 20px;
+  }
+  .contact-topic-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border: 1px solid rgba(200,255,0,0.2);
+    border-radius: 4px;
+    color: var(--accent);
+    background: rgba(200,255,0,0.05);
+  }
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  .contact-email {
+    display: inline-block;
+    padding: 18px 40px;
+    background: rgba(200,255,0,0.07);
+    border: 1px solid rgba(200,255,0,0.25);
+    border-radius: 8px;
+    color: var(--accent);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .contact-email:hover {
+    background: rgba(200,255,0,0.12);
+    box-shadow: 0 0 40px rgba(200,255,0,0.14);
+  }
+  .contact-insta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 40px;
+    background: rgba(255,107,53,0.07);
+    border: 1px solid rgba(255,107,53,0.25);
+    border-radius: 8px;
+    color: var(--accent2);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .contact-insta:hover {
+    background: rgba(255,107,53,0.12);
+    box-shadow: 0 0 40px rgba(255,107,53,0.14);
+  }
+
+  /* FOOTER */
   .footer {
-    margin-top: 80px;
-    padding-top: 32px;
-    border-top: 0.5px solid var(--border);
+    margin-top: 88px;
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    z-index: 1;
   }
   .footer-logo {
     font-family: var(--font-display);
@@ -220,158 +724,287 @@
     text-decoration: none;
   }
   .footer-logo span { color: var(--accent); }
-  .footer-note { font-size: 12px; color: var(--muted); }
-  @media (max-width: 600px) {
-    .expertise-grid { grid-template-columns: 1fr; }
-    .hero-title { font-size: 36px; }
+  .footer-note {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: #333;
+    letter-spacing: 0.06em;
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.72s ease, transform 0.72s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* MOBILE */
+  @media (max-width: 820px) {
+    .container, .nav-inner { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hero { min-height: 75vh; padding: 96px 0 64px; }
+    .hero-eeg { display: none; }
+    .about-grid, .bento-grid { grid-template-columns: 1fr; }
+    .bento-grid .span-2 { grid-column: 1; }
+    .focus-grid { grid-template-columns: 1fr 1fr; }
+    .neurotech-section { padding: 56px 36px; }
+    .nt-stats { grid-template-columns: 1fr; }
+    .contact-block { padding: 40px 28px; }
+    .divider { margin: 64px 0; }
+    .footer { flex-direction: column; gap: 14px; text-align: center; }
+  }
+  @media (max-width: 480px) {
+    .focus-grid { grid-template-columns: 1fr; }
+    .neurotech-section { padding: 44px 24px; }
   }
 </style>
 </head>
 <body>
-<div class="site">
-  <nav class="nav">
+
+<!-- Aurora blobs -->
+<div class="aurora" aria-hidden="true">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
     <a href="/" class="logo">Neuroscience with <span>RPrime</span></a>
-    <div class="nav-tag">Independent Research</div>
-  </nav>
+    <ul class="nav-links">
+      <li><a href="#research">Research</a></li>
+      <li><a href="#neurotech">Neurotech</a></li>
+      <li><a href="#articles">Articles</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
 
-  <section class="hero">
-    <div class="hero-eyebrow">Introduction</div>
-    <h1 class="hero-title">Your brain doesn't<br>care about your <span class="highlight">prime.</span></h1>
-    <p class="hero-body">Ever wanted to be at your prime, doing everything you wanted to, getting all the recognition and feeling euphoric? Your own brain doesn't give a damn about any of that. All it will do is ensure your survival.</p>
-    <p class="hero-body">You could have autism, or ADHD and take medicine to ease the symptoms — but your own brain will try to counteract the drug, even if it helps.</p>
-  </section>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+
+  <svg class="hero-eeg" viewBox="0 0 540 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path class="eeg-path"
+      d="M0,100 L38,100 L44,100 L48,62 L52,138 L56,32 L60,168 L64,78 L68,122 L72,100
+         L108,100 L114,100 L118,66 L122,134 L126,38 L130,162 L134,82 L138,118 L142,100
+         L178,100 L184,100 L188,58 L192,142 L196,28 L200,172 L204,76 L208,124 L212,100
+         L248,100 L254,100 L258,70 L262,130 L266,44 L270,156 L274,84 L278,116 L282,100
+         L318,100 L324,100 L328,60 L332,140 L336,34 L340,166 L344,80 L348,120 L352,100
+         L388,100 L394,100 L398,64 L402,136 L406,36 L410,164 L414,79 L418,121 L422,100
+         L458,100 L464,100 L468,55 L472,145 L476,26 L480,174 L484,77 L488,123 L492,100
+         L540,100"
+      stroke="#c8ff00" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-eyebrow">RPrime Neuroscience — Independent Research</div>
+      <h1 class="hero-title">
+        <span class="word">Your&nbsp;</span><span class="word">brain&nbsp;</span><span class="word">doesn't&nbsp;</span><span class="word">care&nbsp;</span><span class="word">about&nbsp;</span><span class="word">your&nbsp;prime.</span>
+      </h1>
+      <p class="hero-sub">Real neuroscience. No textbook language. Deep pharmacology, receptor-level mechanisms, and original research.</p>
+      <div class="hero-cta">
+        <a href="#articles" class="btn-primary">Read the Research →</a>
+        <a href="#neurotech" class="btn-ghost">Waves of Life ↓</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
 
   <div class="divider"></div>
 
-  <section>
-    <div class="section-label">The real stakes</div>
-    <div class="intro-block">
-      <p>The brain's neurochemistry isn't as abstract as you think it is. If you want to get recognition, if you want to have presence, if you want to be at your maximum peak — it all breaks down to neuroscience. The perception of other people, the bonding and reward from human connection, the confidence you feel — all of it originates in the brain.</p>
-      <p>To all those doing this mostly for the credits and the recognition: if you knew neuroscience well enough like you claim to, you would know no one cares about that. This has a larger-than-life meaning — where you discover yourself, where you realize why you do things, where you understand what's happening inside you as you read this right now.</p>
-      <p>Don't want to feel sad? Your brain is going to do what it thinks is right regardless. <strong>Unless you understand the machinery of your own brain, you won't be able to work with it.</strong> Once you can, you will reach a level you once thought was impossible. This isn't about showing how smart you are. It's about self-discovery.</p>
-    </div>
-
-    <div class="kensington">
-      <div class="kensington-label">Real world — what tolerance looks like</div>
-      <p>Go downtown to Kensington, Philadelphia (which I recommend you don't), or try NYC, and you will see stimulant and opioid addicts nodding their heads on the street, losing their own lives for a drug. Children of addicts who didn't feel raised by a parent — they felt raised by that drug. Why does this happen? How can such things make you feel like you're burning in hell, facing severe anxiety, going through opioid withdrawal? That's the connection I will be making here.</p>
-    </div>
-
-    <div class="kensington" style="border-left-color: #7b68ee;">
-      <div class="kensington-label" style="color: #9b88ff;">Real world — memory and trauma</div>
-      <p>Take survivors of extreme trauma who couldn't remember the events they faced. They didn't simply forget — it's never that simple. Their brain was hiding it from them. No matter how much you beg your brain to tell you what happened, it will refuse. That's not weakness. That's a survival mechanism running exactly as designed.</p>
-    </div>
-
-    <div class="closing-block">
-      <p>Your enemies are just pawns the brain uses to checkmate you. We think people hurt us — but often it's our own mind replaying and amplifying the event that actually keeps us stuck.</p>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <section>
-    <div class="section-label">Articles</div>
-    <div class="articles-section">
-      <a href="/article1.html" class="article-card">
-        <div class="article-card-num">01</div>
-        <div class="article-card-title">Methamphetamine</div>
-        <div class="article-card-desc">Mechanism, history, clinical use, and tolerance — a pharmacological deep dive into the most potent dopamine releaser known.</div>
-        <div class="article-card-tag">For pharmacists &amp; graduate students →</div>
-      </a>
-      <a href="/article2.html" class="article-card">
-        <div class="article-card-num">02</div>
-        <div class="article-card-title">Why methamphetamine is safer than amphetamine — cardiovascularly</div>
-        <div class="article-card-desc">The counterintuitive truth about peripheral vs central stimulant effects, norepinephrine, and why the "dangerous" drug may be easier on your heart.</div>
-        <div class="article-card-tag">General audience →</div>
-      </a>
-      <a href="/article3.html" class="article-card">
-        <div class="article-card-num">03</div>
-        <div class="article-card-title">Dopamine</div>
-        <div class="article-card-desc">Where it comes from, what it actually does, why addiction is permanent, and what your health teacher isn't telling you.</div>
-        <div class="article-card-tag">General audience →</div>
-      </a>
-      <a href="/article4.html" class="article-card">
-        <div class="article-card-num">04</div>
-        <div class="article-card-title">The Standard ADHD Model Is Incomplete</div>
-        <div class="article-card-desc">The catecholamine deficit hypothesis doesn't explain why stimulants calm instead of excite. The NMDA overcompensation hypothesis does — and it redefines what ADHD actually is.</div>
-        <div class="article-card-tag">Pharmacists &amp; graduate students →</div>
-      </a>
-      <a href="/article5.html" class="article-card">
-        <div class="article-card-num">05</div>
-        <div class="article-card-title">An Analysis of Four Good Days</div>
-        <div class="article-card-desc">A film about heroin addiction. What it shows you is devastating. What it doesn't explain is why the brain made it inevitable.</div>
-        <div class="article-card-tag">General audience →</div>
-      </a>
-      <a href="/naloxone_sim.html" class="article-card">
-        <div class="article-card-num">SIM</div>
-        <div class="article-card-title">Naloxone vs MOR — Interactive Simulation</div>
-        <div class="article-card-desc">Animated receptor binding, competitive displacement, and a live pharmacodynamic model of naloxone blocking opioid signaling at the mu-opioid receptor.</div>
-        <div class="article-card-tag">Interactive →</div>
-      </a>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <section>
-    <div class="section-label">Areas of focus</div>
-    <div class="expertise-grid">
-      <div class="expertise-card">
-        <div class="expertise-num">01</div>
-        <div class="expertise-text">Pharmacology of amphetamines — specifically methamphetamine and its clinical applications</div>
+  <!-- RESEARCH IDENTITY -->
+  <section id="research" class="reveal">
+    <div class="section-label">What this is</div>
+    <div class="about-grid">
+      <div class="about-main">
+        <p>The brain's neurochemistry isn't abstract. If you want presence, peak performance, or to understand why you do the things you do — it breaks down to neuroscience. The perception of other people, the bonding and reward from human connection, the confidence you feel — all of it originates in the brain.</p>
+        <p><strong>Unless you understand the machinery of your own brain, you won't be able to work with it.</strong> Once you can, you will reach a level you once thought was impossible. This isn't about showing how smart you are. It's about self-discovery.</p>
+        <p>You could have ADHD and take medicine to ease the symptoms — and your own brain will try to counteract the drug, even if it helps you. This is the war being documented here. And it has a larger-than-life meaning.</p>
       </div>
-      <div class="expertise-card">
-        <div class="expertise-num">02</div>
-        <div class="expertise-text">Disorders — Bipolar, ADHD, schizophrenia, opioid use disorder, MDD, anxiety, stimulant use disorder</div>
+      <div class="reality-card reveal" style="transition-delay: 0.12s;">
+        <div class="reality-label" style="color: var(--accent2);">Real world — Kensington</div>
+        <p>Go to Kensington, Philadelphia — which I recommend you don't — and you will see stimulant and opioid addicts losing their lives for a drug. Children who felt raised by that substance, not a parent. That's the connection being made here. Why does this happen at a molecular level?</p>
       </div>
-      <div class="expertise-card">
-        <div class="expertise-num">03</div>
-        <div class="expertise-text">Tolerance and brain adaptation to psychoactive compounds</div>
-      </div>
-      <div class="expertise-card">
-        <div class="expertise-num">04</div>
-        <div class="expertise-text">Treatment-resistant ADHD and treatment-resistant MDD</div>
-      </div>
-      <div class="expertise-card">
-        <div class="expertise-num">05</div>
-        <div class="expertise-text">SSRIs — side effects, efficacy, mechanism, and autoreceptor downregulation for therapeutic effect</div>
-      </div>
-      <div class="expertise-card">
-        <div class="expertise-num">06</div>
-        <div class="expertise-text">Psychomotor agitation, akathisia, and antipsychotic use — haloperidol, aripiprazole</div>
-      </div>
-      <div class="expertise-card">
-        <div class="expertise-num">07</div>
-        <div class="expertise-text">Amphetamine tolerance — beta-arrestin2 recruitment, cAMP downregulation, DARPP-32 phosphorylation at T75</div>
-      </div>
-      <div class="expertise-card">
-        <div class="expertise-num">08</div>
-        <div class="expertise-text">Dopamine in pleasure, reward, motivation, and executive function — and why dysregulation causes akathisia or mania</div>
-      </div>
-      <div class="expertise-card">
-        <div class="expertise-num">09</div>
-        <div class="expertise-text">Norepinephrine — its role in arousal, attention, and psychiatric pharmacology</div>
-      </div>
-      <div class="expertise-card">
-        <div class="expertise-num">10</div>
-        <div class="expertise-text">Serotonergic activity — 5-HT receptor pharmacology and clinical relevance</div>
+      <div class="reality-card reveal" style="transition-delay: 0.22s;">
+        <div class="reality-label" style="color: #9b88ff;">Real world — memory &amp; trauma</div>
+        <p>Survivors of extreme trauma who couldn't remember the events they faced. They didn't simply forget — the brain was hiding it from them. That's not weakness. That's a survival mechanism running exactly as designed. Your enemies are just pawns the brain uses to checkmate you.</p>
       </div>
     </div>
   </section>
 
   <div class="divider"></div>
 
-  <section>
+  <!-- NEUROTECH — WAVES OF LIFE -->
+  <section id="neurotech" class="neurotech-section reveal">
+    <div class="nt-badge">RPrime Neurotech — Waves of Life</div>
+
+    <h2 class="nt-title">
+      Your brain has been<br>running the show.<br><span class="a1">Now you get the readout.</span>
+    </h2>
+
+    <p class="nt-hook">The most advanced personal brainwave monitor ever built outside of a laboratory. And it fits in your pocket.</p>
+
+    <div class="nt-body">
+      <p>Every day you hit a peak. Focus so clean it feels like flying. Beta and gamma waves firing in perfect synchrony — calmness with energy, clarity, raw motivation, and a level of output you cannot manufacture on demand. <strong>That state is real. That state is measurable.</strong></p>
+
+      <div class="big-line">But here's what nobody tells you: it's already ending before you feel it.</div>
+
+      <p>You push through. You think you're still there. You're not. Your brain crossed the line twenty minutes ago — you just don't know it yet. By the time the crash arrives, the damage is done. The rest of your day is gone. The focus is gone. And no amount of willpower brings it back, because this is not a willpower problem. <strong>This is a neurochemistry problem.</strong></p>
+
+      <p>Waves of Life ends that forever. A chip built by RPrime Neurotech reads your brainwave activity in real time — every second of your session — and tracks exactly when your peak begins to fade. Not when you feel it. <strong>Before you feel it.</strong> Before you lose another afternoon you can't get back.</p>
+
+      <p>No one has built this for the real world. No one. Lab EEG machines cost $50,000 and they stay in labs. Meditation apps guess. Fitness trackers count steps. <strong>Waves of Life reads the actual electrical activity of your brain</strong> and tells you the truth about where you are — right now, in the moment, before the collapse.</p>
+
+      <div class="big-line orange">For the first time in your life — you will know.</div>
+
+      <p>This is not a wellness product. This is not a reminder to breathe. This is precision neurotechnology — the Arrestin Score, an original metric tracking cumulative focus depletion in real time — built by a researcher who has been living the problem and solving it at the same time.</p>
+    </div>
+
+    <div class="nt-stats">
+      <div class="nt-stat">
+        <div class="nt-stat-num">250Hz</div>
+        <div class="nt-stat-label">Real-time sampling rate. Continuous. Every second of your session captured.</div>
+      </div>
+      <div class="nt-stat">
+        <div class="nt-stat-num">5</div>
+        <div class="nt-stat-label">Brainwave bands monitored simultaneously: Delta, Theta, Alpha, Beta, Gamma.</div>
+      </div>
+      <div class="nt-stat">
+        <div class="nt-stat-num">2hr</div>
+        <div class="nt-stat-label">Rolling session window. Watch the full arc of your focus, in real time.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ARTICLES -->
+  <section id="articles">
+
+    <!-- Category 1 -->
+    <div class="articles-category reveal">
+      <div class="section-label">Category 01</div>
+      <div class="category-label">Pharmacology &amp; Stimulants</div>
+      <div class="category-desc">The science of dopamine, amphetamines, and what tolerance actually means at the receptor level.</div>
+      <div class="bento-grid">
+        <a href="/article1.html" class="article-card featured span-2">
+          <div class="article-card-num">Article 01 — Deep Dive</div>
+          <div class="article-card-title">Methamphetamine</div>
+          <div class="article-card-desc">Mechanism, history, clinical use, and tolerance — a complete pharmacological breakdown of the most potent dopamine releaser known to medicine. GRK2, beta-arrestin recruitment, DAT reversal, and what your brain does to fight back.</div>
+          <div class="article-card-tag">For pharmacists &amp; graduate students →</div>
+        </a>
+        <a href="/article2.html" class="article-card">
+          <div class="article-card-num">Article 02</div>
+          <div class="article-card-title">Why meth is safer than amphetamine — cardiovascularly</div>
+          <div class="article-card-desc">The counterintuitive truth about peripheral vs. central stimulant effects, norepinephrine, and why the "dangerous" drug may actually be easier on your heart.</div>
+          <div class="article-card-tag">General audience →</div>
+        </a>
+        <a href="/article4.html" class="article-card">
+          <div class="article-card-num">Article 04</div>
+          <div class="article-card-title">The Standard ADHD Model Is Incomplete</div>
+          <div class="article-card-desc">The catecholamine deficit hypothesis doesn't explain why stimulants calm instead of excite. The NMDA overcompensation hypothesis does — and it redefines what ADHD actually is.</div>
+          <div class="article-card-tag">Pharmacists &amp; graduate students →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Category 2 -->
+    <div class="articles-category reveal" style="transition-delay: 0.1s;">
+      <div class="section-label">Category 02</div>
+      <div class="category-label">Opioid Crisis &amp; Addiction</div>
+      <div class="category-desc">Dopamine, reward, and why the brain makes addiction inevitable — not a moral failure, a molecular one.</div>
+      <div class="bento-grid">
+        <a href="/article3.html" class="article-card">
+          <div class="article-card-num">Article 03</div>
+          <div class="article-card-title">Dopamine</div>
+          <div class="article-card-desc">Where it comes from, what it actually does, why addiction is permanent, and what your health teacher isn't telling you.</div>
+          <div class="article-card-tag">General audience →</div>
+        </a>
+        <a href="/article5.html" class="article-card">
+          <div class="article-card-num">Article 05</div>
+          <div class="article-card-title">An Analysis of Four Good Days</div>
+          <div class="article-card-desc">A film about heroin addiction. What it shows you is devastating. What it doesn't explain is why the brain made it inevitable.</div>
+          <div class="article-card-tag">General audience →</div>
+        </a>
+        <a href="/naloxone_sim.html" class="article-card sim span-2">
+          <div class="article-card-num">Interactive Simulation</div>
+          <div class="article-card-title">Naloxone vs MOR — Live Receptor Simulation</div>
+          <div class="article-card-desc">Animated receptor binding, competitive displacement, and a real-time pharmacodynamic model of naloxone blocking opioid signaling at the mu-opioid receptor. Watch it happen at the molecular level.</div>
+          <div class="article-card-tag">Interactive →</div>
+        </a>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- AREAS OF FOCUS -->
+  <section class="reveal">
+    <div class="section-label">Areas of research focus</div>
+    <div class="focus-grid">
+      <div class="focus-card"><div class="focus-num">01</div><div class="focus-text">Pharmacology of amphetamines — specifically methamphetamine and its clinical applications</div></div>
+      <div class="focus-card"><div class="focus-num">02</div><div class="focus-text">Disorders — Bipolar, ADHD, schizophrenia, opioid use disorder, MDD, anxiety, stimulant use disorder</div></div>
+      <div class="focus-card"><div class="focus-num">03</div><div class="focus-text">Tolerance and brain adaptation to psychoactive compounds</div></div>
+      <div class="focus-card"><div class="focus-num">04</div><div class="focus-text">Treatment-resistant ADHD and treatment-resistant MDD</div></div>
+      <div class="focus-card"><div class="focus-num">05</div><div class="focus-text">SSRIs — side effects, efficacy, mechanism, and autoreceptor downregulation for therapeutic effect</div></div>
+      <div class="focus-card"><div class="focus-num">06</div><div class="focus-text">Psychomotor agitation, akathisia, and antipsychotic use — haloperidol, aripiprazole</div></div>
+      <div class="focus-card"><div class="focus-num">07</div><div class="focus-text">Amphetamine tolerance — beta-arrestin2 recruitment, cAMP downregulation, DARPP-32 phosphorylation at T75</div></div>
+      <div class="focus-card"><div class="focus-num">08</div><div class="focus-text">Dopamine in pleasure, reward, motivation, and executive function — and why dysregulation causes akathisia or mania</div></div>
+      <div class="focus-card"><div class="focus-num">09</div><div class="focus-text">Norepinephrine — its role in arousal, attention, and psychiatric pharmacology</div></div>
+      <div class="focus-card"><div class="focus-num">10</div><div class="focus-text">Serotonergic activity — 5-HT receptor pharmacology and clinical relevance</div></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <section id="contact" class="reveal">
     <div class="section-label">Contact</div>
-    <div class="intro-block">
-      <p style="margin-bottom: 8px;">If you have any suggestions, questions, or topics you would like discussed:</p>
-      <p style="margin-bottom: 0;"><a href="mailto:neurosciencerprime@gmail.com" style="color: #c8ff00; text-decoration: none; font-weight: 500;">neurosciencerprime@gmail.com</a></p>
+    <div class="contact-block">
+      <h3>CONTACT ME</h3>
+      <p class="contact-sub">For anything neuroscience related, pharmacology related, research collaboration, questions, or feedback.</p>
+      <div class="contact-topics">
+        <span class="contact-topic-tag">Neuroscience</span>
+        <span class="contact-topic-tag">Pharmacology</span>
+        <span class="contact-topic-tag">GPCR Signaling</span>
+        <span class="contact-topic-tag">Research Collaboration</span>
+        <span class="contact-topic-tag">Stimulant Tolerance</span>
+        <span class="contact-topic-tag">Science Communication</span>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:neurosciencerprime@gmail.com" class="contact-email">neurosciencerprime@gmail.com</a>
+        <a href="https://www.instagram.com/neurosciencerprime/" target="_blank" class="contact-insta">Instagram — @neurosciencerprime</a>
+      </div>
     </div>
   </section>
 
   <footer class="footer">
     <a href="/" class="footer-logo">Neuroscience with <span>RPrime</span></a>
-    <div class="footer-note">Independent neuroscience research</div>
+    <div class="footer-note">Independent neuroscience research — RPrime © 2026</div>
   </footer>
-</div>
+
+</div><!-- /container -->
+
+<script>
+  // Scroll reveal — Intersection Observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.07, rootMargin: '0px 0px -36px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
 </body>
 </html>
