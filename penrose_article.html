@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Documented a Nobel Laureate's Narcissism While Reading His Book — Neuroscience with RPrime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #080808;
+    --surface: rgba(255,255,255,0.03);
+    --border: rgba(255,255,255,0.07);
+    --text: #f0ece4;
+    --muted: #555;
+    --muted2: #888;
+    --accent: #c8ff00;
+    --accent2: #ff6b35;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 9998;
+    mix-blend-mode: overlay;
+  }
+
+  .aurora {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(110px);
+  }
+  .blob-1 {
+    width: 750px; height: 750px;
+    background: radial-gradient(circle, rgba(200,255,0,0.12), transparent 65%);
+    top: -250px; left: -200px;
+  }
+  .blob-2 {
+    width: 550px; height: 550px;
+    background: radial-gradient(circle, rgba(255,107,53,0.10), transparent 65%);
+    top: 35%; right: -180px;
+  }
+
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(8,8,8,0.72);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .nav-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 40px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  .back {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted2);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .back:hover { color: var(--accent); }
+
+  .article-wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 80px 40px 120px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .article-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+  }
+
+  .article-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(28px, 5vw, 52px);
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    margin-bottom: 20px;
+    text-wrap: balance;
+  }
+
+  .article-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 48px;
+    text-transform: uppercase;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 52px 0;
+  }
+
+  .section-heading {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    margin: 56px 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-heading::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .body-text {
+    font-size: 17px;
+    line-height: 1.9;
+    color: #bbb;
+    margin-bottom: 24px;
+  }
+  .body-text strong { color: var(--text); font-weight: 500; }
+
+  .shout {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--accent);
+    margin: 32px 0;
+    padding: 24px 28px;
+    border-left: 3px solid var(--accent);
+    background: rgba(200,255,0,0.04);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .highlight-block {
+    background: rgba(200,255,0,0.04);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 28px 0;
+  }
+  .highlight-block p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #ccc;
+  }
+  .highlight-block p strong { color: var(--text); font-weight: 500; }
+
+  .note-block {
+    background: rgba(255,107,53,0.04);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 28px 0;
+  }
+  .note-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 10px;
+  }
+  .note-block p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #ccc;
+  }
+
+  .conclusion-block {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(200,255,0,0.15);
+    border-radius: 12px;
+    padding: 36px 40px;
+    margin: 48px 0;
+  }
+  .conclusion-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .conclusion-block p {
+    font-size: 17px;
+    line-height: 1.85;
+    color: #ccc;
+  }
+
+  .source-block {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+  .source-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .source-block p {
+    font-size: 13px;
+    color: var(--muted2);
+    line-height: 1.7;
+  }
+
+  .footer {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 32px 40px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-note {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: #333;
+    letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 600px) {
+    .article-wrap { padding: 56px 24px 80px; }
+    .nav-inner { padding: 0 24px; }
+    .footer { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora" aria-hidden="true">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="logo">Neuroscience with <span>RPrime</span></a>
+    <a href="/" class="back">← Back to home</a>
+  </div>
+</nav>
+
+<div class="article-wrap">
+
+  <div class="article-eyebrow">Essay — Psychology &amp; Neuroscience</div>
+  <h1 class="article-title">I Documented a Nobel Laureate's Narcissism While Reading His Book — And Got Addicted Anyway</h1>
+  <div class="article-meta">Rishik Pannala &nbsp;·&nbsp; April 30, 2026</div>
+
+  <div class="divider"></div>
+
+  <div class="section-heading">Section 1 — Before I Learned the Dark Truth</div>
+
+  <p class="body-text">I had Flu A in December. As I was sick, I was looking for a math and physics book that taught tensor calculus, differential geometry, quantum mechanics, and other forms of complex math all in one place. I asked Gemini about such books, and it mentioned a book called <em>Road to Reality</em>.</p>
+
+  <p class="body-text">Usually I dismiss such book titles, thinking they are "ambitious with no purpose" or "too philosophical," but there was a deep voice in me that wanted to look into it. I saw it was a huge 1,110-page book by a physicist named Roger Penrose. I first wanted a thinker like me to write the book, so I assessed online through Gemini if he was a non-linear thinker. He was. I assessed to see how much he knew and if he was a random hobbyist or a lecturer writing this book. I found out he is a Nobel Prize-winning physicist — one of the only people who knows that much math and physics in scope. I looked at the PDF of his book and I had never experienced anything like it — this book gave me a deep sense of awe. I felt compelled to have it purchased. Seriously, it was exciting on levels most physics books never provide.</p>
+
+  <p class="body-text">He was so grandiose, claiming to reveal a whole other "secret world." The amount of philosophy he conveyed stunned me. At that time, math and physics made me a deep philosophical thinker, which thankfully I no longer am after I quit. But during that time I felt a deep connection to this man, even though I had heard about him only 30 minutes earlier. I was compelled, and I needed to read the book. The next day I bought it — I wasn't even patient enough to order it online. I bought it in person at Barnes &amp; Noble.</p>
+
+  <p class="body-text">When I read the book, I tried reading it linearly, which many sources online warned against, but I chose to anyway. I quickly realized that was a huge mistake. But as I read, I felt a massive — I mean massive — spike in dopamine. However, it is misleading to call dopamine a "reward chemical," because the rewarding effects are only downstream effects that dopamine triggers — it is not the actual dopamine itself. Dopamine triggers hedonic hotspots which activate opioid regions in the brain that promote the "liking" of the reward. This happened to me when I read Penrose and understood him. I felt I had learned the truth of another part of reality. I felt, and I quote, "euphoric" and "on top of the world."</p>
+
+  <p class="body-text">But suddenly he would make me feel less than. He would ask me to prove something, framing it as an exercise for people who had taken advanced math. I would try to prove it and fail each time. I would have a massive agitation and crash when this happened — and it wasn't just agitation I felt. It was agony. Neurological torture, disguised as a compulsion to read more and more without being able to stop. No other stimulus could pull me out of this. This is where pure dopamine release occurs without hedonic hotspot activation. I felt no pleasure in doing it, yet I had a compulsive need to continue. Not compulsive as in OCD or any specific psychiatric disorder, but compulsive because he is a great manipulator — which is exactly why narcissistic people are highly dangerous.</p>
+
+  <p class="body-text">I was unable to apply his math, but even knowing that, I could not stop reading his book despite the profound mental and physical agitation it caused. It was destructive. Each time I read, I was more in awe of him than the actual learning. I was always thinking "Wow, he is so smart," and it made me feel rare — yet I understood very little of the time. Thankfully I got bored of him and quit math and physics suddenly and abruptly. It wasn't always him specifically, but many times I would find my way back to his book after telling myself I would read something else or build foundations first. Penrose was actually one of the reasons I had such great arrogance during my math class in school — because he gives you the illusion that you are someone greater, then hijacks it by making you suddenly feel less than for failing to prove something. On the surface it is disguised as an exercise not meant for beginners, but that classification — beginners versus advanced — drives people to compulsive reading regardless of his intent.</p>
+
+  <p class="body-text">I recall trying to read his Fourier analysis chapter. I did not understand a thing. Seriously, I felt like a failure. I felt like "wow, this great man is trying to tell me this — he is a math saint. I feel so enriched, in awe, in the hands of great power and wisdom" — without actually understanding anything. I was left afterwards with a crash and the loss of my own precious time, which others had warned me I was wasting. The thing about addiction is that your own motives are hijacked, and your metacognition weakens significantly due to the rostral anterior cingulate cortex (rACC)'s failure in cognitive control and moral self-regulation.</p>
+
+  <div class="divider"></div>
+
+  <div class="section-heading">Section 2 — After I Learned About This Man</div>
+
+  <p class="body-text">After my math and physics addiction ended, I learned more about Penrose himself. I had sensed something was off about this man, though it was a purely abstract feeling at first. Emotionally I thought there was no way this man was a bad person, but the idea stuck with me. I eventually researched him and discovered this man is a dark, perverted, inhumane narcissist with documented predatory pursuit of female students, physical aggression toward his ex-wife, and more.</p>
+
+  <div class="note-block">
+    <div class="note-label">Documented — Source: Barss, "The Impossible Man" (2024)</div>
+    <p>During the 1970s, while married, Penrose had a deep obsession with Judith Daniels, a female graduate student. He sent her repeated letters trying to push her into a relationship despite her repeatedly stating she was not comfortable. Eventually he pressured her for sex, which she refused. In anger, he smashed a wine bottle against his leg. He was described as aggressive toward his first wife, whom he married in the 1950s, often neglecting her and stating it was necessary. He did not deny these allegations — he tried to justify them by playing victim, a classic behavior of narcissists.</p>
+  </div>
+
+  <p class="body-text">He also lured another of his graduate students, Vanessa Thomas, into marrying him. Due to the risk of misconduct, she had to give up her PhD so the relationship would not be classified as student-teacher misconduct. The biography <em>The Impossible Man</em> by Patchen Barss describes her situation as "the worst-case scenario" — a young woman with bright mathematical talent reduced to serving her husband's career, as he abandoned and neglected her and was explosive to any criticism. He also stated at age 92 that he has far better things to do than be with his children.</p>
+
+  <p class="body-text">I was stunned by how horrible this man was. This is not merely a narcissistic personality disorder issue. This is a man who has weaponized his intelligence in math and physics to compel his audience to be attracted to him. That is the purpose behind <em>Road to Reality</em>. He claimed the book was so accessible that even people who struggle with fractions could follow the conceptual understanding — yet he provides neither computation nor genuine conceptual framework.</p>
+
+  <p class="body-text">When I read the Fourier analysis chapter this time, with a fresh perspective and zero respect for this man, I felt no intimidation. I read it with a no-BS mindset trying to decode what he actually said.</p>
+
+  <div class="shout">SERIOUSLY — EVEN THE PRECALC AND GEOMETRY STUDENTS IN MY SCHOOL COULD UNDERSTAND WHAT HE WROTE IF THE PHILOSOPHY WEREN'T BURYING IT. AND IT'S NOT EVEN GENUINE PHILOSOPHY. PEOPLE ALREADY KNOW ABOUT PERIODIC FUNCTIONS. BY THE END ALL I SAID WAS "NO KIDDING" TO EVERY PIECE OF INFORMATION HE PRESENTED.</div>
+
+  <p class="body-text">This is what I struggled to read in the past, and I was shocked by how completely this man had manipulated me into believing I had understood nothing. He writes long, grandiose philosophical texts where the actual takeaway is a single basic fact that requires less than one sentence to explain. The reader is left lost, blaming themselves, while thinking about how much this man must know. If you scrape away the noise and get to the point, he provides neither conceptual understanding nor computation. His exercises are fairly basic, buried in dense paragraphs filled with philosophical noise that has no bearing on the actual concept — designed to make readers feel stupid.</p>
+
+  <p class="body-text">He is incredibly manipulative in tone and in his grandiose way of conveying text. And HELL — EVEN I AM struggling to put the book away after knowing all of this about him. This is the dark truth about narcissistic people. Even when you know they are harmful, they make you fall for them each time. I have intense cravings to read his book right now. I do not care about math and physics — yet I am compelled to read it.</p>
+
+  <div class="divider"></div>
+
+  <div class="conclusion-block">
+    <div class="conclusion-label">Final Takeaway</div>
+    <p>This article is not merely to disrespect Penrose. It is to expose you to the reality that the textbook or book you are struggling with is not as hard as it seems. You are being intimidated — by the subject, the author, or both — and that intimidation drives fear. As I stated: NE overdrive stimulating alpha-1a receptors shuts down the PFC, collapsing cognitive flexibility. It is so manipulative that as I write this, I am deeply craving Penrose's book more than anything else. This is also a warning about narcissists.</p>
+  </div>
+
+  <div class="source-block">
+    <div class="source-label">Source</div>
+    <p>Barss, Patchen. <em>The Impossible Man: Roger Penrose and the Cost of Genius.</em> Basic Books, 2024.</p>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <a href="/" class="footer-logo">Neuroscience with <span>RPrime</span></a>
+  <div class="footer-note">Independent neuroscience research — RPrime © 2026</div>
+</footer>
+
+</body>
+</html>
