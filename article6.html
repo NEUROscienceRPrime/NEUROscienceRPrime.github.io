@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Brain Doesn't See a Donut, It Computes One — Neuroscience with RPrime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0ece4;
+    --muted: #888;
+    --accent: #c8ff00;
+    --accent2: #ff6b35;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .site { max-width: 760px; margin: 0 auto; padding: 0 24px 80px; }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0 48px;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 56px;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  .back {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .back:hover { color: var(--accent); }
+  .article-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 16px;
+  }
+  .article-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .article-subtitle {
+    font-size: 17px;
+    color: #888;
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+  .article-meta {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 48px;
+  }
+  .divider {
+    height: 0.5px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    margin-top: 48px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .body-text {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #ccc;
+    margin-bottom: 20px;
+  }
+  .body-text strong { color: var(--text); font-weight: 500; }
+  .highlight-block {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 24px 28px;
+    margin: 28px 0;
+  }
+  .highlight-block p {
+    font-size: 15px;
+    color: #bbb;
+    line-height: 1.85;
+    margin-bottom: 12px;
+  }
+  .highlight-block p:last-child { margin-bottom: 0; }
+  .note-block {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 28px 0;
+  }
+  .note-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: var(--font-display);
+    margin-bottom: 8px;
+  }
+  .note-block p { font-size: 15px; color: #aaa; line-height: 1.8; }
+  .quote-block {
+    border-left: 3px solid #555;
+    padding: 16px 24px;
+    margin: 28px 0;
+  }
+  .quote-block p {
+    font-size: 17px;
+    color: #999;
+    line-height: 1.8;
+    font-style: italic;
+  }
+  .conclusion-block {
+    background: var(--surface);
+    border: 0.5px solid rgba(200,255,0,0.15);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-top: 40px;
+  }
+  .conclusion-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 12px;
+  }
+  .conclusion-block p {
+    font-size: 16px;
+    color: #ccc;
+    line-height: 1.85;
+  }
+  .footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-note { font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="site">
+
+  <nav class="nav">
+    <a href="/" class="logo">Neuroscience with <span>RPrime</span></a>
+    <a href="/" class="back">← Back to home</a>
+  </nav>
+
+  <div class="article-eyebrow">Article 06 — Original Theory: Perception & Learning</div>
+  <h1 class="article-title">Your brain doesn't see a donut. It computes one.</h1>
+  <p class="article-subtitle">An electrical spike encodes almost nothing on its own. No shape, no color, no depth. So how does a stream of voltage become the room you're sitting in right now? This is my working theory — built from topology and differential geometry, not metaphor.</p>
+  <p class="article-meta">By Rishik Pannala | June 25, 2026</p>
+
+  <div class="divider"></div>
+
+  <div class="note-block">
+    <div class="note-label">Before you read this</div>
+    <p>This is not an established model pulled from a textbook. It's a framework I'm building myself, reasoning from the math up. Some of this is testable, some of it is still a hypothesis. I'm flagging it as such rather than dressing it up as settled neuroscience.</p>
+  </div>
+
+  <h2 class="section-heading">An electrical signal encodes almost nothing</h2>
+  <p class="body-text">Whether a brain region can even use a given signal depends heavily on timing — on the frequency, pulsation, and rhythm of the electrical activity arriving there. Learning a concept is easier or harder depending on whether the regions involved can synchronize. If the timing doesn't line up, the brain doesn't weakly register the neuron's output — it discards it entirely for that moment. Synchrony isn't a detail. It's the gate.</p>
+
+  <p class="body-text">Everything you learn, see, and hear is carried by that electrical signal. But the signal itself doesn't encode much. A spike is a spike. So the real question is: why do we see a <em>shape</em>? Why does that shape have <em>color</em>? How does a voltage fluctuation account for any of that? My answer is that the brain is doing topological processing — and the gap in that answer is what led me to the rest of this theory.</p>
+
+  <h2 class="section-heading">The coffee mug problem</h2>
+  <p class="body-text">In topology, a shape is defined less by its outline than by its holes. A donut and a coffee mug both have exactly one hole — one continuous loop you could pass a string through — which makes them the same object topologically. You can deform one into the other continuously, without cutting or gluing anything. That's a deformation retraction. To a topologist, mug equals donut.</p>
+
+  <div class="highlight-block">
+    <p>But your brain is never fooled by this. You do not mistake a coffee mug for a donut, despite the fact that they share a hole structure. That means vision cannot be running on topology alone — if it were, the two objects would register as identical, and they clearly don't. Something else is layered on top of the topological skeleton, and that something is doing most of the actual work.</p>
+  </div>
+
+  <h2 class="section-heading">Not backpropagation — but something with the same job</h2>
+  <p class="body-text">To correctly resolve a shape the first time you see it — without your parents teaching you what curvature means — your visual system needs some kind of self-correcting process. It needs to refine its read on "what this is" using feedback, and it needs to do it innately, fast, and without supervision.</p>
+
+  <p class="body-text">In AI, that correcting process is backpropagation: an error signal flows backward through the network and adjusts the weights. I don't think the brain is running anything close to literal backprop — there's no biologically plausible backward error signal that propagates through cortex the way it does through a neural network. But the brain needs a process that plays the same role. My working answer is electromagnetic topological processing: a native, oscillation-based form of predictive correction that does the job backprop does in a network, without doing it the way a network does it. Functionally analogous. Mechanistically not the same thing.</p>
+
+  <h2 class="section-heading">From 2D to 3D: the extra angle</h2>
+  <p class="body-text">Photoreceptors hand the brain a 2D signal — a flat map of light hitting the retina. The brain reconstructs 3D from that flat input by combining the electrical signals topologically (preserving what's connected to what) while layering differential geometry on top of that structure — adding curvature.</p>
+
+  <p class="body-text">Here's the intuition, if you've taken calculus: the angle tangent to a circle is constantly changing, infinitesimally, as you trace the curve. That continuously changing angle is what curvature <em>is</em>. I think the brain treats that constant change as an extra angle of information layered onto the flat 2D input, and reads the change itself as depth. Without it, we would only be able to perceive straight edges — pure topology, connections without curvature. The fact that the angle never stops changing is what lets us see curves at all, and is part of why depth feels continuous rather than like a series of snapshots.</p>
+
+  <h2 class="section-heading">Contour maps in the visual cortex</h2>
+  <p class="body-text">To get depth out of this, I think the brain builds something like a contour map — the same logic as topographic elevation lines, where each nested line or ellipse-like ring stands in for a level of depth rather than a level of elevation. The visual cortex precision-tunes the electrical signals to build these nested contour-like surfaces, while keeping the underlying topology — the basic hole-and-connection structure of the object — stable the entire time.</p>
+
+  <div class="note-block">
+    <div class="note-label">Why "differential topology" and not just "topology"</div>
+    <p>This is the literal reason I keep using that term and not just "topology." Topology alone gives you connectivity and holes — it's what makes the coffee mug and the donut equivalent. Differential structure gives you smooth curvature — the constantly changing angle. Vision needs both running at once: the hole-structure has to stay fixed while the curvature data keeps shifting on top of it. That combination is differential topology, used literally, not as a figure of speech.</p>
+  </div>
+
+  <h2 class="section-heading">The learning matrix</h2>
+  <p class="body-text">Zooming out from vision specifically — this is how I think learning works in general. Take any electrical signal's input and output, and you get an input matrix: weights and a bias.</p>
+
+  <div class="highlight-block">
+    <p><strong>The bias</strong> is far more complicated than it's usually given credit for. It's set by presynaptic plasticity carried over from past activity, by postsynaptic strengthening through LTP, and by genetics and environment underneath both of those. It's the floor the system keeps returning to.</p>
+    <p><strong>The weights</strong> are governed by plasticity that's mostly short-term but can become long-term, and they're pushed around by hundreds of external factors at once — nothing about them is fixed or simple either.</p>
+  </div>
+
+  <p class="body-text">The activation pattern across that matrix triggers specific topological features and filters out whatever the input cannot be — eliminating impossible interpretations before you're even aware a decision was made. What survives gets mapped onto what I'm calling a differential manifold. Depth and structure are read off that manifold through something equivalent to contour mapping combined with Fourier analysis — decomposing the signal into its frequency components.</p>
+
+  <p class="body-text">The exact frequency, rhythm, and timing of the electrical signal is what determines how it overlaps and aligns on that manifold. That alignment is the thing that actually gets retained — short-term or long-term — and it's what lets you genuinely understand a concept and see it for yourself, in your own head, instead of just having been told about it.</p>
+
+  <div class="conclusion-block">
+    <div class="conclusion-label">Where this stands</div>
+    <p>This isn't a finished theory. It's a framework built from the math that actually describes shape — topology for the holes, differential geometry for the curvature — applied to a brain that clearly uses both at once, since it can tell a mug from a donut when pure topology says it can't. If electrical signals alone explained perception, that distinction wouldn't exist. It does. So something else is doing the work, and I think that something is differential topology running on a matrix of weights and bias that are far messier, and far more alive, than the ones in any artificial network.</p>
+  </div>
+
+  <footer class="footer">
+    <a href="/" class="footer-logo">Neuroscience with <span>RPrime</span></a>
+    <div class="footer-note">Independent neuroscience research</div>
+  </footer>
+
+</div>
+</body>
+</html>
