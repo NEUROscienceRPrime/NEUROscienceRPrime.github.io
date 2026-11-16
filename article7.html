@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ΔFosB Does Not Save Your Brain Energy — Neuroscience with RPrime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script defer>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (typeof renderMathInElement !== "function") return;
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "\\[", right: "\\]", display: true },
+        { left: "\\(", right: "\\)", display: false }
+      ],
+      throwOnError: false
+    });
+  });
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0ece4;
+    --muted: #888;
+    --accent: #c8ff00;
+    --accent2: #ff6b35;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .site { max-width: 760px; margin: 0 auto; padding: 0 24px 80px; }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0 48px;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 56px;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  .back {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .back:hover { color: var(--accent); }
+  .warning {
+    background: var(--surface2);
+    border: 0.5px solid rgba(255,107,53,0.2);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+  }
+  .warning-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: var(--font-display);
+    margin-bottom: 8px;
+  }
+  .warning p { font-size: 14px; color: #999; line-height: 1.8; }
+  .article-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 16px;
+  }
+  .article-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .article-subtitle {
+    font-size: 17px;
+    color: #888;
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+  .article-meta {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 48px;
+  }
+  .divider {
+    height: 0.5px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    margin-top: 48px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .body-text {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #ccc;
+    margin-bottom: 20px;
+  }
+  .body-text strong { color: var(--text); font-weight: 500; }
+  .highlight-block {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 24px 28px;
+    margin: 28px 0;
+  }
+  .highlight-block p {
+    font-size: 15px;
+    color: #bbb;
+    line-height: 1.85;
+    margin-bottom: 12px;
+  }
+  .highlight-block p:last-child { margin-bottom: 0; }
+  .note-block {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 28px 0;
+  }
+  .note-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: var(--font-display);
+    margin-bottom: 8px;
+  }
+  .note-block p { font-size: 15px; color: #aaa; line-height: 1.8; margin-bottom: 10px; }
+  .note-block p:last-child { margin-bottom: 0; }
+  .quote-block {
+    border-left: 3px solid #555;
+    padding: 16px 24px;
+    margin: 28px 0;
+  }
+  .quote-block p {
+    font-size: 17px;
+    color: #999;
+    line-height: 1.8;
+    font-style: italic;
+  }
+  .conclusion-block {
+    background: var(--surface);
+    border: 0.5px solid rgba(200,255,0,0.15);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-top: 40px;
+  }
+  .conclusion-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 12px;
+  }
+  .conclusion-block p {
+    font-size: 16px;
+    color: #ccc;
+    line-height: 1.85;
+    margin-bottom: 14px;
+  }
+  .conclusion-block p:last-child { margin-bottom: 0; }
+  .footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-note { font-size: 12px; color: var(--muted); }
+  .issue-list {
+    list-style: none;
+    margin: 16px 0 20px 0;
+    padding: 0;
+  }
+  .issue-list li {
+    font-size: 15px;
+    color: #bbb;
+    line-height: 1.85;
+    padding: 8px 0 8px 20px;
+    border-bottom: 0.5px solid var(--border);
+    position: relative;
+  }
+  .issue-list li:last-child { border-bottom: none; }
+  .issue-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 28px 0;
+    font-size: 14px;
+  }
+  .data-table th {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--border);
+    font-weight: 700;
+  }
+  .data-table td {
+    padding: 11px 12px;
+    color: #bbb;
+    border-bottom: 0.5px solid var(--border);
+    line-height: 1.6;
+  }
+  .data-table td strong { color: var(--accent); font-weight: 500; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .flag {
+    color: var(--accent2);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  /* ---- Math ---- */
+  .eq {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 28px 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .eq-label {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .eq-note {
+    font-size: 13px;
+    color: #777;
+    line-height: 1.7;
+    margin-top: 14px;
+  }
+  .eq-note strong { color: #aaa; font-weight: 500; }
+  .eq .katex { color: var(--text); }
+  .eq .katex-display { margin: 0; }
+  .eq .katex-display > .katex { font-size: 1.12em; }
+  .eq.result { border-left-color: var(--accent2); }
+  .eq.result .eq-label { color: var(--accent2); }
+  /* ---- Copyright + references ---- */
+  .copyright-top {
+    background: var(--surface);
+    border: 0.5px solid rgba(200,255,0,0.14);
+    border-radius: 8px;
+    padding: 22px 26px;
+    margin-bottom: 28px;
+  }
+  .copyright-label {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .copyright-top p {
+    font-size: 13.5px;
+    color: #999;
+    line-height: 1.75;
+    margin-bottom: 10px;
+  }
+  .copyright-top p:last-child { margin-bottom: 0; }
+  .copyright-top strong { color: var(--text); font-weight: 500; }
+  .copyright-top em { color: #aaa; }
+  .copyright-top a { color: var(--accent); text-decoration: none; }
+  .copyright-top a:hover { text-decoration: underline; }
+  .ref-group-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 32px 0 14px;
+  }
+  .ref-list {
+    list-style: none;
+    counter-reset: ref;
+    padding: 0;
+    margin: 0;
+  }
+  .ref-list.continue { counter-reset: none; }
+  .ref-list li {
+    counter-increment: ref;
+    position: relative;
+    padding: 9px 0 9px 38px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #999;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .ref-list li:last-child { border-bottom: none; }
+  .ref-list li::before {
+    content: counter(ref) ".";
+    position: absolute;
+    left: 0;
+    top: 9px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    color: var(--muted);
+    width: 28px;
+    text-align: right;
+  }
+  .ref-list.unnumbered li::before { content: '—'; text-align: left; left: 4px; }
+  .ref-list em { color: #bbb; font-style: italic; }
+  .ref-list .doi {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+    color: #6a6a6a;
+  }
+  .ref-list a { color: #7a8f3a; text-decoration: none; }
+  .ref-list a:hover { color: var(--accent); }
+
+  .eq-hero { margin: 14px 0 20px; text-align: center; }
+  .eq-hero .katex { color: var(--accent); }
+  .eq-hero .katex-display { margin: 0; }
+  .eq-hero .katex-display > .katex { font-size: 1.7em; }
+  .body-text .katex,
+  .data-table .katex,
+  .highlight-block .katex,
+  .note-block .katex,
+  .conclusion-block .katex,
+  .issue-list .katex { color: inherit; font-size: 1em; }
+  @media (max-width: 600px) {
+    .eq { padding: 16px 14px; }
+    .eq .katex-display > .katex { font-size: 0.95em; }
+  }
+</style>
+</head>
+<body>
+<div class="site">
+
+  <nav class="nav">
+    <a href="/" class="logo">Neuroscience with <span>RPrime</span></a>
+    <a href="/" class="back">← Back to home</a>
+  </nav>
+
+  <div class="copyright-top">
+    <div class="copyright-label">Original work — created November 2026</div>
+    <p><strong>Written by Rishik Pannala. November 15th, 2026.</strong></p>
+    <p>© 2026 Rishik Pannala. All rights reserved. This article was created in November 2026 and contains <strong>unpublished original research</strong> — the molecular dynamics trajectories, quantum-chemical calculations, cavity-detection implementation, candidate compound designs, and the mathematical framework of Section 10 are the author's own work and have not been published elsewhere at the time of writing.</p>
+    <p>Reproduction, redistribution, or reuse of the unpublished computational data, candidate structures, or derivations without written permission is not authorised. Quotation with attribution is welcome. Suggested citation: <em>Pannala R. ΔFosB Does Not Save Your Brain Energy. It Charges Rent. Neuroscience with RPrime, 15 November 2026.</em></p>
+    <p>Contact: <a href="mailto:neurosciencerprime@gmail.com">neurosciencerprime@gmail.com</a></p>
+  </div>
+
+  <div class="warning">
+    <div class="warning-label">For pharmacists and graduate students</div>
+    <p>This article contains unpublished computational results — a full-length molecular dynamics and quantum-chemistry analysis of ΔFosB, and a mathematical treatment of why the adapted state persists. Claims that rest on my own unpublished work are marked as such. Claims that are not established in the literature are marked <span class="flag">[?]</span>.</p>
+  </div>
+
+  <div class="article-eyebrow">Article 07 — Transcription, Tolerance &amp; Target Tractability</div>
+  <h1 class="article-title">ΔFosB Does Not Save Your Brain Energy. It Charges Rent.</h1>
+  <p class="article-subtitle">The field treats the addicted brain as an adaptation — a system settling into a cheaper, more stable state. It is not. The adapted state costs more to occupy and nothing to install. And the one protein everyone names as the cause has no pocket a drug can sit in. I ran the simulations. Here is what is actually there.</p>
+  <p class="article-meta">By Rishik Pannala | November 15, 2026</p>
+
+  <div class="divider"></div>
+
+  <p class="body-text">ΔFosB is the most-cited molecular substrate of long-lasting neuroadaptation in neuroscience, and it is pharmacologically untouched. Not under-studied. <strong>Untouched.</strong> Thirty years of papers, a standard slot in every addiction, dyskinesia and depression model, and not one molecule that engages it in a human being.</p>
+
+  <p class="body-text">That gap is not an accident of funding. It is a property of the protein's shape, and I can now state exactly what the property is.</p>
+
+  <h2 class="section-heading">1 — The cascade, stated precisely</h2>
+
+  <p class="body-text">ΔFosB is a transcription factor. It activates genes and it represses them. The one that matters for tolerance is <strong>CDK5</strong>.</p>
+
+  <p class="body-text">ΔFosB binds AP-1 sites on the <em>Cdk5</em> promoter, RNA polymerase is recruited, CDK5 is transcribed. CDK5 pairs with its activator subunit p35. The CDK5/p35 complex then phosphorylates DARPP-32 at <strong>threonine 75</strong>.</p>
+
+  <p class="body-text">Here is where most write-ups — including my own first draft of this — get the logic backwards. DARPP-32 has two phosphorylation sites that do opposite things, and you have to keep them straight or the whole mechanism inverts:</p>
+
+  <table class="data-table">
+    <tr><th>Site</th><th>Kinase</th><th>Consequence</th></tr>
+    <tr><td><strong>Thr34</strong></td><td>PKA</td><td>Phospho-T34 DARPP-32 <strong>inhibits PP1</strong> — phosphate groups stay on their targets after cAMP falls. This amplifies and extends the dopamine signal.</td></tr>
+    <tr><td><strong>Thr75</strong></td><td>CDK5/p35</td><td>Phospho-T75 DARPP-32 <strong>inhibits PKA</strong>. The amplifier becomes a brake.</td></tr>
+  </table>
+
+  <p class="body-text">So the sequence is: ΔFosB → CDK5 → T75 phosphorylated → PKA inhibited → <strong>T34 no longer gets phosphorylated</strong> → PP1 is released from inhibition → PP1 strips phosphate groups off everything PKA had marked. DARPP-32 does not stop being a PP1 inhibitor because of T75 directly. It stops being one because the kinase that was supposed to arm it has been shut off.</p>
+
+  <div class="highlight-block">
+    <p><strong>The net effect:</strong> dopamine still arrives. The receptor still binds it. Gs still couples, adenylyl cyclase still runs, cAMP still rises. The signal is not blocked — it is <em>not converted</em>. Downstream of PKA, the phosphorylation that constitutes the signal is being removed as fast as it is written.</p>
+    <p>This is the distinction that matters clinically. A blocked receptor and an unconverted signal look identical on a behavioural scale and are completely different drug targets.</p>
+  </div>
+
+  <h2 class="section-heading">2 — The phosphate is the entire game</h2>
+
+  <p class="body-text">Why does one phosphate group matter this much? Because of charge and geometry.</p>
+
+  <p class="body-text">When PKA phosphorylates the intracellular tail of a receptor or channel — the canonical case is <strong>GluA1 at Ser845</strong> — it attaches a doubly negative phosphate group to that tail. The local electrostatic environment changes. The local shape of the channel mouth changes with it. Positively charged ions move through more readily: open probability rises, single-channel conductance rises, and surface delivery of the receptor increases.</p>
+
+  <p class="body-text">Remove that phosphate and the channel does not vanish. It sits there, correctly trafficked, correctly folded, conducting less. The neuron is intact and quieter.</p>
+
+  <p class="body-text">This is why the cascade reaches plasticity. LTP induction requires calcium influx above a threshold magnitude — a brief, large transient. Blunt the phosphorylation state of the channels that carry and gate that influx and you do not merely weaken potentiation, you can cross into the regime that produces depression instead.</p>
+
+  <div class="note-block">
+    <div class="note-label">Precision point — two different LTD models <span class="flag">[?]</span></div>
+    <p>There are two distinct claims in circulation and they are routinely conflated. The <strong>classical low-calcium model</strong> (Lisman): small, sustained calcium rises preferentially activate phosphatases over kinases and produce LTD. The <strong>non-ionotropic NMDA model</strong> (Nabavi 2013; Dore &amp; Zito): the NMDA receptor drives LTD through a conformational signal with <em>no ion flux at all</em> — glutamate binding alone, with the pore blocked, is sufficient.</p>
+    <p>These are not the same mechanism and the second is still contested. If you are invoking non-ionotropic signalling, "minimal calcium influx" is the wrong framing — the whole point of that model is that the calcium is not the messenger.</p>
+  </div>
+
+  <h2 class="section-heading">3 — The betrayal: the brain builds <em>more</em> machinery while the signal dies</h2>
+
+  <p class="body-text">This happens in the striatum, and the nucleus accumbens is the component that carries it.</p>
+
+  <p class="body-text">ΔFosB drives chromatin remodelling and the structural consequence is an increase in <strong>immature dendritic spines</strong> on medium spiny neurons. Not dendrites — spines. Thin-necked, newly formed, headed for either stabilisation or pruning.</p>
+
+  <p class="body-text">Now read that against the first two sections. Dopamine signalling is being blunted. And in response the neuron is building <em>more receptive surface</em>. Everyone's first instinct is that this must be compensatory upregulation of dopamine reception. It is not, and the reason is the most important sentence in this article:</p>
+
+  <div class="highlight-block">
+    <p><strong>Those new spines are not receiving dopamine. They are receiving glutamate.</strong></p>
+    <p>Striatal medium spiny neurons are GABAergic projection neurons whose spines are the targets of cortical and limbic glutamatergic input. Dopamine arrives at the spine neck and the dendritic shaft as a modulator. The new spines are excitatory input sites, enriched in AMPA receptors, and they make the cell hyperexcitable to cortical drive at exactly the moment its dopamine signal has been gutted.</p>
+  </div>
+
+  <p class="body-text">People collapse glutamate and dopamine into "neurotransmitters that make the neuron fire more." They are not comparable objects.</p>
+
+  <ul class="issue-list">
+    <li><strong>Glutamate is ionotropic and fast.</strong> It opens a pore, cations flow, the cell depolarises. In the D1 pathway this is the drive to act. The "go."</li>
+    <li><strong>Dopamine is metabotropic and slow.</strong> It does not open anything. It changes the cell's internal chemistry — cAMP, PKA, DARPP-32, CREB, ERK — shifts cellular metabolism, and assigns value to whatever you just did. It is the teaching signal, not the action signal.</li>
+  </ul>
+
+  <p class="body-text">So the adapted state is this: the urge to act is structurally amplified, and the machinery that assigns value to acting has been dismantled. That is not a metaphor for addiction. That is the molecular definition of wanting without liking, and it is built by the same protein in the same cells at the same time.</p>
+
+  <div class="note-block">
+    <div class="note-label">Cell-type asymmetry — do not state this uniformly</div>
+    <p>ΔFosB accumulates in both D1 and D2 medium spiny neurons depending on the stimulus, but the spine phenotype is <strong>not</strong> symmetric. Psychostimulant-induced ΔFosB accumulates predominantly in D1 MSNs, and the increase in spine density is a D1-MSN effect. ΔFosB in D2 MSNs does not reproduce it. Writing "D1 and D2 remodelling" as one process flattens a real, published dissociation.</p>
+  </div>
+
+  <h2 class="section-heading">4 — Region specificity, and an open contradiction in the field</h2>
+
+  <p class="body-text">ΔFosB is not one program executed everywhere. In the striatum it drives the spine and habit phenotype. In the medial prefrontal cortex it rewires top-down control. Same protein, same AP-1 sites, different consequence, because the gene regulatory context differs.</p>
+
+  <p class="body-text">The glutamatergic target genes are where I want to be careful, because there is a contradiction in the literature that nobody has resolved and it should not be smoothed over:</p>
+
+  <ul class="issue-list">
+    <li>The cleanest established ΔFosB glutamatergic target is <strong>GluA2</strong> (Kelz 1999) — ΔFosB <em>increases</em> GluA2 in nucleus accumbens.</li>
+    <li>The incubation-of-craving literature (Wolf) shows accumulation of <strong>GluA2-lacking, calcium-permeable AMPA receptors</strong> in those same synapses during prolonged withdrawal.</li>
+    <li>Those two statements point in opposite directions. GluA2 inclusion is precisely what makes an AMPA receptor calcium-<em>impermeable</em>.</li>
+  </ul>
+
+  <p class="body-text">They are probably separated by timescale and by compartment — ΔFosB acting early and transcriptionally, CP-AMPAR insertion occurring late and post-transcriptionally during withdrawal. <strong>Probably.</strong> That reconciliation is assumed in the field, not demonstrated. If you build a model on "ΔFosB makes CP-AMPAR-rich spines," you are building on an unclosed gap.</p>
+
+  <div class="note-block">
+    <div class="note-label">On the NMDA subunit claim <span class="flag">[?]</span></div>
+    <p>ΔFosB-driven upregulation of GluN1 and GluN2B is frequently asserted and I cannot find it cleanly established as a direct ΔFosB target. The mechanistic logic is attractive — GluN2B-containing receptors have longer deactivation kinetics and pass more charge per event, which is exactly what an immature spine would need — but attractive is not demonstrated. The established ΔFosB target set is <em>Cdk5</em>, <em>Gria2</em>, <em>Sirt1</em>, NF-κB subunits, and repression of prodynorphin. Treat the NMDA subunit claim as a hypothesis with a clear experiment attached, not as a fact.</p>
+  </div>
+
+  <h2 class="section-heading">5 — So hit the protein. Here is why you can't.</h2>
+
+  <p class="body-text">ΔFosB acts at the DNA level. To do that it must dimerise with a Jun partner to form AP-1. The relevant partner is <strong>JunD</strong> — constitutively expressed, stable, always available. (c-Jun forms AP-1 too; it is not ΔFosB's preferred partner, and the structural work is on JunD.)</p>
+
+  <p class="body-text">I ran a full computational campaign on this: molecular dynamics of the full-length protein and of the DNA-bound and DNA-free dimer, re-analysis of all six relevant crystal structures, semiempirical quantum chemistry on the reactive residue, and cavity detection with a positive control. Not semi-classical — <strong>semiempirical</strong> (GFN2-xTB), with DFT entering at two specific points. The distinction matters because the error bars are different.</p>
+
+  <p class="body-text">The architecture result, first:</p>
+
+  <table class="data-table">
+    <tr><th>Region (ΔFosB numbering)</th><th>Cα RMSF</th><th>Ordered fraction</th></tr>
+    <tr><td>N-terminal, 1–54</td><td>4.45 Å</td><td>0.00</td></tr>
+    <tr><td>Linker, 55–78</td><td>4.34 Å</td><td><strong>0.51</strong></td></tr>
+    <tr><td>Transactivation core, 79–149</td><td><strong>8.79 Å</strong></td><td>0.03</td></tr>
+    <tr><td>Basic region (DNA-binding), 157–182</td><td><strong>3.29 Å</strong></td><td><strong>0.92</strong></td></tr>
+    <tr><td>Leucine zipper, 183–211</td><td><strong>3.00 Å</strong></td><td>0.87</td></tr>
+    <tr><td>Retained C-tail, 219–237</td><td>7.27 Å</td><td>0.16</td></tr>
+  </table>
+
+  <p class="body-text">ΔFosB is <strong>one folded module on a disordered chain.</strong> The transactivation core fluctuates 2.8-fold more than the leucine zipper and holds 3% ordered structure. AlphaFold agrees in advance: confidence averages 97.7 across the bZIP domain and below 50 everywhere else. The only persistent ordered structure outside the bZIP is a 51%-ordered segment at residues 55–78, and that is the single qualification to "one module plus random chain."</p>
+
+  <p class="body-text">The model is validated, not asserted. I threaded the complex onto 1FOS rather than onto any FosB-family structure, then held back the experimental complex 5VPE as an independent test. The simulated dimer reproduces 5VPE to <strong>1.52 Å</strong> Cα RMSD over all 117 shared positions and recovers <strong>11 of 12</strong> crystallographic DNA contacts (precision 0.85, recall 0.92).</p>
+
+  <h2 class="section-heading">6 — Cysteine 172: exposed, not activated</h2>
+
+  <p class="body-text">ΔFOSB/JUND DNA binding is governed by a cysteine redox switch. FosB C172 and JunD C285 can form a disulfide, and when they do, DNA binding is abolished. This is the one chemically validated handle on the protein.</p>
+
+  <p class="body-text">I measured the sulfur–sulfur distance across all three states:</p>
+
+  <table class="data-table">
+    <tr><th>State</th><th>Structure</th><th>S–S distance</th></tr>
+    <tr><td>DNA-bound</td><td>5VPE</td><td><strong>13.62 Å</strong></td></tr>
+    <tr><td>Reduced, DNA-free</td><td>7UCC</td><td>9.03 Å</td></tr>
+    <tr><td>Oxidised (disulfide)</td><td>5VPB</td><td>2.03 Å</td></tr>
+  </table>
+
+  <div class="highlight-block">
+    <p>Forming the disulfide requires <strong>11.59 Å of backbone closure</strong> relative to the DNA-bound geometry. The oxidised state and the DNA-bound state are mutually exclusive <em>as a matter of backbone geometry</em>, not as a matter of local chemistry.</p>
+    <p>And the disulfide itself is <strong>unstrained</strong> — 1.44 kcal/mol, with a Cβ–S–S–Cβ dihedral of 90.9°, essentially at the relaxed optimum. The energetic cost of the switch is paid entirely by moving the backbone. Nothing is stored in the bond.</p>
+  </div>
+
+  <p class="body-text">That changes the design brief completely. You do not need a compound that perturbs thiol chemistry. You need one that <em>stabilises a backbone arrangement</em> — and capping C172 covalently in the DNA-free state is a direct way to prevent the return to the DNA-bound geometry.</p>
+
+  <p class="body-text">Now the part that contradicted my own expectation. Within 8 Å of the C172 sulfur there are <strong>six cationic side chains</strong> (K171, R173, R175, R176, JunD R286, JunD K289) and <strong>zero acidic side chains</strong>. Textbook reading: a thiolate-stabilising cage, a depressed pKa, an activated nucleophile. Every structural biologist who looks at that environment makes the same prediction.</p>
+
+  <p class="body-text">The structure refuses it. No hydrogen-bond donor lies within 4 Å of the sulfur — the nearest polar atom is the R173 backbone nitrogen at 3.85 Å. No cation contacts the sulfur directly; closest approach is 4.29 Å. And the sulfur's solvent accessibility is <strong>47.6 Å²</strong> — comparable to free cysteine in solution. DNA binding only partially buries it, to 32.2 Å².</p>
+
+  <div class="note-block">
+    <div class="note-label">The negative result I am most confident in</div>
+    <p>I cannot determine the pKa shift, and I am reporting that rather than picking a number. Across four solvated treatments the differential stabilisation spans <strong>8.1 pKa units</strong>: −4.09 units from solvated DFT (PBE0/def2-SVP with IEFPCM on the bare cationic cluster) to <strong>+4.0</strong> units from the same cluster with five chloride counter-ions at GFN2 level.</p>
+    <p>The sign is set by <em>whether counter-ions are modelled</em>, not by the protein. The bare cluster carries a net charge of +5 and deprotonation lowers it to +4, which biases any unscreened model toward thiolate. I report no pKa shift for C172 — not its magnitude, not its sign. A direct measurement is required, and either outcome tests the calculation.</p>
+  </div>
+
+  <p class="body-text">The prediction that follows: <strong>C172 reactivity is driven by accessibility, not by electrostatic activation.</strong> It is a normal thiol sitting in the open.</p>
+
+  <h2 class="section-heading">7 — There is no pocket. I checked every frame.</h2>
+
+  <p class="body-text">This is the result that ends the conventional drug-discovery approach to ΔFosB.</p>
+
+  <p class="body-text">I implemented the LIGSITE buriedness algorithm directly and validated it on ligand-stripped HIV-1 protease, where it recovers a <strong>368 Å³</strong> cavity — a known, druggable, textbook site. Then I ran it on ΔFosB/JunD.</p>
+
+  <table class="data-table">
+    <tr><th>Measurement</th><th>Volume</th></tr>
+    <tr><td>Positive control (HIV-1 protease, 1HSG)</td><td>368 Å³</td></tr>
+    <tr><td>Druggability threshold</td><td>250 Å³</td></tr>
+    <tr><td>ΔFosB/JunD static dimer, largest cavity</td><td><strong>18 Å³</strong></td></tr>
+    <tr><td>Apo trajectory, mean largest cavity (40 frames)</td><td>42.7 Å³</td></tr>
+    <tr><td>Apo trajectory, best frame in 10 ns</td><td><strong>173 Å³</strong></td></tr>
+  </table>
+
+  <p class="body-text">Not one frame of a 10-nanosecond trajectory reaches the druggability threshold. Four frames exceed 100 Å³. The protein–DNA interface buries <strong>1,524 Å² per side</strong> — that is a protein–protein-interaction-scale flat surface, not a pocket.</p>
+
+  <p class="body-text">And the single transient cavity that does open, at 6.64 ns, is lined by ΔFosB A169, C172, R173, R176, R177, E178 and JunD C285, R286, K289, L290. <strong>It is the redox switch.</strong></p>
+
+  <div class="highlight-block">
+    <p>Three independent lines converge on the same stretch of the basic region: the experimentally observed covalent adduct at C172, the only transient cavity in my trajectory, and the crystallographic DNA footprint. The leucine zipper — the site people routinely propose for blocking bZIP dimerisation — is rigid, cavity-free, and makes <strong>zero</strong> DNA contacts in simulation. There is no computational support for pursuing it.</p>
+  </div>
+
+  <p class="body-text">This is my correction to the gap in the literature, and it is sharper than I first stated it. C172 is not "one of the only pocket cavities an inhibitor can act on." <strong>There is no pocket at all.</strong> ΔFosB is a covalent-only target, and the covalent site is a cysteine whose entire virtue is that it is standing in the open.</p>
+
+  <h2 class="section-heading">8 — Which warhead, and why the obvious choice is wrong</h2>
+
+  <p class="body-text">If the target cysteine is electronically unremarkable, then <em>nothing about C172 confers kinetic selectivity</em>. Selectivity cannot be inherited from the target. It must be engineered into the recognition element. That single inference determines the chemistry.</p>
+
+  <p class="body-text">Computed thiol addition energies separate sharply by mechanism:</p>
+
+  <table class="data-table">
+    <tr><th>Warhead class</th><th>ΔE (kcal/mol)</th><th>ω (eV)</th></tr>
+    <tr><td>Maleimide</td><td>−34.2</td><td>21.6</td></tr>
+    <tr><td>Vinyl sulfone, acrylate, acrylamide, vinyl ketone</td><td>−29 to −32</td><td>9.5–14.1</td></tr>
+    <tr><td>Cyanoacrylamide (reversible)</td><td>−27.0</td><td>14.4</td></tr>
+    <tr><td>Epoxide</td><td>−23.9 (GFN2); <strong>−37.1 at DFT</strong></td><td>7.8</td></tr>
+    <tr><td><strong>Phenacyl / chloroacetamide (validated class)</strong></td><td><strong>−8 to −10</strong></td><td>7.2–16.9</td></tr>
+  </table>
+
+  <p class="body-text">Single-point ωB97X-D/def2-SVP validation across 38 species preserves the ordering (Spearman ρ = 0.773, p = 0.005, mean offset +0.5 kcal/mol) with one real failure: GFN2-xTB underestimates epoxide ring opening by roughly 13 kcal/mol. At DFT, glycidamide is the <em>most</em> exergonic warhead in the set, not a mid-ranking one. The conclusion below does not depend on it, because it rests on the opposite end of the range — but anyone using the epoxide number should take the DFT value.</p>
+
+  <p class="body-text">The conclusion: warheads in the −30 kcal/mol range will engage C172 and label the proteome indiscriminately while doing it. The <strong>mild phenacyl window is the correct design target</strong> — roughly three-fold less exergonic than the Michael acceptors. This rationalises why a cysteine-focused screen returned a benzofuranone phenacyl chemotype rather than something hotter. The screen was not unlucky. It was correct.</p>
+
+  <div class="note-block">
+    <div class="note-label">A detail in the deposited structure worth flagging</div>
+    <p>In 7UCD the ligand is bonded to C172 at 1.85 Å through a methylene carbon alpha to a ketone. But the deposited ligand MV0 — 7-acetyl-4-methoxy-1-benzofuran-3(2H)-one — <strong>is not electrophilic at that carbon</strong>. The reactive screening species must have carried a leaving group there that is absent from the deposited model. If you are building analogues off the PDB entry alone, you will build non-reactive compounds.</p>
+  </div>
+
+  <h2 class="section-heading">9 — The design conflict the biology forces on you</h2>
+
+  <p class="body-text">There are three mechanisms worth pursuing: covalent C172 engagement, non-covalent occupancy of the anion groove seen in 9OC3, and DNA-interface disruption from the phenanthridine class. Twelve candidates, none PAINS-flagged.</p>
+
+  <p class="body-text">And then the property analysis produces a conflict that is not solvable by chemistry:</p>
+
+  <ul class="issue-list">
+    <li>The covalent benzofuranone series meets <strong>5/5 CNS criteria</strong>. Designed phenacyls land at −9.9 to −11.4 kcal/mol, exactly in the intended window.</li>
+    <li>Any ligand exploiting the 9OC3 groove must present an <strong>anionic group</strong> to engage K171, R175 and R182. It therefore scores 3/5, with TPSA of 105–122 Å².</li>
+    <li>Carboxylate and tetrazole isosteres do not recover the box. They remain ionised at pH 7.4.</li>
+  </ul>
+
+  <div class="highlight-block">
+    <p>ΔFosB matters <em>because it accumulates in brain.</em> A sulfonate-type effector is therefore unlikely to be a viable in vivo probe irrespective of its affinity. The anionic recognition requirement is in direct conflict with CNS exposure, and no amount of medicinal chemistry removes a conflict that the binding site itself imposes.</p>
+    <p>The covalent route wins on pocket grounds and on exposure grounds. The hybrid — a mild phenacyl warhead tethered to a <em>neutral</em> groove-binding motif — is the design that survives both constraints.</p>
+  </div>
+
+  <h2 class="section-heading">10 — Now the part nobody says out loud</h2>
+
+  <p class="body-text">Everything above is about the installer. ΔFosB has a half-life of roughly two weeks. On daily dosing, accumulation outpaces clearance and it is functionally permanent during treatment — but stop the drug and the protein is gone in months.</p>
+
+  <p class="body-text"><strong>The state it built is not gone in months.</strong> That is the fact that demands a different kind of mathematics, and it is the subject of the second half of my work.</p>
+
+  <p class="body-text">The standard story is that the brain adapts to overstimulation by settling into a more stable, lower-energy configuration — a deeper well on an energy landscape. Every piece of that sentence is wrong, and I can show it quantitatively.</p>
+
+  <h3 class="section-heading" style="font-size:17px; margin-top:36px;">10.1 — A severity index that cannot work, proved before any data</h3>
+
+  <p class="body-text">Start with the measurement problem, because it is settled by a theorem rather than by a study.</p>
+
+  <p class="body-text">Model a dendritic segment bearing spines as a closed, orientable surface. Two curvature integrals are available to anyone building a "spine damage" index. They behave completely differently.</p>
+
+  <div class="eq">
+    <div class="eq-label">Gauss–Bonnet, closed case</div>
+    $$ \int_S K\,dA \;=\; 2\pi\,\chi(S) $$
+    <div class="eq-note">For a dendrite bearing any number of spines — provided no spine neck fuses back onto the shaft and no two heads merge — the genus is zero, so <strong>\(\chi = 2\)</strong> and the integral is pinned at <strong>\(4\pi\)</strong>.</div>
+  </div>
+
+  <div class="eq result">
+    <div class="eq-label">The obstruction</div>
+    <p class="eq-note" style="margin-top:0;">Total Gaussian curvature is <strong>independent of the number, size, and shape of the spines.</strong> It is a topological invariant held fixed by the very hypothesis that spines are bumps rather than handles. No severity index built on \(\int_S K\,dA\) can detect spine remodelling — not weakly, not noisily. It is identically constant and carries zero information.</p>
+    <p class="eq-note">Verified numerically: across \(N \in \{0,1,2,4,6\}\) spines, \(\int K\,dA/4\pi\) stayed within [0.9996, 1.0231] and \(\chi\) stayed at 2 throughout.</p>
+  </div>
+
+  <p class="body-text">Mean curvature is not so constrained. The Willmore energy does respond — and <em>how</em> it responds dictates what you have to image:</p>
+
+  <div class="eq">
+    <div class="eq-label">Willmore energy and its response to spines</div>
+    $$ W(S) = \int_S H^2\,dA, \qquad W(S_N) = W(S_0) + N\,\Delta W, \qquad \Delta W \approx 4\pi + \frac{\pi L}{2r} $$
+    <div class="eq-note">\(W\) is <strong>dimensionless</strong>, hence scale-invariant: \(W(\lambda S) = W(S)\). A spherical spine head contributes \(4\pi\) <em>regardless of its radius</em>. A neck of radius \(r\) and length \(L\) contributes \(\pi L/2r\), which diverges as \(r \to 0\).</div>
+  </div>
+
+  <div class="highlight-block">
+    <p><strong>Spine number and neck geometry dominate. Spine head size contributes nothing.</strong> Measured slope across the simulated meshes: 20.9 per spine against an analytic \(4\pi + \pi L/2r \approx 22.0\), with \(W\) rising from 18.80 to 143.87 — a 7.7-fold increase — over six spines.</p>
+    <p>This is a mathematical consequence, not an empirical finding, and it has a direct experimental cost: if your imaging resolves head volume but not neck radius, you are measuring the term that doesn't matter.</p>
+  </div>
+
+  <p class="body-text">One more thing falls out, and it removes the worst parameter in the problem. The Helfrich energy of a membrane carries two moduli:</p>
+
+  <div class="eq">
+    <div class="eq-label">Helfrich energy, and the disappearance of the saddle-splay modulus</div>
+    $$ E_H(S) = \int_S \left[\, 2\kappa\,(H-H_0)^2 + \bar{\kappa}\,K \,\right] dA $$
+    $$ \Rightarrow\quad E_H(S') - E_H(S) \;=\; 2\kappa\left[\, W(S') - W(S) \,\right] \quad\text{when } \chi(S)=\chi(S'),\; H_0=0 $$
+    <div class="eq-note">Because \(\int_S K\,dA = 2\pi\bar{\kappa}\chi(S)\) by Gauss–Bonnet, the \(\bar{\kappa}\) terms cancel <strong>identically</strong> from every energy difference at fixed topology.</div>
+  </div>
+
+  <p class="body-text">The saddle-splay modulus is the least well-constrained parameter in membrane mechanics — reported ratios \(\bar{\kappa}/\kappa\) span roughly −0.1 to −0.9 depending on method and lipid composition. It contributes <strong>exactly nothing</strong> to the energy of adding spines, because adding a bump does not change \(\chi\). The energy difference depends on one modulus only.</p>
+
+  <h3 class="section-heading" style="font-size:17px; margin-top:36px;">10.2 — The adapted state is more expensive, not less</h3>
+
+  <p class="body-text">First, the trivial physics. At spine scale the Reynolds number is <strong>5×10⁻⁹</strong>:</p>
+
+  <div class="eq">
+    <div class="eq-label">Inertia is not a rounding error — it is absent</div>
+    $$ \mathrm{Re} = \frac{\rho u L}{\eta} \approx 5\times10^{-9}, \qquad \frac{\tfrac{1}{2}\rho L^3 u^2}{E_{\text{bend}}} \approx 3\times10^{-14} $$
+    <div class="eq-note">With \(\rho \approx 10^3\) kg·m⁻³, \(L \approx 5\times10^{-7}\) m, \(u \approx 10^{-7}\) m·s⁻¹, \(\eta \approx 10^{-2}\) Pa·s. Kinetic energy of a moving spine head: \(\approx 8\times10^{-11}\,k_BT\), against a bending energy of \(\approx 2.6\times10^{3}\,k_BT\).</div>
+  </div>
+
+  <p class="body-text">A Lagrangian of the form \(\mathcal{L} = T - V\), whose Euler–Lagrange equations are second order in time and conserve energy in the absence of dissipation, is not <em>approximately</em> inapplicable here. The kinetic term is absent to fourteen significant figures. The correct variational object is the Onsager–Machlup functional, whose stationary paths are <em>most-probable paths</em>, not energy-conserving trajectories. The brain is not minimising energy because there is no energy functional being minimised.</p>
+
+  <p class="body-text">Nor is reversal energy-limited. The finite-time cost of moving an overdamped coordinate decomposes into a reversible floor plus a protocol-dependent excess:</p>
+
+  <div class="eq">
+    <div class="eq-label">Thermodynamic length bound</div>
+    $$ W_{\text{diss}} \;\geq\; \frac{\mathcal{L}_\ell^{\,2}}{\tau}, \qquad \mathcal{L}_\ell := \sqrt{\zeta}\,\Delta x \qquad\Longrightarrow\qquad W_{\text{total}}(\tau) = \Delta E + \frac{\zeta (\Delta x)^2}{\tau} $$
+    <div class="eq-note">With Stokes drag \(\zeta = 6\pi\eta a\), \(a \approx 0.26\) µm and \(\Delta x \approx 1.4\) µm, the excess is <strong>≈ 1.5 ATP equivalents at \(\tau = 1\) s</strong>, falling below \(10^{-3}\) ATP beyond one hour — against a reversible floor of ≈ 133 ATP per spine. Reversal is not energy-limited at <em>any</em> timescale a cell could use.</div>
+  </div>
+
+  <p class="body-text">Second, the accounting. The structural assumption is linearity in receptor content, which gives a clean scaling law for the fractional metabolic change:</p>
+
+  <div class="eq">
+    <div class="eq-label">Occupancy scaling</div>
+    $$ P = P_0 + c\,N\!A \qquad\Longrightarrow\qquad \frac{\Delta P}{P} \;=\; \psi\left(R_{N\!A} - 1\right), \qquad \psi := \frac{cN\!A}{P} $$
+    <div class="eq-note">\(\psi\) is the postsynaptic share of the neuronal budget (\(\approx 0.34\) from published energy budgets) and \(R_{N\!A}\) the fold-change in the product \(N\cdot A\). A spine-number increase of 6.9% to 29.1% gives <strong>\(\Delta P/P\) between +2.3% and +9.9%.</strong></div>
+  </div>
+
+  <p class="body-text">I then costed the installation and the occupancy separately:</p>
+
+  <table class="data-table">
+    <tr><th>Item</th><th>ATP</th><th>Kind</th></tr>
+    <tr><td>Membrane bending, per spine</td><td>133</td><td>one-time</td></tr>
+    <tr><td>Membrane bending, whole neuron</td><td>5.19×10⁵</td><td>one-time</td></tr>
+    <tr><td>Chromatin remodelling, whole genome</td><td>1.44×10⁹</td><td>one-time</td></tr>
+    <tr><td>Transcription + translation of the DE set</td><td>2.31×10⁷</td><td>one-time</td></tr>
+    <tr><td><strong>Total installation cost</strong></td><td><strong>1.46×10⁹</strong></td><td>one-time</td></tr>
+    <tr><td>Neuron running cost</td><td>7.31×10⁹ /s</td><td>continuous</td></tr>
+    <tr><td>Extra running cost, +6.9% spines</td><td>1.72×10⁸ /s</td><td><strong>continuous</strong></td></tr>
+    <tr><td>Extra running cost, +29.1% spines</td><td>7.23×10⁸ /s</td><td><strong>continuous</strong></td></tr>
+  </table>
+
+  <div class="eq result">
+    <div class="eq-label">Installation versus occupancy</div>
+    $$ t_{\text{rep}} = \frac{C_{\text{inst}}}{\Delta P} = \frac{1.46\times10^{9}\ \text{ATP}}{1.7\!-\!7.2\times10^{8}\ \text{ATP·s}^{-1}} \;\approx\; \textbf{2–9 seconds} $$
+  </div>
+
+  <div class="highlight-block">
+    <p>Repayment time — the interval over which occupancy costs as much as installation — is <strong>2 to 9 seconds.</strong></p>
+    <p>Installation is free. Not cheap: <em>free</em>, relative to the question. It is repaid before the question of persistence can even be posed. Any argument that epigenetic storage is selected <em>because it is cheap to install</em> is arguing about a quantity four to five orders of magnitude below the one that matters.</p>
+    <p>And the adapted state then costs <strong>+2.3% to +9.9%</strong> of the whole neuron's metabolic budget, indefinitely, with the postsynaptic share taken at ψ ≈ 0.34.</p>
+  </div>
+
+  <div class="note-block">
+    <div class="note-label">The one assumption that could reverse this <span class="flag">[?]</span></div>
+    <p>The occupancy result rests on linearity: that postsynaptic ionic cost per synapse scales with receptor content, which asserts that an adapted spine is <em>not individually quieter</em>. If adapted synapses carry more receptors but fire less, the proportionality constant falls and the sign of ΔP can reverse.</p>
+    <p>This is not established. It is the first thing a direct measurement of regional metabolic rate would test, and I am stating it as the load-bearing assumption rather than burying it. If it fails, the "expensive state" claim fails with it — the rest of the framework does not.</p>
+  </div>
+
+  <h3 class="section-heading" style="font-size:17px; margin-top:36px;">10.3 — There is no well to be dug</h3>
+
+  <p class="body-text">The deeper result is harder and it is the one I care about most.</p>
+
+  <p class="body-text">In one dimension, escape over a barrier has a closed form. Let \(dx = -U'(x)\,dt + \sqrt{2D}\,dW\). The mean first-passage time from \(x\) to \(a\), with a reflecting boundary at \(c\), is exactly:</p>
+
+  <div class="eq">
+    <div class="eq-label">Mean first-passage time, and its Kramers limit</div>
+    $$ \tau(x) = \frac{1}{D}\int_a^x \! dy\; e^{U(y)/D} \int_y^c \! dz\; e^{-U(z)/D} $$
+    $$ \xrightarrow[\;\Delta U/D \to \infty\;]{} \quad \tau \approx \frac{2\pi}{\sqrt{U''(x_{\min})\,|U''(x_{\max})|}}\; e^{\Delta U/D} $$
+    <div class="eq-note">Verified against direct Euler–Maruyama simulation of the same SDE: <strong>theory 24.9 days, simulation 24.1 days</strong>, 100% of trajectories escaping, ratio 0.97.</div>
+  </div>
+
+  <p class="body-text">Two things follow immediately, and the second is the one the field ignores. First, \(\tau\) depends on \(\Delta U/D\) <em>exponentially</em> — a factor-of-two error in either quantity moves \(\tau\) by orders of magnitude, so no claim of permanence is stronger than the weaker of the two measurements. Second, \(\Delta U\) has the units of \(D\): <strong>(state)²·time⁻¹, not joules.</strong> Identifying it with a chemical or metabolic energy is a category error unless a separate argument supplies the identification.</p>
+
+  <p class="body-text">And in more than one dimension, \(U\) need not exist at all. "Energy landscape" language assumes the dynamics are a gradient flow — that there is a scalar \(U\) with \(b = -\nabla U\). Almost nobody tests this. The test is cheap. The replacement for \(U\) is the Freidlin–Wentzell action, and the infimum over traversal time can be taken analytically:</p>
+
+  <div class="eq">
+    <div class="eq-label">Freidlin–Wentzell action and its geometric reduction</div>
+    $$ S_T[\varphi] \;=\; \frac{1}{4\varepsilon}\int_0^T \big|\, \dot\varphi(t) - b(\varphi(t)) \,\big|^2 dt $$
+    $$ \inf_{T>0}\, S_T[\varphi] \;=\; \frac{1}{2\varepsilon}\int_\gamma \Big(\, |b(\varphi)| - \varphi' \!\cdot b(\varphi) \,\Big)\, ds \;=:\; \frac{\Phi[\gamma]}{2\varepsilon} $$
+    <div class="eq-note">The optimal traversal speed is \(\dot s = |b|\): the least-improbable path is traversed at the local speed of the deterministic flow, which is why uphill segments are slow and <strong>downhill segments contribute exactly nothing</strong>. In the gradient case \(\Phi = 2\Delta U\) uphill and \(0\) downhill, recovering \(\exp(-\Delta U/D)\) exactly. Verified to <strong>0.01%</strong> against an analytic gradient well, with the downhill action returning 0.00000.</div>
+  </div>
+
+  <p class="body-text">Now the test. Define the induced potential difference along a leg as the half-difference of forward and reverse actions, and run it around a three-attractor cycle. If a scalar \(U\) exists, the sum telescopes and must vanish:</p>
+
+  <div class="eq result">
+    <div class="eq-label">Obstruction to a single-valued potential</div>
+    $$ \Delta V(x_0 \!\to\! x_1) := \tfrac{1}{2}\Big( \Phi(x_0\!\to\! x_1) - \Phi(x_1 \!\to\! x_0) \Big) $$
+    $$ \Delta V(x_0\!\to\! x_1) + \Delta V(x_1\!\to\! x_2) + \Delta V(x_2\!\to\! x_0) \;=\; \mathbf{+1.73} \;\neq\; 0 $$
+    <div class="eq-note">Required: exactly 0. Observed residual: <strong>43.7% of the largest leg.</strong> Median \(|\mathrm{curl}|\) was 1.38× the local field magnitude, vanishing only when both inter-regional couplings are set to zero. The six directed transition actions were 0.0083, 7.9539, 5.4190, 0.0045, 0.0069 and 6.0066 — an induction-to-reversal asymmetry of roughly <strong>960-fold</strong>.</div>
+  </div>
+
+  <div class="highlight-block">
+    <p><strong>No scalar energy function represents the barrier structure of this system.</strong> "The brain dug itself a deeper well" is not an approximate description awaiting refinement. It is a sentence without a referent.</p>
+    <p>This does not mean the biology violates thermodynamics. A living cell is an open system held far from equilibrium by continuous dissipation and its attractors are not free-energy minima. The theorem simply removes the licence to treat attractor depth as an energy.</p>
+  </div>
+
+  <p class="body-text">There is a consistency check worth stating, because it is the one place "permanence" can be given a precise meaning. Under a sublevel-set filtration, a connected component born at a local minimum dies when it merges at the separating saddle, and the length of that bar in the \(H_0\) persistence diagram <em>is</em> the barrier height:</p>
+
+  <div class="eq">
+    <div class="eq-label">Persistence equals barrier height</div>
+    $$ \text{pers} \;=\; u_{\text{saddle}} - u_{\min} \;=\; \Delta U \qquad\Longrightarrow\qquad \log \tau \;\approx\; \frac{\Delta U}{D} + \text{const} $$
+    <div class="eq-note">Persistence of the homology class is, up to the factor \(1/D\), <strong>the logarithm of the expected escape time.</strong> This is the precise sense in which a state can be called permanent: not as an invariant that forbids transitions, but as the length of a bar — which means permanence is always relative to an observation window, and the diagram makes the comparison explicit.</div>
+  </div>
+
+  <p class="body-text">The fixed-point inventory also checks out topologically — 3 stable, 3 saddles, 1 unstable node, giving \(3 + 1 - 3 = 1 = \chi(\text{disc})\) by Poincaré–Hopf, and \(3(+1) + 3(-1) + 1(+1) = +1\) by the Morse–Euler relation. Neither check caught an error here. Both would have caught a missing fixed point.</p>
+
+  <h3 class="section-heading" style="font-size:17px; margin-top:36px;">10.4 — Return is probabilistic, and the exponent is brutal</h3>
+
+  <p class="body-text">The maintenance variable — in the application, calcium-permeable AMPA receptor content per synapse — runs on an autocatalytic loop with first-order removal and an explicit drug drive:</p>
+
+  <div class="eq">
+    <div class="eq-label">The maintenance dynamics</div>
+    $$ \frac{dA}{dt} \;=\; b_0 \;+\; d(t) \;+\; \frac{v\,A^{\,n}}{K^{\,n} + A^{\,n}} \;-\; k_A A $$
+    <div class="eq-note">\(b_0\) basal supply, \(d(t) \geq 0\) the drive supplied by drug exposure, the Hill term self-reinforcement with cooperativity \(n\), \(k_A\) removal. <strong>During abstinence \(d \equiv 0\).</strong> Hold onto that — it does all the work in a moment.</div>
+  </div>
+
+  <p class="body-text">Spine dynamics are <em>multiplicative</em> — increments scale with current size, and the stationary distribution is log-normal, not normal. So \(\sigma(A) = \sigma_m A\), and the analysis is forced into logarithmic coordinates carrying an Itô correction that is not optional:</p>
+
+  <div class="eq">
+    <div class="eq-label">Log transform with Itô correction</div>
+    $$ dA = f(A)\,dt + \sigma_m A\,dW \qquad\xrightarrow{\;x = \ln A\;}\qquad dx = \left[\frac{f(A)}{A} - D\right]dt + \sqrt{2D}\;dW, \quad D := \frac{\sigma_m^2}{2} $$
+    <div class="eq-note">The \(-D\) term shifts the effective fixed points: zeros of the transformed drift satisfy \(f(A)/A = D\), <strong>not</strong> \(f(A) = 0\). Measuring a barrier between the <em>deterministic</em> fixed points while integrating the <em>Itô-corrected</em> drift produces spurious negative barriers — which is exactly what happened in an intermediate calculation here before the correction was applied.</div>
+  </div>
+
+  <p class="body-text">And applying an additive-noise estimator to multiplicative data is dimensionally inconsistent, not merely imprecise: \(\mathrm{Var}(A)\cdot k\) has units of (state)²·time⁻¹ and cannot enter \(\exp(\Delta U/D)\). The correct object is \(\mathrm{Var}(\ln A)\cdot k\). Tested on data generated with \(\sigma_m = 0.300\), the log-space estimator returned 0.295 — 1.7% error.</p>
+
+  <p class="body-text">There is also a statistical trap that runs opposite to intuition, and it is the single most consequential step in the framework:</p>
+
+  <div class="eq">
+    <div class="eq-label">Separating static heterogeneity from fluctuation</div>
+    $$ \rho(t) = \frac{\mathrm{Var}(s) + \mathrm{Var}(d)\,e^{-kt}}{\mathrm{Var}(s)+\mathrm{Var}(d)} \;\xrightarrow[t\to\infty]{}\; \varphi = \frac{\mathrm{Var}(s)}{\mathrm{Var}(s)+\mathrm{Var}(d)} $$
+    $$ \Longrightarrow\qquad D \;=\; (1-\varphi)\cdot\mathrm{Var}(x)\cdot k $$
+    <div class="eq-note">A measured autocorrelation that decays to a <strong>non-zero plateau</strong> is diagnostic of permanent between-cell differences that do not fluctuate. The naive estimator inflates \(D\) by \(1/(1-\varphi)\). With an observed \(\varphi \approx 0.70\) the inflation is <strong>3.3-fold</strong>. Slow timescales in these data carry heterogeneity, <em>not</em> drift — and because \(D\) sits in an exponent, an uncorrected estimate understates persistence by orders of magnitude.</div>
+  </div>
+
+  <p class="body-text">With that corrected, over 1,082 bistable parameter sets the barrier is log-linear in \(\rho = A_{\text{hi}}/A_{\text{mid}}\), the distance from the adapted state to the separatrix:</p>
+
+  <div class="eq">
+    <div class="eq-label">Log-linear barrier</div>
+    $$ \Delta U = \alpha \ln \rho + c, \qquad \alpha = 0.649\ \text{d}^{-1}, \qquad R^2 = 0.845 $$
+    <div class="eq-note">\(\alpha\) is a property of the loop relaxation rate, <strong>not of the noise</strong>: repeating the scan at \(D = 0.0140,\ 0.0279,\ 0.0558,\ 0.1116\) d⁻¹ returned \(\alpha = 0.6535,\ 0.6492,\ 0.6492,\ 0.6455\) — a spread of 1.2% across an eight-fold change in noise amplitude.</div>
+  </div>
+
+  <p class="body-text">Substituting into the Kramers exponent gives the result the whole framework exists to produce:</p>
+
+  <div class="conclusion-block" style="margin-top:28px;">
+    <div class="conclusion-label">The persistence law</div>
+    <div class="eq-hero">
+      $$ \tau \;\propto\; \rho^{\,\alpha/D} $$
+    </div>
+    <p>A power law in the separatrix distance whose exponent varies <em>inversely</em> with the noise amplitude. At the in vivo amplitude \(D = 0.0279\) d⁻¹, this reads <strong>\(\tau \propto \rho^{23.3}\)</strong>. Computed independently at four noise amplitudes the exponent was 46.7, 23.3, 11.6 and 5.8; regressing \(\ln(\text{exponent})\) on \(\ln D\) gives a slope of <strong>−1.0054</strong> against a required −1.</p>
+    <p>A synapse population sitting <em>twice</em> as far from its separatrix as another persists <strong>2²³·³ ≈ 10⁷ times longer.</strong> Biologically unremarkable differences between drugs in how far they displace the loop become the difference between a state that decays within a week and one that outlives the experiment.</p>
+  </div>
+
+  <p class="body-text">Three consequences follow and each one is uncomfortable.</p>
+
+  <p class="body-text"><strong>First: the measurement the field makes cannot predict persistence.</strong> There are two different ratios in play and the experiments report the wrong one:</p>
+
+  <div class="eq">
+    <div class="eq-label">What is measured versus what governs the barrier</div>
+    $$ R = \frac{A_{\text{hi}}}{A_{\text{lo}}} \quad\text{(the fold-change a cross-sectional experiment measures)} $$
+    $$ \rho = \frac{A_{\text{hi}}}{A_{\text{mid}}} \quad\text{(the distance from the adapted state to the separatrix)} $$
+    <div class="eq-note">Regressing \(\Delta U\) on \(\ln R\) gives \(R^2 = 0.322\), against <strong>0.845</strong> for \(\ln\rho\). The complementary ratio \(A_{\text{mid}}/A_{\text{lo}}\) carries essentially no information at all (\(R^2 = 0.001\); in a joint fit its coefficient is 0.041 against 0.655 for \(\ln\rho\)).</div>
+  </div>
+
+  <p class="body-text">So holding the measured fold-change inside a narrow window, the implied escape time still spans a factor of <strong>3.4</strong> for \(R \in [3,4)\), <strong>69</strong> for \(R \in [5,6)\), and <strong>4.7×10⁴</strong> for \(R \in [8,10)\). The fold-changes reported for cocaine and methamphetamine incubation lie in the first two windows. The model cannot predict incubation duration from that measurement — and neither can anything else, because the information is not in it.</p>
+
+  <p class="body-text"><strong>Second: heavier exposure does not buy a deeper state.</strong> After withdrawal the drug drive is identically zero, so the fixed points are independent of amplitude, duration, route, schedule, and whether one drug or several supplied it. A longer binge reaches the adapted basin sooner and more reliably. The basin reached, its depth, and therefore the duration — unchanged.</p>
+
+  <p class="body-text"><strong>Third, and this is the hard line through the therapeutic landscape.</strong> Define the elasticity of persistence with respect to a parameter, evaluated through \(\Delta U/D\), and compute it by central differences over the 991 of 1,082 systems that stay bistable under perturbation:</p>
+
+  <div class="eq">
+    <div class="eq-label">Elasticity of persistence</div>
+    $$ E_p \;=\; \frac{\partial \ln \tau}{\partial \ln p} $$
+  </div>
+
+  <table class="data-table">
+    <tr><th>Parameter</th><th>Meaning</th><th>Elasticity of persistence</th></tr>
+    <tr><td>v</td><td>self-reinforcement strength</td><td><strong>+21.8</strong></td></tr>
+    <tr><td>D</td><td>fluctuation amplitude</td><td>−6.99</td></tr>
+    <tr><td>n</td><td>cooperativity</td><td>−2.28</td></tr>
+    <tr><td>b₀</td><td>basal receptor supply</td><td>+1.89</td></tr>
+    <tr><td><strong>d</strong></td><td><strong>drug drive during abstinence</strong></td><td><strong>0, exactly</strong></td></tr>
+  </table>
+
+  <div class="eq result">
+    <div class="eq-label">Zero leverage of driver-directed intervention</div>
+    $$ d \equiv 0 \ \text{ during abstinence} \;\Longrightarrow\; d \notin g \;\Longrightarrow\; d \notin h \;\Longrightarrow\; d \notin \Delta U \;\Longrightarrow\; E_d \equiv 0 $$
+    <div class="eq-note">The drug drive enters the vector field <strong>additively</strong> and vanishes after withdrawal, so it does not appear in the transformed drift, hence not in the barrier, hence not in \(\tau\). This is an identity, not a measurement.</div>
+  </div>
+
+  <p class="body-text">An agent that reduces the drug's drive — by limiting transmitter release, by occupying the transporter, by blocking the receptor the drug acts on — can prevent acquisition, and can block expression while it is on board, and has <strong>no effect whatever</strong> on how long an established state lasts. Not a small effect. Zero, as a structural property of where \(d\) enters the equations. The distinction is not a matter of potency.</p>
+
+  <p class="body-text">What does work: self-reinforcement strength dominates every other handle by an order of magnitude. Cutting persistence from ~80 days to one week requires reducing v by <strong>10.6%</strong>, against 72.4% for basal supply. And noise ranks second with the opposite sign — raising D by 41.7% achieves the same reduction. <strong>Destabilising the synapse is on equal footing with blocking it,</strong> and ranks above every pharmacological handle except v.</p>
+
+  <div class="note-block">
+    <div class="note-label">The experiment nobody has run</div>
+    <p>ρ is not measurable by comparison. It is measurable by perturbation. Transiently reduce the receptor pool by a graded amount during late withdrawal, remove the manipulation, re-measure weeks later. Below the separatrix the pool recovers to the adapted level; above it, it decays to control. The displacement at which the long-run outcome flips <em>is</em> the separatrix, and ρ follows from the same animals' adapted level.</p>
+    <p>This is a different experiment from any in the incubation literature. It is the one that determines persistence.</p>
+  </div>
+
+  <div class="conclusion-block">
+    <div class="conclusion-label">Conclusion</div>
+    <p>ΔFosB is not a memory of the drug. It is a construction order, and the thing it constructs outlives it by an order of magnitude. The protein clears in months. The state does not.</p>
+    <p>And the state is not an adaptation in any sense that word usually carries. It costs the neuron a few percent of its entire metabolic budget, forever, to hold a configuration whose installation was repaid in under ten seconds. The brain did not find a cheaper place to sit. It found a place it is overwhelmingly unlikely to leave, and it is paying to stay there.</p>
+    <p>That is the whole tragedy compressed into one asymmetry: entry costs nothing and is nearly deterministic above threshold. Exit costs nothing either — reversal is not energy-limited at any timescale a cell could use — and is a rare event with an exponent of 23.3. The barrier is not an energy. It is a probability, and no amount of wanting to leave changes an exponent.</p>
+    <p>Which means the target was never the drug's drive. It was always the loop that keeps the state fed. And on the protein that writes that loop, there is exactly one place a molecule can touch: a single cysteine, standing in the open, with nothing around it to make the chemistry easy.</p>
+  </div>
+
+  <div class="note-block">
+    <div class="note-label">Status of this work</div>
+    <p>The structural and quantum-chemical results are from a full-length manuscript I have not yet released. Trajectories are short — 1.06 ns explicit-solvent, ~10 ns implicit — and are relaxation and local-fluctuation runs, not converged ensembles; no folding equilibrium is sampled. Implicit-solvent models over-compact disordered chains, so the radius-of-gyration collapse from 36.9 Å to 23.0 Å should be read as "the chain collapses," not as a measured dimension. No transition states were located, so no covalent potency can be quoted — k<sub>inact</sub>/K<sub>I</sub> governs that and ΔE cannot be converted into a rate. No docking was attempted, because on a surface with no enclosed cavity docking scores are not meaningful. All twelve candidates are untested hypotheses: computed properties, not measured potencies. Nothing has been synthesised.</p>
+    <p>The mathematical results are asymptotic in small noise; computed escape times are order-of-magnitude. The cross-drug scaling law rests on a postulate — that drugs differ only in the drive and in a lasting shift of the loop parameters — and a drug that durably alters the relaxation rate or the noise amplitude falls outside it. The quoted intervention magnitudes are local derivatives at 3% perturbation and should be read as rankings, not doses.</p>
+  </div>
+
+  <h2 class="section-heading">References</h2>
+
+  <p class="body-text" style="font-size:14.5px; color:#999;">These are the references from the two source manuscripts. DOIs in the first two groups were verified against CrossRef. Author lists for items 1–5 are given as first author <em>et al.</em> where the full list was not retrieved.</p>
+
+  <div class="ref-group-label">A — ΔFosB: structural, chemical and computational</div>
+  <ol class="ref-list">
+    <li>Wang Y, Cesena TI, Ohnishi Y, <em>et al.</em> Small molecule screening identifies regulators of the transcription factor ΔFosB. <em>ACS Chem Neurosci</em> 2012. <span class="doi">doi:<a href="https://doi.org/10.1021/cn3000235">10.1021/cn3000235</a></span></li>
+    <li>Wang Y, <em>et al.</em> Discovery of phenanthridine analogues as novel chemical probes disrupting the binding of DNA to ΔFosB homodimers and ΔFosB/JunD heterodimers. <em>Bioorg Med Chem Lett</em> 2020. <span class="doi">doi:<a href="https://doi.org/10.1016/j.bmcl.2020.127300">10.1016/j.bmcl.2020.127300</a></span></li>
+    <li>ΔFosB is part of a homeostatic mechanism that protects the epileptic brain from further deterioration. <em>Front Mol Neurosci</em> 2024. <span class="doi">doi:<a href="https://doi.org/10.3389/fnmol.2023.1324922">10.3389/fnmol.2023.1324922</a></span></li>
+    <li>Yin Z, <em>et al.</em> Self-assembly of the bZIP transcription factor ΔFosB. <em>Curr Res Struct Biol</em> 2020. <span class="doi">doi:<a href="https://doi.org/10.1016/j.crstbi.2019.12.001">10.1016/j.crstbi.2019.12.001</a></span></li>
+    <li>Chemically targeting the redox switch in AP1 transcription factor ΔFOSB. <em>Nucleic Acids Res</em> 2022. <span class="doi">doi:<a href="https://doi.org/10.1093/nar/gkac710">10.1093/nar/gkac710</a></span></li>
+    <li>Glover JNM, Harrison SC. Crystal structure of the heterodimeric bZIP transcription factor c-Fos–c-Jun bound to DNA. <em>Nature</em> 1995. <span class="doi">doi:<a href="https://doi.org/10.1038/373257a0">10.1038/373257a0</a></span></li>
+    <li>Jumper J, Evans R, Pritzel A, <em>et al.</em> Highly accurate protein structure prediction with AlphaFold. <em>Nature</em> 2021. <span class="doi">doi:<a href="https://doi.org/10.1038/s41586-021-03819-2">10.1038/s41586-021-03819-2</a></span></li>
+    <li>Varadi M, <em>et al.</em> AlphaFold Protein Structure Database: massively expanding the structural coverage of protein-sequence space. <em>Nucleic Acids Res</em> 2021. <span class="doi">doi:<a href="https://doi.org/10.1093/nar/gkab1061">10.1093/nar/gkab1061</a></span></li>
+    <li>Eastman P, Swails J, Chodera JD, <em>et al.</em> OpenMM 7: Rapid development of high performance algorithms for molecular dynamics. <em>PLoS Comput Biol</em> 2017. <span class="doi">doi:<a href="https://doi.org/10.1371/journal.pcbi.1005659">10.1371/journal.pcbi.1005659</a></span></li>
+    <li>Maier JA, <em>et al.</em> ff14SB: Improving the accuracy of protein side chain and backbone parameters from ff99SB. <em>J Chem Theory Comput</em> 2015. <span class="doi">doi:<a href="https://doi.org/10.1021/acs.jctc.5b00255">10.1021/acs.jctc.5b00255</a></span></li>
+    <li>Hopkins CW, Le Grand S, Walker RC, Roitberg AE. Long-time-step molecular dynamics through hydrogen mass repartitioning. <em>J Chem Theory Comput</em> 2015. <span class="doi">doi:<a href="https://doi.org/10.1021/ct5010406">10.1021/ct5010406</a></span></li>
+    <li>Leimkuhler B, Matthews C. Rational construction of stochastic numerical methods for molecular sampling. <em>Appl Math Res eXpress</em> 2012. <span class="doi">doi:<a href="https://doi.org/10.1093/amrx/abs010">10.1093/amrx/abs010</a></span></li>
+    <li>Jorgensen WL, Chandrasekhar J, Madura JD, <em>et al.</em> Comparison of simple potential functions for simulating liquid water. <em>J Chem Phys</em> 1983. <span class="doi">doi:<a href="https://doi.org/10.1063/1.445869">10.1063/1.445869</a></span></li>
+    <li>Wang LP, Martinez TJ, Pande VS. Building force fields: an automatic, systematic, and reproducible approach. <em>J Phys Chem Lett</em> 2014. <span class="doi">doi:<a href="https://doi.org/10.1021/jz500737m">10.1021/jz500737m</a></span></li>
+    <li>Darden T, York D, Pedersen L. Particle mesh Ewald: An N·log(N) method for Ewald sums in large systems. <em>J Chem Phys</em> 1993. <span class="doi">doi:<a href="https://doi.org/10.1063/1.464397">10.1063/1.464397</a></span></li>
+    <li>McGibbon RT, Beauchamp KA, Harrigan MP, <em>et al.</em> MDTraj: a modern open library for the analysis of molecular dynamics trajectories. <em>Biophys J</em> 2015. <span class="doi">doi:<a href="https://doi.org/10.1016/j.bpj.2015.08.015">10.1016/j.bpj.2015.08.015</a></span></li>
+    <li>Kabsch W, Sander C. Dictionary of protein secondary structure. <em>Biopolymers</em> 1983. <span class="doi">doi:<a href="https://doi.org/10.1002/bip.360221211">10.1002/bip.360221211</a></span></li>
+    <li>Shrake A, Rupley JA. Environment and exposure to solvent of protein atoms. Lysozyme and insulin. <em>J Mol Biol</em> 1973. <span class="doi">doi:<a href="https://doi.org/10.1016/0022-2836(73)90011-9">10.1016/0022-2836(73)90011-9</a></span></li>
+    <li>Bannwarth C, Ehlert S, Grimme S. GFN2-xTB — an accurate and broadly parametrized self-consistent tight-binding quantum chemical method. <em>J Chem Theory Comput</em> 2019. <span class="doi">doi:<a href="https://doi.org/10.1021/acs.jctc.8b01176">10.1021/acs.jctc.8b01176</a></span></li>
+    <li>Ehlert S, Stahn M, Spicher S, Grimme S. Robust and efficient implicit solvation model for fast semiempirical methods. <em>J Chem Theory Comput</em> 2021. <span class="doi">doi:<a href="https://doi.org/10.1021/acs.jctc.1c00471">10.1021/acs.jctc.1c00471</a></span></li>
+    <li>Parr RG, von Szentpály L, Liu S. Electrophilicity index. <em>J Am Chem Soc</em> 1999. <span class="doi">doi:<a href="https://doi.org/10.1021/ja983494x">10.1021/ja983494x</a></span></li>
+    <li>Hendlich M, Rippmann F, Barnickel G. LIGSITE: automatic and efficient detection of potential small molecule-binding sites in proteins. <em>J Mol Graph Model</em> 1997. <span class="doi">doi:<a href="https://doi.org/10.1016/s1093-3263(98)00002-3">10.1016/s1093-3263(98)00002-3</a></span></li>
+    <li>Wager TT, Hou X, Verhoest PR, Villalobos A. Moving beyond rules: the development of a central nervous system multiparameter optimization (CNS MPO) approach. <em>ACS Chem Neurosci</em> 2010. <span class="doi">doi:<a href="https://doi.org/10.1021/cn100008c">10.1021/cn100008c</a></span></li>
+  </ol>
+
+  <div class="ref-group-label">B — Mathematical framework: cited, not derived</div>
+  <p class="body-text" style="font-size:14px; color:#888; margin-bottom:4px;">The following are classical and are cited rather than proved in the source manuscript. Everything else in Section 10 — the Gauss–Bonnet obstruction, scale invariance of the Willmore energy, the saddle-splay cancellation, the Itô log transform, the Kesten diffusion limit, the variance decomposition, the mean first-passage time, the gradient-case corollaries, the obstruction to a single-valued potential, and the occupancy/installation propositions — is derived in the form used.</p>
+  <ul class="ref-list unnumbered">
+    <li>Willmore TJ. Note on embedded surfaces. 1965. <em>(Willmore's inequality, Theorem 1.5 — used only as a sanity bound on computed values.)</em></li>
+    <li>Goldman R. Curvature formulas for implicit curves and surfaces. <em>Comput Aided Geom Des</em> 2005. <em>(Level-set Gaussian curvature formula, verified numerically rather than re-derived.)</em></li>
+    <li>Freidlin MI, Wentzell AD. <em>Random Perturbations of Dynamical Systems.</em> Springer. <em>(The large-deviation principle and action functional of Definition 3.1; the geometric reduction is re-derived explicitly in the source manuscript because the computation depends on the exact prefactor.)</em></li>
+    <li>Sivak DA, Crooks GE. Thermodynamic metrics and optimal paths. <em>Phys Rev Lett</em> 2012. <em>(Thermodynamic-length bound underlying Theorem 5.3.)</em></li>
+    <li>Helfrich W. Elastic properties of lipid bilayers: theory and possible experiments. <em>Z Naturforsch C</em> 1973. <em>(Bending energy functional of Definition 1.10.)</em></li>
+  </ul>
+
+  <div class="ref-group-label">C — Cited in the neurobiology sections</div>
+  <p class="body-text" style="font-size:14px; color:#888; margin-bottom:4px;">These support the cascade, spine and glutamate-receptor claims in Sections 1–4. They are secondary citations carried into this article and were <strong>not</strong> independently DOI-verified against CrossRef, so they are given without DOIs. <span class="flag">[?]</span></p>
+  <ul class="ref-list unnumbered">
+    <li>Kelz MB, Chen J, Carlezon WA, <em>et al.</em> Expression of the transcription factor ΔFosB in the brain controls sensitivity to cocaine. <em>Nature</em> 1999. <em>(ΔFosB → GluA2 upregulation in nucleus accumbens.)</em></li>
+    <li>Nestler EJ. Transcriptional mechanisms of drug addiction. <em>Clin Psychopharmacol Neurosci</em> / <em>Neuropharmacology</em>, multiple reviews. <em>(ΔFosB accumulation, stability, and the Cdk5 target.)</em></li>
+    <li>Robison AJ, Nestler EJ. Transcriptional and epigenetic mechanisms of addiction. <em>Nat Rev Neurosci</em> 2011. <em>(Chromatin remodelling and the spine phenotype.)</em></li>
+    <li>Grueter BA, Robison AJ, Neve RL, Nestler EJ, Malenka RC. ΔFosB differentially modulates nucleus accumbens direct and indirect pathway function. <em>PNAS</em> 2013. <em>(The D1/D2 MSN dissociation in Section 3.)</em></li>
+    <li>Bibb JA, Chen J, Taylor JR, <em>et al.</em> Effects of chronic exposure to cocaine are regulated by the neuronal protein Cdk5. <em>Nature</em> 2001. <em>(CDK5/p35 → DARPP-32 Thr75.)</em></li>
+    <li>Greengard P, Allen PB, Nairn AC. Beyond the dopamine receptor: the DARPP-32/protein phosphatase-1 cascade. <em>Neuron</em> 1999. <em>(The Thr34 / Thr75 opposition in Section 1.)</em></li>
+    <li>Wolf ME. Synaptic mechanisms underlying persistent cocaine craving. <em>Nat Rev Neurosci</em> 2016. <em>(Calcium-permeable, GluA2-lacking AMPA receptors in incubation — and the contradiction raised in Section 4.)</em></li>
+    <li>Nabavi S, Kessels HW, Alfonso S, <em>et al.</em> Metabotropic NMDA receptor function is required for NMDA receptor-dependent long-term depression. <em>PNAS</em> 2013. <em>(Non-ionotropic LTD.)</em></li>
+    <li>Dore K, Zito K. Non-ionotropic NMDA receptor signaling. <em>(Review literature on conformational NMDAR signalling; contested.)</em></li>
+    <li>Lisman J. A mechanism for the Hebb and the anti-Hebb processes underlying learning and memory. <em>PNAS</em> 1989. <em>(The classical low-calcium LTD model, distinguished from the above in Section 2.)</em></li>
+    <li>Berridge KC, Robinson TE. Parsing reward / incentive-salience literature. <em>(Wanting–liking dissociation and hedonic hotspots, Section 3.)</em></li>
+  </ul>
+
+  <div class="ref-group-label">D — Structures and databases used</div>
+  <ul class="ref-list unnumbered">
+    <li><strong>Protein Data Bank:</strong> 5VPA, 5VPB, 5VPC, 5VPD, 5VPE (2.05 Å), 5VPF (2.69 Å), 7UCC (1.94 Å, reduced), 7UCD (3.21 Å, covalent adduct with ligand MV0), 9OC3 (1.73 Å, ΔFOSB/JUND with non-covalent effector A1CAO), 6UCI / 6UCL / 6UCM (ΔFosB bZIP self-assembly), 1FOS (threading template), 1HSG (cavity-detection positive control).</li>
+    <li><strong>UniProt:</strong> P53539-11 (FOSB isoform 11, <em>deltaFosB</em>, 237 aa; alternative-sequence feature VSP_061374). Note that P53539-2 (302 aa) is <strong>not</strong> ΔFosB — it carries an internal 150–185 deletion removing the DNA-binding basic region, and using it inverts the conclusions of any structural analysis.</li>
+    <li><strong>AlphaFold DB:</strong> AF-P53539-F1 v6, truncated at residue 237.</li>
+    <li><strong>Software:</strong> OpenMM 8.6.1, amber14SB, MDTraj 1.11.1, DSSP, xtb 6.7.1 (GFN2-xTB / ALPB), PDBFixer, RDKit 2026.09.1. Literature retrieved via PubMed.</li>
+  </ul>
+
+  <div class="note-block" style="margin-top:36px;">
+    <div class="note-label">A methodological failure worth recording</div>
+    <p>An earlier pass of this analysis concluded, wrongly, that no FosB-family bZIP·DNA structure existed — because a database summary field reported zero nucleic-acid entities for every entry, <em>including 1FOS</em>. Since 5VPE and 5VPF are precisely the structures a medicinal chemist would want, the failure mode is worth flagging explicitly: entity-level composition must be read from the polymer entity records, not from summary counts.</p>
+    <p>A second one, in the quantum chemistry: omitting the hydrogen-relaxation step when computing disulfide strain inflated the apparent strain by <strong>26.0 kcal/mol</strong>. The real value is 1.44 kcal/mol. That artifact is large, easy to produce, and easy to publish by accident.</p>
+  </div>
+
+  <footer class="footer">
+    <a href="/" class="footer-logo">Neuroscience with <span>RPrime</span></a>
+    <div class="footer-note">© 2026 Rishik Pannala — Independent neuroscience research</div>
+  </footer>
+
+</div>
+</body>
+</html>
