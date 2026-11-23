@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RPrime — Neuroscience, Research &amp; Neurotech</title>
+<title>RPrime — Neuroscience &amp; Research</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -367,78 +367,10 @@
     margin-bottom: 14px;
   }
   .reality-card p { font-size: 14px; line-height: 1.75; color: #888; }
-
-  /* NEUROTECH SECTION */
-  .neurotech-section {
-    position: relative;
-    background: rgba(0,0,0,0.5);
-    border: 1px solid rgba(200,255,0,0.1);
-    border-radius: 20px;
-    padding: 88px 72px;
-    overflow: hidden;
-  }
-  .neurotech-section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 10% 20%, rgba(200,255,0,0.055) 0%, transparent 55%),
-                radial-gradient(ellipse at 90% 80%, rgba(255,107,53,0.055) 0%, transparent 55%);
-    pointer-events: none;
-  }
-  .nt-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 7px 18px;
-    background: rgba(200,255,0,0.07);
-    border: 1px solid rgba(200,255,0,0.18);
-    border-radius: 100px;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 44px;
-  }
-  .nt-badge::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    animation: blink 2s ease-in-out infinite;
-  }
   @keyframes blink {
     0%,100% { opacity: 1; }
     50% { opacity: 0.3; }
   }
-  .nt-title {
-    font-family: var(--font-display);
-    font-size: clamp(38px, 6vw, 82px);
-    font-weight: 800;
-    line-height: 1.0;
-    letter-spacing: -2px;
-    margin-bottom: 28px;
-    text-wrap: balance;
-  }
-  .nt-title .a1 { color: var(--accent); }
-  .nt-hook {
-    font-family: var(--font-display);
-    font-size: clamp(18px, 2.5vw, 26px);
-    font-weight: 700;
-    color: rgba(240,236,228,0.8);
-    line-height: 1.35;
-    margin-bottom: 56px;
-    max-width: 680px;
-    text-wrap: balance;
-  }
-  .nt-body { max-width: 740px; }
-  .nt-body p {
-    font-size: 17px;
-    line-height: 1.9;
-    color: #999;
-    margin-bottom: 22px;
-  }
-  .nt-body strong { color: var(--text); font-weight: 500; }
   .big-line {
     font-family: var(--font-display);
     font-size: 22px;
@@ -450,39 +382,6 @@
     border-left: 3px solid var(--accent);
   }
   .big-line.orange { color: var(--accent2); border-left-color: var(--accent2); }
-
-  .nt-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin-top: 64px;
-  }
-  .nt-stat {
-    backdrop-filter: blur(12px);
-    background: rgba(255,255,255,0.025);
-    border: 1px solid rgba(200,255,0,0.1);
-    border-radius: 12px;
-    padding: 28px;
-    position: relative;
-  }
-  .nt-stat::before, .nt-stat::after {
-    content: '';
-    position: absolute;
-    width: 8px; height: 8px;
-    border-color: rgba(200,255,0,0.25);
-  }
-  .nt-stat::before { top: 8px; left: 8px; border-top: 1px solid; border-left: 1px solid; }
-  .nt-stat::after  { bottom: 8px; right: 8px; border-bottom: 1px solid; border-right: 1px solid; }
-  .nt-stat-num {
-    font-family: var(--font-mono);
-    font-size: 34px;
-    font-weight: 500;
-    color: var(--accent);
-    line-height: 1;
-    margin-bottom: 10px;
-    letter-spacing: -1px;
-  }
-  .nt-stat-label { font-size: 13px; color: #777; line-height: 1.55; }
 
   /* ARTICLES */
   .articles-category { margin-bottom: 72px; }
@@ -748,15 +647,12 @@
     .about-grid, .bento-grid { grid-template-columns: 1fr; }
     .bento-grid .span-2 { grid-column: 1; }
     .focus-grid { grid-template-columns: 1fr 1fr; }
-    .neurotech-section { padding: 56px 36px; }
-    .nt-stats { grid-template-columns: 1fr; }
     .contact-block { padding: 40px 28px; }
     .divider { margin: 64px 0; }
     .footer { flex-direction: column; gap: 14px; text-align: center; }
   }
   @media (max-width: 480px) {
     .focus-grid { grid-template-columns: 1fr; }
-    .neurotech-section { padding: 44px 24px; }
   }
 </style>
 </head>
@@ -776,7 +672,6 @@
     <a href="/" class="logo">Neuroscience with <span>RPrime</span></a>
     <ul class="nav-links">
       <li><a href="#research">Research</a></li>
-      <li><a href="#neurotech">Neurotech</a></li>
       <li><a href="#articles">Articles</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -809,7 +704,6 @@
       <p class="hero-sub">Real neuroscience. No textbook language. Deep pharmacology, receptor-level mechanisms, and original research.</p>
       <div class="hero-cta">
         <a href="#articles" class="btn-primary">Read the Research →</a>
-        <a href="#neurotech" class="btn-ghost">Waves of Life ↓</a>
       </div>
     </div>
   </div>
@@ -835,50 +729,6 @@
       <div class="reality-card reveal" style="transition-delay: 0.22s;">
         <div class="reality-label" style="color: #9b88ff;">Real world — memory &amp; trauma</div>
         <p>Survivors of extreme trauma who couldn't remember the events they faced. They didn't simply forget — the brain was hiding it from them. That's not weakness. That's a survival mechanism running exactly as designed. Your enemies are just pawns the brain uses to checkmate you.</p>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- NEUROTECH — WAVES OF LIFE -->
-  <section id="neurotech" class="neurotech-section reveal">
-    <div class="nt-badge">RPrime Neurotech — Waves of Life</div>
-
-    <h2 class="nt-title">
-      Your brain has been<br>running the show.<br><span class="a1">Now you get the readout.</span>
-    </h2>
-
-    <p class="nt-hook">The most advanced personal brainwave monitor ever built outside of a laboratory. And it fits in your pocket.</p>
-
-    <div class="nt-body">
-      <p>Every day you hit a peak. Focus so clean it feels like flying. Beta and gamma waves firing in perfect synchrony — calmness with energy, clarity, raw motivation, and a level of output you cannot manufacture on demand. <strong>That state is real. That state is measurable.</strong></p>
-
-      <div class="big-line">But here's what nobody tells you: it's already ending before you feel it.</div>
-
-      <p>You push through. You think you're still there. You're not. Your brain crossed the line twenty minutes ago — you just don't know it yet. By the time the crash arrives, the damage is done. The rest of your day is gone. The focus is gone. And no amount of willpower brings it back, because this is not a willpower problem. <strong>This is a neurochemistry problem.</strong></p>
-
-      <p>Waves of Life ends that forever. A chip built by RPrime Neurotech reads your brainwave activity in real time — every second of your session — and tracks exactly when your peak begins to fade. Not when you feel it. <strong>Before you feel it.</strong> Before you lose another afternoon you can't get back.</p>
-
-      <p>No one has built this for the real world. No one. Lab EEG machines cost $50,000 and they stay in labs. Meditation apps guess. Fitness trackers count steps. <strong>Waves of Life reads the actual electrical activity of your brain</strong> and tells you the truth about where you are — right now, in the moment, before the collapse.</p>
-
-      <div class="big-line orange">For the first time in your life — you will know.</div>
-
-      <p>This is not a wellness product. This is not a reminder to breathe. This is precision neurotechnology — the Arrestin Score, an original metric tracking cumulative focus depletion in real time — built by a researcher who has been living the problem and solving it at the same time.</p>
-    </div>
-
-    <div class="nt-stats">
-      <div class="nt-stat">
-        <div class="nt-stat-num">250Hz</div>
-        <div class="nt-stat-label">Real-time sampling rate. Continuous. Every second of your session captured.</div>
-      </div>
-      <div class="nt-stat">
-        <div class="nt-stat-num">5</div>
-        <div class="nt-stat-label">Brainwave bands monitored simultaneously: Delta, Theta, Alpha, Beta, Gamma.</div>
-      </div>
-      <div class="nt-stat">
-        <div class="nt-stat-num">2hr</div>
-        <div class="nt-stat-label">Rolling session window. Watch the full arc of your focus, in real time.</div>
       </div>
     </div>
   </section>
