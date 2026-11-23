@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>An Analysis of Marshall and Kim: Two Runaways, the Songs, and What the Pills Left Behind — Neuroscience with RPrime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script defer>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (typeof renderMathInElement !== "function") return;
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "\\[", right: "\\]", display: true },
+        { left: "\\(", right: "\\)", display: false }
+      ],
+      throwOnError: false
+    });
+  });
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0ece4;
+    --muted: #888;
+    --accent: #c8ff00;
+    --accent2: #ff6b35;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .site { max-width: 760px; margin: 0 auto; padding: 0 24px 80px; }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0 48px;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 56px;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  .back {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .back:hover { color: var(--accent); }
+  .warning {
+    background: var(--surface2);
+    border: 0.5px solid rgba(255,107,53,0.2);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+  }
+  .warning-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: var(--font-display);
+    margin-bottom: 8px;
+  }
+  .warning p { font-size: 14px; color: #999; line-height: 1.8; }
+  .article-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 16px;
+  }
+  .article-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .article-subtitle {
+    font-size: 17px;
+    color: #888;
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+  .article-meta {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 48px;
+  }
+  .divider {
+    height: 0.5px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    margin-top: 48px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .body-text {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #ccc;
+    margin-bottom: 20px;
+  }
+  .body-text strong { color: var(--text); font-weight: 500; }
+  .highlight-block {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 24px 28px;
+    margin: 28px 0;
+  }
+  .highlight-block p {
+    font-size: 15px;
+    color: #bbb;
+    line-height: 1.85;
+    margin-bottom: 12px;
+  }
+  .highlight-block p:last-child { margin-bottom: 0; }
+  .note-block {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 28px 0;
+  }
+  .note-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: var(--font-display);
+    margin-bottom: 8px;
+  }
+  .note-block p { font-size: 15px; color: #aaa; line-height: 1.8; margin-bottom: 10px; }
+  .note-block p:last-child { margin-bottom: 0; }
+  .quote-block {
+    border-left: 3px solid #555;
+    padding: 16px 24px;
+    margin: 28px 0;
+  }
+  .quote-block p {
+    font-size: 17px;
+    color: #999;
+    line-height: 1.8;
+    font-style: italic;
+  }
+  .conclusion-block {
+    background: var(--surface);
+    border: 0.5px solid rgba(200,255,0,0.15);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-top: 40px;
+  }
+  .conclusion-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 12px;
+  }
+  .conclusion-block p {
+    font-size: 16px;
+    color: #ccc;
+    line-height: 1.85;
+    margin-bottom: 14px;
+  }
+  .conclusion-block p:last-child { margin-bottom: 0; }
+  .footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-note { font-size: 12px; color: var(--muted); }
+  .issue-list {
+    list-style: none;
+    margin: 16px 0 20px 0;
+    padding: 0;
+  }
+  .issue-list li {
+    font-size: 15px;
+    color: #bbb;
+    line-height: 1.85;
+    padding: 8px 0 8px 20px;
+    border-bottom: 0.5px solid var(--border);
+    position: relative;
+  }
+  .issue-list li:last-child { border-bottom: none; }
+  .issue-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 28px 0;
+    font-size: 14px;
+  }
+  .data-table th {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--border);
+    font-weight: 700;
+  }
+  .data-table td {
+    padding: 11px 12px;
+    color: #bbb;
+    border-bottom: 0.5px solid var(--border);
+    line-height: 1.6;
+  }
+  .data-table td strong { color: var(--accent); font-weight: 500; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .flag {
+    color: var(--accent2);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  /* ---- Math ---- */
+  .eq {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 28px 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .eq-label {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .eq-note {
+    font-size: 13px;
+    color: #777;
+    line-height: 1.7;
+    margin-top: 14px;
+  }
+  .eq-note strong { color: #aaa; font-weight: 500; }
+  .eq .katex { color: var(--text); }
+  .eq .katex-display { margin: 0; }
+  .eq .katex-display > .katex { font-size: 1.12em; }
+  .eq.result { border-left-color: var(--accent2); }
+  .eq.result .eq-label { color: var(--accent2); }
+  /* ---- Copyright + references ---- */
+  .copyright-top {
+    background: var(--surface);
+    border: 0.5px solid rgba(200,255,0,0.14);
+    border-radius: 8px;
+    padding: 22px 26px;
+    margin-bottom: 28px;
+  }
+  .copyright-label {
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .copyright-top p {
+    font-size: 13.5px;
+    color: #999;
+    line-height: 1.75;
+    margin-bottom: 10px;
+  }
+  .copyright-top p:last-child { margin-bottom: 0; }
+  .copyright-top strong { color: var(--text); font-weight: 500; }
+  .copyright-top em { color: #aaa; }
+  .copyright-top a { color: var(--accent); text-decoration: none; }
+  .copyright-top a:hover { text-decoration: underline; }
+  .ref-group-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 32px 0 14px;
+  }
+  .ref-list {
+    list-style: none;
+    counter-reset: ref;
+    padding: 0;
+    margin: 0;
+  }
+  .ref-list.continue { counter-reset: none; }
+  .ref-list li {
+    counter-increment: ref;
+    position: relative;
+    padding: 9px 0 9px 38px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #999;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .ref-list li:last-child { border-bottom: none; }
+  .ref-list li::before {
+    content: counter(ref) ".";
+    position: absolute;
+    left: 0;
+    top: 9px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    color: var(--muted);
+    width: 28px;
+    text-align: right;
+  }
+  .ref-list.unnumbered li::before { content: '—'; text-align: left; left: 4px; }
+  .ref-list em { color: #bbb; font-style: italic; }
+  .ref-list .doi {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+    color: #6a6a6a;
+  }
+  .ref-list a { color: #7a8f3a; text-decoration: none; }
+  .ref-list a:hover { color: var(--accent); }
+
+  .eq-hero { margin: 14px 0 20px; text-align: center; }
+  .eq-hero .katex { color: var(--accent); }
+  .eq-hero .katex-display { margin: 0; }
+  .eq-hero .katex-display > .katex { font-size: 1.7em; }
+  .body-text .katex,
+  .data-table .katex,
+  .highlight-block .katex,
+  .note-block .katex,
+  .conclusion-block .katex,
+  .issue-list .katex { color: inherit; font-size: 1em; }
+  @media (max-width: 600px) {
+    .eq { padding: 16px 14px; }
+    .eq .katex-display > .katex { font-size: 0.95em; }
+  }
+</style>
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0ece4;
+    --muted: #888;
+    --accent: #c8ff00;
+    --accent2: #ff6b35;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .site { max-width: 760px; margin: 0 auto; padding: 0 24px 80px; }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0 48px;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 56px;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  .back {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .back:hover { color: var(--accent); }
+  .article-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 16px;
+  }
+  .article-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .article-subtitle {
+    font-size: 17px;
+    color: #888;
+    margin-bottom: 48px;
+    line-height: 1.6;
+  }
+  .divider {
+    height: 0.5px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    margin-top: 48px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .body-text {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #ccc;
+    margin-bottom: 20px;
+  }
+  .body-text strong { color: var(--text); font-weight: 500; }
+  .highlight-block {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 24px 28px;
+    margin: 28px 0;
+  }
+  .highlight-block p {
+    font-size: 15px;
+    color: #bbb;
+    line-height: 1.85;
+    margin-bottom: 12px;
+  }
+  .highlight-block p:last-child { margin-bottom: 0; }
+  .note-block {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 28px 0;
+  }
+  .note-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: var(--font-display);
+    margin-bottom: 8px;
+  }
+  .note-block p { font-size: 15px; color: #aaa; line-height: 1.8; }
+  .quote-block {
+    border-left: 3px solid #555;
+    padding: 16px 24px;
+    margin: 28px 0;
+  }
+  .quote-block p {
+    font-size: 17px;
+    color: #999;
+    line-height: 1.8;
+    font-style: italic;
+  }
+  .conclusion-block {
+    background: var(--surface);
+    border: 0.5px solid rgba(200,255,0,0.15);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-top: 40px;
+  }
+  .conclusion-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: var(--font-display);
+    margin-bottom: 12px;
+  }
+  .conclusion-block p {
+    font-size: 16px;
+    color: #ccc;
+    line-height: 1.85;
+  }
+  .article-meta {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 12px;
+  }
+  .spoiler-note {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 48px;
+    font-style: italic;
+  }
+  .footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-note { font-size: 12px; color: var(--muted); }
+</style>
+
+<style>
+.footnote{font-size:13px;color:var(--muted);margin-top:56px;border-top:0.5px solid var(--border);padding-top:16px}
+.footnote ol{padding-left:20px}.footnote li{margin:6px 0;overflow-wrap:anywhere}
+sup a{color:var(--accent);text-decoration:none;font-size:11px}
+.body-text a,.footnote a{color:var(--accent)}
+table{border-collapse:collapse;width:100%;font-size:14px}td,th{border:0.5px solid var(--border);padding:6px 10px}
+.conclusion-block .body-text:last-child,.highlight-block .body-text:last-child{margin-bottom:0}
+</style>
+</head>
+<body>
+<div class="site">
+  <nav class="nav">
+    <a href="/" class="logo">Neuroscience with <span>RPrime</span></a>
+    <a href="/" class="back">← Back to home</a>
+  </nav>
+
+  <div class="copyright-top">
+    <div class="copyright-label">Original work — created November 2026</div>
+    <p><strong>Written by Rishik Pannala. November 22nd, 2026.</strong></p>
+    <p>© 2026 Rishik Pannala. All rights reserved. Quotation with attribution is welcome. Suggested citation: <em>Pannala R. An Analysis of Marshall and Kim: Two Runaways, the Songs, and What the Pills Left Behind. Neuroscience with RPrime, November 22nd, 2026.</em></p>
+  </div>
+
+  <div class="warning">
+    <div class="warning-label">Warning, viewer discretion is advised</div>
+    
+  </div>
+
+  <div class="article-eyebrow">Article 08 — Addiction / Relationships</div>
+  <h1 class="article-title">An Analysis of Marshall and Kim: Two Runaways, the Songs, and What the Pills Left Behind</h1>
+  <p class="article-subtitle">The songs show you a war. What they never explain is what the pills, the bottle and the courtrooms were doing underneath it.</p>
+  <p class="article-meta">By Rishik Pannala | <em>Neuroscience with RPrime</em>, Article 08 | November 22nd 2026</p>
+  <div class="divider"></div>
+<div class="divider"></div>
+<p class="body-text">It is a Friday night in July 2000, just before midnight, in Sterling Heights, Michigan. Police are called to a medical emergency at the Mathers home. They are told a 25-year-old resident has attempted suicide. She is conscious. She is taken to hospital for evaluation and released.</p>
+<p class="body-text">All she told the officers who came, Salon reported, was: "There has got to be a better place than this."</p>
+<p class="body-text">Her husband is not home. That night he is performing at the Palace of Auburn Hills on Dr. Dre's Up in Smoke Tour. His album, out six weeks, has a track with her name on it. In it, he kills her.</p>
+<p class="body-text">His label issues one line: "Eminem is obviously concerned about his wife's well-being."</p>
+<p class="body-text">That is the middle of the story. Twenty-six years later it is still running.</p>
+
+<h2 class="section-heading">The Track With Her Name On It</h2>
+<p class="body-text">Before anything else, the song.</p>
+<p class="body-text">Track seventeen on <em>The Marshall Mathers LP</em>, released May 23, 2000. It is not titled after a character. It is titled "Kim," which was his wife's name, and it is about killing her.</p>
+<p class="body-text">The structure is the part people skip past. It is a two-hander, and he plays both roles. He screams as himself and he answers as her — pitching up into her register, supplying her denials, her pleading, her side of the argument. There is no other voice on the recording. So the most widely heard rendering of Kim Scott's speech in existence is a man performing her, in a fight he wrote, which ends with him killing her.</p>
+<p class="body-text">Think about that as a fact about the evidence available. She has given a handful of interviews across twenty-six years and written one letter to a newspaper. Tens of millions of people have heard her scream. None of those screams are hers.</p>
+<p class="body-text">The second structural thing is the chronology, which runs backwards. "'97 Bonnie &amp; Clyde" came out three years earlier and depicts the aftermath — a father driving to a lake to dispose of the mother's body, with their infant daughter in the car, and the infant on the record is their actual daughter, taken to the studio after he told Kim he was taking her to Chuck E. Cheese's. "Kim" is the prequel. It is the murder that the 1997 track was cleaning up after. The noises at the end of "Kim" are the noises that open "'97 Bonnie &amp; Clyde." He released the cover-up first and the killing second, which means that for three years the audience had heard the disposal without the death, and in 2000 he went back and filled it in.</p>
+<p class="body-text">Their daughter is present in both. She is addressed at the start of the song that ends with her mother dead.</p>
+<p class="body-text">And here is what separates this from every other violent record ever argued about. Violent art is usually aimed at a fiction, or at a type, or at nobody. This names a living woman, uses her real first name as the title, places their real child inside the scene, and was made by the man she was married to. There is no interpretive distance to retreat into. The subject could buy the album.</p>
+<p class="body-text">She did more than hear it. That summer the stage show included an inflatable doll with her name on it. She sued over the song and the show. Thirty-three days after the parking lot in Warren, five weeks after the album came out, police were called to the house in Sterling Heights.</p>
+<p class="body-text">The standard defence is that Slim Shady was a persona and the violence was theatre. Hold that against what this article is about to establish about the brain: being made into a public object is not a figure of speech at the level of the mechanism. Social injury runs through the dorsal anterior cingulate and the anterior insula — the same tissue that carries the hurt of physical damage, which is why a painkiller for a bruise measurably blunts the sting of exclusion. A persona is a legal and artistic distinction. It is not a neurological one. The tissue does not know it was theatre.</p>
+
+<h2 class="section-heading">Two Runaways</h2>
+<p class="body-text">He is 15, shirtless on a friend's coffee table in a Kangol, miming LL Cool J's "I'm Bad." He turns around and she is in the doorway.</p>
+<p class="body-text">"I met her the day she got out of the youth home," he told Rolling Stone in 2004. "She's thirteen, she's taller than me... I said to my friend's sister, 'Yo, who was that? She's kinda hot.' And the saga began."</p>
+<p class="body-text">She was thirteen and just out of a youth home. She and her twin sister Dawn had run from their family to a shelter outside Detroit. By 1987 she had left home for good and moved in with Marshall and his mother Debbie. Dawn would be dead of an overdose in a trailer park at forty-one. Kim would be in a county jail at fifty-one. Whatever was in that house, it took both of them.</p>
+<p class="body-text">A childhood like that gets into the stress machinery and stays there. Corticotropin-releasing factor is the molecule that launches the stress response — CRF is released from the hypothalamus, which drives ACTH, which drives cortisol. Run that circuit hard during development and it does not reset. CRF neurons stay hyperexcitable, the set point moves, and the system fires harder and for longer at smaller provocations for the rest of the organism's life. With fewer receptors to detect circulating cortisol, the negative feedback loop weakens, and the brain fails to turn off the CRF/ACTH cascade efficiently. And those CRF projections terminate in the same places the drugs go: the VTA, the amygdala, the nucleus accumbens. The stress circuit and the reward circuit are wired into each other. By the time anyone offers her anything, the machinery that decides how much it will be worth is already running hot.</p>
+<p class="body-text">"Moving around so much as a kid, never having stability," is how he put it. "Me and Kim, we bounced around from house to house, tryin' to pay rent and make ends meet." He watched Alaina, the baby daughter of Kim's twin Dawn, bounce around the same way — "just watchin' the cycle of dysfunction."</p>
+<p class="body-text">Their daughter Hailie was born in 1995.</p>
+
+<h2 class="section-heading">The Songs Start</h2>
+<p class="body-text">The first time he killed her on a record, he used their daughter to do it.</p>
+<p class="body-text">"Just the Two of Us" appeared on the <em>Slim Shady EP</em> in 1997 and was re-recorded as "'97 Bonnie &amp; Clyde" for <em>The Slim Shady LP</em> in February 1999. A father drives to a lake with his infant daughter to dispose of her mother's body. The baby sounds are Hailie's real voice. According to Martin Huxley's 2000 biography, he got her into the studio by telling Kim he was taking her to Chuck E. Cheese's.</p>
+<p class="body-text">He later told Rolling Stone that when Kim found out he had used their daughter on a song about killing her, she was furious. They had been back together a couple of weeks.</p>
+<p class="body-text">They married in 1999, in Missouri. The same year his mother sued him for defamation and intentional infliction of emotional distress over the album, alleging it portrayed her as an unstable drug user who filed frivolous lawsuits. In June 2001 a judge entered a $25,000 resolution. On August 6, 2001 he ruled that $23,354.25 of it went to her attorney. She was left with about $1,600.</p>
+
+<h2 class="section-heading">Five Weeks in the Summer of 2000</h2>
+<p class="body-text"><em>The Marshall Mathers LP</em> came out on May 23, 2000. One track is called "Kim." He voices both of them in a screaming fight that ends with her dead in a trunk — the sounds that open "'97 Bonnie &amp; Clyde."</p>
+<p class="body-text">At about 2:20 a.m. on Sunday, June 4, in the parking lot of a bar in Warren, Michigan, Macomb County Prosecutor Carl Marlinga said, Eminem saw John Guerra kiss his wife and hit Guerra over the head with a gun. Marlinga said the gun was not loaded. Salon reported he also threatened to kill him. He was charged with carrying a concealed weapon and assault with a dangerous weapon, both felonies. Kim was charged with disturbing the peace.</p>
+<p class="body-text">And she took his side. She told the Detroit Free Press her husband had "overreacted" to a friendly kiss, and that what she had given the man was "a peck on the cheek." Then she wrote the paper a letter. Their personal business, she said, was not "for everyone's entertainment purposes." She denied cheating: nobody "in their right mind" would cheat on a "millionaire husband."</p>
+<p class="body-text">Five weeks after the album, and thirty-three days after the parking lot, came Sterling Heights.</p>
+<p class="body-text">Her name had been on a track about her own murder for six weeks. That summer the stage show included an inflatable doll. The doll was called Kim.</p>
+<p class="body-text">Being made into that doll hurts in the literal sense. Social rejection and physical injury run through the same tissue — the dorsal anterior cingulate and the anterior insula, the structures that carry the part of pain that feels bad rather than the part that tells you where it is. Give someone acetaminophen for three weeks and their reported social pain drops, and the rejection response in those same regions drops with it. A painkiller for a bruise works on being cut out, because at that level the brain does not distinguish between the two.</p>
+<p class="body-text">Stress floods the amygdala with substance P, and the worse the stressor the more of it arrives. Substance P binds NK1. Block NK1 and alcohol craving falls, and the cortisol that rides along with the craving falls too. The same receptor sits at the junction of being hurt and wanting a drink.</p>
+
+<h2 class="section-heading">The Deposition</h2>
+<p class="body-text">On Wednesday, September 15, 2000, in Macomb Circuit Court, he sat for a video deposition lasting nearly three hours in his mother's defamation suit. She was not present.</p>
+<p class="body-text">He had told music magazines that his mother used more drugs than he did. Under oath he testified that the drugs she abused were prescription drugs. That month she filed a second suit, seeking $1 million over press comments describing her as strung out on prescription medication.</p>
+<p class="body-text">Her own lawyer, Fred Gibson, told the press she had taken prescription medications including Valium and what ABC rendered as "Vicatin" during Eminem's childhood, and said she did not abuse them. So the dispute in the case was never whether the pills were in the house. It was what they were doing there.</p>
+<p class="body-text">Two years later, on <em>The Eminem Show</em>, "Cleanin' Out My Closet" went further. The word "Munchausen" is in the lyric. Seven years after that, "My Mom" on <em>Relapse</em> claimed he became an addict because of his Valium-popping mother.</p>
+<p class="body-text">These are allegations made in a commercial lyric, in magazine interviews, and in civil litigation. No clinical finding of any kind exists about Debbie Mathers, and she denied the drug-abuse allegation through counsel.</p>
+<p class="body-text">The term in the song has a definition and a base rate, and a reader who meets it deserves both. Factitious disorder imposed on another, the DSM-5 name for what used to be called Munchausen syndrome by proxy, describes the falsification of illness or injury in another person; it is classified both as a psychiatric disorder of the perpetrator and as a form of child abuse. It is rare. In a two-year prospective surveillance study across the United Kingdom and the Republic of Ireland, the combined annual incidence of Munchausen syndrome by proxy, non-accidental poisoning and non-accidental suffocation was at least 0.5 per 100,000 children under sixteen, and at least 2.8 per 100,000 for infants under one. A base rate that low is a reason to be sceptical of a casual accusation. It is not a lens for re-reading a family.</p>
+<p class="body-text">The record on that quarrel closed while she was alive. "Headlights," on <em>The Marshall Mathers LP 2</em> in 2013, is an apology to his mother that names "Cleanin' Out My Closet" specifically; he has said he cringes when he hears the older song and he stopped performing it. Debbie Nelson died on December 2, 2024, aged 69.</p>
+
+<h2 class="section-heading">Divorce, Then Not, Then Divorce</h2>
+<p class="body-text">On August 16, 2000, he filed for divorce. Five days later Kim counterclaimed that he was unfit for even partial custody and sought $10 million for emotional distress over "Kim" and the stage show.</p>
+<p class="body-text">Nine days after that it was settled: joint legal custody, Kim with physical custody and the Sterling Heights house, him with "liberal" parenting time in Michigan. Her $10 million claim was settled too; ABC did not report the terms.</p>
+<p class="body-text">In December 2000 they called the divorce off and said they would keep living together. On March 1, 2001, Kim filed again, citing "a breakdown of the marriage relationship." It was final in October 2001.</p>
+<p class="body-text">Together, apart, together, apart. A reward that arrives unpredictably builds behaviour that is harder to stop than a reward that arrives every time. Dopamine neurons are why. On top of the signal that tracks how likely a reward is, they carry a second signal that tracks the <em>uncertainty</em> itself — and that one peaks when the odds sit at exactly even. A coin flip drives the system harder than a sure thing.</p>
+<p class="body-text">Entry easy, exit rare. That asymmetry is what the rest of this article is about, at the molecular level.</p>
+
+<h2 class="section-heading">The Tether</h2>
+<p class="body-text">In June 2003, during a traffic stop in St. Clair Shores, Kim was charged with possessing 25 grams or less of cocaine and with failing to give an emergency vehicle adequate space. She then failed to appear in court and, for a while, hid from police.</p>
+<p class="body-text">"Kim has been in and out of jail and on house arrest, cut her tether off, had been on the run from the cops for quite a while," he told Rolling Stone in 2004.</p>
+<p class="body-text">Start by throwing out the thing everyone thinks they know. Dopamine is not pleasure.</p>
+<p class="body-text">Strip 99% of the dopamine out of a rat's nucleus accumbens and it still likes sugar. The involuntary face it makes at something sweet — the one that separates sweet from bitter — comes out unchanged. It can still learn new likes and dislikes. What it loses is the wanting. Liking survives the loss of dopamine almost entirely. Wanting does not survive it at all.</p>
+<p class="body-text">What dopamine neurons report is surprise. Better than predicted and they fire. Exactly as predicted and they stay flat. Worse than predicted and they drop below baseline. They do not care which reward it was. They are an alerting signal that something just mattered more, or less, than you expected.</p>
+<p class="body-text">So dopamine does not hand you pleasure. It assigns importance. It decides what is worth crossing a room for, how much effort to spend getting it, and whether to keep going.</p>
+<p class="body-text">The pleasure sits somewhere else and it is physically small. Put a mu-opioid agonist into a cubic millimetre of the rostrodorsal medial shell of the accumbens and sugar becomes more pleasant. Hit opioid receptors anywhere else in that shell and the animal eats more without enjoying it more. Liking is a hotspot. Wanting is the whole system.</p>
+<p class="body-text">Now cocaine. It blocks reuptake at all three monoamine transporters — dopamine, noradrenaline, serotonin — and blocks voltage-gated sodium channels on top of that, which is why it numbs tissue and why it stops hearts. Of the three transporters, the dopamine one carries the reinforcement: how hard an animal will work for a cocaine-like drug tracks its potency at the dopamine transporter and at nothing else. In people an intravenous dose occupies 60 to 77% of those transporters. Below 47% nothing is felt at all; above it, the size of the high tracks how many are blocked.</p>
+<p class="body-text">So the subjective effect is not pleasure arriving. It is the importance machinery being flooded. Everything matters more. The volume on <em>this matters</em> gets turned up on the entire world at once.</p>
+<p class="body-text">Then repetition takes it back. D2 receptor availability falls and is still down three to four months after the last dose, with frontal metabolism down alongside it — worst in the orbitofrontal cortex and the cingulate, the tissue that handles restraint and deciding what things are worth. The machinery that says <em>this matters</em> has been blunted, and the only thing left that reliably moves it is the drug that blunted it.</p>
+<p class="body-text">Noradrenaline does something different. It shows up in relapse rather than in the high itself. Disulfiram blocks noradrenaline synthesis and cuts cocaine use. And as dependence consolidates, noradrenaline gets recruited into the anti-reward machinery of the extended amygdala alongside corticotropin-releasing factor and dynorphin — the same CRF system a childhood like hers left running hot.</p>
+<p class="body-text">Then there is the compound that only exists when two drugs are taken together.</p>
+<p class="body-text">Drink while cocaine is in you and the liver swaps cocaine's methyl ester for an ethyl ester. The product is cocaethylene. It is not in the coca leaf and neither drug makes it alone, so finding it in someone's blood proves both were taken. More than half of cocaine use involves drinking.</p>
+<p class="body-text">In human brain tissue, cocaethylene holds the dopamine transporter as tightly as cocaine does and barely touches the serotonin transporter. That second half is the interesting one. Serotonin is the arm that puts a brake on the whole thing, and cocaethylene arrives with the brake already missing — which is why it has been called more euphorigenic and more rewarding than cocaine itself.</p>
+<p class="body-text">It gets into the brain. It turns up in blood, liver and neural tissue at concentrations equal to cocaine's and sometimes higher. And it lasts: about two hours in plasma against cocaine's one. Lower peak, longer tail.</p>
+<p class="body-text">Tested head to head in people, though, cocaethylene raised heart rate <em>less</em> than cocaine and scored lower on every subjective measure — the high, the rush, the stimulation. The extra intensity of drinking while using does not come from the metabolite. It comes from the alcohol blocking cocaine's own breakdown, so plasma cocaine climbs, the euphoria goes up and runs longer, and the heart rate goes with it.</p>
+<p class="body-text">Then the heart. Cocaethylene blocks cardiac sodium channels harder than cocaine does, and blocks the hERG potassium channel about three times harder — the channel that repolarises the ventricle between beats. Block it and the beat stretches and the rhythm destabilises. Cocaethylene in the blood carries an eighteen- to twenty-five-fold increase over cocaine alone in the risk of dying on the spot. It is the weaker high and the more lethal compound at the same time.</p>
+<p class="body-text">On January 21, 2004, Kim pleaded guilty and was sentenced to two years' probation, due to end in January 2006. Eight days later, on January 29, she tested positive for cocaine. On February 12, Macomb County Circuit Judge Edward Servitto sentenced her to 30 days in the county jail followed by 90 days of inpatient substance-abuse treatment.</p>
+<p class="body-text">She twice dropped out of court-ordered drug treatment, serving jail time after the first walk-out. A warrant issued in April after she left the second without permission. She was arrested in an Ann Arbor hotel room on June 15. On June 30, Servitto sentenced her to a year in jail of which she had to serve 140 days, to be followed by release into a treatment programme in Hazel Park, Michigan; complete it and the remaining jail time would be suspended. In mid-September he cut the jail term short — she had been sentenced to 120 days and was not due out until December — so she could enter Hazelden in Center City, Minnesota, on Wednesday, September 15, for a scheduled thirty days. The court kept pulling her out of jail and into treatment, not the other way round.</p>
+<p class="body-text">Meanwhile he had full custody of Alaina and joint custody of Hailie. Kim's younger daughter Whitney, from another relationship, was later adopted by him.</p>
+<p class="body-text">He told the girls: "Mom has a problem, she's sick, and it's not because she doesn't love you. She loves you, but she's sick right now, and until she gets better, you've got Daddy."</p>
+<p class="body-text">Then he wrote it down. "Mockingbird," on <em>Encore</em> in November 2004, was "my song to explain to them what was goin on, probably the most emotional song I ever wrote." On the same album, Rolling Stone noted, he tells Kim he hates her in "Puke" and still loves her in "Crazy in Love." At home, he said, the rule was "it's not right for a man to ever lay his hands on a female. Despite what people may think of me and what I say in my songs."</p>
+
+<h2 class="section-heading">The Pills</h2>
+<p class="body-text">The Ambien started on the set of <em>8 Mile</em>. "One day somebody gave me an Ambien, and it knocked me the fuck out... So I got a prescription. After four or five months, your tolerance starts building. You start breaking off another piece of the pill that's supposed to be for tomorrow."</p>
+<p class="body-text">For two years, court-ordered urine samples were the brake. In 2003 the probation from the Warren gun case ended. "When I got off probation for my felonies, and I didn't have to drop urine anymore, the reins came off." The sentence for the night in the parking lot was, by his own telling, the thing that briefly held his drug use in check.</p>
+<p class="body-text">Vicodin, Valium, Ambien. "I was taking so many pills that I wasn't even taking them to get high anymore. I was taking them to feel normal... I want to say in a day I could consume anywhere from 40 to 60 Valium. And Vicodin... maybe 20, 30? I don't know."</p>
+<p class="body-text">"Your tolerance starts building." "I was taking them to feel normal." Those two sentences are a layperson's description of two separate mechanisms, and both have been worked out in detail — in cells, in rodents, and partly in people.</p>
+<p class="body-text">Hydrocodone, the opioid in Vicodin, converges with methadone, morphine and heroin on the mu-opioid receptor, a G-protein-coupled receptor whose activation inhibits adenylyl cyclase, opens potassium channels and closes calcium channels, hyperpolarising the neuron and suppressing transmitter release. In the ventral tegmental area that receptor sits on inhibitory interneurons that normally restrain dopamine cells, so opioids raise accumbal dopamine indirectly — by releasing a brake rather than pressing an accelerator.</p>
+<p class="body-text">Tolerance has a first layer that runs in seconds to minutes. An agonist-occupied receptor is phosphorylated on its intracellular face by G-protein-coupled receptor kinases; the phosphorylated receptor recruits arrestin, which sterically blocks further G-protein coupling and hands the receptor to the clathrin machinery that pulls it inside the cell. That is the textbook brake. But β-arrestin-2 is not only a brake. At the D2 dopamine receptor it is a multifunctional scaffold for a second, parallel signalling route through Akt and glycogen synthase kinase-3 — a distinct modality of GPCR signalling, tied in the same literature to the actions of antipsychotics, antidepressants and lithium. The receptor keeps talking after it has stopped talking through G proteins, and it says something different.</p>
+<p class="body-text">The cocaine-specific test of that was done in mice, and it cuts against the simple story. Porter-Stransky and colleagues deleted β-arrestin-2 selectively from D1-receptor-containing or D2-receptor-containing cells. Removing it from D2 cells produced dose-dependent reductions in the acute locomotor response to cocaine and morphine, attenuated locomotor sensitisation to cocaine, and blunted cocaine reward on conditioned place preference; removing it from D1 cells left drug responses mostly normal. Read the direction of that carefully. If β-arrestin-2 were purely a desensitisation brake, taking it away should have made cocaine's effects <em>bigger</em>. It made them smaller. β-arrestin-2 is doing signalling work that the behavioural effects of the drug require, not just damping work. My own tolerance model puts a fast GRK2/β-arrestin layer underneath a slow transcriptional one, and that is structurally consistent with what is published — but the published direction-of-effect result is a constraint the model has to accommodate rather than route around, and there is no measurement of β-arrestin-2 level, phosphorylation or function in the striatum of any human drug user.</p>
+<p class="body-text">The second mechanism is the one in his phrase "to feel normal." As dependence consolidates, the reward system's set point moves: positive reinforcement gives way to negative reinforcement, with anti-reward systems recruited in the extended amygdala. The drug stops being taken to feel good and starts being taken to stop feeling terrible.</p>
+<p class="body-text">In <a href="ΔFosB Does Not Save Your Brain Energy. It Charges Rent.">my last article</a> I followed one protein through that transition: ΔFosB, a transcription factor that accumulates in a subset of nucleus accumbens and dorsal striatal neurons after repeated administration of virtually all drugs of abuse tested in animals. In Section 3 I argued that the adapted state it builds is one where "the urge to act is structurally amplified, and the machinery that assigns value to acting has been dismantled" — wanting without liking, built by the same protein in the same cells at the same time. That worked example is cocaine, and in rats and mice. Nobody has shown it for his particular mix of drugs in a person. The animal literature also splits the labour: CREB in the accumbens carries tolerance, dependence and the negative emotional state of early withdrawal, while ΔFosB carries the growing drive and motivation. One of those looks like the pill that stopped working. The other looks like the pull toward tomorrow's piece.</p>
+<p class="body-text">Then the memory. In August 2005 he cancelled a European tour and was treated in hospital for dependency on sleep medication; the Detroit Free Press reported that his prescribed Ambien had "backfired at higher doses." He had got heavy enough that children stopped recognising him: "No it's not, man – Eminem ain't fat." And: "The absolute truth is a lot of my memory is gone. I don't know if you've ever taken Ambien, but it's kind of a memory-eraser. That shit wiped out five years of my life." </p>
+<p class="body-text">His word for it points the wrong way, and the correction is the better fact. Diazepam is a positive allosteric modulator at the GABA-A receptor — it does not open the chloride channel itself but increases the how often the channel opens when GABA binds, amplifying the brain's main inhibitory signal. Zolpidem acts at the same site with relative selectivity for α1-containing receptors, which is why it is more hypnotic than anxiolytic. Potentiating that receptor in the hippocampus and related circuits impairs the <em>encoding</em> of new memories while leaving consolidated memories and immediate consciousness largely intact. The result is the characteristic pattern: awake, talking, apparently functional, and no durable record laid down. So nothing is erased. Nothing was written. An encoding failure leaves nothing behind to retrieve, which is why no therapy and no hypnosis recovers a year spent that way. This was severe enough where Eminem admitted in a 2014 interview that he had zero recollection of recording the original 2001 scratch version of "Lose Yourself", stating he didn't remember where he was or any of the lyrics when it resurfaced years later.</p>
+<p class="body-text">Something else about the GABA-A receptor belongs here, because it is the same receptor from the dopamine experiment. Benzodiazepine potentiation of GABA-A <em>increased</em> hedonic reactions in rats with up to 99% of their dopamine gone. The receptor class that blocks the writing of memory also, in rodents, amplifies liking.</p>
+
+<h2 class="section-heading">What the Drug Is Standing In For</h2>
+<p class="body-text">Take a young animal away from the others and it cries. Give it a small dose of morphine and the crying stops.</p>
+<p class="body-text">Not because it is sedated. The dose sits below anything that makes the animal clumsy or sleepy — it still moves normally, still plays. The distress simply stops arriving. Give it an opioid blocker instead and the crying gets worse.</p>
+<p class="body-text">This holds in puppies, in guinea pigs, in chicks, and it runs in both directions. It is also specific rather than general: blocking opioids wrecks play and disrupts a mother retrieving her pups while leaving other social behaviour alone. Nothing is being switched off wholesale. One system is being turned up and down, and that system is social.</p>
+<p class="body-text">Attachment runs on opioids. Being among people you belong to releases them. Being cut off from them is, in neural terms, a withdrawal state.</p>
+<p class="body-text">Now put that next to where liking lives — the cubic millimetre of accumbens shell that runs on mu-opioid signalling. Same receptor family. The molecule that makes sugar taste good is the molecule that stops a separation cry.</p>
+<p class="body-text">Alcohol goes straight at it. Alcohol does not bind opioid receptors itself. What it does is make the brain dump its own. Tag the mu-opioid receptors in a drinker, give them a drink, and the tag gets displaced in the nucleus accumbens and the orbitofrontal cortex — endogenous opioids flooding in and taking the sites. The more displacement in the orbitofrontal cortex, the heavier the problem drinking and the larger the reported high.</p>
+<p class="body-text">That is why naltrexone works on alcoholism. It blocks the receptor the drink was aiming at.</p>
+<p class="body-text">So a drink standing in for company is not a metaphor. It is a substitution at the level of the molecule — the same signal company would have supplied, to the same receptors, in the same structures.</p>
+<p class="body-text">That chain is the receptor system social connection runs on, and a drug can occupy it. There is no human study giving low-dose opioids to isolated people and measuring their distress.</p>
+
+<h2 class="section-heading">Eighty-Two Days</h2>
+<p class="body-text">On January 14, 2006, they remarried. On April 5 he filed for divorce, after what TMZ counted as 82 days of marriage.</p>
+<p class="body-text">The same month, his best friend Proof was killed in Detroit. "I was so high at his funeral. It disgusts me to say it, but I felt like it was about me."</p>
+<p class="body-text">On December 19, 2006, the divorce was finalised before Judge Antonio Viviano — the same judge who had put him on probation for the gun. The judge said they "conducted themselves with dignity and respect."</p>
+<p class="body-text">In February 2007 Kim told ABC's <em>20/20</em>: "Money is great, but it doesn't make your husband stay at home with you." She described "constant infidelities, all the time." The same month, on Detroit radio: "I vomit in my mouth whenever I'm around him."</p>
+
+<h2 class="section-heading">Two Hours</h2>
+<p class="body-text">"I got the methadone from somebody I'd gone to looking for Vicodin. This person said, 'These are just like Vicodin, and they're easier on your liver.'" Had he known it was methadone, he told NPR, "I probably still would have took it."</p>
+<p class="body-text">"My whole month of December leading up to it, I don't remember shit."</p>
+<p class="body-text">December 2007, his bathroom. "I was standing there, trying to take a piss, and I fell. I hit the floor hard. I got back up, tried again – and boom, I fell again. And that time I couldn't get up."</p>
+<p class="body-text">He woke in hospital unable to move or speak. The doctors, he says, told him he had taken "the equivalent of four bags of heroin" and was "about two hours from dying."</p>
+<p class="body-text">"Just like Vicodin" is the sentence that matters, and it is wrong in a specific, lethal way.</p>
+<p class="body-text">Hydrocodone is a short-acting mu-opioid agonist with an elimination half-life of a few hours; onset and offset are both fast, so the felt dose tracks the pill. Methadone's elimination half-life is long and wildly variable between individuals — reported ranges span roughly 8 to 59 hours — against an analgesic duration of only 4 to 8. The two numbers do not match, and the mismatch is the trap. Someone redosing by how they feel redoses long before the previous dose has cleared, so the plasma concentration climbs across days while the subjective effect does not. Death arrives on day two to four, from a dosing pattern that felt reasonable on day one. Methadone also prolongs the QTc interval and can precipitate torsades de pointes — a second, cardiac route that short-acting opioids do not share. Tolerance to one opioid is not protection against this one, because the accumulation profile and the cardiac effects are different in kind.</p>
+<p class="body-text">"Easier on your liver" bent a grain of truth the wrong way. Vicodin contains acetaminophen, which the FDA calls the leading cause of drug-induced acute liver failure in the United States, and which it capped at 325 mg per dosage unit with a boxed warning in January 2011. Methadone is safer in no sense that applies here.</p>
+<p class="body-text">Then the combination. Opioids depress breathing through mu-opioid receptors in brainstem respiratory centres — the pre Bötzinger complex, which generates the inspiratory rhythm, and the Kölliker-Fuse and parabrachial nuclei — and they blunt the chemoreflex, the drive to breathe harder when carbon dioxide rises. Benzodiazepines slow breathing by a separate route, through GABA-A potentiation, and add sedation that removes the arousal which would otherwise wake a person gasping. In a case-cohort study of 2,400 US veterans who died of overdose while receiving opioid analgesics, about half of those deaths occurred while the veteran also had a benzodiazepine prescription; the adjusted hazard ratio for a current benzodiazepine prescription against none was 3.86, with a dose-response gradient. Western Australian coroners' data published in 2002 found benzodiazepines present in 74% of methadone-related deaths.</p>
+<p class="body-text">The FDA's boxed warning on combining opioids with benzodiazepines came on August 31, 2016. Eight years and eight months after the night in his bathroom, and fourteen years after the Australian coroners' data.</p>
+<p class="body-text">"When I woke up, I didn't realize it was Christmas. So the first thing I wanted to do was call my kids." Of the rest: "There are certain parts I have to leave out because they have to do with my kids."</p>
+<p class="body-text">He was in hospital a week or two; his accounts differ. Then: "I think I relapsed within… three weeks? And within a month it had ramped right back to where it was before... I either get help, or I am going to die."</p>
+<p class="body-text">His sober date is April 20, 2008. Asked for it, he said: "4/20. Ironically."</p>
+
+<h2 class="section-heading">Seventeen Miles a Day</h2>
+<p class="body-text">Meetings did not work. "I got asked for autographs a couple of times. It made me shut down."</p>
+<p class="body-text">So he ran. "Seventeen miles a day... Just replacing one addiction with another." By his own account it tore up his hip flexors.</p>
+<p class="body-text">That detail is not decoration. Give a rat a running wheel and thirty days, and it builds up more ΔFosB in the nucleus accumbens than a rat whose wheel is locked. Put extra ΔFosB into the dynorphin neurons of the striatum and the animal runs more. Put it into the enkephalin neurons instead and the animal runs considerably less. And ΔFosB in that same dynorphin population is what makes drugs more rewarding.</p>
+<p class="body-text">It is the same protein, in the same cells, counting a different input. Running does not touch the opioid or GABA-A receptors the pills were working on — the route in is completely different. The accumulation at the end of it is not.</p>
+<p class="body-text">The harder question is why nearly dying did not hold for even a month.</p>
+<p class="body-text">The answer the molecular literature gives is about marks left on chromatin, and the experiments are precise about which marks, which genes, and when. One cocaine injection hyperacetylates histone H4 at the cFos promoter within thirty minutes, and chronic cocaine does not — which matches the fact that cocaine induces cFos acutely but not chronically. Chronic cocaine instead hyperacetylates H3 at the BDNF and Cdk5 promoters, and ΔFosB mediates the Cdk5 regulation. Modulating histone deacetylase activity alters the locomotor and rewarding responses to the drug. Acute and chronic exposure are not the same event at different volumes. They are different events on different genes.</p>
+<p class="body-text">The loop closes on itself. ΔFosB represses G9a, the enzyme that writes the repressive H3K9 methyl mark. Less G9a means less of that mark, which leaves the chromatin in those neurons sitting more open than it was. Open chromatin grows more spines. More spines mean a stronger pull toward the drug. And the drug makes more ΔFosB. Every turn of that loop makes the next turn easier.</p>
+<p class="body-text">Acetylation runs the other side. Chronic cocaine — not one dose, chronic — knocks down HDAC5 function in the accumbens. Remove HDAC5 entirely and the animal becomes hypersensitive to chronic cocaine while responding normally to a single hit. That is the molecular signature of the thing converting from an event into an illness.</p>
+<p class="body-text">Now the part I worked out in <a href="article7.html">Article 07</a>, because it is where the cruelty stops being a metaphor and becomes a wiring diagram.</p>
+<p class="body-text">What the chromatin remodelling physically builds is spines. Not dendrites — spines, on the medium spiny neurons of the striatum. Thin-necked, newly formed, immature, headed for either stabilisation or pruning. So hold the two facts side by side. The dopamine signal in those cells is being blunted. And in response the neuron is building more receptive surface.</p>
+<p class="body-text">Everybody's first instinct is that this must be the cell compensating — growing more places to catch the dopamine it is no longer getting. It is not, and this is the most important sentence I can give you:</p>
+<p class="body-text">Those new spines are not receiving dopamine. They are receiving glutamate.</p>
+<p class="body-text">Medium spiny neurons are GABAergic projection cells, and their spines are the landing sites for glutamate coming down from cortex and limbic structures. Dopamine does not arrive there. It arrives at the spine <em>neck</em> and the dendritic shaft, as a modulator. The new spines are excitatory input sites, enriched in AMPA receptors, and they make the cell hyperexcitable to cortical drive at exactly the moment its dopamine signal has been gutted.</p>
+<p class="body-text">These two transmitters get collapsed together constantly, and they are not comparable objects. Glutamate is ionotropic and fast: it opens a pore, cations pour through, the cell depolarises. In the D1 pathway that is the drive to act. The <em>go</em>. Dopamine is metabotropic and slow. It opens nothing. It changes the cell's internal chemistry — cAMP, PKA, DARPP-32, CREB, ERK — and assigns a value to whatever you just did. It is the teaching signal, not the action signal.</p>
+<p class="body-text">So here is the adapted state, exactly: <strong>the urge to act is structurally amplified, and the machinery that assigns value to acting has been dismantled.</strong> That is not an analogy for addiction. That is wanting without liking, written in tissue, built by one protein in one population of cells at one time.</p>
+<p class="body-text">One caveat I will not smooth over, because it is a real published dissociation. The spine effect is not symmetric across cell types. Psychostimulant-driven ΔFosB accumulates predominantly in D1 neurons, and the spine-density increase is a D1 effect. ΔFosB in D2 neurons does not reproduce it. Writing "D1 and D2 remodelling" as one process flattens something the data actually separates.</p>
+<p class="body-text">And there is a contradiction sitting in the middle of this that the field has not closed. The cleanest established glutamatergic target of ΔFosB is GluA2 — ΔFosB <em>increases</em> GluA2 in the accumbens. But the incubation-of-craving work shows accumulation of GluA2-<em>lacking</em>, calcium-permeable AMPA receptors in those same synapses during prolonged withdrawal. Those two statements point in opposite directions, because GluA2 inclusion is precisely what makes an AMPA receptor calcium-impermeable. They are probably separated by timescale and compartment — ΔFosB acting early and transcriptionally, the calcium-permeable receptors arriving late and post-transcriptionally during withdrawal. Probably. That reconciliation is assumed in the field, not demonstrated, and anyone building on "ΔFosB makes calcium-permeable spines" is building across an unclosed gap.</p>
+<p class="body-text">The sharpest result in the field is about a gene sitting loaded rather than switched on. Give a rat chronic cocaine, take it away for a long withdrawal, then give one more dose. ΔFosB comes back faster and higher than it ever did in an animal that never had the drug. The reason is physical: the earlier exposure parked RNA polymerase II on the Fosb promoter and left it stalled there. Through the entire withdrawal the gene was not active. It was cocked. The next dose only released the catch.</p>
+<p class="body-text">How long the protein itself lasts carries two numbers, and both belong here.</p>
+<p class="body-text">In <a href="article7.html">Article 07</a> I gave ΔFosB a half-life of roughly two weeks. The measured number is older and shorter: seven days after the last dose, the induced binding complex in rat accumbens still sat at half its peak. The arithmetic comes out the same either way. On daily use, accumulation outruns clearance and the protein is permanent for as long as the using lasts. Stop, and it clears over months.</p>
+<p class="body-text">The twenty-year problem needs three pieces.</p>
+<p class="body-text">First the clinical fact: relapse risk persists for years, and relapse happens after decades of abstinence.</p>
+<p class="body-text">Then the molecular candidates, each with the horizon it has actually been measured to. ΔFosB protein: several weeks. A primed Fosb gene with its polymerase parked on the promoter: through an extended withdrawal. Calcium-permeable AMPA receptors in the accumbens: appearing about a month into withdrawal, then staying.</p>
+<p class="body-text">Then the gap between those two. The longest persistence anyone has measured runs weeks to months. The clinical course runs decades. The chromatin does not close that distance, and that gap is where my own model lives.</p>
+<p class="body-text">In Article 07 I wrote: "ΔFosB is not a memory of the drug. It is a construction order, and the thing it constructs outlives it by an order of magnitude. The protein clears in months. The state does not." The thing that persists, in my model, is the receptor count at the synapse — calcium-permeable AMPA receptors, held up by a loop that feeds itself. The drug's push is not part of that loop. During abstinence the drug term is zero, and the loop runs on its own.</p>
+<p class="body-text">And the standard story about why the brain settles into that state is wrong in a way worth stating, because it is the part of my own work I am most confident in.</p>
+<p class="body-text">The story everybody tells is that the addicted brain has adapted — found a cheaper, more stable place to sit, a deeper well on an energy landscape. It did not. Bending the membrane to build one spine runs about 133 ATP. Remodelling the chromatin across the genome, plus transcribing and translating everything that changes, comes to something near 1.5 billion ATP for the whole neuron. That sounds enormous until you set it against what the neuron spends simply existing, which is about 7.3 billion ATP every second. Holding the adapted state costs an extra few percent of that, continuously, forever.</p>
+<p class="body-text">Divide one by the other and the installation is repaid in two to nine seconds.</p>
+<p class="body-text">Installation is not cheap. It is free, relative to the question. Any argument that the brain stores this epigenetically because storage is cheap to install is arguing about a quantity four or five orders of magnitude below the one that matters. And the state it installed then costs the cell somewhere between two and ten percent of its entire metabolic budget, indefinitely, to keep occupying.</p>
+<p class="body-text">So the brain did not find a cheaper place to sit. It found a place it is overwhelmingly unlikely to leave, and it pays rent to stay there.</p>
+<p class="body-text">Getting out means crossing a barrier, and the time that takes goes as the distance to the edge raised to a power. At the noise level the brain actually runs at, that power is about 23.</p>
+<p class="body-text">Three things fall out of that, and each one is worse than the last. A set of synapses sitting twice as far from the edge as another takes roughly ten million times longer to escape — so a difference too small to notice biologically is the difference between a state that fades in a week and one that outlasts the experiment. Heavier use does not dig a deeper hole: once the drug is gone the drive term is zero, so the destination does not depend on how much, how long, how often, or how many drugs got you there. A longer binge arrives at the same place sooner and more certainly. And the drug's push has an elasticity of exactly zero — not small, zero, as a structural fact about where that term sits in the equations. Anything that only blocks the drug can stop you arriving and can hold the state down while it is in you, and does nothing whatsoever to how long the state lasts once built. What moves it is the strength of the loop itself, which beats every other handle by an order of magnitude. Cut persistence from eighty days to one week and you need a 10.6% reduction in the loop. No amount of wanting to leave changes an exponent.</p>
+<p class="body-text">The glutamate is where that receptor count comes from. The drive to go and get cocaine runs down a glutamate line from frontal cortex into the accumbens core. Shut down any link in that chain — the ventral tegmental area, the dorsal prefrontal cortex, the core itself, the ventral pallidum — and drug seeking stops, while seeking food survives all but the last. It is a series circuit, and it is specific to the drug. Put dopamine into the prefrontal end alone and the whole thing fires. And when glutamate in the core runs low, the synapses coming in from the cortex potentiate, which is the state relapse runs on. N-acetylcysteine restores the glutamate balance, depotentiates those synapses, and cuts relapse.</p>
+<p class="body-text">Cue-induced seeking does not fade across early withdrawal. It grows. That is the incubation of craving, first demonstrated in rats in 2001. What carries it is a receptor change that reads backwards if you are careless with nomenclature. After prolonged withdrawal from extended-access self-administration, new AMPA receptors that <em>lack</em> the GluA2 subunit — the same subunit older papers call GluR2 — are added to accumbens synapses. Absence of GluA2 is what makes a receptor calcium-permeable and higher-conductance, and in rats those receptors mediate the incubated craving. In the ventral tegmental area the insertion is rapid, within hours, and can follow a single cocaine injection; in accumbens medium spiny neurons it requires extended access, is first detected after about a month of withdrawal, and then persists. Stimulating mGluR1 still strips the receptors out of slices prepared after more than forty-five days of withdrawal. The VTA and accumbens differ in which subunit the <em>trafficking</em> depends on, not in what ends up in the synapse.</p>
+<p class="body-text">Hours in one region from a single dose. A month in another, and only after extended access. Months to years for the human clinical course, in a separate sentence, measured a different way.</p>
+
+<h2 class="section-heading">The Argument Against All of This</h2>
+<p class="body-text">There is a serious case that everything above is the wrong frame, and I would rather make it myself than have it made at me.</p>
+<p class="body-text">Start with the fact I already printed, because it is the critics' best exhibit and I handed it over without flinching: 99.2% of people dependent on cocaine eventually stop, half of them inside five years, most without any treatment at all. Now ask what kind of chronic brain disease has a 99% remission rate and a five-year median. Hypertension does not behave like that. Type 2 diabetes does not. If the condition reliably resolves in almost everybody, mostly unaided, within a few years, then a model built on permanent molecular damage is explaining something that is not happening.</p>
+<p class="body-text">Then the choice experiments, which are the part people in the field find hardest to answer. Give experienced cocaine smokers a straight choice, dose by dose, between smoking cocaine and taking a five-dollar voucher, and the five dollars measurably wins business away from the drug. Not in abstainers — in dependent users, in a lab, with the drug physically present. Six people, so hold the number loosely. But the shape of the result is the problem: a compulsion that reprices against a voucher is behaving like a choice under constraint, not like a seizure.</p>
+<p class="body-text">The critics' version runs like this. What we call addiction is learning, not lesion. The brain changes are real and are also what the brain does when anything is repeated — a language, an instrument, a route to work. Pointing at neuroplasticity and calling it pathology mistakes the mechanism of all habit formation for the signature of a disease. And the disease framing has a political cost: it has delivered thirty years of mechanism and almost no medicines, while licensing the idea that the people inside it cannot respond to incentives, which the voucher data says they plainly can.</p>
+<p class="body-text">Second line of attack, and this one is about my own evidence. Nearly all of it is rodent. The G9a loop, the HDAC5 result, the stalled polymerase, the spine counts, the calcium-permeable receptors, the running wheels — rats and mice. The human data in this article is thin by comparison: receptor availability scans, a handful of imaging studies, and one post-mortem sample showing accumulation in human cocaine users. The field discusses ΔFosB as though its human role were settled. It is not measured in living people. Nobody can assay it in you.</p>
+<p class="body-text">And I cannot sit out the third objection, because it lands on this article specifically. The science here is load-bearing for a story about two people, and the join between a mechanism and a biography is being supplied by me rather than by any instrument. What I have is a documented sequence of events and a body of mechanism that fits it — which is exactly the shape a wrong explanation also takes.</p>
+<p class="body-text">Here is where I actually stand, and the honest answer is that the two frames are not as opposed as the fight makes them look. A rare event with a finite rate is both of these things at once. It is a 99% remission probability given twenty years, and it is a wall for the person standing in front of it on a Tuesday. My model does not require the door to be locked — it says the door is heavy, and that the weight goes as an exponent. That is compatible with almost everyone eventually getting through it, and compatible with a five-dollar voucher moving the odds at the margin, and compatible with twenty-two years and eight months on one particular file.</p>
+<p class="body-text">What the choice data actually refutes is not the molecular story. It is the fatalism people hang off it.</p>
+
+<h2 class="section-heading">Two People, One Drug Problem, Two Endings</h2>
+<p class="body-text">They started at the same place. Two kids with no money bouncing between houses in Detroit, both of them using, one of them with a record deal.</p>
+<p class="body-text">He took more than she did. Forty to sixty Valium a day, twenty or thirty Vicodin, Ambien on top, then methadone from a stranger. He hit 230 pounds. He overdosed at Christmas and was told he had been two hours from dying. By any measure of chemical load, his was the worse exposure.</p>
+<p class="body-text">He has been sober since April 20, 2008. Eighteen years, a coin posted every April, raising three children, one of them his sister-in-law's daughter because that sister-in-law could not.</p>
+<p class="body-text">She was charged with cocaine possession in 2003 and has been in the system ever since. Seven court-ordered treatment beds. Three walk-outs. 197 clean tests in 2017 proving she could, then nine more years of this. A felony drink-driving charge at fifty-one. Two felony charges from the night the police came. Three bond revocations. Other people's vehicles. A judge telling her she may leave jail only for a treatment bed, and a defence lawyer calling her a "wonderful young woman" being "victimised by the court" while the prosecutor says she is a risk to herself and everyone around her.</p>
+<p class="body-text">Same city. Same era. Same class of problem. Heavier dose on his side.</p>
+<p class="body-text">That asymmetry is the most important thing in this article, and the honest answer is that nobody can tell you why it fell that way. Not the genetics — 3.81% of variance. Not the exposure, which was worse for him. The mechanism is identical in both of them and it produced eighteen years of sobriety in one and a cell in the other, and this was the problem in one of my equations. In the The persistence law equation, I explicitly stated we don’t know ρ, which is how far the tipping point is from the unstable point, and this ρ varies per person and we have no current way of measuring it. What we do know, is that a small change in ρ creates a dramatically different recovery timeline per-person. Even a slight change for instance if ρ were greater than 1.45, a change of 1% can increase the recovery timeline to thousands of years. </p>
+<p class="body-text">That is the warning, and it is not the one health class gives you.</p>
+<p class="body-text">Health class tells you drugs are bad and that you have a choice. This is worse than that. The protein does not negotiate, it does not care what you intended, and it keeps a running total you cannot see or check. She did not decide to spend her forties in courtrooms. She took something at a party in Detroit when she was young and the counter started, and twenty-two years later a judge is deciding where she is allowed to sleep.</p>
+<p class="body-text">You will not be able to tell when you cross the line, and we won’t know the tipping point until we found ρ, which it’s likely we are centuries, perhaps if ever we are we are to find ρ. More information from this can be found in my article (ΔFosB Does Not Save Your Brain Energy. It Charges Rent).  There is no sensation attached to it. The spines are already growing while you still think you are fine, the gene is being cocked while you are still choosing, and the first time you find out how far the count has gone is the day you try to stop and discover you cannot.</p>
+<p class="body-text">She found out. It took her two decades and it is still going.</p>
+<p class="body-text">What does come back is function, partially and slowly. Stay off stimulants for a year and more and the dopamine transporters in the striatum climb back — about 19% in the caudate, 16% in the putamen. The performance does not climb back as fast as the marker does. The scan heals quicker than the person. Come off long-term benzodiazepines and cognition recovers across many domains while staying measurably worse than people who never took them, and not approaching full restitution inside the first six months.</p>
+<p class="body-text">Getting the machinery for making memories back is not the same as getting back the years spent not making any.</p>
+<p class="body-text">In 2022, on his manager Paul Rosenberg's podcast, he said: "It took a long time for my brain to start working again." He described relearning how to rap.</p>
+<p class="body-text">Drug dependence relapses at rates comparable to type 2 diabetes, hypertension and asthma, and responds to the same thing those do: long-term care with continued monitoring. Treating it as an acute illness is the error. Every April he posts the coin. In April 2026 it said eighteen years.</p>
+
+<h2 class="section-heading">He Does Not Sound Like That Anymore</h2>
+<p class="body-text">People say he looks like a different person and sounds like a different person. They are right on both counts, and the reasons are mechanical.</p>
+<p class="body-text">Start with the face. He went to 220, 230 pounds on the pills, and opioids hold water on top of that — the bloat is partly fluid, not just fat. Then he ran seventeen miles a day and it came off. Rapid loss of that size takes the subcutaneous and buccal fat out of the face first and hardest, which is the tissue that rounds a cheek and softens a jawline. The gaunt, hollowed look is not illness. It is the same face with the padding gone. Add twenty-six years to it and you have the whole difference.</p>
+<p class="body-text">The voice is the same story one layer deeper. A voice is two things: a source and a filter. The vocal folds make a buzz, and the tube above them — throat, mouth, nose — amplifies some frequencies and kills others. That filtering is what makes a voice recognisably one person's. The tube's dimensions and the mass of soft tissue lining it set which frequencies survive. Change the tissue in the neck, pharynx and face by sixty pounds and you have rebuilt the filter. The buzz is similar. What comes out the end is not.</p>
+<p class="body-text">Then the source. Rapping at speed is a breath-pressure problem. You are regulating subglottal pressure precisely, over long phrases, while articulating. Opioids suppress respiratory drive directly at the brainstem, and benzodiazepines reduce muscle tone, which includes the muscles doing that regulating. The nasal, elastic, high-sitting delivery of the early records was being produced by a twenty-six-year-old on sedatives at 230 pounds. None of those three inputs still applies.</p>
+<p class="body-text">And vocal folds stiffen with age regardless. The tissue loses pliability, the usable range narrows, fine pitch control changes. He was twenty-seven when <em>The Marshall Mathers LP</em> came out. He is fifty-four.</p>
+<p class="body-text">He also said the plainest version himself: it took a long time for his brain to start working again, and he had to relearn how to rap. The voice that came back was built by a different body running on different chemistry.</p>
+
+<h2 class="section-heading">Why People Miss the Old Songs</h2>
+<p class="body-text">The other half of this is not about him at all.</p>
+<p class="body-text">Autobiographical memory is not evenly distributed across a life. It clusters hard in late adolescence and early adulthood, and so do musical preferences — the records from those few years stay preferred for the rest of the listener's life, well past any judgement about quality. Whatever was playing while you were fifteen is welded in.</p>
+<p class="body-text">And music runs on the reward machinery directly. Label the dopamine receptors in someone listening to music they love and the label gets displaced in the striatum at the moment of peak emotion. The split is the same one this article has been describing all along: the caudate carries the <em>anticipation</em> — the few seconds before the drop, while you are leaning toward it — and the nucleus accumbens carries the hit itself. Wanting and liking, in two different structures, for an abstract pattern of air pressure.</p>
+<p class="body-text">So the people who miss <em>The Marshall Mathers LP</em> are not making an aesthetic argument, though they think they are. Those records landed inside their bump. The songs are fused to being that age, in that bedroom, with that set of problems. And the part that cannot be reissued is the caudate part. Anticipation requires not knowing what comes next, and nobody gets to hear something for the first time twice.</p>
+<p class="body-text">He is sober, older, heavier in the voice and lighter in the face, and apologising in his lyrics instead of threatening. Some of what people are mourning is that. The rest of it is that they were seventeen, and the molecule that marked those songs as mattering has nothing left to work with.</p>
+
+<h2 class="section-heading">The Apologies</h2>
+<p class="body-text">"I have trust issues," he told Rolling Stone in 2010. "With women, friends, whatever."</p>
+<p class="body-text">In December 2017 came "Bad Husband," on <em>Revival</em>. It moves between Hailie and Kim, refers to their "public spats," and admits answering violence with violence and continuing "the pattern of abuse." One line: "But I'm sorry Kim / More than you can ever comprehend."</p>
+<p class="body-text">On the same album, "Castle" is three letters to Hailie; the last is dated her twelfth birthday and ends in the overdose. "Arose" replays the overdose from the hospital bed and then rewinds, with a new ending: "I'm pledging to throw this methadone in the toilet."</p>
+<p class="body-text">In July 2024, on <em>The Death of Slim Shady</em>, "Temporary" used recordings of Hailie as a toddler, written for her to hear after he is gone. "Somebody Save Me" is about what addiction did to his family.</p>
+<p class="body-text">Hailie answered on her podcast. "I audibly sobbed I think for both songs but especially 'Temporary.'" She said she still cannot get through "Mockingbird" without crying. She had married Evan McClintock that May in Battle Creek, Michigan. Her father danced with her.</p>
+<p class="body-text">Kim has said nothing about any of it.</p>
+
+<h2 class="section-heading">Kim, After</h2>
+<p class="body-text">On October 7, 2015, in Macomb Township, Kim's black Cadillac Escalade hit a utility pole and landed upside down in a ditch. She told a responding emergency worker she had drunk a fifth of Malibu rum.</p>
+<p class="body-text">In May 2016 she called into a Detroit morning radio show. "Yes I drank. I took pills and I hit the gas and aimed for the pole." Asked whether it had been a suicide attempt, she said yes. She said she had been clean for about ten years, that she struggled with life in the public eye, and that she had battled depression. Of him: "We are very close friends; we are just trying to raise our kids together."</p>
+<p class="body-text">Her claim is internally consistent with the file. Her probation and court-ordered treatment ran to January 2006, and between 2004 and October 2015 there is no criminal drug or driving case against her in any source anyone has found.</p>
+<p class="body-text">The pharmacology of what she named is unusually well characterised, and it pulls in two directions at once. Alcohol potentiates GABA-A, the brain's principal inhibitory receptor, and it antagonises NMDA, its main excitatory one. The NMDA effect is selective and dose-graded at concentrations that produce intoxication: 50 mM ethanol reduced NMDA-activated current in voltage-clamped hippocampal neurons by 61%, while reducing kainate- and quisqualate-activated currents by only 18% and 15%, and across several alcohols the potency of NMDA inhibition is linearly related to intoxicating potency. Engineering alcohol-resistant channels into mice makes specific alcohol behaviours disappear, which is strong causal evidence that those channels carry those behaviours. Both arms push the same way behaviourally. Both are also why alcohol withdrawal is the dangerous kind: remove a drug that was boosting inhibition and suppressing excitation, and what is left is doubly hyperexcitable, with seizures and delirium well characterised.</p>
+<p class="body-text">And it releases the brain's own opioids in the accumbens and orbitofrontal cortex, measured directly in people.</p>
+<p class="body-text">Drinking in the hours before a suicide attempt and years of alcohol dependence are two different mechanisms. They travel together and they are not the same thing, and only one of them was operating that night.</p>
+<p class="body-text">Three months later, on Tuesday, January 19, 2016, her twin sister Dawn Scott was found dead in a mobile home at the Motor City Trailer Park in Warren, Michigan — miles from where the three of them grew up. Warren police called it an apparent heroin overdose.</p>
+<p class="body-text">Dawn's use was everything she could get. A man who said he had lived with her on and off for four years put it this way: "Heroin, cocaine, Adderall. If it was a pill, she would take it." She had been ruled unfit to raise her own daughter, which is why Alaina was raised by Kim and Eminem. By the end she was homeless or close to it, and estranged from her family.</p>
+<p class="body-text">Four months before she died, she went to a tabloid to ask for help in public, because asking in private had not worked. "I have a millionaire brother-in-law and a sister with money up the ass, but they're refusing to give me any help." She said she had asked her twin directly, and that Kim's answer was: "That's not my problem."</p>
+<p class="body-text">Four months later she was dead on the floor of a mobile home.</p>
+<p class="body-text">Kim's tribute went up on a funeral home's memorial page. "Dawn was my sweet, beautiful sister who lost her way."</p>
+<p class="body-text">Kim and Dawn were twins.</p>
+<p class="body-text">Two sisters, born the same day, dead and alive at opposite ends of the same drug economy. Substance use disorders run about 50% heritable. Cocaine dependence sits at the high end — 65 to 79%, among the most heritable conditions in psychiatry.</p>
+<p class="body-text">But what gets inherited has no drug attached to it. One common genetic factor drives risk across every class of illicit substance at once. The drug-specific genetics shows up in whether someone tries a thing, and vanishes once you look at whether they become dependent on it. The liability is general. Which substance it lands on is decided by what is in the house, what a doctor writes, and who you are standing next to.</p>
+<p class="body-text">The cleanest causal genetics in the whole field works by making the drug unpleasant rather than by altering reward. Variants of ADH1B and ADH1C common in East Asian populations break ethanol down faster, acetaldehyde accumulates, drinking becomes aversive, and carriers drink less and have lower risk of alcohol dependence; a low-activity ALDH2 variant does the same thing from the other end of the pathway. The same alleles raise the risk of oesophageal cancer.</p>
+<p class="body-text">And then the number that belongs beside every heritability figure. The best opioid-use-disorder polygenic score anyone has built accounts for 3.81% of the variance. Over 96% of it is unaccounted for. The variants are individually tiny, and the scores fall apart when moved between ancestries.</p>
+<p class="body-text">In the May 2016 interview she said: "After the death of my sister I had to go look at her dead in that trailer... It just hurts and now this."</p>
+<p class="body-text">Her sister's death has since been offered as the explanation for her condition. The dates do not allow it. Dawn died in January 2016. The crash was October 2015. The grief came after the pole.</p>
+<p class="body-text">On November 22, 2016, at 41A District Court in Shelby Township, she was sentenced on a reduced misdemeanour impaired-driving count to twelve months' probation with continued counselling, regular drug tests and random alcohol testing, plus a $900 fine.</p>
+<p class="body-text">Then the one stretch that proves it was possible. Court documents showed six diluted drug tests between December 2016 and February 2017, including on back-to-back days, and she was accused of violating probation. At a hearing that March the judge kept her on probation and said he was impressed: she had switched, on her own initiative, to SoberLink, which tests randomly every day. Her attorney reported 197 consecutive negative tests and a clean hair sample.</p>
+<p class="body-text">So she could do it. Instrument-verified, every day, for months, on a system she volunteered for. That is the high-water mark of twenty-two years, and it is the thing that removes every excuse from what came next, because whatever else is true, <em>she had already demonstrated she could put together a clean stretch and she did not keep it.</em></p>
+<p class="body-text">On July 30, 2021, police and EMS responded to a call about a suicidal person at her home; she was taken to hospital for medical and psychological evaluation. A headline places her mother's death days before.</p>
+<p class="body-text">Then 2026, and the year is worth stating in the order it happened, because this is the part where it stops being only her own life she is spending.</p>
+<p class="body-text">On February 16, in Chesterfield Township, prosecutors allege she drove a Range Rover into a parked Dodge Ram, pushed it about fifty feet, and drove off, impaired at the time. On May 11 she pleaded no contest before Judge William H. Hackel III to operating while impaired and failure to stop after a collision. Two days later, prosecutors allege, she crashed a 2026 Kia into a parked Jeep Cherokee; she was charged with operating while intoxicated, third offence — a felony carrying up to five years. A Detroit News headline reported a BAC of about 0.2. At her May 28 arraignment, bond conditions were no alcohol, SoberLink monitoring four times a day, and a psychiatric evaluation within seven days recommending treatment. Prosecutors allege four SoberLink violations between May 28 and June 24. On June 24 she failed to appear for sentencing, a bond hearing and a probable-cause conference, and two bench warrants issued. She turned herself in later that month.</p>
+<p class="body-text">On July 11, police went to her home on a call for assistance with a suicidal person; EMS took her to McLaren Macomb. Prosecutors allege she injured an officer and resisted arrest, and charged her with two felony counts of assaulting, resisting or obstructing a police officer, one alleging injury. Those charges have not been tried and she is presumed innocent of them.</p>
+<p class="body-text">On Thursday, August 13, Hackel revoked her bond and jailed her over violations the court called numerous — GPS tether alerts, stipulated to by both sides — and ruled she could be released to an inpatient programme if one accepted her. "I'm not seeing a real correction at this point, so I'm going to revoke the bond," he said, and told her she could not unilaterally set the rules of her release. Prosecutor Joseph McCarthy said he was seriously concerned about the repeated violations and that she "poses a risk to herself and to our community." Her defence attorney, Camilla Barkovic, said she vehemently disagreed, and told reporters afterwards that Mathers is a "wonderful young woman" being "victimized by the court."</p>
+<p class="body-text">She entered inpatient treatment and left it, after a magistrate approved her departure. On October 7 Hackel revoked bond again and remanded her to the county jail. Of the magistrate: "She had no authority to make that decision." On October 14 he ruled she may leave jail only for an accepted inpatient programme — the same order he had made in August, re-imposed with a walk-out in between. A preliminary exam on the July charges was set for October 23.</p>
+<p class="body-text">Here is the count, and it is worth reading slowly.</p>
+<p class="body-text">From her first court-ordered treatment on February 12, 2004 to the inpatient-only ruling of October 14, 2026 is twenty-two years and eight months. Inside it: seven treatment episodes, every one of them ordered or authorised by a court. Five were inpatient. Three of those five ended with her walking out. Three hospital or psychiatric contacts, in 2000, 2021 and 2026. At least five relapses — the positive test eight days into probation in January 2004, the 2015 crash by her own account, February 2026, May 2026, and four tether violations in the middle of that year. Two bench warrants. Three bond revocations. A felony drink-driving charge at fifty-one. A pair of felony charges from the night police came to her house.</p>
+<p class="body-text">Twenty-two years, and the court is still the only thing putting her in a treatment bed.</p>
+<p class="body-text">And inside that same record: 197 consecutive clean tests, in 2017, under a monitoring system stricter than the one she was required to use — one she chose for herself. A negative hair test alongside them. She was not drifting through this. She fought it for two decades with everything a person has, and this is the file.</p>
+<p class="body-text">Now the number that makes it worse. Almost everybody gets out. The lifetime odds of coming off cocaine dependence are 99.2%, and half the people who get there do it inside five years. For alcohol it is 90.6%, median closer to fourteen.</p>
+<p class="body-text">Nearly everyone escapes, and half of them inside five years. She is seventeen years past the median and still in a cell.</p>
+<p class="body-text">The median time to remission from cocaine dependence is about five years. Her documented record runs twenty-two years and eight months.</p>
+
+<h2 class="section-heading">Twenty-Six Years In</h2>
+<p class="body-text">There was a second lawsuit. Debbie Mathers-Briggs filed for $1 million in September 2000 over his press comments, on top of the 1999 suit over the album; nearly every retrospective mentions only one.</p>
+<p class="body-text">Her own lawyer conceded the pills and denied the abuse. The dispute was never whether Valium was in the house.</p>
+<p class="body-text">Kim walked out of court-ordered treatment twice in 2004, not once, and served jail time after the first walk-out.</p>
+<p class="body-text">He tried for custody of his half-brother Nate at twenty and could not afford it. By 2004 Nate was living with him.</p>
+<p class="body-text">The judge who put him on probation for the gun in April 2001 is the judge who finalised his second divorce in December 2006.</p>
+<p class="body-text">2026 is the most legally serious year of Kim Scott's life: two impaired-driving cases, one of them a pending felony charge, two pending felony charges from a police call, two bench warrants, two bond revocations and a walk-out from ordered treatment.</p>
+
+<h2 class="section-heading">Both of Them Failed</h2>
+<p class="body-text">He was told he had taken the equivalent of four bags of heroin and had come within about two hours of dying. He woke up not knowing it was Christmas. Then he relapsed within weeks.</p>
+<p class="body-text">She had ten clean years behind her. In October 2015 she drank, took pills, and aimed an Escalade at a utility pole. Three months later her twin was dead in a trailer park, miles from where the two of them grew up. In 2026, at fifty-one, she was in the county jail.</p>
+<p class="body-text">Both of them wanted to stop. That is the part to sit with. He had just been handed the most powerful piece of information a nervous system can be given — <em>you nearly died doing this</em> — and it bought him three weeks. She assembled ten clean years and then drove at a pole. Wanting to stop is not the variable. It never was. That is what kind of machine is being argued with.</p>
+<p class="body-text">Here is the cruelty, and it is in the design.</p>
+<p class="body-text">The protein that keeps the count accumulates because it refuses to break down. The rest of its family is cleared in hours. This one stays, so the tally only ever goes up. And it does not know what it is counting. The same protein in the same cells logged the Vicodin and logged the seventeen miles a day. It is not a punishment system and it is not a conscience. It is a counter that cannot tell a catastrophe from a discipline.</p>
+<p class="body-text">What it builds is wanting, not liking. Those are different systems in different tissue, and only one of them gets amplified. The pull grows while the payoff shrinks. He described the end state precisely: "I wasn't even taking them to get high anymore. I was taking them to feel normal." That is a man still being dragged toward something that had stopped working on him years earlier.</p>
+<p class="body-text">Then the part that should frighten anyone holding an eighteen-year coin. Through the whole of an abstinence the gene is not switched on. It is cocked — polymerase parked on the promoter, waiting. The longer the clean stretch runs, the more it looks finished, and the loaded thing sits there the entire time. One dose releases the catch and the protein returns faster and higher than it did on the first exposure. The first relapse after a decade is not a return to the beginning. It is worse than the beginning.</p>
+<p class="body-text">In my model the arithmetic is worse again. Entry is cheap and close to deterministic once you are over the line, and the installation is repaid in seconds. Exit is a rare event with an exponent of about twenty-three. And blocking the drug — the one thing everybody demands, the thing a court orders, the thing a coin counts — has an elasticity of exactly zero against how long the state lasts. You can do the demanded thing perfectly, for years, and it does not move that clock at all.</p>
+<p class="body-text">That is the cruelty. The mechanism makes the wanting permanent, charges rent on it indefinitely, and then arranges things so the single action available to you is the one that does not touch it.</p>
+<p class="body-text">What it cost, in the two files:</p>
+<p class="body-text">He lost five years he cannot retrieve — not buried, never recorded, nothing there to recover. He keeps the handwriting from those years in a box in his closet, the letters sliding down the page, because it is the only evidence he has that the time happened at all.</p>
+<p class="body-text">Her daughter grew up in her father's house. Her niece was raised by the man who made a record about killing her, because her sister was too far gone to do it. That sister died in a mobile home in a trailer park. And at fifty-one she is in a county jail, with a judge ruling she may leave it only for a bed in a treatment facility — the seventh time a court has tried to put her in one.</p>
+
+<h2 class="section-heading">The Scariest Part Isn't the Overdose</h2>
+<p class="body-text">He relapsed within about three weeks of being told he was two hours from dying, after a week or two in hospital.</p>
+<p class="body-text">She said in 2016 that she had been clean for about a decade before the crash, and the public record between 2004 and 2015 contains no case that contradicts her.</p>
+<p class="body-text">Ten years after that decade ended, the file holds two impaired-driving cases, alleged monitor violations, and an inpatient programme she left with a magistrate's permission and a judge's objection.</p>
+<p class="body-text">Her twin sister was found dead in a trailer park in Warren, of what police called an apparent heroin overdose.</p>
+<p class="body-text">The scariest part is not the night in the bathroom. It is the pair of numbers. Nearly everyone who becomes dependent on cocaine eventually stops — 99.2% of them, over a lifetime, with half stopping within about five years. Her file is twenty-two years and eight months long.</p>
+
+<h2 class="section-heading">Verdict</h2>
+<div class="conclusion-block">
+<p class="body-text">Those two numbers are not in tension, and that is the whole argument. Almost everyone gets out eventually, and the median time to get out is five years. That is exactly what a rare event with a finite rate looks like when you give it enough years. My model says the same thing from the other direction: escape time goes as the distance to the edge raised to about 23, so a set of synapses sitting twice as far out takes ten million times longer to leave. And when I ran the escape simulations to check the arithmetic, every single trajectory escaped.</p>
+<p class="body-text">Rare is not impossible. The door is not locked; it is heavy, and it gets heavier the longer you leave it.</p>
+<p class="body-text">The state is also movable, and the model says where. Cut the loop's self-reinforcement by about a tenth and eighty days of persistence becomes one week. Raise the noise and you get the same result. And anything that only takes the drug away moves it by exactly zero.</p>
+<p class="body-text">That last one is the sentence worth keeping. Taking the drug away is not the same as undoing what it built.</p>
+<p class="body-text">He kept the handwriting from those years, the letters sliding down the page, "like my hand weighed 400 pounds." He keeps it "in a box in my closet. As a reminder that I don't ever want to go back."</p>
+<p class="body-text">The box is in the closet because the state it records is not in the past tense.</p>
+<div class="divider"></div>
+<div class="divider"></div>
+</div>
+<h2 class="section-heading">Sources</h2>
+<h3>History dossier 1 (h#)</h3>
+<ul>
+<li>Rolling Stone, "Eminem: The Rolling Stone Interview," Nov 25, 2004 (interviews October 2004). Archived: http://web.archive.org/web/20171109075800/http://www.rollingstone.com:80/music/features/the-rolling-stone-interview-eminem-20041125 (history [1], read)</li>
+<li>Josh Eells, "Eminem: On the Road Back From Hell," Rolling Stone (interview Oct 14, 2010; Nov 2010 issue). https://www.rollingstone.com/music/music-news/eminem-on-the-road-back-from-hell-249093/ (history [2], read)</li>
+<li>NPR, <em>All Things Considered</em>, Guy Raz, "Eminem Confronts His Inner Demons In 'Recovery'," June 19, 2010. https://www.npr.org/transcripts/127953120 (history [3], read)</li>
+<li>AP via News On 6, "Rapper Charged After Michigan Fight," June 7, 2000. https://newson6.com/story/5e3685622f69d76f6209ac59/rapper-charged-after-michigan-fight (history [4], read)</li>
+<li>Pollstar (AP), "Eminem's Wife Attempts Suicide," July 10, 2000. https://news.pollstar.com/2000/07/10/eminems-wife-attempts-suicide/ (history [5], read)</li>
+<li>Salon, July 25, 2000. https://www.salon.com/2000/07/25/eminem/ (history [6], read)</li>
+<li>ABC News (AP), "Eminem Ends Custody Fight Over Daughter," Aug 30, 2000. https://abcnews.go.com/Entertainment/story?id=116074 (history [7], read)</li>
+<li>Rolling Stone, "Eminem's Wife Sues for $10 Million," Aug 2000. https://www.rollingstone.com/music/music-news/eminems-wife-sues-for-10-million-195165/ (history [8], snippet)</li>
+<li>Rolling Stone, "Eminem, Kim Settle Divorce," Mar 22, 2001 (history [9], read via archive)</li>
+<li>ABC News (AP), "Eminem Sentenced to Two Years of Probation," Apr 10, 2001. https://abcnews.go.com/Entertainment/story?id=107023 (history [10], read)</li>
+<li>ABC News (AP), "Judge Reduces Eminem's Mom's Settlement," Aug 8, 2001. https://abcnews.go.com/Entertainment/story?id=103148 (history [11], read)</li>
+<li>Metro Times, "The Real Slim Shady." https://www.metrotimes.com/music-2/the-real-slim-shady-2174825/ (history [12], snippet)</li>
+<li>Billboard report on the 2001 decree. https://www.billboard.com/?p=78136 (history [13], snippet)</li>
+<li>TODAY (AP), "Eminem's ex-wife will serve jail time," Feb 12, 2004. https://www.today.com/popculture/eminems-ex-wife-will-serve-jail-time-wbna4251589 (history [14], read)</li>
+<li>Pollstar, "Em Fights Med Dependency," Aug 23, 2005. https://news.pollstar.com/2005/08/23/em-fights-med-dependency/ (history [15], read)</li>
+<li>TMZ, "Eminem Files for Divorce... Again," Apr 5, 2006. https://www.tmz.com/2006/04/05/eminem-files-for-divorce-again/ (history [16], read)</li>
+<li>Fox News (AP), "Rapper Eminem, Wife Divorce for Second Time," Dec 20, 2006. https://www.foxnews.com/story/rapper-eminem-wife-divorce-for-second-time (history [17], read)</li>
+<li>ABC News <em>20/20</em>, "Eminem's Ex: Love Turns to Hate," Feb 2007. https://abcnews.go.com/2020/story?id=2842070 (history [18], read)</li>
+<li>Fox News (AP), "Eminem's Ex-Wife Kim Mathers Says Rapper Unfaithful, Uncaring," Feb 16, 2007. https://www.foxnews.com/story/eminems-ex-wife-kim-mathers-says-rapper-unfaithful-uncaring (history [19], read)</li>
+<li>XXL, "Eminem's Sister-in-Law Dead From Apparent Heroin Overdose," Jan 20, 2016 (read); Radar quotes via HuffPost UK, Jan 21, 2016 (read) (history [20])</li>
+<li>IANS via Business Standard, "Eminem's ex-wife pays tribute to beautiful twin sister," Jan 23, 2016 (history [21], snippet)</li>
+<li>TMZ, May 4, 2016. https://www.tmz.com/2016/05/04/eminem-kim-mathers-dui-suicide/ (history [22], read)</li>
+<li>Fox 2 Detroit, "Eminem's ex-wife Kim Mathers: DUI crash was suicide attempt," May 5, 2016 (history [23], read)</li>
+<li>Patch, "Kim Mathers sentenced to probation," Nov 22, 2016 (history [24], read)</li>
+<li>Yahoo News, "Kim Mathers Avoids Jail Time for Suicide Attempt" (history [25], snippet; Oct 7, 2015 date, Malibu rum)</li>
+<li>Rolling Stone, "Eminem's 'Revival': A Track-by-Track Guide," Dec 2017 (history [26], read via archive)</li>
+<li>Fox News, Aug 11, 2021, relaying TMZ (history [27], read)</li>
+<li>The Daily Beast, 2021 (history [28], headline only)</li>
+<li>Rolling Stone, Sept 2022; Revolt, Sept 8, 2022 (history [29], snippets)</li>
+<li>Anthony Bozza, "Eminem Blows Up," Rolling Stone, April 29, 1999 issue (history [30]; Kim quotes attributed via Wikipedia citation, not found in extract)</li>
+<li>Martin Huxley, <em>Eminem: Crossing the Line</em> (St. Martin's, 2000), p. 63 (history [31], pointer)</li>
+<li>Macomb County Prosecutor's Office, "Kimberley Mathers arraigned and pleads no contest," May 11, 2026; Fox 2 Detroit, May 11, 2026 (history [32], read)</li>
+<li>Macomb County Prosecutor's Office, "Kimberley Mathers arraigned on Operating While Intoxicated Third," May 28, 2026 (history [33], read)</li>
+<li>Macomb County Prosecutor's Office, "Kimberley Mathers fails to appear... bench warrants," June 25, 2026 (history [34], read)</li>
+<li>The Detroit News, "Kim Mathers blows 0.2 BAC, hit with drunk driving charge," May 20, 2026 (history [36], headline only)</li>
+<li>TMZ, July 14, 2026 (snippet); The Express Tribune, July 15, 2026 (read) (history [37])</li>
+<li>ClickOnDetroit (WDIV), "Judge revokes bond for Kim Mathers...," Oct 7, 2026 (history [38], read)</li>
+<li>ClickOnDetroit (WDIV), "Kim Mathers permitted to leave jail for in-patient treatment," Oct 14, 2026 (history [39], read)</li>
+<li>The Detroit News, Oct 14, 2026; CBS Detroit; Macomb County Prosecutor release of Oct 8, 2026 (history [40]; prosecutor release and CBS read, Detroit News paywalled)</li>
+<li>Billboard, Aug 2024; XXL; Complex (history [42], snippets quoting the Aug 23, 2024 <em>Just a Little Shady</em> episode)</li>
+<li>ET Online, May 2024; GMA, May 20, 2024 (history [43], snippets)</li>
+<li>Radio X; CBS Detroit; Global News (history [44], snippets)</li>
+<li>Wikipedia, "'97 Bonnie &amp; Clyde" and "Kim (song)" (history [45], pointer only; release history and review quotes to be cited to originals)</li>
+</ul>
+<h3>History dossier 2 (h2-#)</h3>
+<ul>
+<li>XXL, "Eminem's Sister-in-Law Dead From Apparent Heroin Overdose," Jan 20, 2016 (history2 [52], read in full: Les Martin quote, Warren location, age 40, "pending a toxicology test")</li>
+<li>HuffPost UK, Jan 21, 2016; TimesLIVE, Jan 21, 2016; BET (history2 [53], snippets; corroborate date, Warren, "apparent," pending toxicology)</li>
+<li>AP (Mount Clemens) via Fox News, "Eminem's Ex-Wife To Go Behind Bars," June 30, 2004 (history2 [54], read: the two dropouts, the June 15 Ann Arbor arrest, the April warrant, 1 year / serve 140 days, Hazel Park, Russ Marlan)</li>
+<li>AP via Fox News, "Eminem's Ex Starts Rehab," Sept 15, 2004 (history2 [55], read: Hazelden, Center City MN; 30 days; early release from a 120-day term; probation to end January 2006; Judge Servitto)</li>
+<li>AFP via The Star (Malaysia), Aug 18, 2026, on the Aug 13, 2026 hearing (history2 [56], read: Hackel, McCarthy and Barkovic quotes; GPS tether; inpatient condition)</li>
+<li>WXYZ Detroit, "Kim Mathers continues on probation, judge says diluted drug tests can be accidental," March 2017 (history2 [57], snippet, detailed: six diluted tests Dec 2016–Feb 1 2017; 197 negative SoberLink tests; negative hair test; terms of the Nov 2016 probation)</li>
+<li>SCMP Style, 2024; Yahoo/People-syndicated "Who Is Eminem's Ex-Wife? All About Kim Scott" (history2 [58], snippets: the 1988 runaway and stepfather claims)</li>
+<li>editorialge.com, "Are Kim and Dawn Scott Identical Twins" (history2 [59]) — <strong>cited only to record that the sole "identical" assertion found is a content-farm page with no documentary basis. Not a usable source.</strong></li>
+<li>FamousBirthdays, "Dawn Scott" (history2 [60], snippet; Jan 9, 1975 birth date matching Kim's reported date — establishes twinship, not zygosity). Low tier.</li>
+<li>Debbie Nelson, <em>My Son Marshall, My Son Eminem</em> (2008). Summaries and reviews consulted via search; <strong>the book's relevant pages were not reached</strong> (history2 [61])</li>
+<li>Rolling Stone, "Eminem Sued By His Mom," Sept 1999 (history2 [62], snippet)</li>
+<li>ABC News (AP), "Eminem Gives Deposition Against Mom," Sept 2000 (history2 [63], read: Sept 15, 2000 video deposition, Macomb Circuit Court, nearly three hours; "the drugs she abused were prescription drugs"; Fred Gibson on Valium and "Vicatin"; the $1 million second suit)</li>
+<li>Songfacts lyric page, Eminem, "Cleanin' Out My Closet" (history2 [64], read for the single question of whether "Munchausen" appears in the lyric — it does; the lyric was not reproduced); commentary page (snippet; the "by proxy" gloss there is a reader comment)</li>
+<li>Songfacts, Eminem, "My Mom" (history2 [65], read: "Valium-popping mother"; first response since the 2008 memoir; no mention of food)</li>
+<li>Wikipedia, "Cleanin' Out My Closet" (history2 [66], read; pointer only — trace to the cited interviews before use)</li>
+<li>NBC News, "Eminem's mother Debbie Nelson dies at 69," Dec 2024; Euronews, Dec 4, 2024 (history2 [68], snippets)</li>
+<li>AP via CBS News, "Gun Rap For Eminem," June 2000 (history2 [69], read: 2:20 a.m. Sunday; bar parking lot in Warren, unnamed; Marlinga; unloaded gun; two felony counts; "Kimberly Mathers, 27"; <strong>no mention of alcohol</strong>)</li>
+</ul>
+<h3>Neuropharmacology dossier 1 (n#)</h3>
+<ul>
+<li>Al-Hasani R, Bruchas MR. <em>Anesthesiology</em>. 2011;115(6):1363-81. doi:10.1097/ALN.0b013e318238bba6</li>
+<li>Koob GF, Volkow ND. Neurocircuitry of addiction. <em>Neuropsychopharmacology</em>. 2010;35(1):217-38. doi:10.1038/npp.2009.110</li>
+<li>Volkow ND, Koob GF, McLellan AT. <em>N Engl J Med</em>. 2016;374(4):363-71. doi:10.1056/NEJMra1511480</li>
+<li>Koob GF, Le Moal M. <em>Nat Neurosci</em>. 2005;8(11):1442-4. doi:10.1038/nn1105-1442</li>
+<li>FDA Drug Safety Communication, prescription acetaminophen limited to 325 mg per dosage unit; boxed warning for severe liver injury. 13 January 2011.</li>
+<li>Chou R, et al. Methadone safety: a clinical practice guideline. <em>J Pain</em>. 2014;15(4):321-37. doi:10.1016/j.jpain.2014.01.494</li>
+<li>Webster LR. Methadone-related deaths. <em>J Opioid Manag</em>. 2005;1(4):211-7. doi:10.5055/jom.2005.0045</li>
+<li>Ernst E, et al. Methadone-related deaths in Western Australia 1993-99. <em>Aust N Z J Public Health</em>. 2002;26(4):364-70. doi:10.1111/j.1467-842x.2002.tb00188.x</li>
+<li>Gunja N. In the Zzz zone. <em>J Med Toxicol</em>. 2013;9(2):163-71. doi:10.1007/s13181-013-0294-y</li>
+<li>Pétursson H. The benzodiazepine withdrawal syndrome. <em>Addiction</em>. 1994;89(11):1455-9. doi:10.1111/j.1360-0443.1994.tb03743.x</li>
+<li>Day E, Daly C. Clinical management of the alcohol withdrawal syndrome. <em>Addiction</em>. 2022;117(3):804-14. doi:10.1111/add.15647</li>
+<li>Kattimani S, Bharadwaj B. Clinical management of alcohol withdrawal. <em>Ind Psychiatry J</em>. 2013;22(2):100-8. doi:10.4103/0972-6748.132914</li>
+<li>Baldo BA, Rose MA. Mechanisms of opioid-induced respiratory depression. <em>Arch Toxicol</em>. 2022;96(8):2247-60. doi:10.1007/s00204-022-03300-7</li>
+<li>Park TW, et al. Benzodiazepine prescribing patterns and deaths from drug overdose among US veterans receiving opioid analgesics. <em>BMJ</em>. 2015;350:h2698. doi:10.1136/bmj.h2698</li>
+<li>FDA Drug Safety Communication, boxed warning on combining opioids with benzodiazepines. 31 August 2016. Docket FDA-2016-P-0689.</li>
+<li>Hope BT, et al. <em>Neuron</em>. 1994;13(5):1235-44. doi:10.1016/0896-6273(94)90061-2</li>
+<li>Nestler EJ, Barrot M, Self DW. ΔFosB: a sustained molecular switch for addiction. <em>PNAS</em>. 2001;98(20):11042-6. doi:10.1073/pnas.191352698</li>
+<li>Nestler EJ. Molecular mechanisms of drug addiction. <em>Neuropharmacology</em>. 2004;47 Suppl 1:24-32. doi:10.1016/j.neuropharm.2004.06.031</li>
+<li>Werme M, et al. ΔFosB regulates wheel running. <em>J Neurosci</em>. 2002;22(18):8133-8. doi:10.1523/JNEUROSCI.22-18-08133.2002</li>
+<li>Wang D, et al. Impact of physical exercise on substance use disorders: a meta-analysis. <em>PLoS One</em>. 2014;9(10):e110728. doi:10.1371/journal.pone.0110728</li>
+<li>Volkow ND, et al. Relationship between subjective effects of cocaine and dopamine transporter occupancy. <em>Nature</em>. 1997;386:827-30. doi:10.1038/386827a0</li>
+<li>Volkow ND, et al. Decreased dopamine D2 receptor availability... in cocaine abusers. <em>Synapse</em>. 1993;14(2):169-77. doi:10.1002/syn.890140210</li>
+<li>Volkow ND, et al. Loss of dopamine transporters in methamphetamine abusers recovers with protracted abstinence. <em>J Neurosci</em>. 2001;21(23):9414-8. doi:10.1523/JNEUROSCI.21-23-09414.2001</li>
+<li>Felitti VJ, et al. The Adverse Childhood Experiences (ACE) Study. <em>Am J Prev Med</em>. 1998;14(4):245-58. doi:10.1016/s0749-3797(98)00017-8</li>
+<li>Dube SR, et al. Childhood abuse, neglect, and household dysfunction and the risk of illicit drug use. <em>Pediatrics</em>. 2003;111(3):564-72. doi:10.1542/peds.111.3.564</li>
+<li>Heim C, Nemeroff CB. <em>Biol Psychiatry</em>. 2001;49(12):1023-39. doi:10.1016/s0006-3223(01)01157-x</li>
+<li>Sinha R. Chronic stress, drug use, and vulnerability to addiction. <em>Ann N Y Acad Sci</em>. 2008;1141:105-30. doi:10.1196/annals.1441.030</li>
+<li>Fiorillo CD, Tobler PN, Schultz W. <em>Science</em>. 2003;299(5614):1898-902. doi:10.1126/science.1077349</li>
+<li>Fisher HE, et al. Reward, addiction, and emotion regulation systems associated with rejection in love. <em>J Neurophysiol</em>. 2010;104(1):51-60. doi:10.1152/jn.00784.2009</li>
+<li>Feigelman W, Jordan JR, Gorman BS. Parental grief after a child's drug death compared to other death causes. <em>Omega</em>. 2011;63(4):291-316. doi:10.2190/OM.63.4.a</li>
+<li>Conner KR, Bagge CL, Goldston DB, Ilgen MA. Alcohol and suicidal behavior. <em>Am J Prev Med</em>. 2014;47(3 Suppl 2):S204-8. doi:10.1016/j.amepre.2014.06.007</li>
+<li>Barker MJ, et al. Persistence of cognitive effects after withdrawal from long-term benzodiazepine use: a meta-analysis. <em>Arch Clin Neuropsychol</em>. 2004;19(3):437-54. doi:10.1016/S0887-6177(03)00096-9</li>
+<li>McLellan AT, et al. Drug dependence, a chronic medical illness. <em>JAMA</em>. 2000;284(13):1689-95. doi:10.1001/jama.284.13.1689</li>
+<li>Neuropharm dossier 1 §0 (documented-record table: hip-flexor injury from 2015 interviews) and mechanism sections §1, §3 where no single numbered reference is given</li>
+<li>Neuropharm dossier 1 §7, intermittent (partial) reinforcement as a foundational operant-conditioning finding; no single reference given</li>
+<li>Neuropharm dossier 1, "Myths to avoid" (items 1, 2, 5, 6, 7)</li>
+</ul>
+<h3>Neuropharmacology dossier 2 (n2-#)</h3>
+<ul>
+<li>Hearn WL, et al. Cocaethylene: a unique cocaine metabolite displays high affinity for the dopamine transporter. <em>J Neurochem</em>. 1991;56(2):698-701. doi:10.1111/j.1471-4159.1991.tb08205.x</li>
+<li>Landry MJ. An overview of cocaethylene. <em>J Psychoactive Drugs</em>. 1992;24(3):273-6. doi:10.1080/02791072.1992.10471648</li>
+<li>Jones AW. Forensic Drug Profile: Cocaethylene. <em>J Anal Toxicol</em>. 2019;43(3):155-160. doi:10.1093/jat/bkz007</li>
+<li>Jatlow P. Cocaethylene: pharmacologic activity and clinical significance. <em>Ther Drug Monit</em>. 1993;15(6):533-6.</li>
+<li>Ritz MC, Cone EJ, Kuhar MJ. Cocaine inhibition of ligand binding at dopamine, norepinephrine and serotonin transporters. <em>Life Sci</em>. 1990;46(9):635-45. doi:10.1016/0024-3205(90)90132-b</li>
+<li>van Amsterdam J, Gresnigt F, van den Brink W. Cardiovascular Risks of Simultaneous Use of Alcohol and Cocaine — A Systematic Review. <em>J Clin Med</em>. 2024;13(5):1475. doi:10.3390/jcm13051475</li>
+<li>Andrews P. Cocaethylene toxicity. <em>J Addict Dis</em>. 1997;16(3):75-84. doi:10.1300/J069v16n03_08 — <strong>narrative review; source of the contested "18- to 25-fold" figure, which this article does not print as a fact</strong></li>
+<li>Hart CL, Jatlow P, Sevarino KA, McCance-Katz EF. Comparison of intravenous cocaethylene and cocaine in humans. <em>Psychopharmacology (Berl)</em>. 2000;149(2):153-62. doi:10.1007/s002139900363</li>
+<li>Farré M, et al. Alcohol and cocaine interactions in humans. <em>J Pharmacol Exp Ther</em>. 1993;266(3):1364-73.</li>
+<li>McCance-Katz EF, et al. Concurrent cocaine-ethanol ingestion in humans. <em>Psychopharmacology (Berl)</em>. 1993;111(1):39-46. doi:10.1007/BF02257405</li>
+<li>Berridge KC, Robinson TE. What is the role of dopamine in reward? <em>Brain Res Rev</em>. 1998;28(3):309-69. doi:10.1016/s0165-0173(98)00019-8</li>
+<li>Berridge KC, Robinson TE. Liking, wanting, and the incentive-sensitization theory of addiction. <em>Am Psychol</em>. 2016;71(8):670-679. doi:10.1037/amp0000059</li>
+<li>Schultz W. Predictive reward signal of dopamine neurons. <em>J Neurophysiol</em>. 1998;80(1):1-27. doi:10.1152/jn.1998.80.1.1</li>
+<li>Peciña S, Berridge KC. Hedonic hot spot in nucleus accumbens shell. <em>J Neurosci</em>. 2005;25(50):11777-86. doi:10.1523/JNEUROSCI.2329-05.2005</li>
+<li>Salamone JD, Correa M. The mysterious motivational functions of mesolimbic dopamine. <em>Neuron</em>. 2012;76(3):470-85. doi:10.1016/j.neuron.2012.10.021</li>
+<li>Roque Bravo R, et al. Cocaine: An Updated Overview. <em>Toxins (Basel)</em>. 2022;14(4):278. doi:10.3390/toxins14040278</li>
+<li>Ritz MC, Lamb RJ, Goldberg SR, Kuhar MJ. Cocaine receptors on dopamine transporters are related to self-administration of cocaine. <em>Science</em>. 1987;237(4819):1219-23. doi:10.1126/science.2820058</li>
+<li>Weinshenker D, Schroeder JP. There and back again: a tale of norepinephrine and drug addiction. <em>Neuropsychopharmacology</em>. 2007;32(7):1433-51. doi:10.1038/sj.npp.1301263</li>
+<li>Beaulieu JM, Gainetdinov RR, Caron MG. Akt/GSK3 signaling in the action of psychotropic drugs. <em>Annu Rev Pharmacol Toxicol</em>. 2009;49:327-47. doi:10.1146/annurev.pharmtox.011008.145634</li>
+<li>Porter-Stransky KA, et al. Loss of β-arrestin2 in D2 cells alters neuronal excitability in the nucleus accumbens and behavioral responses to psychostimulants and opioids. <em>Addict Biol</em>. 2020;25(6):e12823. doi:10.1111/adb.12823</li>
+<li>Kumar A, et al. Chromatin remodeling is a key mechanism underlying cocaine-induced plasticity in striatum. <em>Neuron</em>. 2005;48(2):303-14. doi:10.1016/j.neuron.2005.09.023</li>
+<li>Carle TL, et al. Proteasome-dependent and -independent mechanisms for FosB destabilization. <em>Eur J Neurosci</em>. 2007;25(10):3009-19. doi:10.1111/j.1460-9568.2007.05575.x</li>
+<li>Robison AJ, Nestler EJ. Transcriptional and epigenetic mechanisms of addiction. <em>Nat Rev Neurosci</em>. 2011;12(11):623-37. doi:10.1038/nrn3111 — <strong>full text read for the persistence audit; contains no half-life figure in days or weeks and no measured persistence duration for any chromatin or transcriptional change in any species</strong></li>
+<li>Maze I, et al. Essential role of the histone methyltransferase G9a in cocaine-induced plasticity. <em>Science</em>. 2010;327(5962):213-6. doi:10.1126/science.1179438</li>
+<li>Renthal W, et al. Histone deacetylase 5 epigenetically controls behavioral adaptations to chronic emotional stimuli. <em>Neuron</em>. 2007;56(3):517-29. doi:10.1016/j.neuron.2007.09.032</li>
+<li>Damez-Werno D, et al. Drug experience epigenetically primes Fosb gene inducibility in rat nucleus accumbens. <em>J Neurosci</em>. 2012;32(30):10267-72. doi:10.1523/JNEUROSCI.1290-12.2012 — <strong>withdrawal interval not stated in the abstract; no duration printed in this article</strong></li>
+<li>McFarland K, Kalivas PW. The circuitry mediating cocaine-induced reinstatement of drug-seeking behavior. <em>J Neurosci</em>. 2001;21(21):8655-63. doi:10.1523/JNEUROSCI.21-21-08655.2001</li>
+<li>Kupchik YM, et al. The effect of N-acetylcysteine in the nucleus accumbens on neurotransmission and relapse to cocaine. <em>Biol Psychiatry</em>. 2012;71(11):978-86. doi:10.1016/j.biopsych.2011.10.024</li>
+<li>Wolf ME, Tseng KY. Calcium-permeable AMPA receptors in the VTA and nucleus accumbens after cocaine exposure. <em>Front Mol Neurosci</em>. 2012;5:72. doi:10.3389/fnmol.2012.00072</li>
+<li>Grimm JW, Hope BT, Wise RA, Shaham Y. Incubation of cocaine craving after withdrawal. <em>Nature</em>. 2001;412(6843):141-2. doi:10.1038/35084134</li>
+<li>Wolf ME. Synaptic mechanisms underlying persistent cocaine craving. <em>Nat Rev Neurosci</em>. 2016;17(6):351-65. doi:10.1038/nrn.2016.39</li>
+<li>Conrad KL, et al. Formation of accumbens GluR2-lacking AMPA receptors mediates incubation of cocaine craving. <em>Nature</em>. 2008;454(7200):118-21. doi:10.1038/nature06995</li>
+<li>McCutcheon JE, et al. Group I mGluR activation reverses cocaine-induced accumulation of calcium-permeable AMPA receptors. <em>J Neurosci</em>. 2011;31(41):14536-41. doi:10.1523/JNEUROSCI.3625-11.2011</li>
+<li>Eisenberger NI, Lieberman MD, Williams KD. Does rejection hurt? An fMRI study of social exclusion. <em>Science</em>. 2003;302(5643):290-2. doi:10.1126/science.1089134</li>
+<li>Eisenberger NI. Social pain and the brain: controversies, questions, and where to go from here. <em>Annu Rev Psychol</em>. 2015;66:601-29. doi:10.1146/annurev-psych-010213-115146</li>
+<li>DeWall CN, et al. Acetaminophen reduces social pain: behavioral and neural evidence. <em>Psychol Sci</em>. 2010;21(7):931-7. doi:10.1177/0956797610374741</li>
+<li>Kramer MS, et al. Distinct mechanism for antidepressant activity by blockade of central substance P receptors. <em>Science</em>. 1998;281(5383):1640-5. doi:10.1126/science.281.5383.1640</li>
+<li>Keller M, et al. Lack of efficacy of the substance P (neurokinin-1 receptor) antagonist aprepitant in the treatment of major depressive disorder. <em>Biol Psychiatry</em>. 2006;59(3):216-23. doi:10.1016/j.biopsych.2005.07.013</li>
+<li>Ebner K, Singewald N. The role of substance P in stress and anxiety responses. <em>Amino Acids</em>. 2006;31(3):251-72. doi:10.1007/s00726-006-0335-9</li>
+<li>Ebner K, Muigg P, Singewald G, Singewald N. Substance P in stress and anxiety. <em>Ann N Y Acad Sci</em>. 2008;1144:61-73. doi:10.1196/annals.1418.018</li>
+<li>George DT, et al. Neurokinin 1 receptor antagonism as a possible therapy for alcoholism. <em>Science</em>. 2008;319(5869):1536-9. doi:10.1126/science.1153813</li>
+<li>Panksepp J, Herman B, Conner R, Bishop P, Scott JP. The biology of social attachments: opiates alleviate separation distress. <em>Biol Psychiatry</em>. 1978;13(5):607-18. PMID 83167 — <strong>puppies; oxymorphone 0.125–0.50 mg/kg, morphine sulfate 0.10–0.50 mg/kg; no standardised effect size in the abstract</strong></li>
+<li>Panksepp J, Herman BH, Vilberg T, Bishop P, DeEskinazi FG. Endogenous opioids and social behavior. <em>Neurosci Biobehav Rev</em>. 1980;4(4):473-87. doi:10.1016/0149-7634(80)90036-6</li>
+<li>Mitchell JM, O'Neil JP, Janabi M, Marks SM, Jagust WJ, Fields HL. Alcohol consumption induces endogenous opioid release in the human orbitofrontal cortex and nucleus accumbens. <em>Sci Transl Med</em>. 2012;4(116):116ra6. doi:10.1126/scitranslmed.3002902</li>
+<li>Trudell JR, Messing RO, Mayfield J, Harris RA. Alcohol dependence: molecular and behavioral evidence. <em>Trends Pharmacol Sci</em>. 2014;35(7):317-23. doi:10.1016/j.tips.2014.04.009</li>
+<li>Lovinger DM, White G, Weight FF. Ethanol inhibits NMDA-activated ion current in hippocampal neurons. <em>Science</em>. 1989;243(4899):1721-4. doi:10.1126/science.2467382</li>
+<li>Bushman BJ, Cooper HM. Effects of alcohol on human aggression: an integrative research review. <em>Psychol Bull</em>. 1990;107(3):341-54. doi:10.1037/0033-2909.107.3.341</li>
+<li>Bushman BJ. Effects of alcohol on human aggression: validity of proposed explanations. <em>Recent Dev Alcohol</em>. 1997;13:227-43. doi:10.1007/0-306-47141-8_13</li>
+<li>Deak JD, Johnson EC. Genetics of substance use disorders: a review. <em>Psychol Med</em>. 2021;51(13):2189-2200. doi:10.1017/S0033291721000969</li>
+<li>Cabana-Domínguez J, et al. Genome-wide association meta-analysis of cocaine dependence. <em>Prog Neuropsychopharmacol Biol Psychiatry</em>. 2019;94:109667. doi:10.1016/j.pnpbp.2019.109667</li>
+<li>Kendler KS, Jacobson KC, Prescott CA, Neale MC. Specificity of genetic and environmental risk factors for use and abuse/dependence of six classes of illicit substance in male twins. <em>Am J Psychiatry</em>. 2003;160(4):687-95. doi:10.1176/appi.ajp.160.4.687</li>
+<li>Karkowski LM, Prescott CA, Kendler KS. Multivariate assessment of factors influencing illicit substance use in twins from female-female pairs. <em>Am J Med Genet</em>. 2000;96(5):665-70.</li>
+<li>Zhou H, et al. Multi-ancestry study of the genetics of problematic alcohol use in over 1 million individuals. <em>Nat Med</em>. 2023;29(12):3184-3192. doi:10.1038/s41591-023-02653-5</li>
+<li>Deak JD, et al. GWAS in individuals of European and African ancestry and multi-trait analysis of opioid use disorder identifies 19 independent genome-wide significant risk loci. <em>Mol Psychiatry</em>. 2022;27(10):3970-3979. doi:10.1038/s41380-022-01709-1</li>
+<li>Hurley TD, Edenberg HJ. Genes encoding enzymes involved in ethanol metabolism. <em>Alcohol Res</em>. 2012;34(3):339-44. doi:10.35946/arcr.v34.3.09</li>
+<li>McClure RJ, Davis PM, Meadow SR, Sibert JR. Epidemiology of Munchausen syndrome by proxy, non-accidental poisoning, and non-accidental suffocation. <em>Arch Dis Child</em>. 1996;75(1):57-61. doi:10.1136/adc.75.1.57</li>
+<li>Neuropharm dossier 2, section-level claims with no single numbered reference: §1 Bridge (possession-plea scope rule), §3.5 and §3 Bridge (the DA/NE measurement asymmetry prohibition), §4.1 (the canonical GRK/arrestin desensitisation pathway — <strong>fact-checker: a general GPCR-desensitisation review still needs pulling; dossier 1 ref 1 is opioid-specific</strong>), §8 Bridge (motive and causal direction not in the opioid data), §11.2 (no usable neurobiology of sexual jealousy; PubMed returned zero results), §12.1 and §12.3 (FDIA framing and handling rules)</li>
+<li>Neuropharm dossier 2, "Myths to avoid," items 15 (the cocaethylene fold-change), 16 (co-use does not make a stronger drug), 23 (the ΔFosB half-life), 24 (no chromatin change documented to last years), 29 (alcohol does not remove the brakes)</li>
+</ul>
+<h3>Added by the author after the dossiers (nx#)</h3>
+<ul>
+<li>Lopez-Quintero C, Hasin DS, Pérez de los Cobos J, Pines A, Wang S, Grant BF, Blanco C. Probability and predictors of remission from life-time nicotine, alcohol, cannabis or cocaine dependence: results from the National Epidemiologic Survey on Alcohol and Related Conditions. <em>Addiction</em>. 2011;106(3):657-69. PMID 21077975. doi:10.1111/j.1360-0443.2010.03194.x — <strong>not in either neuropharm dossier; supplied by the author, who states he verified the figures against the primary record.</strong> NESARC, 43,093 US adults; cocaine-dependent subsample n = 408; lifetime cumulative probability of remission 99.2% for cocaine dependence with a median of about 5 years from dependence onset, and 90.6% for alcohol dependence with a median of about 14 years. <strong>[HUMAN]</strong> Fact-checker: confirm the subsample n and both medians against the paper, since this citation did not pass through the research stage.</li>
+</ul>
+<h3>The author's own work (a7)</h3>
+<ul>
+<li>R. Pannala, "ΔFosB Does Not Save Your Brain Energy. It Charges Rent." <em>Neuroscience with RPrime</em>, Article 07, 15 Nov 2026 (<code>article7.html</code>; full text in <code>research/user_dfosb_article.md</code>). Author's own work, not independent evidence. §3 and the Conclusion's protein-persistence lines = [LIT]; §10.4 (the persistence law τ ∝ ρ^(α/D), the 23.3 exponent, the elasticity table, the exactly-zero leverage of drug-drive-directed intervention, heavier exposure not deepening the state, exit as a rare event) = [AUTHOR MODEL]. <strong>Correction logged in this article: Article 07's "half-life of roughly two weeks" has no primary measurement behind it and needs amending at source.</strong></li>
+</ul>
+<div class="divider"></div>
+<footer class="footer">
+    <a href="/" class="footer-logo">Neuroscience with <span>RPrime</span></a>
+    <div class="footer-note">© 2026 Rishik Pannala — Independent neuroscience research</div>
+  </footer>
+</div>
+</body>
+</html>
