@@ -1,0 +1,3400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE PARADOX RIG — VTA–NAc–PFC Spiking Microcircuit &amp; Patch-Clamp Lab — Neuroscience with RPrime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #080808;
+    --panel: #0d0d0f;
+    --panel-2: #121216;
+    --panel-3: #18181e;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.16);
+    --text: #f0ece4;
+    --muted: #66666e;
+    --muted2: #9898a2;
+    --da: #c8ff00;       /* Acid Lime — Dopamine / VTA */
+    --nmda: #ff6b35;     /* Signal Orange — Cortical NMDA Glutamate Noise */
+    --ne: #00e5ff;       /* Electric Cyan — Norepinephrine / PFC Switch */
+    --ser: #9b88ff;      /* Receptor Violet — GABA / 5-HT Raphe */
+    --danger: #ff4d6d;   /* Crimson — D2 No-Go / Akathisia Alert */
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.55;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* FRACTAL NOISE OVERLAY */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 9998;
+    mix-blend-mode: overlay;
+  }
+
+  /* AMBIENT AURORA */
+  .aurora {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(125px);
+  }
+  .blob-1 {
+    width: 680px; height: 680px;
+    background: radial-gradient(circle, rgba(200,255,0,0.11), transparent 68%);
+    top: -260px; left: -180px;
+  }
+  .blob-2 {
+    width: 560px; height: 560px;
+    background: radial-gradient(circle, rgba(255,107,53,0.09), transparent 68%);
+    top: 28%; right: -190px;
+  }
+  .blob-3 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0,229,255,0.07), transparent 68%);
+    bottom: -140px; left: 22%;
+  }
+
+  /* STICKY TOP NAV */
+  .top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(8,8,8,0.84);
+    border-bottom: 1px solid var(--border);
+  }
+  .top-nav-inner {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .brand-cluster {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .logo span { color: var(--da); }
+
+  .lab-links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .lab-link {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    text-decoration: none;
+    padding: 5px 9px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: all 0.16s ease;
+    white-space: nowrap;
+  }
+  .lab-link:hover {
+    color: var(--text);
+    border-color: var(--border-strong);
+    background: rgba(255,255,255,0.03);
+  }
+  .lab-link.active {
+    color: #080808;
+    background: var(--da);
+    border-color: var(--da);
+    font-weight: 600;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .rig-btn {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 11px;
+    border-radius: 5px;
+    border: 1px solid var(--border-strong);
+    background: var(--panel-2);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.16s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .rig-btn:hover {
+    border-color: rgba(200,255,0,0.45);
+    background: #1a1b20;
+  }
+  .rig-btn.audio-on {
+    background: rgba(200,255,0,0.14);
+    border-color: var(--da);
+    color: var(--da);
+    box-shadow: 0 0 18px rgba(200,255,0,0.18);
+  }
+  .rig-btn.reel-on {
+    background: rgba(0,229,255,0.14);
+    border-color: var(--ne);
+    color: var(--ne);
+  }
+  .rig-btn.ode-btn {
+    border-color: rgba(155,136,255,0.38);
+    color: #cbc0ff;
+  }
+  .rig-btn.ode-btn:hover {
+    background: rgba(155,136,255,0.12);
+    border-color: var(--ser);
+  }
+
+  /* MAIN SHELL */
+  .rig-shell {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 22px 24px 72px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .hero-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .hero-left { max-width: 880px; }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--da);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .live-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--da);
+    box-shadow: 0 0 10px var(--da);
+    display: inline-block;
+    animation: pulseDot 1.6s ease-in-out infinite;
+  }
+  @keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+  h1.rig-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(24px, 3.2vw, 38px);
+    line-height: 1.06;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  h1.rig-title .accent { color: var(--da); }
+  .hero-sub {
+    font-size: 14px;
+    color: var(--muted2);
+    line-height: 1.55;
+  }
+  .hero-sub a {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-color: rgba(200,255,0,0.45);
+    text-underline-offset: 3px;
+  }
+  .hero-sub a:hover { color: var(--da); }
+
+  .sim-transport {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .clock-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--da);
+    background: rgba(200,255,0,0.06);
+    border: 1px solid rgba(200,255,0,0.22);
+    padding: 6px 10px;
+    border-radius: 5px;
+    letter-spacing: 0.05em;
+  }
+
+  /* PRESETS BAR */
+  .presets-section {
+    margin-bottom: 18px;
+  }
+  .section-micro-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .micro-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted2);
+  }
+  .presets-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .preset-card {
+    text-align: left;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 10px 11px;
+    cursor: pointer;
+    transition: all 0.16s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: var(--text);
+  }
+  .preset-card:hover {
+    border-color: rgba(200,255,0,0.35);
+    background: var(--panel-2);
+    transform: translateY(-1px);
+  }
+  .preset-card.active {
+    border-color: var(--da);
+    background: rgba(200,255,0,0.07);
+    box-shadow: inset 0 0 0 1px rgba(200,255,0,0.22);
+  }
+  .preset-num {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--da);
+  }
+  .preset-card[data-tone="orange"] .preset-num { color: var(--nmda); }
+  .preset-card[data-tone="cyan"] .preset-num { color: var(--ne); }
+  .preset-card[data-tone="violet"] .preset-num { color: var(--ser); }
+  .preset-card[data-tone="danger"] .preset-num { color: var(--danger); }
+  .preset-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 1.22;
+    color: var(--text);
+  }
+  .preset-tag {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--muted2);
+    line-height: 1.3;
+  }
+
+  /* LIVE METERS RIBBON */
+  .meters-ribbon {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .meter-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .meter-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 10px; height: 10px;
+    border-top: 1px solid rgba(200,255,0,0.3);
+    border-left: 1px solid rgba(200,255,0,0.3);
+  }
+  .meter-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .meter-label {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted2);
+  }
+  .meter-badge {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.05);
+    color: var(--muted2);
+  }
+  .meter-val {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 23px;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    margin-bottom: 7px;
+  }
+  .meter-bar-track {
+    height: 5px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+  .meter-bar-fill {
+    height: 100%;
+    width: 50%;
+    border-radius: 3px;
+    transition: width 0.12s linear, background-color 0.2s ease;
+  }
+  .meter-sub {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--muted);
+    margin-top: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* MAIN WET-LAB BENCH */
+  .bench-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.82fr) minmax(330px, 1fr);
+    gap: 14px;
+    align-items: start;
+  }
+  .canvases-col {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .top-canvases-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .rig-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+  .panel-head {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.015);
+    flex-wrap: wrap;
+  }
+  .panel-title-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .panel-kicker {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--da);
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: rgba(200,255,0,0.08);
+    border: 1px solid rgba(200,255,0,0.2);
+  }
+  .panel-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13.5px;
+    color: var(--text);
+  }
+  .panel-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .mini-btn {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-strong);
+    background: var(--panel-2);
+    color: var(--muted2);
+    cursor: pointer;
+    transition: all 0.14s ease;
+  }
+  .mini-btn:hover {
+    color: var(--text);
+    border-color: rgba(200,255,0,0.4);
+  }
+  .mini-btn.active {
+    color: #080808;
+    background: var(--da);
+    border-color: var(--da);
+    font-weight: 600;
+  }
+  .mini-btn.pulse-active {
+    color: #080808;
+    background: var(--ne);
+    border-color: var(--ne);
+    font-weight: 600;
+  }
+
+  .canvas-wrap {
+    position: relative;
+    width: 100%;
+    background: #070709;
+  }
+  .canvas-wrap canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  #connectomeWrap { height: 320px; cursor: crosshair; }
+  #patchWrap      { height: 320px; }
+  #rasterWrap     { height: 245px; }
+  #fscvWrap       { height: 210px; }
+
+  .panel-foot {
+    padding: 8px 14px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted2);
+    background: rgba(0,0,0,0.25);
+  }
+  .legend-inline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .leg-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .leg-swatch {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  /* RIGHT COLUMN: DIAGNOSTICS + CONTROL RACK */
+  .controls-col {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .diag-box {
+    background: var(--panel);
+    border: 1px solid rgba(200,255,0,0.24);
+    border-left: 3px solid var(--da);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .diag-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--da);
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .diag-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.25;
+  }
+  .diag-body {
+    font-size: 13px;
+    color: #c7c4bc;
+    line-height: 1.6;
+  }
+  .diag-body strong { color: var(--text); font-weight: 500; }
+  .diag-links {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .diag-links a {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--da);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+  .diag-links a:hover { text-decoration: underline; }
+
+  /* PIPETTE & AUDIO MONITOR */
+  .electrode-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 15px;
+  }
+  .pipette-pills {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 5px;
+    margin-top: 8px;
+    margin-bottom: 10px;
+  }
+  .pip-pill {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    padding: 6px 4px;
+    text-align: center;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--panel-2);
+    color: var(--muted2);
+    cursor: pointer;
+    transition: all 0.14s;
+  }
+  .pip-pill:hover { color: var(--text); border-color: var(--border-strong); }
+  .pip-pill.active[data-nuc="0"] { border-color: var(--da); color: var(--da); background: rgba(200,255,0,0.09); }
+  .pip-pill.active[data-nuc="1"] { border-color: var(--nmda); color: var(--nmda); background: rgba(255,107,53,0.10); }
+  .pip-pill.active[data-nuc="2"] { border-color: var(--ne); color: var(--ne); background: rgba(0,229,255,0.10); }
+  .pip-pill.active[data-nuc="3"] { border-color: var(--danger); color: var(--danger); background: rgba(255,77,109,0.10); }
+  .pip-pill.active[data-nuc="4"] { border-color: var(--ser); color: var(--ser); background: rgba(155,136,255,0.11); }
+
+  .audio-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+  .audio-vol-wrap {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex: 1;
+  }
+  .audio-vol-wrap span {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--muted2);
+    text-transform: uppercase;
+  }
+
+  /* SLIDER RACK */
+  .rack-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 15px;
+  }
+  .rack-group-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--da);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .rack-group-title.pharma { color: var(--nmda); margin-top: 14px; }
+
+  .slider-row {
+    margin-bottom: 11px;
+  }
+  .slider-row:last-child { margin-bottom: 0; }
+  .slider-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 3px;
+  }
+  .slider-name {
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #dedad2;
+  }
+  .slider-val {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--da);
+  }
+  .slider-hint {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 5px;
+    background: rgba(255,255,255,0.09);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--da);
+    border: 2px solid #080808;
+    box-shadow: 0 0 8px rgba(200,255,0,0.45);
+    cursor: pointer;
+  }
+  input[type="range"].orange::-webkit-slider-thumb { background: var(--nmda); box-shadow: 0 0 8px rgba(255,107,53,0.45); }
+  input[type="range"].cyan::-webkit-slider-thumb   { background: var(--ne); box-shadow: 0 0 8px rgba(0,229,255,0.45); }
+  input[type="range"].violet::-webkit-slider-thumb { background: var(--ser); box-shadow: 0 0 8px rgba(155,136,255,0.45); }
+  input[type="range"].danger::-webkit-slider-thumb { background: var(--danger); box-shadow: 0 0 8px rgba(255,77,109,0.45); }
+
+  .ssri-sub-toggle {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+  }
+  .ssri-pill {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--panel-2);
+    color: var(--muted2);
+    cursor: pointer;
+    text-align: center;
+  }
+  .ssri-pill.active {
+    border-color: var(--ser);
+    color: #dfd8ff;
+    background: rgba(155,136,255,0.16);
+  }
+
+  /* ODE & EQUATIONS DRAWER */
+  .drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.72);
+    backdrop-filter: blur(6px);
+    z-index: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s ease;
+  }
+  .drawer-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .ode-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(740px, 96vw);
+    height: 100vh;
+    background: #0c0c10;
+    border-left: 1px solid var(--border-strong);
+    z-index: 510;
+    transform: translateX(102%);
+    transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+    display: flex;
+    flex-direction: column;
+  }
+  .ode-drawer.open {
+    transform: translateX(0);
+  }
+  .drawer-head {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #09090c;
+  }
+  .drawer-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 18px;
+  }
+  .drawer-title span { color: var(--da); }
+  .drawer-body {
+    padding: 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .eq-card {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+  }
+  .eq-card-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--da);
+    margin-bottom: 6px;
+  }
+  .eq-card h3 {
+    font-family: var(--font-display);
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+  .eq-card p {
+    font-size: 13.5px;
+    color: #bdb9b0;
+    line-height: 1.65;
+    margin-bottom: 10px;
+  }
+  .eq-math {
+    background: #08080a;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    margin: 8px 0;
+    font-size: 13.5px;
+  }
+
+  /* FOOTER */
+  .rig-footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .rig-footer a { color: var(--muted2); text-decoration: none; }
+  .rig-footer a:hover { color: var(--da); }
+
+  /* 9:16 REEL STUDIO MODE (?mode=reel or .reel-mode) */
+  body.reel-mode {
+    background: #030304;
+  }
+  body.reel-mode .hero-strip,
+  body.reel-mode .controls-col,
+  body.reel-mode .rig-footer,
+  body.reel-mode .panel-foot {
+    display: none;
+  }
+  body.reel-mode .rig-shell {
+    max-width: 456px;
+    padding: 10px 12px 28px;
+  }
+  body.reel-mode .presets-section {
+    margin-bottom: 10px;
+  }
+  body.reel-mode .presets-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 5px;
+  }
+  body.reel-mode .preset-card { padding: 6px 7px; }
+  body.reel-mode .preset-tag { display: none; }
+  body.reel-mode .preset-name { font-size: 10px; }
+
+  .reel-stage-banner {
+    display: none;
+    padding: 8px 12px;
+    background: linear-gradient(90deg, rgba(200,255,0,0.12), rgba(0,229,255,0.08));
+    border: 1px solid rgba(200,255,0,0.3);
+    border-radius: 8px 8px 0 0;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  body.reel-mode .reel-stage-banner {
+    display: flex;
+  }
+  body.reel-mode .meters-ribbon {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  body.reel-mode .meters-ribbon .meter-card:nth-child(3) {
+    display: none;
+  }
+  body.reel-mode .meter-card { padding: 7px 8px; }
+  body.reel-mode .meter-val { font-size: 16px; margin-bottom: 4px; }
+  body.reel-mode .meter-sub, body.reel-mode .meter-badge { display: none; }
+  body.reel-mode .bench-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  body.reel-mode .top-canvases-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  body.reel-mode .canvases-col { gap: 8px; }
+  body.reel-mode .panel-head { padding: 6px 10px; }
+  body.reel-mode .panel-title { font-size: 11.5px; }
+  body.reel-mode #connectomeWrap { height: 175px; }
+  body.reel-mode #patchWrap      { height: 155px; }
+  body.reel-mode #rasterWrap     { height: 145px; }
+  body.reel-mode #fscvWrap       { height: 130px; }
+
+  /* RESPONSIVE BREAKPOINTS */
+  @media (max-width: 1240px) {
+    .presets-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .bench-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 860px) {
+    .top-canvases-row { grid-template-columns: 1fr; }
+    .meters-ribbon { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .presets-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 520px) {
+    .rig-shell { padding: 14px 12px 56px; }
+    .presets-grid { grid-template-columns: 1fr; }
+    .meters-ribbon { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora" aria-hidden="true">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<!-- STICKY TOP NAV -->
+<nav class="top-nav" aria-label="NeuroLab Navigation">
+  <div class="top-nav-inner">
+    <div class="brand-cluster">
+      <a href="./index.html" class="logo">Neuroscience with <span>RPrime</span></a>
+      <div class="lab-links">
+        <a href="./index.html" class="lab-link">← Home</a>
+        <a href="./neurolab.html" class="lab-link">NeuroLab Hub</a>
+        <a href="./sim_synapse.html" class="lab-link">Sim 01</a>
+        <a href="./sim_paradox_rig.html" class="lab-link active">Sim 02 · Paradox Rig</a>
+        <a href="./sim_quantum_pocket.html" class="lab-link">Sim 03</a>
+        <a href="./sim_brain_heart.html" class="lab-link">Sim 04</a>
+        <a href="./naloxone_sim.html" class="lab-link">Naloxone</a>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <button type="button" class="rig-btn" id="btnAudio" title="Synthesize real-time extracellular microelectrode spikes &amp; NMDA Poisson static via Web Audio API">
+        <span id="audioIcon">🔇</span> Hear Microelectrode
+      </button>
+      <button type="button" class="rig-btn" id="btnReel" title="Toggle 9:16 vertical studio layout (?mode=reel)">
+        9:16 Reel Mode
+      </button>
+      <button type="button" class="rig-btn ode-btn" id="btnOpenOde">
+        Inspect ODEs &amp; Equations
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main class="rig-shell">
+
+  <!-- HERO HEADER -->
+  <header class="hero-strip">
+    <div class="hero-left">
+      <div class="eyebrow">
+        <span class="live-dot"></span>
+        <span>SIMULATION 02 // 500-NEURON 1 kHz SPIKING MICROCIRCUIT &amp; PATCH-CLAMP RIG</span>
+      </div>
+      <h1 class="rig-title">THE PARADOX <span class="accent">RIG</span></h1>
+      <p class="hero-sub">
+        Live coupled Izhikevich–conductance electrophysiology testing the maladaptive NMDA homeostat (<a href="./article4.html">Article 04</a>), Arnsten’s prefrontal &alpha;<sub>2A</sub>/&alpha;<sub>1A</sub> intimidation switch (<a href="./penrose_article.html">Penrose Essay</a>), striatal D<sub>1</sub>/D<sub>2</sub> akathisia gating, and 5-HT<sub>1A</sub>/5-HT<sub>2C</sub> raphe dynamics. Click any nucleus to move the glass micropipette.
+      </p>
+    </div>
+    <div class="sim-transport">
+      <span class="clock-badge" id="simClockBadge">1.0 kHz LIVE · t = 0.0 s</span>
+      <button type="button" class="rig-btn" id="btnPlayPause">⏸ Pause</button>
+      <button type="button" class="rig-btn" id="btnBaseline" title="Restore healthy neurotypical unmedicated baseline">↺ Healthy Baseline</button>
+    </div>
+  </header>
+
+  <!-- 7 CLINICAL PARADOX PRESETS -->
+  <section class="presets-section" aria-label="Clinical Paradox Presets">
+    <div class="section-micro-head">
+      <span class="micro-label">7 One-Click Clinical &amp; Mechanistic Paradox Presets</span>
+      <span class="micro-label" id="activePresetIndicator" style="color:var(--da);">ACTIVE: PRESET 01 — UNTREATED NMDA-COMPENSATED ADHD</span>
+    </div>
+    <div class="presets-grid" id="presetsGrid">
+      <button type="button" class="preset-card active" data-preset="adhd" data-tone="orange">
+        <span class="preset-num">Preset 01 · Article 04</span>
+        <span class="preset-name">Severe NMDA-Compensated ADHD</span>
+        <span class="preset-tag">Low &eta;<sub>rel</sub> (18%) &rarr; NMDA noise flood &amp; agitation</span>
+      </button>
+      <button type="button" class="preset-card" data-preset="desoxyn" data-tone="lime">
+        <span class="preset-num">Preset 02 · Paradox Calm</span>
+        <span class="preset-name">Amphetamine / Desoxyn DAT Reversal</span>
+        <span class="preset-tag">PKC efflux restores [DA] &rarr; silences NMDA static</span>
+      </button>
+      <button type="button" class="preset-card" data-preset="mph" data-tone="orange">
+        <span class="preset-num">Preset 03 · NDRI Split</span>
+        <span class="preset-name">Why Methylphenidate Fails Release-Deficit</span>
+        <span class="preset-tag">NET &gt; DAT block spikes [NE] without fixing release</span>
+      </button>
+      <button type="button" class="preset-card" data-preset="benzo" data-tone="violet">
+        <span class="preset-num">Preset 04 · GABA Trap</span>
+        <span class="preset-name">Benzodiazepine GABA-A Suppression</span>
+        <span class="preset-tag">Crushes protective NMDA &rarr; calm, hypotensive &amp; dark</span>
+      </button>
+      <button type="button" class="preset-card" data-preset="amantadine" data-tone="lime">
+        <span class="preset-num">Preset 05 · Dual Target</span>
+        <span class="preset-name">Amantadine + Stimulant Synergy</span>
+        <span class="preset-tag">Trims excess open-channel NMDA + low-dose efflux</span>
+      </button>
+      <button type="button" class="preset-card" data-preset="akathisia" data-tone="danger">
+        <span class="preset-num">Preset 06 · Focus 06</span>
+        <span class="preset-name">Iatrogenic Akathisia Loop (D2 / Partial)</span>
+        <span class="preset-tag">D2 No-Go disinhibition uncoupled from reward</span>
+      </button>
+      <button type="button" class="preset-card" data-preset="penrose" data-tone="cyan">
+        <span class="preset-num">Preset 07 · Penrose Switch</span>
+        <span class="preset-name">Prefrontal &alpha;1A Intimidation Collapse</span>
+        <span class="preset-tag">Status-threat NE surge opens HCN leak &amp; shunts WM</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- REEL BANNER (VISIBLE ONLY IN 9:16 REEL MODE) -->
+  <div class="reel-stage-banner">
+    <span style="color:var(--da);font-weight:600;">@NEUROSCIENCERPRIME // THE PARADOX RIG</span>
+    <span id="reelPresetMini" style="color:var(--text);">NMDA ADHD</span>
+  </div>
+
+  <!-- 5 LIVE CLINICAL & BIOPHYSICAL METERS -->
+  <section class="meters-ribbon" aria-label="Live Biophysical Telemetry">
+    <div class="meter-card">
+      <div class="meter-top">
+        <span class="meter-label">PFC Cortical SNR</span>
+        <span class="meter-badge" id="snrBadge">NOISY</span>
+      </div>
+      <div class="meter-val" id="snrVal" style="color:var(--ne);">-2.4 dB</div>
+      <div class="meter-bar-track"><div class="meter-bar-fill" id="snrBar" style="background:var(--ne);"></div></div>
+      <div class="meter-sub" id="snrSub">Layer III WM bump vs NMDA Poisson noise</div>
+    </div>
+
+    <div class="meter-card">
+      <div class="meter-top">
+        <span class="meter-label">WM Attractor Stability</span>
+        <span class="meter-badge" id="wmBadge">&alpha;2A / HCN</span>
+      </div>
+      <div class="meter-val" id="wmVal" style="color:var(--da);">24%</div>
+      <div class="meter-bar-track"><div class="meter-bar-fill" id="wmBar" style="background:var(--da);"></div></div>
+      <div class="meter-sub" id="wmSub">HCN leak open · recurrent spines shunted</div>
+    </div>
+
+    <div class="meter-card">
+      <div class="meter-top">
+        <span class="meter-label">Executive Drive (D1 Go)</span>
+        <span class="meter-badge" id="execBadge">IMPAIRED</span>
+      </div>
+      <div class="meter-val" id="execVal" style="color:#d9ff4d;">26%</div>
+      <div class="meter-bar-track"><div class="meter-bar-fill" id="execBar" style="background:#d9ff4d;"></div></div>
+      <div class="meter-sub" id="execSub">NAc Direct MSN + PFC task output</div>
+    </div>
+
+    <div class="meter-card">
+      <div class="meter-top">
+        <span class="meter-label">Arousal &amp; BP Tone</span>
+        <span class="meter-badge" id="bpBadge">PROPPED UP</span>
+      </div>
+      <div class="meter-val" id="bpVal" style="color:var(--text);">122/79 <span style="font-size:12px;color:var(--muted2);font-weight:400;">mmHg</span></div>
+      <div class="meter-bar-track"><div class="meter-bar-fill" id="bpBar" style="background:var(--ne);"></div></div>
+      <div class="meter-sub" id="bpSub">Central NE + protective NMDA sympathetic drive</div>
+    </div>
+
+    <div class="meter-card">
+      <div class="meter-top">
+        <span class="meter-label">Akathisia / Agitation</span>
+        <span class="meter-badge" id="akaBadge">SEVERE</span>
+      </div>
+      <div class="meter-val" id="akaVal" style="color:var(--danger);">78%</div>
+      <div class="meter-bar-track"><div class="meter-bar-fill" id="akaBar" style="background:var(--danger);"></div></div>
+      <div class="meter-sub" id="akaSub">D2 No-Go + NMDA restlessness vs low reward</div>
+    </div>
+  </section>
+
+  <!-- MAIN BENCH -->
+  <div class="bench-grid">
+
+    <!-- LEFT/CENTER CANVASES COLUMN -->
+    <div class="canvases-col">
+
+      <div class="top-canvases-row">
+        <!-- CANVAS 1: INTERACTIVE CIRCUIT CONNECTOME -->
+        <section class="rig-panel">
+          <div class="panel-head">
+            <div class="panel-title-group">
+              <span class="panel-kicker">CH 01</span>
+              <span class="panel-title">Interactive Connectome &amp; Glass Pipette</span>
+            </div>
+            <div class="panel-controls">
+              <span style="font-family:var(--font-mono);font-size:9.5px;color:var(--muted2);">Click nucleus to patch</span>
+            </div>
+          </div>
+          <div class="canvas-wrap" id="connectomeWrap">
+            <canvas id="connectomeCanvas"></canvas>
+          </div>
+          <div class="panel-foot">
+            <div class="legend-inline">
+              <span class="leg-item"><i class="leg-swatch" style="background:var(--da)"></i>DA</span>
+              <span class="leg-item"><i class="leg-swatch" style="background:var(--nmda)"></i>NMDA Glu</span>
+              <span class="leg-item"><i class="leg-swatch" style="background:var(--ne)"></i>NE (&alpha;2A/&alpha;1A)</span>
+              <span class="leg-item"><i class="leg-swatch" style="background:var(--ser)"></i>GABA / 5-HT</span>
+            </div>
+            <span id="pipetteTargetReadout" style="color:var(--da);">Pipette: Cortical NMDA Pool</span>
+          </div>
+        </section>
+
+        <!-- CANVAS 2: INTRACELLULAR PATCH-CLAMP OSCILLOSCOPE -->
+        <section class="rig-panel">
+          <div class="panel-head">
+            <div class="panel-title-group">
+              <span class="panel-kicker" style="color:var(--ne);border-color:rgba(0,229,255,0.28);background:rgba(0,229,255,0.08);">V-CLAMP / I-CLAMP</span>
+              <span class="panel-title">Intracellular Patch-Clamp (V<sub>m</sub>)</span>
+            </div>
+            <div class="panel-controls">
+              <button type="button" class="mini-btn" id="btnSubCell" title="Switch sub-population cell type in current nucleus" style="display:none;">Sub-type</button>
+              <button type="button" class="mini-btn" id="btnDepolPulse" title="Inject +150 pA depolarizing current step (220 ms)">+150 pA</button>
+              <button type="button" class="mini-btn" id="btnSagPulse" title="Inject -100 pA hyperpolarizing step to test HCN Ih voltage sag">-100 pA Sag</button>
+              <button type="button" class="mini-btn" id="btnFreezeScope">Freeze</button>
+            </div>
+          </div>
+          <div class="canvas-wrap" id="patchWrap">
+            <canvas id="patchCanvas"></canvas>
+          </div>
+          <div class="panel-foot">
+            <span id="patchCellStats">Vm: -64.2 mV · Rate: 24.0 Hz · Burst CV: 1.18</span>
+            <span>Scale: -85 to +40 mV · 600 ms sweep</span>
+          </div>
+        </section>
+      </div>
+
+      <!-- CANVAS 3: 500-NEURON POPULATION SPIKE RASTER -->
+      <section class="rig-panel">
+        <div class="panel-head">
+          <div class="panel-title-group">
+            <span class="panel-kicker">500 UNITS · 1 kHz</span>
+            <span class="panel-title">Coupled Population Spike Raster (VTA · NMDA · PFC Layer III · NAc D1/D2 · Raphe 5-HT)</span>
+          </div>
+          <div class="panel-controls" id="rasterRatesBar" style="font-family:var(--font-mono);font-size:10px;color:var(--muted2);">
+            VTA 14Hz · NMDA 26Hz · PFC 13Hz · NAc 15Hz · 5-HT 3Hz
+          </div>
+        </div>
+        <div class="canvas-wrap" id="rasterWrap">
+          <canvas id="rasterCanvas"></canvas>
+        </div>
+        <div class="panel-foot">
+          <div class="legend-inline">
+            <span class="leg-item"><i class="leg-swatch" style="background:var(--da)"></i>VTA DA (80)</span>
+            <span class="leg-item"><i class="leg-swatch" style="background:var(--nmda)"></i>Cortical NMDA (120)</span>
+            <span class="leg-item"><i class="leg-swatch" style="background:var(--ne)"></i>PFC Pyr+PV (150)</span>
+            <span class="leg-item"><i class="leg-swatch" style="background:#d9ff4d"></i>NAc D1 Go (50)</span>
+            <span class="leg-item"><i class="leg-swatch" style="background:var(--danger)"></i>NAc D2 No-Go (50)</span>
+            <span class="leg-item"><i class="leg-swatch" style="background:var(--ser)"></i>Raphe 5-HT (50)</span>
+          </div>
+          <span>Rolling 4.0 s window</span>
+        </div>
+      </section>
+
+      <!-- CANVAS 4: SIMULATED FAST-SCAN CYCLIC VOLTAMMETRY (FSCV) -->
+      <section class="rig-panel">
+        <div class="panel-head">
+          <div class="panel-title-group">
+            <span class="panel-kicker" style="color:var(--nmda);border-color:rgba(255,107,53,0.3);background:rgba(255,107,53,0.08);">CARBON-FIBER FSCV</span>
+            <span class="panel-title">Extracellular Neuromodulator Voltammetry ([DA], [NE], [5-HT] &amp; NMDA Homeostat)</span>
+          </div>
+          <div class="panel-controls" id="fscvReadoutBar" style="font-family:var(--font-mono);font-size:10px;">
+            <span style="color:var(--da)">[DA] 21 nM</span> &nbsp;·&nbsp;
+            <span style="color:var(--ne)">[NE] 54 nM</span> &nbsp;·&nbsp;
+            <span style="color:var(--nmda)">H_NMDA 81%</span> &nbsp;·&nbsp;
+            <span style="color:var(--ser)">[5-HT] 32 nM</span>
+          </div>
+        </div>
+        <div class="canvas-wrap" id="fscvWrap">
+          <canvas id="fscvCanvas"></canvas>
+        </div>
+        <div class="panel-foot">
+          <span>Dashed lime line: Homeostatic DA Setpoint (D<sub>set</sub> = 65 nM) · Cyan zone: Optimal &alpha;<sub>2A</sub> window (40–115 nM) vs &alpha;<sub>1A</sub> collapse (&gt;155 nM)</span>
+          <span>400 V/s Cyclic Voltammogram Inset</span>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- RIGHT CONTROL RACK COLUMN -->
+    <aside class="controls-col">
+
+      <!-- LIVE MECHANISTIC DIAGNOSTIC -->
+      <div class="diag-box" id="diagBox">
+        <div class="diag-eyebrow">
+          <span id="diagTag">MECHANISTIC DIAGNOSIS · ARTICLE 04</span>
+          <span id="diagReceptorState">&alpha;2A: 56% | &alpha;1A: 9% | E_D2: 0.29</span>
+        </div>
+        <div class="diag-title" id="diagTitle">Maladaptive NMDA Compensation Under Impaired DA Release</div>
+        <p class="diag-body" id="diagBody">
+          Presynaptic vesicular dopamine release is impaired (<strong>&eta;<sub>rel</sub> = 18%</strong>), starving PFC/NAc below the 65 nM homeostatic setpoint. Compensatory NMDA conductance ramps to <strong>81%</strong> to force VTA burst firing—failing to fix vesicular exocytosis while flooding downstream circuits with high-frequency Poisson glutamate static and psychomotor agitation.
+        </p>
+        <div class="diag-links">
+          <a href="./article4.html">Read Article 04 (NMDA ADHD Hypothesis) →</a>
+          <a href="./penrose_article.html">Read Penrose Essay (&alpha;1A Switch) →</a>
+        </div>
+      </div>
+
+      <!-- MICROELECTRODE & SONIFICATION CONTROLLER -->
+      <div class="electrode-box">
+        <div class="section-micro-head" style="margin-bottom:4px;">
+          <span class="micro-label" style="color:var(--text);">Micropipette Recording Site &amp; Audio Monitor</span>
+          <span class="micro-label" id="audioStatusLabel">AMP MUTED</span>
+        </div>
+        <div class="pipette-pills" id="pipettePills">
+          <button type="button" class="pip-pill" data-nuc="0">VTA DA</button>
+          <button type="button" class="pip-pill active" data-nuc="1">NMDA Pool</button>
+          <button type="button" class="pip-pill" data-nuc="2">PFC L-III</button>
+          <button type="button" class="pip-pill" data-nuc="3">NAc MSN</button>
+          <button type="button" class="pip-pill" data-nuc="4">Raphe 5HT</button>
+        </div>
+        <div class="audio-row">
+          <button type="button" class="rig-btn" id="btnAudioSecondary" style="padding:5px 10px;">
+            🔊 Toggle Spike Audio
+          </button>
+          <div class="audio-vol-wrap">
+            <span>Gain</span>
+            <input type="range" id="sliderAudioGain" min="5" max="100" value="58">
+          </div>
+        </div>
+      </div>
+
+      <!-- BIOPHYSICAL & PHARMACOLOGICAL SLIDERS -->
+      <div class="rack-box">
+        <div class="rack-group-title">
+          <span>Intrinsic Circuit Biology</span>
+          <span style="color:var(--muted);font-size:9px;">ENDOGENOUS PARAMETERS</span>
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-head">
+            <span class="slider-name">Vesicular DA Release Efficiency (&eta;<sub>rel</sub>)</span>
+            <span class="slider-val" id="valEtaRel">18%</span>
+          </div>
+          <div class="slider-hint">85% = healthy exocytosis · 18% = Article 04 release-deficit ADHD</div>
+          <input type="range" id="slEtaRel" min="8" max="100" value="18">
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-head">
+            <span class="slider-name">NMDA Homeostat Gain (ADHD vs MDD)</span>
+            <span class="slider-val" id="valNmdaGain" style="color:var(--nmda);">1.00×</span>
+          </div>
+          <div class="slider-hint">0.0× = Anhedonic MDD (lethargy, no hyperactivity) · 1.0× = True ADHD</div>
+          <input type="range" class="orange" id="slNmdaGain" min="0" max="140" value="100">
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-head">
+            <span class="slider-name">Status-Threat / Intimidation Stress (LC-NE)</span>
+            <span class="slider-val" id="valStress" style="color:var(--ne);">0%</span>
+          </div>
+          <div class="slider-hint">Penrose pedagogical humiliation &rarr; &alpha;<sub>1A</sub>/PKC surge shunts PFC Layer III</div>
+          <input type="range" class="cyan" id="slStress" min="0" max="100" value="0">
+        </div>
+
+        <div class="rack-group-title pharma">
+          <span>Pharmacological Clamp Bench</span>
+          <button type="button" class="mini-btn" id="btnWashout" title="Wash out all exogenous drugs (keep intrinsic biology)">Washout Drugs</button>
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-head">
+            <span class="slider-name">Amphetamine / Desoxyn (PKC DAT Reversal)</span>
+            <span class="slider-val" id="valAmph">0%</span>
+          </div>
+          <div class="slider-hint">Cytosolic efflux bypasses low &eta;<sub>rel</sub> &rarr; silences NMDA compensation</div>
+          <input type="range" id="slAmph" min="0" max="100" value="0">
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-head">
+            <span class="slider-name">Methylphenidate (Pure NDRI: NET &gt; DAT)</span>
+            <span class="slider-val" id="valMph" style="color:var(--ne);">0%</span>
+          </div>
+          <div class="slider-hint">Reuptake block only: weak [DA] if release fails, disproportionate [NE]</div>
+          <input type="range" class="cyan" id="slMph" min="0" max="100" value="0">
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-head">
+            <span class="slider-name">Benzodiazepine (Global GABA<sub>A</sub> PAM)</span>
+            <span class="slider-val" id="valBenzo" style="color:var(--ser);">0%</span>
+          </div>
+          <div class="slider-hint">Suppresses protective NMDA + PFC + sympathetic BP (calm &amp; nonfunctional)</div>
+          <input type="range" class="violet" id="slBenzo" min="0" max="100" value="0">
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-head">
+            <span class="slider-name">Amantadine (Mild Open-Channel NMDA)</span>
+            <span class="slider-val" id="valAman" style="color:var(--nmda);">0%</span>
+          </div>
+          <div class="slider-hint">Trims pathological NMDA excess without GABA sedation; spares tolerance</div>
+          <input type="range" class="orange" id="slAman" min="0" max="100" value="0">
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-head">
+            <span class="slider-name">Haloperidol (Silent D<sub>2</sub> Antagonist, K<sub>i</sub> 1.2 nM)</span>
+            <span class="slider-val" id="valHalo" style="color:var(--danger);">0%</span>
+          </div>
+          <div class="slider-hint">Blocks striatal D<sub>2</sub> brake &rarr; D<sub>2</sub> No-Go MSN eruption &amp; severe akathisia</div>
+          <input type="range" class="danger" id="slHalo" min="0" max="100" value="0">
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-head">
+            <span class="slider-name">Aripiprazole (~28% Partial D<sub>2</sub> Agonist, K<sub>i</sub> 0.4 nM)</span>
+            <span class="slider-val" id="valAri" style="color:var(--danger);">0%</span>
+          </div>
+          <div class="slider-hint">High-affinity ceiling clamps D<sub>2</sub> efficacy at 28% &rarr; partial-agonist akathisia</div>
+          <input type="range" class="danger" id="slAri" min="0" max="100" value="0">
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-head">
+            <span class="slider-name">SSRI (SERT Blockade · Raphe 5-HT<sub>1A</sub> / 5-HT<sub>2C</sub>)</span>
+            <span class="slider-val" id="valSsri" style="color:var(--ser);">0%</span>
+          </div>
+          <div class="slider-hint">Week 1 spikes 5-HT<sub>1A</sub> brake (drops firing); 5-HT<sub>2C</sub> clamps VTA DA</div>
+          <input type="range" class="violet" id="slSsri" min="0" max="100" value="0">
+          <div class="ssri-sub-toggle">
+            <button type="button" class="ssri-pill active" id="btnSsriWk1">Week 1: Acute 5-HT1A Brake</button>
+            <button type="button" class="ssri-pill" id="btnSsriWk3">Week 3+: 5-HT1A Desensitized</button>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <footer class="rig-footer">
+    <div>
+      <strong style="color:var(--text);font-family:var(--font-display);">Neuroscience with <span style="color:var(--da);">RPrime</span></strong>
+      &nbsp;//&nbsp; Sim 02: The Paradox Rig &nbsp;·&nbsp; Companion to <a href="./article4.html">Article 04</a> &amp; <a href="./penrose_article.html">Penrose Essay</a>
+    </div>
+    <div>
+      Educational &amp; computational systems pharmacology model — not clinical medical advice.
+    </div>
+  </footer>
+
+</main>
+
+<!-- GLASS-BOX ODE & EQUATIONS DRAWER -->
+<div class="drawer-backdrop" id="odeBackdrop"></div>
+<aside class="ode-drawer" id="odeDrawer" aria-label="Mathematical Model &amp; Coupled ODEs">
+  <div class="drawer-head">
+    <div class="drawer-title">Glass-Box Architecture &amp; <span>Coupled ODEs</span></div>
+    <button type="button" class="rig-btn" id="btnCloseOde">✕ Close</button>
+  </div>
+  <div class="drawer-body">
+    <div class="eq-card">
+      <div class="eq-card-label">01 · Coupled 500-Neuron Spiking Core (1 kHz Integration)</div>
+      <h3>Adaptive Conductance-Based Izhikevich Microcircuit</h3>
+      <p>
+        Five coupled populations (\(N = 500\) total: \(80\) VTA DA, \(120\) Cortico-Limbic NMDA, \(120\) PFC Layer III Pyramidal + \(30\) Fast-Spiking PV GABA, \(50\) NAc D1 Go + \(50\) NAc D2 No-Go MSNs, and \(50\) Dorsal Raphe 5-HT neurons) evolve at \(\Delta t = 1\text{ ms}\) (\(0.5\text{ ms}\) voltage sub-steps; \(0.25\text{ ms}\) intracellular waveform shaping):
+      </p>
+      <div class="eq-math">
+        \[
+          \frac{dv_i}{dt} = 0.04 v_i^2 + 5 v_i + 140 - u_i + I_{\text{intrinsic},i} + I_{\text{AMPA},i} + B(v_i)\,I_{\text{NMDA},i} - I_{\text{GABA},i} + I_{\text{mod},i}
+        \]
+        \[
+          \frac{du_i}{dt} = a_i(b_i v_i - u_i), \qquad B(v) = \frac{1}{1 + \frac{[\text{Mg}^{2+}]_o}{3.57}\exp(-0.062\,v)}
+        \]
+      </div>
+    </div>
+
+    <div class="eq-card">
+      <div class="eq-card-label">02 · Article 04 Maladaptive NMDA Homeostat &amp; DAT Reversal</div>
+      <h3>Why Stimulants Induce Paradoxical Calm While Methylphenidate Splits NE/DA</h3>
+      <p>
+        When presynaptic vesicular release efficiency \(\eta_{\text{rel}}\) is impaired, tonic \([\text{DA}]\) falls below homeostatic setpoint \(D_{\text{set}} = 65\text{ nM}\). Compensatory NMDA drive \(H_{\text{NMDA}}\) ramps up to force VTA bursting, flooding PFC/NAc with Poisson glutamate noise without fixing exocytosis. Amphetamine/Desoxyn triggers PKC-mediated DAT phosphorylation and non-vesicular reverse efflux \(J_{\text{DAT,rev}}\), restoring \([\text{DA}] \ge D_{\text{set}}\) and silencing \(H_{\text{NMDA}}\):
+      </p>
+      <div class="eq-math">
+        \[
+          \tau_H \frac{dH_{\text{NMDA}}}{dt} = G_{\text{homeo}}\,\max\!\left(0,\,\frac{D_{\text{set}} - [\text{DA}]}{D_{\text{set}}}\right) - H_{\text{NMDA}}
+        \]
+        \[
+          \frac{d[\text{DA}]}{dt} = k_{\text{ves}}\,\eta_{\text{rel}}\,r_{\text{VTA}}(t) + V_{\text{rev}}\,\phi_{\text{amph}} - \frac{V_{\max,\text{DAT}}[\text{DA}]}{K_m(1 + \alpha_{\text{mph}} + \alpha_{\text{amph}}) + [\text{DA}]} - k_{\text{clear}}[\text{DA}]
+        \]
+      </div>
+    </div>
+
+    <div class="eq-card">
+      <div class="eq-card-label">03 · Arnsten’s Prefrontal Adrenoceptor Switch (Penrose Essay)</div>
+      <h3>High-Affinity \(\alpha_{2A}\) HCN Closure vs. Stress-Induced \(\alpha_{1A}\) Shunting</h3>
+      <p>
+        Moderate norepinephrine (\(\sim 45\text{–}110\text{ nM}\)) occupies high-affinity \(\alpha_{2A}\) receptors (\(\text{G}_i \downarrow \text{cAMP}\)), closing dendritic HCN (\(I_h\)) leak channels and locking persistent Layer III working-memory delay activity. Excessive NE from status-intimidation stress or unbalanced NET blockade engages lower-affinity \(\alpha_{1A}/\beta_1\) receptors (\(\text{PKC}/\text{cAMP}\)), opening spine leak channels and collapsing cortical SNR:
+      </p>
+      <div class="eq-math">
+        \[
+          \theta_{\alpha 2A} = \frac{[\text{NE}]^{1.4}}{45^{1.4} + [\text{NE}]^{1.4}}, \qquad
+          \theta_{\alpha 1A} = \frac{[\text{NE}]^{2.2}}{155^{2.2} + [\text{NE}]^{2.2}}, \qquad
+          w_{\text{rec}} = w_0 \frac{0.35 + 0.85\,\theta_{\alpha 2A}}{1 + 2.6\,\theta_{\alpha 1A} + 1.9\,B_{\text{GABA}}}
+        \]
+      </div>
+    </div>
+
+    <div class="eq-card">
+      <div class="eq-card-label">04 · Operational Striatal D2 Receptor Theory &amp; Akathisia</div>
+      <h3>Haloperidol Silent Antagonism vs. Aripiprazole 28% Intrinsic Ceiling</h3>
+      <p>
+        Striatal indirect-pathway D2 ("No-Go") MSNs are tonically restrained by endogenous D2 signaling (\(E_{\text{D2}}\)). Silent blockade (\(\varepsilon_{\text{hal}} = 0\)) or ultra-high-affinity partial agonism (\(\varepsilon_{\text{ari}} = 0.28,\,K_i = 0.4\text{ nM}\)) drops \(E_{\text{D2}}\) below the striatal gating threshold while disinhibiting glutamatergic/noradrenergic restlessness:
+      </p>
+      <div class="eq-math">
+        \[
+          E_{\text{D2}} = \frac{1.0\,\frac{[\text{DA}]}{K_{\text{DA}}} + 0.28\,\frac{[\text{Ari}]}{K_{\text{Ari}}} + 0.0\,\frac{[\text{Hal}]}{K_{\text{Hal}}}}{1 + \frac{[\text{DA}]}{K_{\text{DA}}} + \frac{[\text{Ari}]}{K_{\text{Ari}}} + \frac{[\text{Hal}]}{K_{\text{Hal}}}}
+        \]
+      </div>
+    </div>
+
+    <div class="eq-card">
+      <div class="eq-card-label">05 · Dorsal Raphe 5-HT1A Autoreceptor &amp; 5-HT2C Dopamine Clamp</div>
+      <h3>Acute Week-1 SSRI Firing Drop vs. Week-3 Desensitization</h3>
+      <p>
+        Acute SERT blockade raises somatodendritic raphe \([5\text{-HT}]\), activating \(5\text{-HT}_{1A}\) GIRK autoreceptors that paradoxically suppress raphe firing in Week 1 until chronic receptor desensitization restores spike output—while terminal \(5\text{-HT}_{2C}\) activation on VTA GABA interneurons dampens mesolimbic dopamine tone.
+      </p>
+    </div>
+  </div>
+</aside>
+
+<script>
+(function () {
+  'use strict';
+
+  // =========================================================================
+  // 1. POPULATION ARCHITECTURE (N = 500 LIVE SPIKING NEURONS AT 1 kHz)
+  // =========================================================================
+  // 0..79   (80)  : VTA Dopamine Neurons (Pacemaker ~4 Hz + NMDA bursts)
+  // 80..199 (120) : Cortico-Limbic Compensatory Glutamate / NMDA Pool
+  // 200..319(120) : PFC Layer III Recurrent Pyramidal (235..280 = WM Bump)
+  // 320..349(30)  : PFC Fast-Spiking PV GABA Interneurons
+  // 350..399(50)  : NAc D1 "Go" Direct-Pathway MSNs
+  // 400..449(50)  : NAc D2 "No-Go" Indirect-Pathway MSNs
+  // 450..499(50)  : Dorsal Raphe 5-HT Pacemaker Neurons
+  const N_TOTAL = 500;
+  const POPS = [
+    { id: 0, name: 'VTA Dopamine',       short: 'VTA DA',    start: 0,   end: 80,  color: '#c8ff00' },
+    { id: 1, name: 'Cortical NMDA Pool', short: 'NMDA Pool', start: 80,  end: 200, color: '#ff6b35' },
+    { id: 2, name: 'PFC Layer III',      short: 'PFC L-III', start: 200, end: 350, color: '#00e5ff' },
+    { id: 3, name: 'NAc D1/D2 Striatum', short: 'NAc MSN',   start: 350, end: 450, color: '#ff4d6d' },
+    { id: 4, name: 'Dorsal Raphe 5-HT',  short: 'Raphe 5HT', start: 450, end: 500, color: '#9b88ff' }
+  ];
+
+  // Deterministic fast PRNG + Box-Muller for clean reproducible heterogeneity
+  let rngSeed = 13374209;
+  function fastRand() {
+    rngSeed = (rngSeed * 1664525 + 1013904223) >>> 0;
+    return rngSeed / 4294967296;
+  }
+  function randNorm() {
+    const u1 = Math.max(1e-7, fastRand());
+    const u2 = fastRand();
+    return Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(6.2831853 * u2);
+  }
+
+  // Typed state arrays for 500 neurons
+  const v = new Float32Array(N_TOTAL);
+  const u = new Float32Array(N_TOTAL);
+  const izA = new Float32Array(N_TOTAL);
+  const izB = new Float32Array(N_TOTAL);
+  const izC = new Float32Array(N_TOTAL);
+  const izD = new Float32Array(N_TOTAL);
+  const baseDrive = new Float32Array(N_TOTAL);
+  const synNoiseState = new Float32Array(N_TOTAL);
+  const lastSpikeMs = new Float32Array(N_TOTAL);
+
+  function initNeurons() {
+    for (let i = 0; i < N_TOTAL; i++) {
+      lastSpikeMs[i] = -1000;
+      synNoiseState[i] = 0;
+      if (i < 80) {
+        // VTA Dopamine: autonomous ~4.2 Hz tonic pacemaker + NMDA burst-capable (20-28 Hz)
+        izA[i] = 0.03;
+        izB[i] = 0.20;
+        izC[i] = -63.0 + 2.0 * (fastRand() - 0.5);
+        izD[i] = 6.8 + 1.0 * fastRand();
+        baseDrive[i] = 3.55 + 0.75 * fastRand();
+        v[i] = -64.0 + 7.0 * fastRand();
+      } else if (i < 200) {
+        // Cortico-limbic Glutamate / NMDA homeostat pool (~2.2 Hz quiet rest, ~26 Hz in ADHD storm)
+        izA[i] = 0.02;
+        izB[i] = 0.20;
+        izC[i] = -61.0 + 4.0 * (fastRand() - 0.5);
+        izD[i] = 6.2 + 1.4 * fastRand();
+        baseDrive[i] = 1.85 + 0.95 * fastRand();
+        v[i] = -66.0 + 8.0 * fastRand();
+      } else if (i < 320) {
+        // PFC Layer III Pyramidal (235..280 = selective WM bump assembly)
+        izA[i] = 0.02;
+        izB[i] = 0.20;
+        izC[i] = -64.0 + 2.0 * (fastRand() - 0.5);
+        izD[i] = 6.4 + 1.0 * fastRand();
+        const isBump = (i >= 235 && i <= 280);
+        baseDrive[i] = (isBump ? 3.5 : 1.75) + 0.95 * fastRand();
+        v[i] = -67.0 + 7.0 * fastRand();
+      } else if (i < 350) {
+        // PFC Fast-Spiking PV GABA Interneurons
+        izA[i] = 0.10;
+        izB[i] = 0.20;
+        izC[i] = -65.0;
+        izD[i] = 2.4;
+        baseDrive[i] = 2.8 + 1.0 * fastRand();
+        v[i] = -66.0 + 5.0 * fastRand();
+      } else if (i < 450) {
+        // NAc D1 (350..399) & D2 (400..449) MSNs: hyperpolarized Kir down-state
+        izA[i] = 0.02;
+        izB[i] = 0.19;
+        izC[i] = -74.0 + 2.0 * (fastRand() - 0.5);
+        izD[i] = 7.6 + 1.0 * fastRand();
+        baseDrive[i] = 0.9 + 1.1 * fastRand();
+        v[i] = -78.0 + 6.0 * fastRand();
+      } else {
+        // Dorsal Raphe 5-HT: regular ~3 Hz slow pacemaker with prominent AHP
+        izA[i] = 0.022;
+        izB[i] = 0.20;
+        izC[i] = -69.0 + 1.5 * (fastRand() - 0.5);
+        izD[i] = 10.5 + 1.2 * fastRand();
+        baseDrive[i] = 3.55 + 0.65 * fastRand();
+        v[i] = -68.0 + 6.0 * fastRand();
+      }
+      u[i] = izB[i] * v[i];
+    }
+  }
+
+  // =========================================================================
+  // 2. BIOPHYSICAL PARAMETERS, PRESETS & COUPLED NEUROMODULATOR STATE
+  // =========================================================================
+  const params = {
+    etaRel: 0.18,      // Vesicular DA release efficiency (0.85 normal, 0.18 ADHD)
+    nmdaGain: 1.00,    // Maladaptive NMDA homeostat gain (1.0 ADHD, 0.0 MDD)
+    stress: 0.00,      // Pedagogical status-intimidation LC-NE surge (Penrose)
+    amph: 0.00,        // Amphetamine / Desoxyn PKC DAT reversal
+    mph: 0.00,         // Methylphenidate pure NDRI (NET > DAT)
+    benzo: 0.00,       // Benzodiazepine GABA-A PAM
+    aman: 0.00,        // Amantadine mild open-channel NMDA antagonist
+    halo: 0.00,        // Haloperidol silent D2 antagonist
+    ari: 0.00,         // Aripiprazole ~28% partial D2 agonist
+    ssri: 0.00,        // SSRI SERT blockade
+    ssriDesens: false  // false = Week 1 acute 5-HT1A brake, true = Week 3+ desensitized
+  };
+
+  const PRESETS = {
+    baseline: {
+      label: 'HEALTHY NEUROTYPICAL BASELINE',
+      short: 'HEALTHY BASELINE',
+      pipette: 2, subMode: 0,
+      vals: { etaRel: 0.85, nmdaGain: 1.00, stress: 0.00, amph: 0, mph: 0, benzo: 0, aman: 0, halo: 0, ari: 0, ssri: 0, ssriDesens: false },
+      tag: 'HOMEOSTATIC EQUILIBRIUM · INTACT VESICULAR RELEASE',
+      title: 'Healthy Tonic DA Setpoint & Crisp α2A Prefrontal Lock',
+      body: 'Intact vesicular dopamine release (<strong>η<sub>rel</sub> = 85%</strong>) maintains extracellular [DA] near the 65 nM homeostatic setpoint without requiring compensatory NMDA excitation. Moderate [NE] (~64 nM) engages high-affinity <strong>α<sub>2A</sub> receptors</strong>, closing HCN leak channels and sustaining a clean Layer III working-memory stripe.'
+    },
+    adhd: {
+      label: 'PRESET 01 — UNTREATED NMDA-COMPENSATED ADHD',
+      short: 'NMDA ADHD (UNTREATED)',
+      pipette: 1, subMode: 0,
+      vals: { etaRel: 0.18, nmdaGain: 1.00, stress: 0.00, amph: 0, mph: 0, benzo: 0, aman: 0, halo: 0, ari: 0, ssri: 0, ssriDesens: false },
+      tag: 'MECHANISTIC DIAGNOSIS · ARTICLE 04',
+      title: 'Maladaptive NMDA Compensation Under Impaired DA Release',
+      body: 'Presynaptic vesicular release is crippled (<strong>η<sub>rel</sub> = 18%</strong>), starving PFC/NAc below the 65 nM setpoint. Compensatory NMDA drive surges above <strong>80%</strong> trying to force DA release—failing to fix exocytosis while flooding downstream circuits with high-frequency Poisson glutamate static, akathisia-like restlessness, and collapsed PFC SNR.'
+    },
+    desoxyn: {
+      label: 'PRESET 02 — PARADOXICAL CALM: AMPHETAMINE / DESOXYN DAT REVERSAL',
+      short: 'PARADOXICAL CALM (DAT REV)',
+      pipette: 1, subMode: 0,
+      vals: { etaRel: 0.18, nmdaGain: 1.00, stress: 0.00, amph: 0.72, mph: 0, benzo: 0, aman: 0, halo: 0, ari: 0, ssri: 0, ssriDesens: false },
+      tag: 'ARTICLE 04 · PARADOXICAL STIMULANT RELIEF',
+      title: 'PKC-Mediated DAT Reversal Resolves Deficit & Silences NMDA Noise',
+      body: 'Amphetamine/Desoxyn triggers <strong>PKC-mediated DAT phosphorylation and reverse efflux</strong>, bypassing broken vesicular release to restore [DA] above 65 nM. With hypodopaminergia gone, the maladaptive NMDA homeostat shuts off—glutamate static vanishes, physical agitation melts into <strong>paradoxical calm</strong>, and PFC SNR locks above +14 dB.'
+    },
+    mph: {
+      label: 'PRESET 03 — WHY METHYLPHENIDATE (NDRI) FAILS RELEASE-DEFICIT ADHD',
+      short: 'METHYLPHENIDATE NDRI SPLIT',
+      pipette: 2, subMode: 0,
+      vals: { etaRel: 0.18, nmdaGain: 1.00, stress: 0.00, amph: 0, mph: 0.82, benzo: 0, aman: 0, halo: 0, ari: 0, ssri: 0, ssriDesens: false },
+      tag: 'ARTICLE 04 · NORADRENERGIC / DOPAMINERGIC SPLIT',
+      title: 'Reuptake Blockade Alone Cannot Rescue Crippled Exocytosis',
+      body: 'Methylphenidate blocks reuptake without triggering DAT efflux. Because vesicular release is 18%, [DA] recovers poorly (~35 nM, leaving NMDA noise active), while stronger NET blockade spikes [NE] past 165 nM into <strong>α<sub>1A</sub> receptor overdrive</strong>—inducing physical tension alongside worsened internal agitation and dysphoria.'
+    },
+    benzo: {
+      label: 'PRESET 04 — THE BENZODIAZEPINE GABA TRAP (CALM & NONFUNCTIONAL)',
+      short: 'BENZO GABA TRAP',
+      pipette: 2, subMode: 0,
+      vals: { etaRel: 0.18, nmdaGain: 1.00, stress: 0.00, amph: 0, mph: 0, benzo: 0.82, aman: 0, halo: 0, ari: 0, ssri: 0, ssriDesens: false },
+      tag: 'ARTICLE 04 · WHY NMDA WAS PROTECTIVE',
+      title: 'Brute-Force GABA Suppression Unmasks Severe Hypotension & Torpor',
+      body: 'NMDA hyperexcitability was the only protective drive keeping blood pressure and wakefulness afloat despite low catecholamines. Crushing it globally with a <strong>GABA<sub>A</sub> PAM</strong> stops psychomotor agitation, but collapses PFC working memory, Executive Drive, and sympathetic tone into <strong>hypotensive hypersomnia</strong>—calm and nonfunctional.'
+    },
+    amantadine: {
+      label: 'PRESET 05 — AMANTADINE + LOW-DOSE STIMULANT SYNERGY',
+      short: 'AMANTADINE + STIM SYNERGY',
+      pipette: 2, subMode: 0,
+      vals: { etaRel: 0.18, nmdaGain: 1.00, stress: 0.00, amph: 0.50, mph: 0, benzo: 0, aman: 0.68, halo: 0, ari: 0, ssri: 0, ssriDesens: false },
+      tag: 'ARTICLE 04 · DUAL-MECHANISM TOLERANCE SPARING',
+      title: 'Selective Open-Channel NMDA Trimming + Lower-Dose DAT Efflux',
+      body: '<strong>Amantadine</strong> gently trims pathological open-channel NMDA overactivation without sedating global GABA<sub>A</sub> tone, while facilitating dopaminergic transmission. Paired with a lower, tolerance-sparing amphetamine dose, cortical SNR and executive stability recover cleanly without sympathetic overdrive. (Drag Amphetamine to 0% to see why Amantadine alone is calm but low-drive!)'
+    },
+    akathisia: {
+      label: 'PRESET 06 — IATROGENIC AKATHISIA LOOP (D2 BLOCKADE / PARTIAL AGONISM)',
+      short: 'IATROGENIC AKATHISIA LOOP',
+      pipette: 3, subMode: 1, // NAc D2 No-Go MSN!
+      vals: { etaRel: 0.78, nmdaGain: 1.00, stress: 0.18, amph: 0, mph: 0, benzo: 0, aman: 0, halo: 0.68, ari: 0.0, ssri: 0.45, ssriDesens: false },
+      tag: 'FOCUS AREAS 05 & 06 · STRIATAL UNCOUPLING',
+      title: 'Striatal D2 "No-Go" Disinhibition + 5-HT2C Dopamine Clamp',
+      body: '<strong>Haloperidol D<sub>2</sub> blockade</strong> (or switch to the <strong>Aripiprazole 28% ceiling</strong> slider below!) strips inhibitory Gi restraint off NAc <strong>D<sub>2</sub> Indirect-Pathway MSNs</strong> while acute SSRI 5-HT<sub>2C</sub> tone clamps VTA dopamine. Striatal motor restlessness erupts uncoupled from D<sub>1</sub> executive reward—generating neurological torture (iatrogenic akathisia).'
+    },
+    penrose: {
+      label: 'PRESET 07 — PREFRONTAL α1A INTIMIDATION COLLAPSE (PENROSE SWITCH)',
+      short: 'PENROSE α1A COLLAPSE',
+      pipette: 2, subMode: 0,
+      vals: { etaRel: 0.85, nmdaGain: 1.00, stress: 0.90, amph: 0, mph: 0, benzo: 0, aman: 0, halo: 0, ari: 0, ssri: 0, ssriDesens: false },
+      tag: 'PENROSE ESSAY · ARNSTEN ADRENOCEPTOR SWITCH',
+      title: 'Pedagogical Status-Threat Floods α1A Receptors & Shunts PFC Spines',
+      body: 'Intimidation-driven locus coeruleus overdrive rockets [NE] past 230 nM into low-affinity <strong>α<sub>1A</sub>/β<sub>1</sub> receptors</strong>. PKC/cAMP opens dendritic HCN leak channels (click <strong>[-100 pA Sag]</strong> on the scope!), shattering Layer III working memory while compulsive non-hedonic VTA cues trap attention. Drag <strong>Intimidation Stress → 0%</strong> to watch instant "No-BS" α<sub>2A</sub> clarity return!'
+    }
+  };
+
+  let currentPresetKey = 'adhd';
+
+  // Live coupled dynamic state variables
+  const state = {
+    simTimeMs: 0,
+    running: true,
+    DA: 22.0,          // Extracellular [DA] in nM (setpoint = 65 nM)
+    NE: 54.0,          // Extracellular [NE] in nM (optimal alpha2A ~ 45-110 nM)
+    SER: 32.0,         // Terminal [5-HT] in nM
+    raphe5HT: 28.0,    // Somatodendritic Raphe [5-HT] in nM
+    H_NMDA: 0.78,      // Rishik's Maladaptive NMDA Homeostat [0..1.3]
+    gNMDA_syn: 0.65,   // Filtered synaptic NMDA conductance
+    gWM_rec: 0.35,     // Filtered recurrent PFC WM bump conductance
+    alpha2A: 0.55,
+    alpha1A: 0.10,
+    E_D2: 0.28,
+    thetaD1: 0.25,
+    hcnOpen: 0.45,
+    // Population smoothed firing rates (Hz)
+    rateVTA: 12.0,
+    rateNMDA: 24.0,
+    ratePFC_bump: 12.0,
+    ratePFC_flank: 10.0,
+    ratePV: 18.0,
+    rateD1: 5.0,
+    rateD2: 15.0,
+    rateRaphe: 3.0,
+    // Clinical telemetry outputs
+    snrDb: -2.4,
+    wmStability: 24.0,
+    execDrive: 26.0,
+    sysBP: 122,
+    diaBP: 79,
+    arousalPct: 58.0,
+    akathisia: 78.0
+  };
+
+  // =========================================================================
+  // 3. RECORDING BUFFERS (PATCH-CLAMP, RASTER, FSCV)
+  // =========================================================================
+  let patchedPop = 1;      // Default on Preset 1: Cortical NMDA Pool
+  let patchedSubMode = 0;  // For PFC: 0=WM Pyramidal, 1=PV Fast-Spiking; For NAc: 0=D1 Go, 1=D2 No-Go
+  let scopeFrozen = false;
+
+  // Current-clamp pulse injector state
+  let clampPulseI = 0;
+  let clampPulseRemainingMs = 0;
+
+  function getPatchedNeuronIndex() {
+    if (patchedPop === 0) return 18; // Representative VTA DA neuron
+    if (patchedPop === 1) return 112; // Representative Cortical NMDA neuron
+    if (patchedPop === 2) return patchedSubMode === 0 ? 255 : 330; // WM Pyramidal vs PV Interneuron
+    if (patchedPop === 3) return patchedSubMode === 0 ? 370 : 422; // D1 Go MSN vs D2 No-Go MSN
+    return 468; // Dorsal Raphe 5-HT pacemaker
+  }
+
+  // High-resolution intracellular patch-clamp ring buffer (1200 samples @ 0.5 ms = 600 ms window)
+  const PATCH_LEN = 1200;
+  const patchVmBuf = new Float32Array(PATCH_LEN);
+  const patchSynBuf = new Float32Array(PATCH_LEN);
+  const patchClampBuf = new Float32Array(PATCH_LEN);
+  let patchPtr = 0;
+  // Detailed intracellular display state for the patched cell (gives realistic Na+ spike + HCN sag)
+  let patchSpikePhase = 0; // >0 during AP upstroke/repolarization
+  let patchIhSag = 0;      // HCN hyperpolarization-activated inward cation current state
+  let patchIsiList = [];
+  let lastPatchedSpikeMs = -500;
+
+  // Spike Raster Ring Buffer (stores recent spikes as { tMs, neuronIdx })
+  const RASTER_WINDOW_MS = 4000;
+  const spikeEvents = []; // pruned continuously to last 4000 ms
+
+  // FSCV History Ring Buffer (sampled every 25 ms -> 480 samples = 12.0 seconds)
+  const FSCV_LEN = 480;
+  const fscvDA = new Float32Array(FSCV_LEN);
+  const fscvNE = new Float32Array(FSCV_LEN);
+  const fscvNMDA = new Float32Array(FSCV_LEN);
+  const fscvSER = new Float32Array(FSCV_LEN);
+  let fscvPtr = 0;
+  let fscvSampleAccumMs = 0;
+
+  // =========================================================================
+  // 4. WEB AUDIO API MICROELECTRODE SONIFICATION ENGINE (ZERO ASSETS)
+  // =========================================================================
+  let audioCtx = null;
+  let audioEnabled = false;
+  let audioMasterGain = null;
+  let noiseGainNode = null;
+  let singleSpikeBuf = null;
+  let multiSpikeBuf = null;
+  let audioUserGain = 0.58;
+  let spikesScheduledThisFrame = 0;
+
+  function initWebAudio() {
+    if (audioCtx) return;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    audioCtx = new AC();
+
+    audioMasterGain = audioCtx.createGain();
+    audioMasterGain.gain.value = audioUserGain;
+    audioMasterGain.connect(audioCtx.destination);
+
+    // 1. Pre-bake authentic extracellular biphasic action potential waveform (1.3 ms)
+    const sr = audioCtx.sampleRate;
+    const singleLen = Math.max(32, Math.floor(sr * 0.0014));
+    singleSpikeBuf = audioCtx.createBuffer(1, singleLen, sr);
+    const sData = singleSpikeBuf.getChannelData(0);
+    for (let i = 0; i < singleLen; i++) {
+      const x = i / singleLen;
+      // Sharp negative-positive extracellular Na+/K+ derivative waveform
+      sData[i] = Math.exp(-x * 5.2) * (-Math.sin(x * Math.PI * 2.4) * 0.95);
+    }
+
+    // 2. Pre-bake softer multi-unit background neighbor spike (1.0 ms)
+    const multiLen = Math.max(24, Math.floor(sr * 0.0010));
+    multiSpikeBuf = audioCtx.createBuffer(1, multiLen, sr);
+    const mData = multiSpikeBuf.getChannelData(0);
+    for (let i = 0; i < multiLen; i++) {
+      const x = i / multiLen;
+      mData[i] = Math.exp(-x * 6.5) * Math.sin(x * Math.PI * 3.0) * 0.36;
+    }
+
+    // 3. Continuous bandpass-filtered NMDA / synaptic glutamate multi-unit static floor
+    const noiseLen = sr * 2;
+    const noiseBuf = audioCtx.createBuffer(1, noiseLen, sr);
+    const nData = noiseBuf.getChannelData(0);
+    let b0 = 0, b1 = 0, b2 = 0;
+    for (let i = 0; i < noiseLen; i++) {
+      const w = Math.random() * 2 - 1;
+      b0 = 0.997 * b0 + w * 0.029;
+      b1 = 0.985 * b1 + w * 0.032;
+      b2 = 0.950 * b2 + w * 0.048;
+      nData[i] = (b0 + b1 + b2 + w * 0.18) * 0.35;
+    }
+    const noiseSrc = audioCtx.createBufferSource();
+    noiseSrc.buffer = noiseBuf;
+    noiseSrc.loop = true;
+
+    const bpFilter = audioCtx.createBiquadFilter();
+    bpFilter.type = 'bandpass';
+    bpFilter.frequency.value = 1420;
+    bpFilter.Q.value = 1.25;
+
+    noiseGainNode = audioCtx.createGain();
+    noiseGainNode.gain.value = 0.0;
+
+    noiseSrc.connect(bpFilter);
+    bpFilter.connect(noiseGainNode);
+    noiseGainNode.connect(audioMasterGain);
+    noiseSrc.start();
+  }
+
+  function scheduleSpikeAudio(isPrimaryUnit, offsetSec) {
+    if (!audioEnabled || !audioCtx || audioCtx.state !== 'running') return;
+    if (spikesScheduledThisFrame > 22) return;
+    spikesScheduledThisFrame++;
+
+    const src = audioCtx.createBufferSource();
+    src.buffer = isPrimaryUnit ? singleSpikeBuf : multiSpikeBuf;
+    // Slight pitch nuance per nucleus
+    src.playbackRate.value = isPrimaryUnit ? 1.0 : (0.88 + 0.25 * Math.random());
+
+    const g = audioCtx.createGain();
+    g.gain.value = isPrimaryUnit ? 0.82 : 0.22;
+    src.connect(g);
+    g.connect(audioMasterGain);
+    const when = audioCtx.currentTime + Math.max(0, offsetSec);
+    src.start(when);
+  }
+
+  function updateAudioToggleUI() {
+    const b1 = document.getElementById('btnAudio');
+    const b2 = document.getElementById('btnAudioSecondary');
+    const icon = document.getElementById('audioIcon');
+    const lbl = document.getElementById('audioStatusLabel');
+    if (audioEnabled) {
+      b1.classList.add('audio-on');
+      b2.classList.add('audio-on');
+      icon.textContent = '🔊';
+      lbl.textContent = 'LIVE 300Hz–5kHz AMP';
+      lbl.style.color = 'var(--da)';
+    } else {
+      b1.classList.remove('audio-on');
+      b2.classList.remove('audio-on');
+      icon.textContent = '🔇';
+      lbl.textContent = 'AMP MUTED';
+      lbl.style.color = 'var(--muted2)';
+      if (noiseGainNode && audioCtx) {
+        noiseGainNode.gain.setTargetAtTime(0.0, audioCtx.currentTime, 0.03);
+      }
+    }
+  }
+
+  function toggleAudio() {
+    initWebAudio();
+    if (!audioCtx) return;
+    audioEnabled = !audioEnabled;
+    if (audioEnabled && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    updateAudioToggleUI();
+  }
+
+  // =========================================================================
+  // 5. 1 kHz COUPLED SPIKING & NEUROMODULATOR ODE STEPPER (dt = 1.0 ms)
+  // =========================================================================
+  function stepOneMillisecond(frameStepIdx, isWarmup) {
+    state.simTimeMs += 1.0;
+    const tMs = state.simTimeMs;
+
+    // --- A. Receptor Occupancies & Neuromodulator Gating ---
+    const DA = state.DA;
+    const NE = state.NE;
+    const SER = state.SER;
+
+    // Arnsten PFC Adrenoceptor Switch: high-affinity alpha2A (Kd=45 nM) vs lower-affinity alpha1A (Kd=155 nM)
+    const ne14 = Math.pow(Math.max(0.1, NE), 1.4);
+    const alpha2A = ne14 / (Math.pow(45.0, 1.4) + ne14);
+    const ne22 = Math.pow(Math.max(0.1, NE), 2.2);
+    const alpha1A = ne22 / (Math.pow(155.0, 2.2) + ne22);
+    state.alpha2A = alpha2A;
+    state.alpha1A = alpha1A;
+
+    // D1 Receptor occupancy (PFC & NAc Direct Go pathway, Kd = 52 nM)
+    const thetaD1 = DA / (52.0 + DA);
+    state.thetaD1 = thetaD1;
+
+    // Competitive Operational D2 Receptor Signaling (Endogenous DA vs Haloperidol vs Aripiprazole 28% partial agonist)
+    // Therapeutic D2 occupancy (70-85%+): Haloperidol Ki = 1.2 nM, Aripiprazole Ki = 0.4 nM (intrinsic efficacy = 0.28)
+    const daTerm = DA / 42.0;
+    const halConc = params.halo * 42.0;
+    const ariConc = params.ari * 48.0;
+    const halTerm = halConc / 1.2;
+    const ariTerm = ariConc / 0.4;
+    const E_D2 = (1.0 * daTerm + 0.28 * ariTerm) / (1.0 + daTerm + halTerm + ariTerm);
+    state.E_D2 = E_D2;
+
+    // Global Benzodiazepine GABA-A chloride amplification
+    const benzoGABA = params.benzo * 1.95;
+
+    // Amantadine open-channel uncompetitive NMDA attenuation (selectively trims pathological excess!)
+    const amanBlock = params.aman * (0.22 + 0.48 * Math.min(1.0, state.H_NMDA));
+
+    // Dendritic HCN (Ih) leak channel open fraction in PFC Layer III spines
+    const hcnOpen = Math.min(1.2, Math.max(0.05, 0.56 * (1.0 - 0.80 * alpha2A) + 0.92 * alpha1A));
+    state.hcnOpen = hcnOpen;
+
+    // Effective NMDA synaptic drive onto downstream circuits
+    const effNMDA = state.gNMDA_syn * (1.0 - 0.72 * amanBlock) / (1.0 + 0.85 * benzoGABA);
+
+    // Somatodendritic 5-HT1A autoreceptor brake in Dorsal Raphe (desensitizes by 80% in Week 3+)
+    const sens5HT1A = params.ssriDesens ? 0.20 : 1.00;
+    const auto5HT1A = sens5HT1A * (state.raphe5HT / (26.0 + state.raphe5HT));
+
+    // Terminal 5-HT2C GABA interneuron clamp onto VTA Dopamine
+    const clamp5HT2C = Math.max(0, (SER - 28.0) / (55.0 + SER));
+
+    // Patch-clamp current injection step countdown
+    if (clampPulseRemainingMs > 0) {
+      clampPulseRemainingMs -= 1.0;
+      if (clampPulseRemainingMs <= 0) clampPulseI = 0;
+    }
+    const patchedIdx = getPatchedNeuronIndex();
+
+    // Count spikes in each population during this 1 ms step
+    let spkVTA = 0, spkNMDA = 0, spkPFC_bump = 0, spkPFC_flank = 0, spkPV = 0, spkD1 = 0, spkD2 = 0, spkRaphe = 0;
+    let patchedFiredThisMs = false;
+    let patchedSynCurrent = 0;
+
+    // --- B. Update All 500 Spiking Neurons (Two 0.5 ms sub-steps for rock-solid stiff stability) ---
+    for (let i = 0; i < N_TOTAL; i++) {
+      // Ornstein-Uhlenbeck synaptic noise (tau = 4 ms)
+      let noiseAmp = 1.1;
+      let synDrive = 0.0;
+
+      if (i < 80) {
+        // 1. VTA Dopamine Neurons (0..79)
+        // Driven by intrinsic ~4.3 Hz pacemaker + NMDA bursts - D2 autoreceptor GIRK - 5-HT2C GABA - Benzo + compulsive stress cue
+        const autoD2Brake = 2.1 * E_D2;
+        const nmdaBurstDrive = 5.4 * effNMDA;
+        const stressCueDrive = 3.1 * params.stress;
+        const gabaVTA = 2.6 * clamp5HT2C + 2.8 * benzoGABA;
+        synDrive = nmdaBurstDrive + stressCueDrive - autoD2Brake - gabaVTA + 1.05;
+        noiseAmp = 0.65 + 2.4 * effNMDA;
+      } else if (i < 200) {
+        // 2. Cortico-Limbic Glutamate / NMDA Homeostat Pool (80..199)
+        // Driven by Rishik's Maladaptive NMDA Homeostat H_NMDA, trimmed by Amantadine & Benzo GABA
+        const hDrive = 8.4 * state.H_NMDA * (1.0 - 0.68 * amanBlock);
+        const disinhibD2 = 2.6 * Math.max(0, 0.42 - E_D2);
+        synDrive = hDrive + disinhibD2 - 4.8 * benzoGABA - 0.25;
+        noiseAmp = 0.72 + 3.4 * state.H_NMDA * (1.0 - 0.55 * amanBlock);
+      } else if (i < 320) {
+        // 3a. PFC Layer III Pyramidal Neurons (200..319; 235..280 = Cue-Selective WM Delay Bump)
+        const isBump = (i >= 235 && i <= 280);
+        // Recurrent WM spine weight: requires D1 + alpha2A HCN closure; shunted by alpha1A PKC & NMDA scatter
+        const d1Support = Math.max(0.18, Math.min(1.05, 1.85 * thetaD1 - 0.12));
+        const wRec = (0.30 + 1.15 * alpha2A) * d1Support / (1.0 + 3.8 * alpha1A + 1.8 * benzoGABA + 0.65 * effNMDA);
+        const pvLatInhib = 0.09 * state.ratePV * (isBump ? 0.38 : 1.25);
+        if (isBump) {
+          synDrive = 9.8 * wRec * (0.50 + 0.50 * state.gWM_rec) - pvLatInhib - 5.0 * benzoGABA - 4.8 * alpha1A;
+        } else {
+          // Non-preferred flanker columns: excited by stray NMDA noise & alpha1A stress scatter!
+          synDrive = 6.2 * effNMDA + 8.6 * alpha1A - pvLatInhib - 4.5 * benzoGABA - 0.35;
+        }
+        noiseAmp = 0.75 + 2.8 * effNMDA + 3.6 * alpha1A;
+      } else if (i < 350) {
+        // 3b. PFC Fast-Spiking PV GABA Interneurons (320..349)
+        const pyrExcite = 0.12 * (0.45 * state.ratePFC_bump + 0.55 * state.ratePFC_flank) + 2.6 * effNMDA;
+        const d1Facil = 1.6 * thetaD1;
+        synDrive = pyrExcite + d1Facil - 3.4 * benzoGABA;
+        noiseAmp = 0.95 + 1.6 * effNMDA;
+      } else if (i < 400) {
+        // 4a. NAc D1 "Go" Direct-Pathway MSNs (350..399)
+        // Needs PFC structured drive + D1 Gs/PKA facilitation, opposed by Indirect-Pathway pallidothalamic veto
+        const pfcInput = 0.22 * state.ratePFC_bump * (1.0 - 0.65 * alpha1A) / (1.0 + 0.85 * effNMDA);
+        const d1Boost = 6.8 * thetaD1;
+        const indirectVeto = 0.14 * state.rateD2;
+        synDrive = pfcInput + d1Boost - indirectVeto - 5.2 * benzoGABA - 3.0;
+        noiseAmp = 0.80 + 1.4 * effNMDA;
+      } else if (i < 450) {
+        // 4b. NAc D2 "No-Go" Indirect-Pathway MSNs (400..449)
+        // Tonically restrained by D2 Gi signaling (E_D2)! Disinhibited by Haloperidol/Aripiprazole + driven by NMDA & alpha1A urgency!
+        const d2Restraint = 10.6 * E_D2;
+        const motorUrgency = 6.4 * effNMDA + 5.8 * alpha1A + 6.9;
+        synDrive = motorUrgency - d2Restraint - 5.0 * benzoGABA;
+        noiseAmp = 0.85 + 2.6 * effNMDA + 2.8 * Math.max(0, 0.52 - E_D2);
+      } else {
+        // 5. Dorsal Raphe 5-HT Pacemaker Neurons (450..499)
+        // Pacemaker slowed strongly by somatodendritic 5-HT1A GIRK autoreceptors (especially in Week 1 SSRI!)
+        const girk5HT1A = 4.3 * auto5HT1A;
+        synDrive = 1.45 - girk5HT1A - 2.6 * benzoGABA + 0.35 * alpha1A;
+        noiseAmp = 0.55;
+      }
+
+      // Update OU synaptic noise
+      synNoiseState[i] = 0.78 * synNoiseState[i] + 0.62 * noiseAmp * randNorm();
+
+      // Extra current-clamp injection if this is the patched cell
+      let iClamp = 0;
+      if (i === patchedIdx && clampPulseI !== 0) {
+        // Scale pA to Izhikevich current units + HCN Ih depolarizing sag on hyperpolarization
+        iClamp = clampPulseI * 0.085;
+        if (clampPulseI < 0) {
+          const ihStrength = (patchedPop === 2 && patchedSubMode === 0) ? (0.55 * hcnOpen) : (patchedPop === 0 ? 0.32 : 0.08);
+          patchIhSag += 0.018 * (Math.abs(iClamp) * ihStrength - patchIhSag);
+          iClamp += patchIhSag;
+        } else {
+          patchIhSag *= 0.94;
+        }
+      } else if (i === patchedIdx) {
+        patchIhSag *= 0.94;
+      }
+
+      const totalSyn = synDrive + synNoiseState[i];
+      if (i === patchedIdx) patchedSynCurrent = totalSyn;
+
+      // Two 0.5 ms sub-steps with voltage-dependent Mg2+ NMDA boost on depolarized dendrites
+      let vi = v[i];
+      let ui = u[i];
+      let spiked = false;
+
+      for (let sub = 0; sub < 2; sub++) {
+        const mgUnblock = 1.0 / (1.0 + 0.28 * Math.exp(-0.062 * vi));
+        const nmdaBoost = (i < 450 && effNMDA > 0.05) ? (2.2 * effNMDA * mgUnblock) : 0.0;
+        const I_tot = baseDrive[i] + totalSyn + nmdaBoost + iClamp;
+
+        vi += 0.5 * (0.04 * vi * vi + 5.0 * vi + 140.0 - ui + I_tot);
+        ui += 0.5 * izA[i] * (izB[i] * vi - ui);
+
+        if (vi >= 30.0) {
+          vi = izC[i];
+          ui += izD[i];
+          spiked = true;
+          break;
+        }
+        if (vi < -90.0) vi = -90.0;
+      }
+
+      // Record intracellular patch-clamp trace at 2 kHz (two samples per 1 ms)
+      if (i === patchedIdx && !isWarmup && !scopeFrozen) {
+        for (let s = 0; s < 2; s++) {
+          let vmDisplay = vi;
+          if (spiked && s === 0) {
+            patchSpikePhase = 3;
+          }
+          if (patchSpikePhase === 3) {
+            vmDisplay = 36.5; // Realistic Na+ action potential peak (+36.5 mV)
+            patchSpikePhase = 2;
+          } else if (patchSpikePhase === 2) {
+            vmDisplay = 4.0;  // Fast K+ repolarization downstroke
+            patchSpikePhase = 1;
+          } else if (patchSpikePhase === 1) {
+            vmDisplay = izC[i] - 3.2; // Crisp AHP trough
+            patchSpikePhase = 0;
+          }
+          patchVmBuf[patchPtr] = vmDisplay;
+          patchSynBuf[patchPtr] = patchedSynCurrent;
+          patchClampBuf[patchPtr] = clampPulseI;
+          patchPtr = (patchPtr + 1) % PATCH_LEN;
+        }
+      }
+
+      v[i] = vi;
+      u[i] = ui;
+
+      if (spiked) {
+        lastSpikeMs[i] = tMs;
+        if (i < 80) spkVTA++;
+        else if (i < 200) spkNMDA++;
+        else if (i < 320) {
+          if (i >= 235 && i <= 280) spkPFC_bump++;
+          else spkPFC_flank++;
+        } else if (i < 350) spkPV++;
+        else if (i < 400) spkD1++;
+        else if (i < 450) spkD2++;
+        else spkRaphe++;
+
+        if (!isWarmup) {
+          spikeEvents.push(tMs, i);
+          if (i === patchedIdx) {
+            patchedFiredThisMs = true;
+            const isi = tMs - lastPatchedSpikeMs;
+            if (isi > 2 && isi < 2500) {
+              patchIsiList.push(isi);
+              if (patchIsiList.length > 24) patchIsiList.shift();
+            }
+            lastPatchedSpikeMs = tMs;
+            scheduleSpikeAudio(true, frameStepIdx * 0.001);
+          } else if (audioEnabled) {
+            // Neighboring multi-unit cluster within ~50 um of pipette tip
+            const dist = Math.abs(i - patchedIdx);
+            if (dist > 0 && dist <= 5) {
+              scheduleSpikeAudio(false, frameStepIdx * 0.001);
+            }
+          }
+        }
+      }
+    }
+
+    // --- C. Smooth Population Firing Rates (Hz) with 90 ms exponential filter ---
+    const alphaRate = 1.0 / 90.0;
+    state.rateVTA       += alphaRate * ((spkVTA * 1000.0 / 80.0) - state.rateVTA);
+    state.rateNMDA      += alphaRate * ((spkNMDA * 1000.0 / 120.0) - state.rateNMDA);
+    state.ratePFC_bump  += alphaRate * ((spkPFC_bump * 1000.0 / 46.0) - state.ratePFC_bump);
+    state.ratePFC_flank += alphaRate * ((spkPFC_flank * 1000.0 / 74.0) - state.ratePFC_flank);
+    state.ratePV        += alphaRate * ((spkPV * 1000.0 / 30.0) - state.ratePV);
+    state.rateD1        += alphaRate * ((spkD1 * 1000.0 / 50.0) - state.rateD1);
+    state.rateD2        += alphaRate * ((spkD2 * 1000.0 / 50.0) - state.rateD2);
+    state.rateRaphe     += alphaRate * ((spkRaphe * 1000.0 / 50.0) - state.rateRaphe);
+
+    // Synaptic conductance filters
+    state.gNMDA_syn += (1.0 / 45.0) * (Math.min(1.35, state.rateNMDA / 26.0) - state.gNMDA_syn);
+    state.gWM_rec   += (1.0 / 55.0) * (Math.min(1.25, state.ratePFC_bump / 22.0) - state.gWM_rec);
+
+    // --- D. Coupled Extracellular Neuromodulator ODEs (dt = 0.001 s) ---
+    const dtSec = 0.001;
+
+    // 1. Extracellular Dopamine [DA] (nM): Vesicular RRP exocytosis + PKC DAT Reversal - Michaelis-Menten DAT Uptake
+    // Impaired vesicular priming (low etaRel) undergoes short-term RRP depletion during high-frequency NMDA bursting!
+    const phiAmph = params.amph * (1.0 - 0.45 * params.mph);
+    const rDepFactor = 1.0 + 0.16 * (1.0 - 0.88 * params.etaRel) * state.rateVTA;
+    const rEffVTA = state.rateVTA / rDepFactor;
+    const J_ves_DA = 37.5 * params.etaRel * (1.0 + 0.25 * params.aman) * rEffVTA;
+    const J_rev_DA = 158.0 * phiAmph;
+    const Km_DAT_eff = 48.0 * (1.0 + 3.4 * params.mph + 2.4 * phiAmph);
+    const J_up_DA = (132.0 * state.DA) / (Km_DAT_eff + state.DA) + 0.94 * state.DA;
+    state.DA = Math.max(2.0, Math.min(250.0, state.DA + dtSec * (J_ves_DA + J_rev_DA - J_up_DA)));
+
+    // 2. Rishik's Article 04 Maladaptive NMDA Homeostat (tau = 0.50 s)
+    const D_set = 65.0;
+    const daDeficit = Math.max(0.0, (D_set - state.DA) / D_set);
+    const targetH = params.nmdaGain * Math.min(1.20, 1.28 * daDeficit);
+    state.H_NMDA = Math.max(0.0, Math.min(1.25, state.H_NMDA + (dtSec / 0.50) * (targetH - state.H_NMDA)));
+
+    // 3. Extracellular Norepinephrine [NE] (nM): LC basal + NMDA sympathetic prop + Stress surge + NET block (MPH >> Desoxyn)
+    const neRelease = (45.0 * (0.50 + 0.62 * params.etaRel) + 38.0 * effNMDA + 215.0 * params.stress) / (1.0 + 0.85 * benzoGABA);
+    const netMult = 1.0 + 2.55 * params.mph + 0.82 * params.amph; // MPH has far stronger NET block than Desoxyn
+    const neTarget = neRelease * netMult;
+    state.NE = Math.max(6.0, Math.min(340.0, state.NE + (dtSec / 0.42) * (neTarget - state.NE)));
+
+    // 4. Dorsal Raphe Somatodendritic & Terminal [5-HT] (nM)
+    const rapheTarget = 9.8 * state.rateRaphe * (1.0 + 5.6 * params.ssri);
+    state.raphe5HT = Math.max(4.0, Math.min(180.0, state.raphe5HT + (dtSec / 0.45) * (rapheTarget - state.raphe5HT)));
+    const serTarget = 10.2 * state.rateRaphe * (1.0 + 3.4 * params.ssri);
+    state.SER = Math.max(4.0, Math.min(180.0, state.SER + (dtSec / 0.50) * (serTarget - state.SER)));
+
+    // --- E. Compute Live Clinical & Biophysical Telemetry ---
+    // 1. PFC Cortical SNR (dB) from real spike rates
+    const sigPower = Math.pow(state.ratePFC_bump, 2) + 1.0;
+    const noisePower = Math.pow(state.ratePFC_flank + 0.88 * state.rateNMDA, 2) + 3.6;
+    const rawSnr = 10.0 * Math.log10(sigPower / noisePower);
+    state.snrDb += 0.045 * (Math.max(-9.5, Math.min(17.5, rawSnr)) - state.snrDb);
+
+    // 2. Working-Memory Attractor Stability (%)
+    const rawWM = Math.min(96, Math.max(3,
+      (state.ratePFC_bump * 4.5) * (1.0 - 0.74 * alpha1A) / (1.0 + 0.065 * state.rateNMDA + 1.15 * benzoGABA)
+    ));
+    state.wmStability += 0.045 * (rawWM - state.wmStability);
+
+    // 3. Executive Drive (%) from NAc D1 Go MSNs + PFC output (gated by striatal Go/No-Go balance)
+    const rawExec = Math.min(96, Math.max(3,
+      Math.max(0, 4.5 * state.rateD1 + 1.35 * state.ratePFC_bump - 0.95 * state.rateD2) *
+      (1.0 - 0.52 * alpha1A) * (0.38 + 0.92 * Math.min(0.68, E_D2 + 0.20))
+    ));
+    state.execDrive += 0.045 * (rawExec - state.execDrive);
+
+    // 4. Sympathetic Arousal & Blood Pressure Tone (mmHg)
+    const sympDrive = (0.31 * state.NE + 23.0 * effNMDA + 12.0 * thetaD1 + 11.0 * (1.0 - 0.75 * params.benzo)) / (1.0 + 0.92 * benzoGABA);
+    const targetSys = Math.max(84, Math.min(166, 82.0 + 0.94 * sympDrive));
+    const targetDia = Math.max(50, Math.min(106, 51.0 + 0.61 * sympDrive));
+    state.sysBP += 0.035 * (targetSys - state.sysBP);
+    state.diaBP += 0.035 * (targetDia - state.diaBP);
+    state.arousalPct = Math.max(4, Math.min(100, (state.sysBP - 80) / 0.82));
+
+    // 5. Psychomotor Agitation / Akathisia Index (%)
+    // Driven by NAc D2 "No-Go" MSN firing + maladaptive NMDA noise + alpha1A restlessness uncoupled from D1/D2 reward balance
+    const d2Uncoupling = Math.max(0, 0.50 - E_D2) * 115.0;
+    const rawAka = Math.min(98, Math.max(3,
+      (2.75 * state.rateD2 + 1.65 * state.rateNMDA + 52.0 * alpha1A + d2Uncoupling - 0.40 * state.rateD1) / (1.0 + 1.55 * benzoGABA)
+    ));
+    state.akathisia += 0.045 * (rawAka - state.akathisia);
+
+    // Record FSCV sample every 25 ms
+    if (!isWarmup) {
+      fscvSampleAccumMs += 1.0;
+      if (fscvSampleAccumMs >= 25.0) {
+        fscvSampleAccumMs = 0;
+        fscvDA[fscvPtr] = state.DA;
+        fscvNE[fscvPtr] = state.NE;
+        fscvNMDA[fscvPtr] = state.H_NMDA * 100.0;
+        fscvSER[fscvPtr] = state.SER;
+        fscvPtr = (fscvPtr + 1) % FSCV_LEN;
+      }
+    }
+  }
+
+  function pruneOldSpikes() {
+    const cutoff = state.simTimeMs - RASTER_WINDOW_MS;
+    let firstValid = 0;
+    while (firstValid < spikeEvents.length && spikeEvents[firstValid] < cutoff) {
+      firstValid += 2;
+    }
+    if (firstValid > 0) {
+      spikeEvents.splice(0, firstValid);
+    }
+  }
+
+  // =========================================================================
+  // 6. HIGH-DPI RETINA CANVAS SUITE (4 SYNCHRONIZED VISUALIZATIONS)
+  // =========================================================================
+  const canvases = {
+    connectome: document.getElementById('connectomeCanvas'),
+    patch: document.getElementById('patchCanvas'),
+    raster: document.getElementById('rasterCanvas'),
+    fscv: document.getElementById('fscvCanvas')
+  };
+  const ctxs = {
+    connectome: canvases.connectome.getContext('2d'),
+    patch: canvases.patch.getContext('2d'),
+    raster: canvases.raster.getContext('2d'),
+    fscv: canvases.fscv.getContext('2d')
+  };
+  const dims = {
+    connectome: { w: 400, h: 320 },
+    patch: { w: 400, h: 320 },
+    raster: { w: 800, h: 245 },
+    fscv: { w: 800, h: 210 }
+  };
+
+  function resizeAllCanvases() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    Object.keys(canvases).forEach((key) => {
+      const c = canvases[key];
+      const parent = c.parentElement;
+      if (!parent) return;
+      const rect = parent.getBoundingClientRect();
+      const w = Math.max(120, Math.floor(rect.width));
+      const h = Math.max(100, Math.floor(rect.height));
+      dims[key].w = w;
+      dims[key].h = h;
+      if (c.width !== Math.floor(w * dpr) || c.height !== Math.floor(h * dpr)) {
+        c.width = Math.floor(w * dpr);
+        c.height = Math.floor(h * dpr);
+      }
+      ctxs[key].setTransform(dpr, 0, 0, dpr, 0, 0);
+    });
+  }
+
+  // Anatomical node layout (normalized [0..1] coordinates inside connectomeCanvas)
+  const NUCLEUS_NODES = [
+    { id: 0, label: 'VTA Dopamine',     sub: 'N=80 · DAT / η_rel',  nx: 0.44, ny: 0.80, r: 27, color: '#c8ff00' },
+    { id: 1, label: 'Cortical NMDA',    sub: 'N=120 · Homeostat',   nx: 0.50, ny: 0.22, r: 28, color: '#ff6b35' },
+    { id: 2, label: 'PFC Layer III',    sub: 'N=150 · α2A / α1A',   nx: 0.17, ny: 0.42, r: 30, color: '#00e5ff' },
+    { id: 3, label: 'NAc D1 / D2',      sub: 'N=100 · Go / No-Go',  nx: 0.82, ny: 0.45, r: 29, color: '#ff4d6d' },
+    { id: 4, label: 'Dorsal Raphe',     sub: 'N=50 · 5-HT1A/2C',    nx: 0.80, ny: 0.82, r: 24, color: '#9b88ff' }
+  ];
+
+  // Animated synaptic flux particles along connectome pathways
+  const PATHWAYS = [
+    { from: 0, to: 2, cx: 0.20, cy: 0.74, color: '#c8ff00', type: 'da' },     // VTA -> PFC DA
+    { from: 0, to: 3, cx: 0.66, cy: 0.69, color: '#c8ff00', type: 'da' },     // VTA -> NAc DA
+    { from: 1, to: 0, cx: 0.46, cy: 0.52, color: '#ff6b35', type: 'nmda' },   // NMDA -> VTA burst drive
+    { from: 1, to: 2, cx: 0.30, cy: 0.20, color: '#ff6b35', type: 'nmda' },   // NMDA -> PFC noise flood
+    { from: 1, to: 3, cx: 0.70, cy: 0.22, color: '#ff6b35', type: 'nmda' },   // NMDA -> NAc restlessness
+    { from: 2, to: 3, cx: 0.50, cy: 0.44, color: '#00e5ff', type: 'ne' },     // PFC -> NAc executive & NE tone
+    { from: 4, to: 0, cx: 0.62, cy: 0.88, color: '#9b88ff', type: 'ser' }     // Raphe -> VTA 5-HT2C GABA clamp
+  ];
+
+  const fluxParticles = [];
+  for (let p = 0; p < PATHWAYS.length; p++) {
+    for (let k = 0; k < 7; k++) {
+      fluxParticles.push({ pathIdx: p, t: k / 7 });
+    }
+  }
+
+  // Smoothly animated micropipette tip position
+  let pipAnimX = 0.50, pipAnimY = 0.22;
+  let hoveredNucleus = -1;
+
+  function drawConnectome(dtFrameSec) {
+    const ctx = ctxs.connectome;
+    const { w, h } = dims.connectome;
+    ctx.clearRect(0, 0, w, h);
+
+    // Subtle wet-lab coordinate grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+    ctx.lineWidth = 1;
+    for (let x = 28; x < w; x += 32) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+    }
+    for (let y = 28; y < h; y += 32) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+    }
+
+    // Pathway intensity weights from live simulation state
+    const daIntensity = Math.min(1.6, state.DA / 55.0);
+    const nmdaIntensity = Math.min(1.8, 0.12 + 1.5 * state.gNMDA_syn * (1.0 - 0.55 * params.aman));
+    const neIntensity = Math.min(1.7, state.NE / 75.0);
+    const serIntensity = Math.min(1.6, state.SER / 45.0);
+
+    // Draw axonal Bezier pathways
+    PATHWAYS.forEach((pw) => {
+      const nA = NUCLEUS_NODES[pw.from];
+      const nB = NUCLEUS_NODES[pw.to];
+      const x1 = nA.nx * w, y1 = nA.ny * h;
+      const x2 = nB.nx * w, y2 = nB.ny * h;
+      const cx = pw.cx * w, cy = pw.cy * h;
+
+      let weight = 0.5;
+      if (pw.type === 'da') weight = daIntensity;
+      else if (pw.type === 'nmda') weight = nmdaIntensity;
+      else if (pw.type === 'ne') weight = neIntensity;
+      else weight = serIntensity;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.quadraticCurveTo(cx, cy, x2, y2);
+      ctx.strokeStyle = pw.color;
+      ctx.globalAlpha = Math.min(0.62, 0.10 + 0.28 * weight);
+      ctx.lineWidth = 1.2 + 1.8 * weight;
+      ctx.stroke();
+      ctx.restore();
+    });
+
+    // Advance & draw synaptic flux particles
+    fluxParticles.forEach((fp) => {
+      const pw = PATHWAYS[fp.pathIdx];
+      let speed = 0.25;
+      if (pw.type === 'da') speed = 0.18 + 0.52 * daIntensity;
+      else if (pw.type === 'nmda') speed = 0.12 + 0.78 * nmdaIntensity;
+      else if (pw.type === 'ne') speed = 0.22 + 0.50 * neIntensity;
+      else speed = 0.18 + 0.42 * serIntensity;
+
+      fp.t = (fp.t + dtFrameSec * speed) % 1.0;
+      const t = fp.t;
+      const inv = 1 - t;
+      const nA = NUCLEUS_NODES[pw.from];
+      const nB = NUCLEUS_NODES[pw.to];
+      const x = inv * inv * (nA.nx * w) + 2 * inv * t * (pw.cx * w) + t * t * (nB.nx * w);
+      const y = inv * inv * (nA.ny * h) + 2 * inv * t * (pw.cy * h) + t * t * (nB.ny * h);
+
+      // Jitter chaotic glutamate noise particles when H_NMDA is high
+      const jitter = (pw.type === 'nmda' && state.H_NMDA > 0.35) ? (Math.random() - 0.5) * 5.0 * state.H_NMDA : 0;
+
+      ctx.save();
+      ctx.fillStyle = pw.color;
+      ctx.globalAlpha = Math.min(0.95, 0.22 + 0.55 * speed);
+      ctx.beginPath();
+      ctx.arc(x + jitter, y + jitter, pw.type === 'nmda' ? 2.6 : 2.3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    });
+
+    // Global Benzodiazepine GABA-A veil indicator if active
+    if (params.benzo > 0.05) {
+      ctx.save();
+      ctx.fillStyle = `rgba(155, 136, 255, ${0.08 * params.benzo})`;
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#cbc0ff';
+      ctx.font = '500 10px "IBM Plex Mono", monospace';
+      ctx.fillText(`GLOBAL GABA-A CLAMP: ${Math.round(params.benzo * 100)}%`, 10, 16);
+      ctx.restore();
+    }
+
+    // Draw the 5 Anatomical Nuclei
+    const ratesByPop = [
+      state.rateVTA,
+      state.rateNMDA,
+      state.ratePFC_bump,
+      Math.max(state.rateD1, state.rateD2),
+      state.rateRaphe
+    ];
+
+    NUCLEUS_NODES.forEach((node, idx) => {
+      const x = node.nx * w;
+      const y = node.ny * h;
+      const isSelected = (patchedPop === idx);
+      const isHover = (hoveredNucleus === idx);
+      const rate = ratesByPop[idx];
+      const pulseR = node.r + Math.min(7, rate * 0.16);
+
+      // Activity halo
+      const grad = ctx.createRadialGradient(x, y, node.r * 0.3, x, y, pulseR * 1.55);
+      grad.addColorStop(0, node.color + '44');
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(x, y, pulseR * 1.55, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Core node body
+      ctx.beginPath();
+      ctx.arc(x, y, node.r, 0, Math.PI * 2);
+      ctx.fillStyle = isSelected ? '#191a20' : '#101015';
+      ctx.fill();
+      ctx.lineWidth = isSelected ? 2.4 : (isHover ? 1.8 : 1.2);
+      ctx.strokeStyle = isSelected ? node.color : (isHover ? '#ffffffaa' : node.color + '88');
+      ctx.stroke();
+
+      // Live firing rate inside circle
+      ctx.fillStyle = node.color;
+      ctx.font = '700 11px "IBM Plex Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(`${rate.toFixed(0)}Hz`, x, y + 4);
+
+      // Nucleus title & receptor gate tag
+      const labelY = (node.ny < 0.32) ? (y - node.r - 14) : (y + node.r + 13);
+      ctx.fillStyle = '#f0ece4';
+      ctx.font = '700 11px "Syne", sans-serif';
+      ctx.fillText(node.label, x, labelY);
+
+      ctx.fillStyle = '#8d8d98';
+      ctx.font = '400 9.5px "IBM Plex Mono", monospace';
+      let subText = node.sub;
+      if (idx === 2) {
+        subText = state.alpha1A > 0.45 ? 'α1A SHUNT OPEN!' : (state.alpha2A > 0.50 ? 'α2A LOCKED' : 'LOW TONE');
+      } else if (idx === 3) {
+        subText = `Go ${state.rateD1.toFixed(0)} | NoGo ${state.rateD2.toFixed(0)}Hz`;
+      } else if (idx === 1) {
+        subText = `H_NMDA ${Math.round(state.H_NMDA * 100)}%`;
+      }
+      ctx.fillText(subText, x, labelY + 11);
+    });
+
+    // Animate Borosilicate Glass Micropipette to active nucleus
+    const targetNode = NUCLEUS_NODES[patchedPop];
+    pipAnimX += (targetNode.nx - pipAnimX) * Math.min(1, dtFrameSec * 12);
+    pipAnimY += (targetNode.ny - pipAnimY) * Math.min(1, dtFrameSec * 12);
+
+    const tipX = pipAnimX * w + 6;
+    const tipY = pipAnimY * h - 6;
+    const shankX = tipX + 46;
+    const shankY = tipY - 52;
+
+    ctx.save();
+    // Recording ripple at pipette tip
+    ctx.strokeStyle = targetNode.color;
+    ctx.lineWidth = 1.3;
+    ctx.beginPath();
+    ctx.arc(tipX, tipY, 5.5 + 2.0 * Math.sin(state.simTimeMs * 0.012), 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Tapered glass pipette walls
+    ctx.fillStyle = 'rgba(225, 242, 255, 0.16)';
+    ctx.strokeStyle = 'rgba(230, 245, 255, 0.82)';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(tipX, tipY);
+    ctx.lineTo(shankX - 6, shankY - 4);
+    ctx.lineTo(shankX + 6, shankY + 5);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Internal Ag/AgCl silver recording wire
+    ctx.strokeStyle = targetNode.color;
+    ctx.lineWidth = 1.1;
+    ctx.beginPath();
+    ctx.moveTo(tipX + 5, tipY - 6);
+    ctx.lineTo(shankX + 2, shankY - 1);
+    ctx.stroke();
+    ctx.restore();
+    ctx.textAlign = 'left';
+  }
+
+  function drawPatchOscilloscope() {
+    const ctx = ctxs.patch;
+    const { w, h } = dims.patch;
+    ctx.clearRect(0, 0, w, h);
+
+    const padL = 38, padR = 10, padT = 16, padB = 46;
+    const plotW = Math.max(40, w - padL - padR);
+    const plotH = Math.max(40, h - padT - padB);
+
+    const vmMin = -88, vmMax = 44;
+    const vmToY = (vm) => padT + plotH * (1 - (vm - vmMin) / (vmMax - vmMin));
+
+    // Phosphor oscilloscope graticule
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    ctx.lineWidth = 1;
+    const vTicks = [-80, -60, -40, -20, 0, 20, 40];
+    ctx.font = '400 9px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#6f6f7a';
+    vTicks.forEach((mv) => {
+      const y = vmToY(mv);
+      ctx.beginPath();
+      ctx.moveTo(padL, y);
+      ctx.lineTo(w - padR, y);
+      ctx.stroke();
+      ctx.fillText(`${mv > 0 ? '+' : ''}${mv}`, 6, y + 3);
+    });
+
+    for (let gx = padL; gx <= w - padR; gx += plotW / 6) {
+      ctx.beginPath();
+      ctx.moveTo(gx, padT);
+      ctx.lineTo(gx, padT + plotH);
+      ctx.stroke();
+    }
+
+    // Dashed 0 mV & -55 mV spike threshold reference lines
+    ctx.save();
+    ctx.setLineDash([4, 4]);
+    ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+    ctx.beginPath();
+    ctx.moveTo(padL, vmToY(0)); ctx.lineTo(w - padR, vmToY(0));
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(255,107,53,0.22)';
+    ctx.beginPath();
+    ctx.moveTo(padL, vmToY(-52)); ctx.lineTo(w - padR, vmToY(-52));
+    ctx.stroke();
+    ctx.restore();
+
+    // Determine trace color from active nucleus/sub-mode
+    let traceColor = POPS[patchedPop].color;
+    if (patchedPop === 3 && patchedSubMode === 0) traceColor = '#d9ff4d';
+
+    // Draw live intracellular Vm trace (1200 points = 600 ms)
+    ctx.save();
+    ctx.strokeStyle = traceColor;
+    ctx.lineWidth = 1.65;
+    ctx.shadowColor = traceColor;
+    ctx.shadowBlur = 6;
+    ctx.beginPath();
+    for (let k = 0; k < PATCH_LEN; k++) {
+      const idx = (patchPtr + k) % PATCH_LEN;
+      const x = padL + (k / (PATCH_LEN - 1)) * plotW;
+      const y = vmToY(patchVmBuf[idx]);
+      if (k === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.restore();
+
+    // Bottom strip: Synaptic Drive + Current-Clamp Step Injector trace
+    const stripTop = h - padB + 8;
+    const stripH = padB - 14;
+    const stripMid = stripTop + stripH * 0.55;
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+    ctx.beginPath();
+    ctx.moveTo(padL, stripMid);
+    ctx.lineTo(w - padR, stripMid);
+    ctx.stroke();
+
+    ctx.fillStyle = '#6f6f7a';
+    ctx.font = '400 8.5px "IBM Plex Mono", monospace';
+    ctx.fillText('I_syn', 6, stripMid + 3);
+
+    // Synaptic current trace (#ff6b35 excitatory / #9b88ff inhibitory)
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(255,107,53,0.72)';
+    ctx.lineWidth = 1.1;
+    for (let k = 0; k < PATCH_LEN; k += 2) {
+      const idx = (patchPtr + k) % PATCH_LEN;
+      const x = padL + (k / (PATCH_LEN - 1)) * plotW;
+      const synVal = Math.max(-18, Math.min(24, patchSynBuf[idx]));
+      const y = stripMid - (synVal / 24) * (stripH * 0.48);
+      if (k === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Current-clamp step overlay (#00e5ff)
+    ctx.beginPath();
+    ctx.strokeStyle = '#00e5ff';
+    ctx.lineWidth = 1.25;
+    for (let k = 0; k < PATCH_LEN; k += 2) {
+      const idx = (patchPtr + k) % PATCH_LEN;
+      const x = padL + (k / (PATCH_LEN - 1)) * plotW;
+      const cVal = patchClampBuf[idx];
+      const y = stripMid - (cVal / 180) * (stripH * 0.45);
+      if (k === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Top-left HUD badge inside oscilloscope
+    let cellLabel = POPS[patchedPop].name;
+    if (patchedPop === 2) cellLabel = patchedSubMode === 0 ? 'PFC L-III WM Pyramidal (#255)' : 'PFC Fast-Spiking PV GABA (#330)';
+    else if (patchedPop === 3) cellLabel = patchedSubMode === 0 ? 'NAc D1 "Go" Direct MSN (#370)' : 'NAc D2 "No-Go" Indirect MSN (#422)';
+    else cellLabel = `${POPS[patchedPop].name} (#${getPatchedNeuronIndex()})`;
+
+    ctx.fillStyle = traceColor;
+    ctx.font = '600 10px "IBM Plex Mono", monospace';
+    ctx.fillText(cellLabel + (scopeFrozen ? ' [FROZEN]' : ''), padL + 6, padT + 11);
+  }
+
+  function drawSpikeRaster() {
+    const ctx = ctxs.raster;
+    const { w, h } = dims.raster;
+    ctx.clearRect(0, 0, w, h);
+
+    const padL = 94, padR = 10, padT = 8, padB = 18;
+    const plotW = Math.max(60, w - padL - padR);
+    const plotH = Math.max(60, h - padT - padB);
+
+    // Band dividers & labels for all 500 neurons
+    const bands = [
+      { label: 'VTA DA (80)',     s: 0,   e: 80,  col: '#c8ff00' },
+      { label: 'NMDA Glu (120)',  s: 80,  e: 200, col: '#ff6b35' },
+      { label: 'PFC Pyr/PV(150)', s: 200, e: 350, col: '#00e5ff' },
+      { label: 'NAc D1/D2 (100)', s: 350, e: 450, col: '#ff4d6d' },
+      { label: 'Raphe 5HT (50)',  s: 450, e: 500, col: '#9b88ff' }
+    ];
+
+    ctx.font = '500 9.5px "IBM Plex Mono", monospace';
+    bands.forEach((b, idx) => {
+      const y1 = padT + (b.s / N_TOTAL) * plotH;
+      const y2 = padT + (b.e / N_TOTAL) * plotH;
+      if (idx % 2 === 1) {
+        ctx.fillStyle = 'rgba(255,255,255,0.018)';
+        ctx.fillRect(padL, y1, plotW, y2 - y1);
+      }
+      ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+      ctx.beginPath();
+      ctx.moveTo(0, y2);
+      ctx.lineTo(w - padR, y2);
+      ctx.stroke();
+
+      ctx.fillStyle = b.col;
+      ctx.fillText(b.label, 6, (y1 + y2) * 0.5 + 3);
+    });
+
+    // Subtle highlight band for PFC Working-Memory Bump Assembly (235..280)
+    const wmY1 = padT + (235 / N_TOTAL) * plotH;
+    const wmY2 = padT + (280 / N_TOTAL) * plotH;
+    ctx.fillStyle = 'rgba(0, 229, 255, 0.055)';
+    ctx.fillRect(padL, wmY1, plotW, wmY2 - wmY1);
+
+    // Time gridlines (every 1.0 s across 4.0 s window)
+    ctx.strokeStyle = 'rgba(255,255,255,0.045)';
+    ctx.fillStyle = '#666670';
+    ctx.font = '400 8.5px "IBM Plex Mono", monospace';
+    for (let s = 0; s <= 4; s++) {
+      const x = padL + (s / 4) * plotW;
+      ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, padT + plotH); ctx.stroke();
+      ctx.fillText(`-${4 - s}s`, x - 8, h - 4);
+    }
+
+    // Render spikes batched by color for blazing 60fps performance
+    const tNow = state.simTimeMs;
+    const tStart = tNow - RASTER_WINDOW_MS;
+    const colorBuckets = {
+      '#c8ff00': [], // VTA DA
+      '#ff6b35': [], // NMDA
+      '#00e5ff': [], // PFC WM Bump
+      '#4aa8bd': [], // PFC Flankers / PV
+      '#d9ff4d': [], // NAc D1 Go
+      '#ff4d6d': [], // NAc D2 No-Go
+      '#9b88ff': []  // Raphe 5-HT
+    };
+
+    for (let k = 0; k < spikeEvents.length; k += 2) {
+      const st = spikeEvents[k];
+      if (st < tStart) continue;
+      const nIdx = spikeEvents[k + 1];
+      const x = padL + ((st - tStart) / RASTER_WINDOW_MS) * plotW;
+      const y = padT + (nIdx / N_TOTAL) * plotH;
+
+      let col = '#9b88ff';
+      if (nIdx < 80) col = '#c8ff00';
+      else if (nIdx < 200) col = '#ff6b35';
+      else if (nIdx < 350) col = (nIdx >= 235 && nIdx <= 280) ? '#00e5ff' : '#4aa8bd';
+      else if (nIdx < 400) col = '#d9ff4d';
+      else if (nIdx < 450) col = '#ff4d6d';
+
+      colorBuckets[col].push(x, y);
+    }
+
+    Object.keys(colorBuckets).forEach((col) => {
+      const pts = colorBuckets[col];
+      if (!pts.length) return;
+      ctx.fillStyle = col;
+      ctx.beginPath();
+      for (let j = 0; j < pts.length; j += 2) {
+        ctx.rect(pts[j], pts[j + 1], 1.5, 1.9);
+      }
+      ctx.fill();
+    });
+  }
+
+  function drawFSCV() {
+    const ctx = ctxs.fscv;
+    const { w, h } = dims.fscv;
+    ctx.clearRect(0, 0, w, h);
+
+    // Reserve right 145px on wide viewports for Cyclic Voltammogram I-V inset
+    const showInset = (w > 460);
+    const insetW = showInset ? 148 : 0;
+    const padL = 42, padR = showInset ? (insetW + 18) : 12, padT = 14, padB = 20;
+    const plotW = Math.max(60, w - padL - padR);
+    const plotH = Math.max(50, h - padT - padB);
+
+    const maxY = 260; // nM scale (0..260 nM)
+    const valToY = (v) => padT + plotH * (1 - Math.min(maxY, Math.max(0, v)) / maxY);
+
+    // Optimal alpha2A zone shading (40..115 nM)
+    const yOptTop = valToY(115);
+    const yOptBot = valToY(40);
+    ctx.fillStyle = 'rgba(0, 229, 255, 0.04)';
+    ctx.fillRect(padL, yOptTop, plotW, yOptBot - yOptTop);
+
+    // Gridlines
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    ctx.fillStyle = '#6f6f7a';
+    ctx.font = '400 9px "IBM Plex Mono", monospace';
+    [0, 65, 130, 195, 250].forEach((nm) => {
+      const y = valToY(nm);
+      ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + plotW, y); ctx.stroke();
+      ctx.fillText(`${nm}`, 8, y + 3);
+    });
+
+    // Dashed D_set = 65 nM Homeostatic Dopamine Setpoint
+    ctx.save();
+    ctx.setLineDash([5, 4]);
+    ctx.strokeStyle = 'rgba(200, 255, 0, 0.35)';
+    const ySet = valToY(65);
+    ctx.beginPath(); ctx.moveTo(padL, ySet); ctx.lineTo(padL + plotW, ySet); ctx.stroke();
+    ctx.restore();
+
+    function plotRing(buf, color, width, scaleMul) {
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width;
+      ctx.beginPath();
+      for (let k = 0; k < FSCV_LEN; k++) {
+        const idx = (fscvPtr + k) % FSCV_LEN;
+        const x = padL + (k / (FSCV_LEN - 1)) * plotW;
+        const y = valToY(buf[idx] * scaleMul);
+        if (k === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // Plot [5-HT], NMDA Homeostat (%), [NE], and [DA]
+    plotRing(fscvSER, '#9b88ff', 1.25, 1.0);
+    plotRing(fscvNMDA, '#ff6b35', 1.5, 1.8); // Scaled so 100% H_NMDA maps visibly at 180
+    plotRing(fscvNE, '#00e5ff', 1.65, 1.0);
+    plotRing(fscvDA, '#c8ff00', 2.1, 1.0);
+
+    // Draw Background-Subtracted Carbon-Fiber Cyclic Voltammogram Inset (-0.4V -> +1.3V -> -0.4V)
+    if (showInset) {
+      const ix = w - insetW - 8;
+      const iy = 12;
+      const iw = insetW - 4;
+      const ih = h - 24;
+
+      ctx.fillStyle = '#0b0b10';
+      ctx.strokeStyle = 'rgba(255,255,255,0.10)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.roundRect(ix, iy, iw, ih, 6);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#8e8e99';
+      ctx.font = '500 8.5px "IBM Plex Mono", monospace';
+      ctx.fillText('FSCV I–V (400 V/s)', ix + 8, iy + 13);
+
+      const midY = iy + ih * 0.56;
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+      ctx.beginPath();
+      ctx.moveTo(ix + 8, midY);
+      ctx.lineTo(ix + iw - 8, midY);
+      ctx.stroke();
+
+      const daAmp = Math.min(1.35, state.DA / 95.0);
+      const neAmp = Math.min(1.25, state.NE / 160.0);
+
+      // Anodic sweep (-0.4V to +1.3V): DA oxidation peak at +0.62V
+      ctx.strokeStyle = '#c8ff00';
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      for (let s = 0; s <= 48; s++) {
+        const uFrac = s / 48; // voltage -0.4 to +1.3V
+        const x = ix + 10 + uFrac * (iw - 20);
+        const oxPeak = Math.exp(-Math.pow((uFrac - 0.58) / 0.13, 2)) * (daAmp * 34 + neAmp * 10);
+        const y = midY - oxPeak - 2 * Math.sin(uFrac * Math.PI);
+        if (s === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      // Cathodic return sweep (+1.3V to -0.4V): DA-o-quinone reduction trough at -0.18V
+      for (let s = 48; s >= 0; s--) {
+        const uFrac = s / 48;
+        const x = ix + 10 + uFrac * (iw - 20);
+        const redDip = Math.exp(-Math.pow((uFrac - 0.18) / 0.14, 2)) * (daAmp * 21 + neAmp * 6);
+        const y = midY + redDip + 2 * Math.sin(uFrac * Math.PI);
+        ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      ctx.fillStyle = '#c8ff00';
+      ctx.font = '400 8px "IBM Plex Mono", monospace';
+      ctx.fillText(`Ox +0.62V (${(daAmp * 4.8).toFixed(1)} nA)`, ix + 8, iy + ih - 7);
+    }
+  }
+
+  // =========================================================================
+  // 7. DOM TELEMETRY, INTERACTIVE CONTROLS & PRESET MANAGEMENT
+  // =========================================================================
+  const dom = {
+    clock: document.getElementById('simClockBadge'),
+    snrVal: document.getElementById('snrVal'),
+    snrBar: document.getElementById('snrBar'),
+    snrBadge: document.getElementById('snrBadge'),
+    snrSub: document.getElementById('snrSub'),
+    wmVal: document.getElementById('wmVal'),
+    wmBar: document.getElementById('wmBar'),
+    wmBadge: document.getElementById('wmBadge'),
+    wmSub: document.getElementById('wmSub'),
+    execVal: document.getElementById('execVal'),
+    execBar: document.getElementById('execBar'),
+    execBadge: document.getElementById('execBadge'),
+    bpVal: document.getElementById('bpVal'),
+    bpBar: document.getElementById('bpBar'),
+    bpBadge: document.getElementById('bpBadge'),
+    bpSub: document.getElementById('bpSub'),
+    akaVal: document.getElementById('akaVal'),
+    akaBar: document.getElementById('akaBar'),
+    akaBadge: document.getElementById('akaBadge'),
+    akaSub: document.getElementById('akaSub'),
+    rasterRates: document.getElementById('rasterRatesBar'),
+    fscvReadout: document.getElementById('fscvReadoutBar'),
+    patchStats: document.getElementById('patchCellStats'),
+    pipReadout: document.getElementById('pipetteTargetReadout'),
+    diagReceptor: document.getElementById('diagReceptorState'),
+    diagTag: document.getElementById('diagTag'),
+    diagTitle: document.getElementById('diagTitle'),
+    diagBody: document.getElementById('diagBody'),
+    btnSubCell: document.getElementById('btnSubCell')
+  };
+
+  let uiRefreshCounter = 0;
+
+  function updateTelemetryDOM() {
+    dom.clock.textContent = `${state.running ? '1.0 kHz LIVE' : 'PAUSED'} · t = ${(state.simTimeMs / 1000).toFixed(1)} s`;
+
+    // 1. Cortical SNR
+    const snr = state.snrDb;
+    dom.snrVal.textContent = `${snr >= 0 ? '+' : ''}${snr.toFixed(1)} dB`;
+    const snrPct = Math.max(4, Math.min(100, ((snr + 9) / 27) * 100));
+    dom.snrBar.style.width = `${snrPct}%`;
+    if (snr >= 9) {
+      dom.snrVal.style.color = 'var(--da)';
+      dom.snrBar.style.background = 'var(--da)';
+      dom.snrBadge.textContent = 'PHASE-LOCKED';
+      dom.snrSub.textContent = 'High-SNR Layer III delay representation';
+    } else if (snr >= 2) {
+      dom.snrVal.style.color = 'var(--ne)';
+      dom.snrBar.style.background = 'var(--ne)';
+      dom.snrBadge.textContent = 'MODERATE';
+      dom.snrSub.textContent = 'Partial tuning · residual background scatter';
+    } else {
+      dom.snrVal.style.color = 'var(--nmda)';
+      dom.snrBar.style.background = 'var(--nmda)';
+      dom.snrBadge.textContent = 'STATIC FLOOD';
+      dom.snrSub.textContent = 'Signal buried under NMDA / α1A noise';
+    }
+
+    // 2. WM Stability
+    const wm = Math.round(state.wmStability);
+    dom.wmVal.textContent = `${wm}%`;
+    dom.wmBar.style.width = `${wm}%`;
+    if (params.benzo > 0.45) {
+      dom.wmBadge.textContent = 'GABA SUPPRESSED';
+      dom.wmSub.textContent = 'Global Cl⁻ inhibition silences delay loop';
+      dom.wmVal.style.color = 'var(--ser)';
+    } else if (state.alpha1A > 0.45) {
+      dom.wmBadge.textContent = 'α1A HCN SHUNT';
+      dom.wmSub.textContent = 'PKC/cAMP opens spine leak · PFC offline';
+      dom.wmVal.style.color = 'var(--nmda)';
+    } else if (wm >= 65) {
+      dom.wmBadge.textContent = 'α2A LOCKED';
+      dom.wmSub.textContent = 'HCN channels closed · crisp spine coupling';
+      dom.wmVal.style.color = 'var(--da)';
+    } else {
+      dom.wmBadge.textContent = 'DEGRADED';
+      dom.wmSub.textContent = 'Insufficient D1/α2A support vs noise';
+      dom.wmVal.style.color = 'var(--ne)';
+    }
+
+    // 3. Executive Drive
+    const exec = Math.round(state.execDrive);
+    dom.execVal.textContent = `${exec}%`;
+    dom.execBar.style.width = `${exec}%`;
+    dom.execBadge.textContent = exec >= 62 ? 'ENGAGED' : (exec >= 35 ? 'BLUNTED' : 'IMPAIRED');
+
+    // 4. Arousal & BP Tone
+    const sys = Math.round(state.sysBP);
+    const dia = Math.round(state.diaBP);
+    dom.bpVal.innerHTML = `${sys}/${dia} <span style="font-size:12px;color:var(--muted2);font-weight:400;">mmHg</span>`;
+    dom.bpBar.style.width = `${Math.round(state.arousalPct)}%`;
+    if (sys <= 96) {
+      dom.bpBadge.textContent = 'HYPOTENSION / TORPOR';
+      dom.bpVal.style.color = 'var(--ser)';
+      dom.bpBar.style.background = 'var(--ser)';
+      dom.bpSub.textContent = 'Protective NMDA lost · severe hypersomnia';
+    } else if (sys >= 136) {
+      dom.bpBadge.textContent = 'SYMPATHETIC SURGE';
+      dom.bpVal.style.color = 'var(--nmda)';
+      dom.bpBar.style.background = 'var(--nmda)';
+      dom.bpSub.textContent = 'Elevated central/peripheral NE pressor drive';
+    } else {
+      dom.bpBadge.textContent = 'NORMOTENSIVE';
+      dom.bpVal.style.color = 'var(--text)';
+      dom.bpBar.style.background = 'var(--da)';
+      dom.bpSub.textContent = state.H_NMDA > 0.45 ? 'Propped up by compensatory NMDA drive' : 'Balanced autonomic arousal tone';
+    }
+
+    // 5. Akathisia / Psychomotor Agitation
+    const aka = Math.round(state.akathisia);
+    dom.akaVal.textContent = `${aka}%`;
+    dom.akaBar.style.width = `${aka}%`;
+    if (aka >= 72) {
+      dom.akaBadge.textContent = (params.halo > 0.25 || params.ari > 0.35) ? 'IATROGENIC AKATHISIA' : 'SEVERE AGITATION';
+      dom.akaVal.style.color = 'var(--danger)';
+      dom.akaBar.style.background = 'var(--danger)';
+      dom.akaSub.textContent = 'D2 No-Go + NMDA motor urgency uncoupled!';
+    } else if (aka >= 38) {
+      dom.akaBadge.textContent = 'RESTLESS';
+      dom.akaVal.style.color = 'var(--nmda)';
+      dom.akaBar.style.background = 'var(--nmda)';
+      dom.akaSub.textContent = 'Elevated internal restlessness / noise';
+    } else {
+      dom.akaBadge.textContent = 'CALM / QUIESCENT';
+      dom.akaVal.style.color = 'var(--da)';
+      dom.akaBar.style.background = 'var(--da)';
+      dom.akaSub.textContent = 'Striatal Go/No-Go & glutamate balanced';
+    }
+
+    // Raster & FSCV header readouts
+    dom.rasterRates.textContent =
+      `VTA ${state.rateVTA.toFixed(1)}Hz · NMDA ${state.rateNMDA.toFixed(1)}Hz · PFC-WM ${state.ratePFC_bump.toFixed(1)}Hz · D1 ${state.rateD1.toFixed(1)} / D2 ${state.rateD2.toFixed(1)}Hz · 5-HT ${state.rateRaphe.toFixed(1)}Hz`;
+
+    dom.fscvReadout.innerHTML =
+      `<span style="color:var(--da)">[DA] ${state.DA.toFixed(0)} nM</span> &nbsp;·&nbsp; ` +
+      `<span style="color:var(--ne)">[NE] ${state.NE.toFixed(0)} nM</span> &nbsp;·&nbsp; ` +
+      `<span style="color:var(--nmda)">H_NMDA ${Math.round(state.H_NMDA * 100)}%</span> &nbsp;·&nbsp; ` +
+      `<span style="color:var(--ser)">[5-HT] ${state.SER.toFixed(0)} nM</span>`;
+
+    // Patch-clamp stats (Vm, ISI CV, Rin)
+    const pIdx = getPatchedNeuronIndex();
+    const vmNow = v[pIdx];
+    let cvIsi = 0.15;
+    if (patchIsiList.length >= 4) {
+      const mean = patchIsiList.reduce((a, b) => a + b, 0) / patchIsiList.length;
+      const variance = patchIsiList.reduce((a, b) => a + (b - mean) * (b - mean), 0) / patchIsiList.length;
+      cvIsi = Math.sqrt(variance) / Math.max(1, mean);
+    }
+    const popRates = [
+      state.rateVTA,
+      state.rateNMDA,
+      patchedSubMode === 0 ? state.ratePFC_bump : state.ratePV,
+      patchedSubMode === 0 ? state.rateD1 : state.rateD2,
+      state.rateRaphe
+    ];
+    const rIn = patchedPop === 2 ? Math.round(210 / (0.65 + 0.75 * state.hcnOpen)) : 185;
+    dom.patchStats.textContent =
+      `Vm: ${vmNow.toFixed(1)} mV · Rate: ${popRates[patchedPop].toFixed(1)} Hz · CV_ISI: ${cvIsi.toFixed(2)} · R_in: ${rIn} MΩ`;
+
+    dom.diagReceptor.textContent =
+      `α2A: ${Math.round(state.alpha2A * 100)}% | α1A: ${Math.round(state.alpha1A * 100)}% | E_D2: ${state.E_D2.toFixed(2)}`;
+  }
+
+  function updateDynamicCustomDiagnosis() {
+    // When user manually drags sliders away from a preset, explain the live neurochemical regime!
+    if (params.etaRel < 0.45 && params.nmdaGain < 0.20 && params.amph < 0.15) {
+      dom.diagTag.textContent = 'LIVE REGIME · ARTICLE 04 MDD CONTRAST';
+      dom.diagTitle.textContent = 'Hypodopaminergia WITHOUT NMDA Compensation (Anhedonic MDD)';
+      dom.diagBody.innerHTML =
+        'With vesicular release low AND <strong>NMDA Homeostat Gain near 0×</strong>, there is no compensatory glutamate storm—so there is <strong>zero hyperactivity</strong>. Instead, low [DA] and [NE] produce pure apathy, low executive drive, and low arousal, illustrating Article 04’s distinction between MDD and true neurochemical ADHD.';
+      return;
+    }
+    if (params.ari > 0.35 && params.halo < 0.20) {
+      dom.diagTag.textContent = 'LIVE REGIME · FOCUS AREA 06 (ARIPIPRAZOLE)';
+      dom.diagTitle.textContent = 'High-Affinity Partial Agonist Ceiling (E_D2 Clamped Near 0.28)';
+      dom.diagBody.innerHTML =
+        `<strong>Aripiprazole</strong> binds striatal D<sub>2</sub> receptors with sub-nanomolar affinity (K<sub>i</sub> = 0.4 nM), displacing endogenous dopamine and clamping signaling near its <strong>28% intrinsic efficacy ceiling</strong> (live E<sub>D2</sub> = <strong>${state.E_D2.toFixed(2)}</strong>). Indirect-pathway D<sub>2</sub> MSNs disinhibit, driving akathisia!`;
+      return;
+    }
+    if (params.ssri > 0.35 && params.halo < 0.15 && params.ari < 0.15) {
+      dom.diagTag.textContent = params.ssriDesens
+        ? 'LIVE REGIME · FOCUS AREA 05 (WEEK 3+ SSRI)'
+        : 'LIVE REGIME · FOCUS AREA 05 (WEEK 1 ACUTE SSRI)';
+      dom.diagTitle.textContent = params.ssriDesens
+        ? '5-HT1A Autoreceptors Desensitized: Raphe Firing Restored (+ 5-HT2C DA Clamp)'
+        : 'Acute SERT Blockade Spikes Somatodendritic 5-HT1A Brake';
+      dom.diagBody.innerHTML = params.ssriDesens
+        ? 'After ~3 weeks, somatodendritic <strong>5-HT<sub>1A</sub> autoreceptors</strong> downregulate, allowing Dorsal Raphe firing to rebound and terminal [5-HT] to climb—though <strong>5-HT<sub>2C</sub></strong> activation on VTA GABA interneurons still dampens dopamine.'
+        : 'Acute SERT blockade floods the Dorsal Raphe with 5-HT, activating <strong>5-HT<sub>1A</sub> GIRK autoreceptors</strong> that drop Raphe firing below 1.5 Hz while terminal <strong>5-HT<sub>2C</sub></strong> tone clamps VTA dopamine.';
+      return;
+    }
+    if (params.aman > 0.35 && params.amph < 0.12 && params.etaRel < 0.45) {
+      dom.diagTag.textContent = 'LIVE REGIME · ARTICLE 04 AMANTADINE MONOTHERAPY';
+      dom.diagTitle.textContent = 'NMDA Static Quieted Without GABA Sedation—But DA Deficit Remains';
+      dom.diagBody.innerHTML =
+        '<strong>Amantadine</strong> trims pathological open-channel NMDA noise so psychomotor agitation subsides without benzodiazepine hypotension—yet without a stimulant to restore [DA], executive drive and working memory remain underpowered.';
+    }
+  }
+
+  function updatePipetteUI() {
+    document.querySelectorAll('.pip-pill').forEach((btn) => {
+      btn.classList.toggle('active', Number(btn.dataset.nuc) === patchedPop);
+    });
+    dom.pipReadout.textContent = `Pipette: ${POPS[patchedPop].name}`;
+    dom.pipReadout.style.color = POPS[patchedPop].color;
+
+    if (patchedPop === 2) {
+      dom.btnSubCell.style.display = 'inline-block';
+      dom.btnSubCell.textContent = patchedSubMode === 0 ? 'Cell: WM Pyramidal ⇄' : 'Cell: PV Fast-Spiking ⇄';
+    } else if (patchedPop === 3) {
+      dom.btnSubCell.style.display = 'inline-block';
+      dom.btnSubCell.textContent = patchedSubMode === 0 ? 'Cell: D1 Go MSN ⇄' : 'Cell: D2 No-Go MSN ⇄';
+    } else {
+      dom.btnSubCell.style.display = 'none';
+    }
+    patchIsiList = [];
+  }
+
+  function syncSlidersFromParams() {
+    const setSl = (id, valId, num, fmt) => {
+      const el = document.getElementById(id);
+      const vEl = document.getElementById(valId);
+      if (el) el.value = num;
+      if (vEl) vEl.textContent = fmt;
+    };
+    setSl('slEtaRel',   'valEtaRel',   Math.round(params.etaRel * 100), `${Math.round(params.etaRel * 100)}%`);
+    setSl('slNmdaGain', 'valNmdaGain', Math.round(params.nmdaGain * 100), `${params.nmdaGain.toFixed(2)}×`);
+    setSl('slStress',   'valStress',   Math.round(params.stress * 100), `${Math.round(params.stress * 100)}%`);
+    setSl('slAmph',     'valAmph',     Math.round(params.amph * 100), `${Math.round(params.amph * 100)}%`);
+    setSl('slMph',      'valMph',      Math.round(params.mph * 100), `${Math.round(params.mph * 100)}%`);
+    setSl('slBenzo',    'valBenzo',    Math.round(params.benzo * 100), `${Math.round(params.benzo * 100)}%`);
+    setSl('slAman',     'valAman',     Math.round(params.aman * 100), `${Math.round(params.aman * 100)}%`);
+    setSl('slHalo',     'valHalo',     Math.round(params.halo * 100), `${Math.round(params.halo * 100)}%`);
+    setSl('slAri',      'valAri',      Math.round(params.ari * 100), `${Math.round(params.ari * 100)}%`);
+    setSl('slSsri',     'valSsri',     Math.round(params.ssri * 100), `${Math.round(params.ssri * 100)}%`);
+
+    document.getElementById('btnSsriWk1').classList.toggle('active', !params.ssriDesens);
+    document.getElementById('btnSsriWk3').classList.toggle('active', params.ssriDesens);
+  }
+
+  function applyPreset(key) {
+    const pr = PRESETS[key];
+    if (!pr) return;
+    currentPresetKey = key;
+    Object.assign(params, pr.vals);
+    patchedPop = pr.pipette;
+    patchedSubMode = pr.subMode;
+    syncSlidersFromParams();
+    updatePipetteUI();
+
+    document.querySelectorAll('.preset-card').forEach((card) => {
+      card.classList.toggle('active', card.dataset.preset === key);
+    });
+    document.getElementById('activePresetIndicator').textContent = `ACTIVE: ${pr.label}`;
+    document.getElementById('reelPresetMini').textContent = pr.short;
+
+    dom.diagTag.textContent = pr.tag;
+    dom.diagTitle.textContent = pr.title;
+    dom.diagBody.innerHTML = pr.body;
+  }
+
+  // =========================================================================
+  // 8. EVENT LISTENERS (PRESETS, SLIDERS, PIPETTE CLICK, REEL & ODE DRAWER)
+  // =========================================================================
+  document.querySelectorAll('.preset-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      applyPreset(card.dataset.preset);
+    });
+  });
+
+  document.getElementById('btnBaseline').addEventListener('click', () => {
+    applyPreset('baseline');
+  });
+
+  document.getElementById('btnWashout').addEventListener('click', () => {
+    params.amph = 0; params.mph = 0; params.benzo = 0;
+    params.aman = 0; params.halo = 0; params.ari = 0; params.ssri = 0;
+    syncSlidersFromParams();
+    document.querySelectorAll('.preset-card').forEach((c) => c.classList.remove('active'));
+    document.getElementById('activePresetIndicator').textContent = 'ACTIVE: CUSTOM WASHOUT STATE';
+  });
+
+  function bindSlider(id, paramKey, scale, valId, fmtFn) {
+    const el = document.getElementById(id);
+    const vEl = document.getElementById(valId);
+    el.addEventListener('input', () => {
+      const raw = Number(el.value);
+      params[paramKey] = raw * scale;
+      vEl.textContent = fmtFn(raw);
+      document.querySelectorAll('.preset-card').forEach((c) => c.classList.remove('active'));
+      document.getElementById('activePresetIndicator').textContent = 'ACTIVE: CUSTOM CLAMP BENCH';
+      updateDynamicCustomDiagnosis();
+    });
+  }
+
+  bindSlider('slEtaRel',   'etaRel',   0.01, 'valEtaRel',   (v) => `${v}%`);
+  bindSlider('slNmdaGain', 'nmdaGain', 0.01, 'valNmdaGain', (v) => `${(v / 100).toFixed(2)}×`);
+  bindSlider('slStress',   'stress',   0.01, 'valStress',   (v) => `${v}%`);
+  bindSlider('slAmph',     'amph',     0.01, 'valAmph',     (v) => `${v}%`);
+  bindSlider('slMph',      'mph',      0.01, 'valMph',      (v) => `${v}%`);
+  bindSlider('slBenzo',    'benzo',    0.01, 'valBenzo',    (v) => `${v}%`);
+  bindSlider('slAman',     'aman',     0.01, 'valAman',     (v) => `${v}%`);
+  bindSlider('slHalo',     'halo',     0.01, 'valHalo',     (v) => `${v}%`);
+  bindSlider('slAri',      'ari',      0.01, 'valAri',      (v) => `${v}%`);
+  bindSlider('slSsri',     'ssri',     0.01, 'valSsri',     (v) => `${v}%`);
+
+  document.getElementById('btnSsriWk1').addEventListener('click', () => {
+    params.ssriDesens = false;
+    syncSlidersFromParams();
+    updateDynamicCustomDiagnosis();
+  });
+  document.getElementById('btnSsriWk3').addEventListener('click', () => {
+    params.ssriDesens = true;
+    syncSlidersFromParams();
+    updateDynamicCustomDiagnosis();
+  });
+
+  // Pipette selection via pills or clicking Connectome canvas
+  document.querySelectorAll('.pip-pill').forEach((pill) => {
+    pill.addEventListener('click', () => {
+      patchedPop = Number(pill.dataset.nuc);
+      patchedSubMode = 0;
+      updatePipetteUI();
+    });
+  });
+
+  dom.btnSubCell.addEventListener('click', () => {
+    patchedSubMode = patchedSubMode === 0 ? 1 : 0;
+    updatePipetteUI();
+  });
+
+  canvases.connectome.addEventListener('mousemove', (e) => {
+    const rect = canvases.connectome.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    const { w, h } = dims.connectome;
+    hoveredNucleus = -1;
+    NUCLEUS_NODES.forEach((node, idx) => {
+      const dx = mx - node.nx * w;
+      const dy = my - node.ny * h;
+      if (Math.sqrt(dx * dx + dy * dy) <= node.r + 10) {
+        hoveredNucleus = idx;
+      }
+    });
+    canvases.connectome.style.cursor = hoveredNucleus >= 0 ? 'pointer' : 'crosshair';
+  });
+
+  canvases.connectome.addEventListener('mouseleave', () => {
+    hoveredNucleus = -1;
+  });
+
+  canvases.connectome.addEventListener('click', (e) => {
+    const rect = canvases.connectome.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    const { w, h } = dims.connectome;
+    let bestIdx = -1;
+    let bestDist = 1e9;
+    NUCLEUS_NODES.forEach((node, idx) => {
+      const dx = mx - node.nx * w;
+      const dy = my - node.ny * h;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d <= node.r + 16 && d < bestDist) {
+        bestDist = d;
+        bestIdx = idx;
+      }
+    });
+    if (bestIdx >= 0) {
+      if (patchedPop === bestIdx && (bestIdx === 2 || bestIdx === 3)) {
+        patchedSubMode = patchedSubMode === 0 ? 1 : 0;
+      } else {
+        patchedPop = bestIdx;
+        patchedSubMode = 0;
+      }
+      updatePipetteUI();
+    }
+  });
+
+  // Patch-clamp current step injectors & Freeze
+  document.getElementById('btnDepolPulse').addEventListener('click', () => {
+    clampPulseI = 150;
+    clampPulseRemainingMs = 220;
+  });
+  document.getElementById('btnSagPulse').addEventListener('click', () => {
+    clampPulseI = -100;
+    clampPulseRemainingMs = 260;
+  });
+  document.getElementById('btnFreezeScope').addEventListener('click', function () {
+    scopeFrozen = !scopeFrozen;
+    this.classList.toggle('active', scopeFrozen);
+    this.textContent = scopeFrozen ? 'Unfreeze' : 'Freeze';
+  });
+
+  // Play / Pause
+  document.getElementById('btnPlayPause').addEventListener('click', function () {
+    state.running = !state.running;
+    this.textContent = state.running ? '⏸ Pause' : '▶ Run 1 kHz';
+    if (!state.running && noiseGainNode && audioCtx) {
+      noiseGainNode.gain.setTargetAtTime(0.0, audioCtx.currentTime, 0.03);
+    }
+  });
+
+  // Audio controls
+  document.getElementById('btnAudio').addEventListener('click', toggleAudio);
+  document.getElementById('btnAudioSecondary').addEventListener('click', toggleAudio);
+  document.getElementById('sliderAudioGain').addEventListener('input', function () {
+    audioUserGain = Number(this.value) / 100;
+    if (audioMasterGain && audioCtx) {
+      audioMasterGain.gain.setTargetAtTime(audioUserGain, audioCtx.currentTime, 0.02);
+    }
+  });
+
+  // 9:16 Reel Mode (?mode=reel + button toggle)
+  const btnReel = document.getElementById('btnReel');
+  function setReelMode(on) {
+    document.body.classList.toggle('reel-mode', on);
+    btnReel.classList.toggle('reel-on', on);
+    btnReel.textContent = on ? 'Exit Reel Mode' : '9:16 Reel Mode';
+    setTimeout(resizeAllCanvases, 30);
+  }
+  btnReel.addEventListener('click', () => {
+    setReelMode(!document.body.classList.contains('reel-mode'));
+  });
+
+  // ODE Drawer & KaTeX rendering
+  const odeDrawer = document.getElementById('odeDrawer');
+  const odeBackdrop = document.getElementById('odeBackdrop');
+  function renderEquationsOnce() {
+    if (typeof window.renderMathInElement === 'function') {
+      window.renderMathInElement(odeDrawer, {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '\\[', right: '\\]', display: true },
+          { left: '\\(', right: '\\)', display: false }
+        ],
+        throwOnError: false
+      });
+    }
+  }
+  function toggleOdeDrawer(open) {
+    odeDrawer.classList.toggle('open', open);
+    odeBackdrop.classList.toggle('open', open);
+    if (open) renderEquationsOnce();
+  }
+  document.getElementById('btnOpenOde').addEventListener('click', () => toggleOdeDrawer(true));
+  document.getElementById('btnCloseOde').addEventListener('click', () => toggleOdeDrawer(false));
+  odeBackdrop.addEventListener('click', () => toggleOdeDrawer(false));
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') toggleOdeDrawer(false);
+  });
+
+  // =========================================================================
+  // 9. BOOTSTRAP, URL DEEP-LINKS, PRE-WARM & 60 FPS REAL-TIME LOOP
+  // =========================================================================
+  initNeurons();
+
+  // Check URL query (?mode=reel) and hash (#preset=..., including neurolab.html deep-links)
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('mode') === 'reel') {
+    setReelMode(true);
+  }
+
+  const HASH_ALIASES = {
+    'adhd-untreated': 'adhd',
+    'mph-vs-amp': 'mph',
+    'penrose-stress': 'penrose',
+    'akathisia': 'akathisia',
+    'desoxyn': 'desoxyn',
+    'mph': 'mph',
+    'benzo': 'benzo',
+    'amantadine': 'amantadine',
+    'penrose': 'penrose',
+    'adhd': 'adhd',
+    'baseline': 'baseline'
+  };
+
+  function applyHashPreset() {
+    const m = (window.location.hash || '').match(/preset=([a-z0-9_-]+)/i);
+    if (!m) return false;
+    const rawKey = m[1].toLowerCase();
+    if (rawKey === 'ssri-week1') {
+      applyPreset('baseline');
+      params.ssri = 0.80;
+      params.ssriDesens = false;
+      patchedPop = 4; // Move pipette directly onto Dorsal Raphe 5-HT!
+      syncSlidersFromParams();
+      updatePipetteUI();
+      document.querySelectorAll('.preset-card').forEach((c) => c.classList.remove('active'));
+      document.getElementById('activePresetIndicator').textContent = 'ACTIVE: WEEK-1 ACUTE SSRI (5-HT1A BRAKE)';
+      document.getElementById('reelPresetMini').textContent = 'WEEK-1 SSRI DIP';
+      updateDynamicCustomDiagnosis();
+      return true;
+    }
+    const mapped = HASH_ALIASES[rawKey] || (PRESETS[rawKey] ? rawKey : null);
+    if (mapped) {
+      applyPreset(mapped);
+      return true;
+    }
+    return false;
+  }
+
+  if (!applyHashPreset()) {
+    applyPreset('adhd');
+  }
+  window.addEventListener('hashchange', applyHashPreset);
+
+  // Pre-warm coupled 500-neuron system for 1,200 ms so buffers start rich & equilibrated
+  for (let w = 0; w < 1200; w++) {
+    stepOneMillisecond(0, w < 500); // Record last 700 ms into raster/patch/FSCV
+  }
+
+  resizeAllCanvases();
+  window.addEventListener('resize', resizeAllCanvases);
+  if (typeof ResizeObserver !== 'undefined') {
+    const ro = new ResizeObserver(() => resizeAllCanvases());
+    Object.values(canvases).forEach((c) => {
+      if (c.parentElement) ro.observe(c.parentElement);
+    });
+  }
+  window.addEventListener('load', renderEquationsOnce);
+
+  let lastFrameTs = performance.now();
+  let msAccumulator = 0;
+
+  function animate(now) {
+    const rawDtSec = Math.min(0.05, Math.max(0.001, (now - lastFrameTs) / 1000));
+    lastFrameTs = now;
+
+    if (state.running) {
+      msAccumulator += rawDtSec * 1000.0;
+      const stepsToRun = Math.min(28, Math.floor(msAccumulator));
+      msAccumulator -= stepsToRun;
+      spikesScheduledThisFrame = 0;
+
+      for (let s = 0; s < stepsToRun; s++) {
+        stepOneMillisecond(s, false);
+      }
+      pruneOldSpikes();
+
+      // Modulate Web Audio NMDA / synaptic static floor smoothly
+      if (audioEnabled && noiseGainNode && audioCtx && audioCtx.state === 'running') {
+        const localStatic = Math.min(0.42,
+          0.015 + 0.24 * state.gNMDA_syn * (1.0 - 0.60 * params.aman) + (patchedPop === 2 ? 0.12 * state.alpha1A : 0)
+        );
+        noiseGainNode.gain.setTargetAtTime(localStatic, audioCtx.currentTime, 0.04);
+      }
+    }
+
+    drawConnectome(rawDtSec);
+    drawPatchOscilloscope();
+    drawSpikeRaster();
+    drawFSCV();
+
+    uiRefreshCounter++;
+    if (uiRefreshCounter % 3 === 0) {
+      updateTelemetryDOM();
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  updateTelemetryDOM();
+  requestAnimationFrame(animate);
+})();
+</script>
+</body>
+</html>

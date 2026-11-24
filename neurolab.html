@@ -1,0 +1,2538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RPrime NeuroLab — Multi-Scale Bioneurological Simulation Suite</title>
+<meta name="description" content="Interactive multi-scale computational neuropharmacology suite by Rishik Pannala — spanning 10⁻¹⁰ m quantum covalent pockets, GPCR steric lockout, dendritic spine SDEs, 450-neuron spiking circuits, and Brain–Liver–Heart PBPK/ECG.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #080808;
+    --surface: rgba(255,255,255,0.028);
+    --surface-solid: #0f0f0f;
+    --surface2: rgba(255,255,255,0.048);
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.15);
+    --text: #f0ece4;
+    --text-dim: #b8b3aa;
+    --muted: #6e6a63;
+    --muted2: #969188;
+    --accent: #c8ff00;
+    --accent2: #ff6b35;
+    --violet: #9b88ff;
+    --cyan: #00e5ff;
+    --danger: #ff4757;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.68;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* SUBTLE FRACTAL NOISE OVERLAY */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.032;
+    pointer-events: none;
+    z-index: 9998;
+    mix-blend-mode: overlay;
+  }
+
+  /* AURORA AMBIENT GLOWS */
+  .aurora {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+  }
+  .blob-1 {
+    width: 720px; height: 720px;
+    background: radial-gradient(circle, rgba(200,255,0,0.13), transparent 65%);
+    top: -260px; left: -180px;
+    animation: drift1 30s linear infinite;
+  }
+  .blob-2 {
+    width: 560px; height: 560px;
+    background: radial-gradient(circle, rgba(255,107,53,0.11), transparent 65%);
+    top: 32%; right: -180px;
+    animation: drift2 36s linear infinite -12s;
+  }
+  .blob-3 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0,229,255,0.08), transparent 65%);
+    bottom: 6%; left: 12%;
+    animation: drift3 28s linear infinite -8s;
+  }
+
+  @keyframes drift1 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(45px,-35px) scale(1.05); }
+    66% { transform: translate(-30px,45px) scale(0.96); }
+  }
+  @keyframes drift2 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    40% { transform: translate(-50px,28px) scale(1.06); }
+    70% { transform: translate(35px,-45px) scale(0.94); }
+  }
+  @keyframes drift3 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    35% { transform: translate(28px,50px) scale(1.04); }
+    68% { transform: translate(-42px,-25px) scale(0.97); }
+  }
+
+  /* STICKY TOP LAB HUD NAV */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(8,8,8,0.82);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 0 32px;
+    min-height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .brand-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .logo span { color: var(--accent); }
+  .hub-badge {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(200,255,0,0.1);
+    border: 1px solid rgba(200,255,0,0.32);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 6px 0;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--muted2);
+    text-decoration: none;
+    padding: 6px 11px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    transition: color 0.18s, background 0.18s, border-color 0.18s;
+  }
+  .nav-links a:hover {
+    color: var(--text);
+    background: rgba(255,255,255,0.04);
+    border-color: var(--border);
+  }
+  .nav-links a.active {
+    color: #080808;
+    background: var(--accent);
+    font-weight: 600;
+    border-color: var(--accent);
+  }
+  .scroll-progress {
+    height: 2px;
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    position: relative;
+    overflow: hidden;
+  }
+  .scroll-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--cyan), var(--accent2));
+    transition: width 0.08s linear;
+  }
+
+  /* CONTAINER */
+  .container {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HERO + MULTI-SCALE COMMAND DECK */
+  .hero {
+    padding: 56px 0 40px;
+  }
+  .hero-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .hero-title-col {
+    max-width: 760px;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pulse-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.85); }
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5.4vw, 68px);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -2px;
+    margin-bottom: 18px;
+    text-wrap: balance;
+  }
+  h1 .lime { color: var(--accent); }
+  .hero-sub {
+    font-size: 17px;
+    color: var(--text-dim);
+    line-height: 1.72;
+    max-width: 680px;
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(130px, 1fr));
+    gap: 10px;
+    min-width: 280px;
+  }
+  .stat-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    backdrop-filter: blur(10px);
+  }
+  .stat-chip .num {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1.1;
+  }
+  .stat-chip .lbl {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    margin-top: 4px;
+  }
+
+  /* INTERACTIVE SCALE-BAR STAGE */
+  .scale-deck {
+    background: rgba(12,12,12,0.88);
+    border: 1px solid var(--border-strong);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.65);
+    backdrop-filter: blur(16px);
+    position: relative;
+  }
+  .scale-deck::before, .scale-deck::after {
+    content: '';
+    position: absolute;
+    width: 14px; height: 14px;
+    pointer-events: none;
+    z-index: 5;
+  }
+  .scale-deck::before { top: 10px; left: 10px; border-top: 1.5px solid var(--accent); border-left: 1.5px solid var(--accent); opacity: 0.55; }
+  .scale-deck::after  { bottom: 10px; right: 10px; border-bottom: 1.5px solid var(--accent); border-right: 1.5px solid var(--accent); opacity: 0.55; }
+
+  .scale-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.018);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .scale-topbar-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .scale-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .ctrl-btn {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-strong);
+    background: rgba(255,255,255,0.03);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .ctrl-btn:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .ctrl-btn.active {
+    background: rgba(200,255,0,0.14);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* 5-ORDER SPATIAL RULER */
+  .scale-ruler {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-bottom: 1px solid var(--border);
+    background: rgba(0,0,0,0.35);
+  }
+  .scale-node {
+    appearance: none;
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--border);
+    padding: 16px 16px 14px;
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.2s;
+    color: var(--text);
+  }
+  .scale-node:last-child { border-right: none; }
+  .scale-node:hover { background: rgba(255,255,255,0.035); }
+  .scale-node.active {
+    background: rgba(200,255,0,0.06);
+  }
+  .scale-node::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 3px;
+    background: var(--node-color, var(--accent));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.24s ease;
+  }
+  .scale-node.active::after { transform: scaleX(1); }
+  .scale-meter {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--node-color, var(--accent));
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .scale-time {
+    font-size: 10px;
+    color: var(--muted2);
+    font-weight: 400;
+  }
+  .scale-domain {
+    font-family: var(--font-display);
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+    line-height: 1.25;
+  }
+  .scale-lab-ref {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted2);
+    letter-spacing: 0.04em;
+  }
+
+  /* CANVAS VIEWPORT */
+  .canvas-wrap {
+    position: relative;
+    width: 100%;
+    height: 390px;
+    background: #070707;
+  }
+  canvas#scaleCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+  }
+
+  /* ACTIVE SCALE TELEMETRY FOOTER */
+  .scale-readout {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: 20px 24px;
+    border-top: 1px solid var(--border);
+    background: rgba(14,14,14,0.95);
+  }
+  .readout-meta .r-kicker {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .readout-meta .r-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .readout-meta .r-desc {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .readout-eq {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    overflow-x: auto;
+  }
+  .readout-eq-label {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    margin-bottom: 6px;
+  }
+  .readout-eq-math {
+    font-size: 14px;
+    color: var(--text);
+    min-height: 26px;
+    display: flex;
+    align-items: center;
+  }
+  .readout-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 195px;
+  }
+  .btn-launch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 22px;
+    background: var(--accent);
+    color: #080808;
+    font-family: var(--font-display);
+    font-size: 13.5px;
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 8px;
+    letter-spacing: 0.01em;
+    transition: transform 0.18s, box-shadow 0.18s;
+    white-space: nowrap;
+  }
+  .btn-launch:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 36px rgba(200,255,0,0.32);
+  }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border: 1px solid var(--border-strong);
+    border-radius: 7px;
+    text-decoration: none;
+    transition: border-color 0.18s, color 0.18s, background 0.18s;
+    white-space: nowrap;
+  }
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(200,255,0,0.05);
+  }
+
+  /* DIVIDERS & SECTION HEADERS */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 72px 0;
+  }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3.6vw, 40px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+  .section-sub {
+    font-size: 15px;
+    color: var(--muted2);
+    max-width: 580px;
+    margin-top: 8px;
+  }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .filter-pill {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted2);
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .filter-pill:hover {
+    color: var(--text);
+    border-color: var(--border-strong);
+  }
+  .filter-pill.active {
+    background: var(--accent);
+    color: #080808;
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* BENTO COMMAND CARDS FOR ALL 5 LABS */
+  .labs-bento {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 18px;
+  }
+  .lab-card {
+    grid-column: span 6;
+    background: rgba(16,16,16,0.82);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 30px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+  }
+  .lab-card.featured {
+    grid-column: span 12;
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 28px;
+    align-items: stretch;
+  }
+  .lab-card.hidden { display: none; }
+  .lab-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--card-accent, var(--accent));
+    opacity: 0.75;
+  }
+  .lab-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(200,255,0,0.28);
+    box-shadow: 0 18px 54px rgba(0,0,0,0.55);
+  }
+
+  .lab-top-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .lab-id {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--card-accent, var(--accent));
+  }
+  .solver-badge {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+  .lab-title {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.16;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .lab-card.featured .lab-title { font-size: 28px; }
+  .lab-desc {
+    font-size: 14.5px;
+    color: var(--text-dim);
+    line-height: 1.68;
+    margin-bottom: 18px;
+  }
+
+  .lab-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .metric-box {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .metric-val {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--card-accent, var(--accent));
+  }
+  .metric-lbl {
+    font-size: 11px;
+    color: var(--muted2);
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+
+  .lab-eq-strip {
+    background: rgba(0,0,0,0.42);
+    border: 1px solid var(--border);
+    border-left: 2.5px solid var(--card-accent, var(--accent));
+    border-radius: 0 7px 7px 0;
+    padding: 10px 14px;
+    margin-bottom: 18px;
+    font-size: 13.5px;
+    overflow-x: auto;
+  }
+
+  .preset-group {
+    margin-bottom: 18px;
+  }
+  .sub-kicker {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    margin-bottom: 8px;
+  }
+  .preset-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .preset-link {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    transition: all 0.16s;
+  }
+  .preset-link:hover {
+    border-color: var(--card-accent, var(--accent));
+    color: var(--card-accent, var(--accent));
+    background: rgba(200,255,0,0.04);
+  }
+
+  .companion-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+    margin-bottom: 18px;
+  }
+  .companion-strip span {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted2);
+  }
+  .article-ref {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text);
+    text-decoration: none;
+    padding: 3px 9px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.045);
+    border: 1px solid var(--border);
+    transition: border-color 0.16s, color 0.16s;
+  }
+  .article-ref:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .card-cta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: auto;
+  }
+  .btn-card-primary {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 18px;
+    border-radius: 7px;
+    background: var(--card-accent, var(--accent));
+    color: #080808;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: opacity 0.18s, transform 0.18s;
+  }
+  .btn-card-primary:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+  }
+  .btn-card-reel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 14px;
+    border-radius: 7px;
+    border: 1px solid var(--border-strong);
+    background: rgba(255,255,255,0.025);
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.18s, color 0.18s;
+  }
+  .btn-card-reel:hover {
+    border-color: var(--accent2);
+    color: var(--accent2);
+  }
+
+  /* CROSS-SCALE GUIDED EXPERIMENTS STRIP */
+  .protocols-wrap {
+    background: rgba(14,14,14,0.88);
+    border: 1px solid var(--border-strong);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .protocol-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.015);
+  }
+  .protocol-tab {
+    appearance: none;
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--border);
+    padding: 18px 20px;
+    text-align: left;
+    cursor: pointer;
+    color: var(--text);
+    transition: background 0.18s;
+    position: relative;
+  }
+  .protocol-tab:last-child { border-right: none; }
+  .protocol-tab:hover { background: rgba(255,255,255,0.03); }
+  .protocol-tab.active {
+    background: rgba(200,255,0,0.055);
+  }
+  .protocol-tab.active::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2.5px;
+    background: var(--accent);
+  }
+  .pt-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 5px;
+  }
+  .pt-title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text);
+  }
+
+  .protocol-body {
+    padding: 28px 30px;
+  }
+  .protocol-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .protocol-summary p {
+    font-size: 15px;
+    color: var(--text-dim);
+    max-width: 780px;
+  }
+  .protocol-scale-chain {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: rgba(200,255,0,0.07);
+    border: 1px solid rgba(200,255,0,0.22);
+    white-space: nowrap;
+  }
+
+  .protocol-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .p-step {
+    background: rgba(255,255,255,0.024);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    padding: 18px 18px 16px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: border-color 0.18s, transform 0.18s;
+  }
+  .p-step:hover {
+    border-color: rgba(200,255,0,0.28);
+    transform: translateY(-2px);
+  }
+  .p-step-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 8px;
+  }
+  .p-step-idx {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent2);
+  }
+  .p-step-scale {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+  }
+  .p-step-title {
+    font-family: var(--font-display);
+    font-size: 15.5px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.25;
+  }
+  .p-step-desc {
+    font-size: 13px;
+    color: var(--muted2);
+    line-height: 1.6;
+    margin-bottom: 14px;
+    flex: 1;
+  }
+  .p-step-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .p-step-go {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .p-step-go:hover { text-decoration: underline; }
+  .p-step-read {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted2);
+    text-decoration: none;
+  }
+  .p-step-read:hover { color: var(--text); }
+
+  /* EPISTEMIC & NUMERICAL STANDARDS BLOCK */
+  .standards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .standard-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 26px;
+  }
+  .standard-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .standard-card h3 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .standard-card p {
+    font-size: 13.8px;
+    color: var(--muted2);
+    line-height: 1.68;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 80px;
+    padding: 36px 0 56px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .footer-links a {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    text-decoration: none;
+  }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-note {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .scale-ruler { grid-template-columns: repeat(3, 1fr); }
+    .scale-node { border-bottom: 1px solid var(--border); }
+    .scale-readout { grid-template-columns: 1fr; }
+    .readout-actions { flex-direction: row; }
+    .lab-card, .lab-card.featured { grid-column: span 12; grid-template-columns: 1fr; }
+    .protocol-tabs { grid-template-columns: repeat(2, 1fr); }
+    .protocol-tab { border-bottom: 1px solid var(--border); }
+    .protocol-steps { grid-template-columns: repeat(2, 1fr); }
+    .standards-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 680px) {
+    .container, .nav-inner { padding: 0 18px; }
+    .hero { padding: 36px 0 28px; }
+    .scale-ruler { grid-template-columns: 1fr 1fr; }
+    .canvas-wrap { height: 320px; }
+    .lab-metrics { grid-template-columns: 1fr; }
+    .protocol-tabs, .protocol-steps { grid-template-columns: 1fr; }
+    .readout-actions { flex-direction: column; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blob, .pulse-dot { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora" aria-hidden="true">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<!-- STICKY TOP NAV -->
+<nav class="nav" aria-label="NeuroLab Navigation">
+  <div class="nav-inner">
+    <div class="brand-group">
+      <a href="./index.html" class="logo">Neuroscience with <span>RPrime</span></a>
+      <span class="hub-badge">NeuroLab Suite</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="./index.html">← Home</a></li>
+      <li><a href="./neurolab.html" class="active">NeuroLab Hub</a></li>
+      <li><a href="./sim_synapse.html">Sim 01 · Synapse</a></li>
+      <li><a href="./sim_paradox_rig.html">Sim 02 · Paradox Rig</a></li>
+      <li><a href="./sim_quantum_pocket.html">Sim 03 · Quantum Pocket</a></li>
+      <li><a href="./sim_brain_heart.html">Sim 04 · Brain–Heart</a></li>
+      <li><a href="./naloxone_sim.html">Sim 05 · Naloxone</a></li>
+    </ul>
+  </div>
+  <div class="scroll-progress" aria-hidden="true">
+    <div class="scroll-progress-bar" id="scrollBar"></div>
+  </div>
+</nav>
+
+<main class="container">
+
+  <!-- HERO + MULTI-SCALE INTERACTIVE STAGE -->
+  <section class="hero">
+    <div class="hero-header">
+      <div class="hero-title-col">
+        <div class="eyebrow"><span class="pulse-dot"></span> RPrime Computational Neuropharmacology · 5 Live Engines</div>
+        <h1>From <span class="lime">10⁻¹⁰ m</span> Orbitals to Ventricular ECG.</h1>
+        <p class="hero-sub">Executable neuroscience built directly from Rishik Pannala’s research archive. No pre-rendered video loops—every workbench runs real-time differential equations, stochastic barriers, spiking networks, and 3D structural geometry in your browser.</p>
+      </div>
+      <div class="hero-stats" aria-label="Suite Specifications">
+        <div class="stat-chip">
+          <div class="num">10¹⁰×</div>
+          <div class="lbl">Spatial Span (Å → Meter)</div>
+        </div>
+        <div class="stat-chip">
+          <div class="num">5 Labs</div>
+          <div class="lbl">Real-Time Solvers</div>
+        </div>
+        <div class="stat-chip">
+          <div class="num">450+</div>
+          <div class="lbl">1 kHz Spiking Neurons</div>
+        </div>
+        <div class="stat-chip">
+          <div class="num">0 Deps</div>
+          <div class="lbl">Client-Side Native</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTERACTIVE MULTI-SCALE HERO DECK -->
+    <div class="scale-deck" id="scaleDeck">
+      <div class="scale-topbar">
+        <div class="scale-topbar-title">
+          <span>Interactive Spatial-Temporal Scale Selector</span>
+          <span style="color:var(--muted);">· Keys [1–5] or [M] Matrix</span>
+        </div>
+        <div class="scale-controls">
+          <button type="button" class="ctrl-btn active" id="btnAutoCycle" onclick="toggleAutoCycle()">⟳ Auto-Sweep: ON</button>
+          <button type="button" class="ctrl-btn" id="btnMatrixView" onclick="toggleMatrixView()">⊞ All 5 Scales Matrix</button>
+          <button type="button" class="ctrl-btn" id="btnPauseSim" onclick="togglePause()">⏸ Pause</button>
+        </div>
+      </div>
+
+      <!-- 5 ORDERS OF MAGNITUDE RULER -->
+      <div class="scale-ruler" role="tablist" aria-label="Physical Scales">
+        <button type="button" class="scale-node active" role="tab" aria-selected="true" data-scale="0" style="--node-color: #00e5ff;" onmouseenter="hoverScale(0)" onclick="selectScale(0, true)">
+          <div class="scale-meter"><span>10⁻¹⁰ m</span><span class="scale-time">fs – 10 ns</span></div>
+          <div class="scale-domain">Quantum &amp; Covalent Pocket</div>
+          <div class="scale-lab-ref">Lab 03 · ΔFosB C172 / 18 Å³</div>
+        </button>
+        <button type="button" class="scale-node" role="tab" aria-selected="false" data-scale="1" style="--node-color: #ff6b35;" onmouseenter="hoverScale(1)" onclick="selectScale(1, true)">
+          <div class="scale-meter"><span>10⁻⁸ m</span><span class="scale-time">ms – 90 min</span></div>
+          <div class="scale-domain">GPCR &amp; Synaptic Cleft</div>
+          <div class="scale-lab-ref">Lab 05 · MOR Steric Lockout</div>
+        </button>
+        <button type="button" class="scale-node" role="tab" aria-selected="false" data-scale="2" style="--node-color: #c8ff00;" onmouseenter="hoverScale(2)" onclick="selectScale(2, true)">
+          <div class="scale-meter"><span>10⁻⁶ m</span><span class="scale-time">ms – 90 days</span></div>
+          <div class="scale-domain">Dendritic Spine &amp; SDE Loop</div>
+          <div class="scale-lab-ref">Lab 01 · DARPP-32 &amp; Curl</div>
+        </button>
+        <button type="button" class="scale-node" role="tab" aria-selected="false" data-scale="3" style="--node-color: #9b88ff;" onmouseenter="hoverScale(3)" onclick="selectScale(3, true)">
+          <div class="scale-meter"><span>10⁻³ m</span><span class="scale-time">1 kHz Live</span></div>
+          <div class="scale-domain">VTA–NAc–PFC Microcircuit</div>
+          <div class="scale-lab-ref">Lab 02 · 450-Neuron Rig</div>
+        </button>
+        <button type="button" class="scale-node" role="tab" aria-selected="false" data-scale="4" style="--node-color: #ff6b35;" onmouseenter="hoverScale(4)" onclick="selectScale(4, true)">
+          <div class="scale-meter"><span>10⁰ m</span><span class="scale-time">ms – 8 hrs</span></div>
+          <div class="scale-domain">Brain–Liver–Heart PBPK</div>
+          <div class="scale-lab-ref">Lab 04 · BBB, CES1 &amp; hERG</div>
+        </button>
+      </div>
+
+      <!-- HIGH-DPI INTERACTIVE CANVAS -->
+      <div class="canvas-wrap">
+        <canvas id="scaleCanvas" aria-label="Live multi-scale bioneurological waveform visualization"></canvas>
+      </div>
+
+      <!-- BOTTOM ACTIVE TELEMETRY BAR -->
+      <div class="scale-readout">
+        <div class="readout-meta">
+          <div class="r-kicker" id="roKicker">SCALE 01 · 10⁻¹⁰ m (ÅNGSTRÖM) · QUANTUM &amp; STRUCTURAL BIOPHYSICS</div>
+          <div class="r-title" id="roTitle">Lab 03 — Quantum &amp; Covalent Pocket Lab (ΔFosB / JunD)</div>
+          <p class="r-desc" id="roDesc">11.59 Å redox backbone closure between 5VPE (13.62 Å) and 5VPB (2.03 Å), 18 Å³ static LIGSITE volume vs. 250 Å³ druggability floor, and mild −9.9 kcal/mol phenacyl warhead tuning.</p>
+        </div>
+        <div class="readout-eq">
+          <div class="readout-eq-label" id="roEqLabel">Governing Structural / Quantum Relation</div>
+          <div class="readout-eq-math" id="roEqMath"></div>
+        </div>
+        <div class="readout-actions">
+          <a href="./sim_quantum_pocket.html" class="btn-launch" id="roLaunchBtn">Launch Lab 03 →</a>
+          <a href="#lab-03" class="btn-secondary" id="roCardLink">Inspect Specs &amp; Presets ↓</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ALL 5 LABS BENTO COMMAND GRID -->
+  <section id="labs">
+    <div class="section-label">01 · Simulation Workbenches</div>
+    <div class="section-header-row">
+      <div>
+        <h2 class="section-title">Five Interactive Digital Twins</h2>
+        <p class="section-sub">Launch a standalone simulation engine, jump straight into a clinical/computational preset, or open 9:16 vertical studio mode.</p>
+      </div>
+    </div>
+
+    <div class="filter-bar" role="toolbar" aria-label="Filter simulations by topic">
+      <button type="button" class="filter-pill active" onclick="filterLabs('all', this)">All 5 Labs</button>
+      <button type="button" class="filter-pill" onclick="filterLabs('dopamine', this)">Dopamine &amp; Stimulants</button>
+      <button type="button" class="filter-pill" onclick="filterLabs('fosb', this)">ΔFosB &amp; Persistence</button>
+      <button type="button" class="filter-pill" onclick="filterLabs('quantum', this)">Quantum &amp; 3D Structure</button>
+      <button type="button" class="filter-pill" onclick="filterLabs('opioid', this)">Opioids &amp; MOR</button>
+      <button type="button" class="filter-pill" onclick="filterLabs('cardiac', this)">Cardiovascular &amp; PBPK</button>
+    </div>
+
+    <div class="labs-bento">
+
+      <!-- LAB 01 — SYNAPSE (FEATURED SPAN-12) -->
+      <article class="lab-card featured" id="lab-01" data-tags="dopamine fosb" style="--card-accent: #c8ff00;">
+        <div style="display:flex; flex-direction:column;">
+          <div class="lab-top-meta">
+            <span class="lab-id">Lab 01 · 10⁻⁶ m · µs → 90 Days</span>
+            <span class="solver-badge">RK4 + Euler–Maruyama Itô SDE</span>
+          </div>
+          <h3 class="lab-title">RPrime SYNAPSE — Cortico-Striatal D1 MSN Twin</h3>
+          <p class="lab-desc">Couples millisecond presynaptic DAT reversal, VMAT2 ΔpH collapse, and spine-neck voltage attenuation with multi-week GRK2/β-arrestin2 endocytosis, ΔFosB → CDK5 → DARPP-32 Thr75 PKA braking, Willmore spine bending energy, and non-gradient Freidlin–Wentzell persistence.</p>
+          <div class="lab-metrics">
+            <div class="metric-box">
+              <div class="metric-val">τ ∝ ρ²³·³</div>
+              <div class="metric-lbl">Separatrix Escape Law</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-val">2 – 9 sec</div>
+              <div class="metric-lbl">1.46×10⁹ ATP Repaid</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-val">Ed ≡ 0</div>
+              <div class="metric-lbl">Abstinence Elasticity</div>
+            </div>
+          </div>
+          <div class="companion-strip">
+            <span>Companion Reads:</span>
+            <a href="./article1.html" class="article-ref">Article 01 · Methamphetamine</a>
+            <a href="./article7.html" class="article-ref">Article 07 · ΔFosB Charges Rent</a>
+            <a href="./article8.html" class="article-ref">Article 08 · Marshall &amp; Kim</a>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div class="sub-kicker">Governing Log-Space Itô Drift &amp; Topological Invariant</div>
+            <div class="lab-eq-strip">
+              $$dx = \left[\frac{f(A)}{A} - D\right]dt + \sqrt{2D}\,dW, \qquad \int_S K\,dA = 2\pi\chi(S) = 4\pi$$
+            </div>
+            <div class="preset-group">
+              <div class="sub-kicker">Direct Scenario Deep-Links</div>
+              <div class="preset-pills">
+                <a href="./sim_synapse.html#preset=therapeutic" class="preset-link">⚡ Therapeutic DAT Reversal</a>
+                <a href="./sim_synapse.html#preset=vmat2" class="preset-link">🔥 High-Dose VMAT2 &amp; ROS</a>
+                <a href="./sim_synapse.html#preset=holiday" class="preset-link">🗓️ Weekend Drug Holiday Myth</a>
+                <a href="./sim_synapse.html#preset=abstinence" class="preset-link">🔒 Ed ≡ 0 Abstinence Proof</a>
+                <a href="./sim_synapse.html#preset=destabilize" class="preset-link">📉 −10.6% Loop Gain Rescue</a>
+              </div>
+            </div>
+          </div>
+          <div class="card-cta-row">
+            <a href="./sim_synapse.html" class="btn-card-primary">Launch RPrime SYNAPSE →</a>
+            <a href="./sim_synapse.html?mode=reel" class="btn-card-reel">9:16 Reel Mode ↗</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- LAB 02 — PARADOX RIG -->
+      <article class="lab-card" id="lab-02" data-tags="dopamine" style="--card-accent: #9b88ff;">
+        <div class="lab-top-meta">
+          <span class="lab-id">Lab 02 · 10⁻³ m · 1 kHz Live</span>
+          <span class="solver-badge">450-Neuron Spiking + Web Audio</span>
+        </div>
+        <h3 class="lab-title">THE PARADOX RIG — VTA–NAc–PFC Patch-Clamp Lab</h3>
+        <p class="lab-desc">Virtual electrophysiology rig coupling 450 adaptive spiking neurons across VTA DA, maladaptive cortical NMDA homeostat, PFC Layer III (α2A vs. α1A switch), NAc D1/D2 MSNs, and Dorsal Raphe 5-HT1A/2C—with live microelectrode spike sonification.</p>
+        <div class="lab-metrics">
+          <div class="metric-box">
+            <div class="metric-val">5 Nuclei</div>
+            <div class="metric-lbl">Moveable Pipette</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">α2A ↔ α1A</div>
+            <div class="metric-lbl">PFC Inverted-U Gate</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">🔊 1 kHz</div>
+            <div class="metric-lbl">Audio Spike Amp</div>
+          </div>
+        </div>
+        <div class="lab-eq-strip">
+          $$\mathrm{SNR}_{\text{PFC}} = 10\log_{10}\!\left(\frac{P_{\text{recurrent}}(\alpha_{2A})}{P_{\text{NMDA-noise}}(D_{\text{deficit}}) + P_{\alpha_{1A}}}\right)$$
+        </div>
+        <div class="preset-group">
+          <div class="sub-kicker">Direct Scenario Deep-Links</div>
+          <div class="preset-pills">
+            <a href="./sim_paradox_rig.html#preset=adhd-untreated" class="preset-link">⚡ NMDA-Compensated ADHD</a>
+            <a href="./sim_paradox_rig.html#preset=mph-vs-amp" class="preset-link">⚖️ Methylphenidate vs. Amphetamine</a>
+            <a href="./sim_paradox_rig.html#preset=penrose-stress" class="preset-link">🧠 Penrose α1A Intimidation</a>
+            <a href="./sim_paradox_rig.html#preset=akathisia" class="preset-link">⚠️ D2 / Aripiprazole Akathisia</a>
+            <a href="./sim_paradox_rig.html#preset=ssri-week1" class="preset-link">⏳ Week-1 SSRI 5-HT1A Dip</a>
+          </div>
+        </div>
+        <div class="companion-strip">
+          <span>Companion Reads:</span>
+          <a href="./article4.html" class="article-ref">Article 04 · ADHD NMDA Model</a>
+          <a href="./penrose_article.html" class="article-ref">Penrose Essay</a>
+        </div>
+        <div class="card-cta-row">
+          <a href="./sim_paradox_rig.html" class="btn-card-primary">Launch Paradox Rig →</a>
+          <a href="./sim_paradox_rig.html?mode=reel" class="btn-card-reel">9:16 Reel Mode ↗</a>
+        </div>
+      </article>
+
+      <!-- LAB 03 — QUANTUM POCKET -->
+      <article class="lab-card" id="lab-03" data-tags="fosb quantum opioid" style="--card-accent: #00e5ff;">
+        <div class="lab-top-meta">
+          <span class="lab-id">Lab 03 · 10⁻¹⁰ m · 3D Structural &amp; QM</span>
+          <span class="solver-badge">3D Coordinates + LIGSITE + DFT</span>
+        </div>
+        <h3 class="lab-title">QUANTUM &amp; COVALENT POCKET LAB — ΔFosB/JunD &amp; MOR</h3>
+        <p class="lab-desc">Interactive 3D bZIP·DNA coordinate engine morphing 5VPE ↔ 7UCC ↔ 5VPB, visualizing the 18 Å³ static cavity against the 250 Å³ druggability floor, testing the 8.1-unit C172 ΔpKa Cl⁻ counter-ion swing, and benchmarking covalent warheads + MOR frontier orbitals.</p>
+        <div class="lab-metrics">
+          <div class="metric-box">
+            <div class="metric-val">18 Å³</div>
+            <div class="metric-lbl">vs 250 Å³ Floor</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">11.59 Å</div>
+            <div class="metric-lbl">C172–C285 Closure</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">−9.9 kcal</div>
+            <div class="metric-lbl">Phenacyl Sweet Spot</div>
+          </div>
+        </div>
+        <div class="lab-eq-strip">
+          $$\Delta\mathrm{p}K_a(\text{C172}) \in [-4.09_{\text{bare DFT}},\; +4.0_{\text{GFN2}+5\text{Cl}^-}], \quad V_{\max}^{\text{apo}} = 173\text{ \AA}^3$$
+        </div>
+        <div class="preset-group">
+          <div class="sub-kicker">Direct Scenario Deep-Links</div>
+          <div class="preset-pills">
+            <a href="./sim_quantum_pocket.html#preset=redox-morph" class="preset-link">🧬 5VPE → 5VPB Redox Closure</a>
+            <a href="./sim_quantum_pocket.html#preset=ligsite" class="preset-link">🔍 18 Å³ vs 368 Å³ 1HSG Control</a>
+            <a href="./sim_quantum_pocket.html#preset=pka-cage" class="preset-link">⚛️ C172 5-Cl⁻ Counter-Ion Test</a>
+            <a href="./sim_quantum_pocket.html#preset=warheads" class="preset-link">🎯 Phenacyl vs Maleimide</a>
+            <a href="./sim_quantum_pocket.html#preset=mor-sterics" class="preset-link">🛡️ MOR HOMO/LUMO &amp; Allyl Jam</a>
+          </div>
+        </div>
+        <div class="companion-strip">
+          <span>Companion Reads:</span>
+          <a href="./article7.html" class="article-ref">Article 07 · ΔFosB Research</a>
+          <a href="./article6.html" class="article-ref">Article 06 · Quantum Pharm</a>
+        </div>
+        <div class="card-cta-row">
+          <a href="./sim_quantum_pocket.html" class="btn-card-primary">Launch Quantum Pocket →</a>
+          <a href="./sim_quantum_pocket.html?mode=reel" class="btn-card-reel">9:16 Reel Mode ↗</a>
+        </div>
+      </article>
+
+      <!-- LAB 04 — BRAIN-HEART DIGITAL TWIN -->
+      <article class="lab-card" id="lab-04" data-tags="dopamine cardiac opioid" style="--card-accent: #ff6b35;">
+        <div class="lab-top-meta">
+          <span class="lab-id">Lab 04 · 10⁰ m · 3-Organ PBPK + ECG</span>
+          <span class="solver-badge">BBB/CES1 PBPK + Hodgkin–Huxley Myocyte</span>
+        </div>
+        <h3 class="lab-title">BRAIN–HEART DIGITAL TWIN — BBB, Cocaethylene &amp; hERG</h3>
+        <p class="lab-desc">Simultaneously integrates Blood-Brain Barrier lipophilicity partitioning, hepatic CYP2D6 (meth → amphetamine) &amp; CES1 transesterification (cocaine + ethanol → cocaethylene), and a conductance-based human ventricular myocyte (INa, ICaL, IKr/hERG) driving a live Lead-II ECG monitor.</p>
+        <div class="lab-metrics">
+          <div class="metric-box">
+            <div class="metric-val">3× hERG</div>
+            <div class="metric-lbl">Cocaethylene Block</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">15–30%</div>
+            <div class="metric-lbl">CYP2D6 Amp Surge</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">QTc / EAD</div>
+            <div class="metric-lbl">Torsades Telemetry</div>
+          </div>
+        </div>
+        <div class="lab-eq-strip">
+          $$C_m\frac{dV}{dt} = -\big(I_{\text{Na}} + I_{\text{CaL}}(\beta_1) + I_{\text{Kr}}(\text{hERG}) + I_{\text{Ks}} + I_{\text{K1}}\big)$$
+        </div>
+        <div class="preset-group">
+          <div class="sub-kicker">Direct Scenario Deep-Links</div>
+          <div class="preset-pills">
+            <a href="./sim_brain_heart.html#preset=cv-paradox" class="preset-link">💓 Adderall (3:1 D:L) vs Desoxyn</a>
+            <a href="./sim_brain_heart.html#preset=hour6-metabolite" class="preset-link">⏱️ Hour-6 CYP2D6 Amphetamine</a>
+            <a href="./sim_brain_heart.html#preset=cocaethylene" class="preset-link">🧪 Hepatic Cocaethylene + hERG</a>
+            <a href="./sim_brain_heart.html#preset=torsades" class="preset-link">🚨 Sympathetic + hERG → EAD</a>
+            <a href="./sim_brain_heart.html#preset=renarcotization" class="preset-link">🫁 Fentanyl / Naloxone 90m Clock</a>
+          </div>
+        </div>
+        <div class="companion-strip">
+          <span>Companion Reads:</span>
+          <a href="./article2.html" class="article-ref">Article 02 · CV Paradox</a>
+          <a href="./article8.html" class="article-ref">Article 08 · Marshall &amp; Kim</a>
+        </div>
+        <div class="card-cta-row">
+          <a href="./sim_brain_heart.html" class="btn-card-primary">Launch Brain–Heart Twin →</a>
+          <a href="./sim_brain_heart.html?mode=reel" class="btn-card-reel">9:16 Reel Mode ↗</a>
+        </div>
+      </article>
+
+      <!-- LAB 05 — NALOXONE VS MOR -->
+      <article class="lab-card" id="lab-05" data-tags="opioid quantum" style="--card-accent: #c8ff00;">
+        <div class="lab-top-meta">
+          <span class="lab-id">Lab 05 · 10⁻⁸ m · Receptor Kinetics</span>
+          <span class="solver-badge">7-Scene Canvas + Cheng–Prusoff</span>
+        </div>
+        <h3 class="lab-title">NALOXONE vs. MOR — Competitive Overdose Reversal</h3>
+        <p class="lab-desc">RPrime’s original interactive receptor pharmacology workbench. Step through 7 conformational scenes at the mu-opioid receptor—Asp147 ionic anchoring, TM5/TM6 outward swing, competitive displacement (Kd 1.5 nM vs. 4.0 nM), rigid allyl jamming, and half-life mismatch.</p>
+        <div class="lab-metrics">
+          <div class="metric-box">
+            <div class="metric-val">1.5 nM</div>
+            <div class="metric-lbl">Naloxone Kd (3× Win)</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">TM5 / TM6</div>
+            <div class="metric-lbl">Allyl Steric Lock</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">60–90 min</div>
+            <div class="metric-lbl">Reversible Window</div>
+          </div>
+        </div>
+        <div class="lab-eq-strip">
+          $$\theta_{\text{MOR}}(L) = \frac{[L]/K_d}{1 + [\text{Nal}]/K_{d,\text{Nal}} + [\text{Mor}]/K_{d,\text{Mor}}}$$
+        </div>
+        <div class="preset-group">
+          <div class="sub-kicker">Key Interactive Modules</div>
+          <div class="preset-pills">
+            <a href="./naloxone_sim.html" class="preset-link">🎬 7-Scene TM5/TM6 Walkthrough</a>
+            <a href="./naloxone_sim.html#gCanvas" class="preset-link">📊 Live [Naloxone] vs [Morphine] Bar</a>
+            <a href="./naloxone_sim.html#g2Canvas" class="preset-link">📉 30% Gi Collapse Curve</a>
+          </div>
+        </div>
+        <div class="companion-strip">
+          <span>Companion Reads:</span>
+          <a href="./article3.html" class="article-ref">Article 03 · Dopamine</a>
+          <a href="./article5.html" class="article-ref">Article 05 · Four Good Days</a>
+        </div>
+        <div class="card-cta-row">
+          <a href="./naloxone_sim.html" class="btn-card-primary">Launch Naloxone vs. MOR →</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CROSS-SCALE GUIDED EXPERIMENTS STRIP -->
+  <section id="protocols">
+    <div class="section-label">02 · Cross-Scale Research Workflows</div>
+    <div class="section-header-row">
+      <div>
+        <h2 class="section-title">Guided Multi-Lab Experiments</h2>
+        <p class="section-sub">Biological causality never stays inside one spatial scale. Select a curated 4-step workflow to trace a phenomenon across organs, circuits, synapses, and quantum pockets.</p>
+      </div>
+    </div>
+
+    <div class="protocols-wrap">
+      <div class="protocol-tabs" role="tablist" aria-label="Guided Workflows">
+        <button type="button" class="protocol-tab active" role="tab" aria-selected="true" onclick="selectProtocol(0, this)">
+          <div class="pt-num">Workflow 01</div>
+          <div class="pt-title">Stimulant Action &amp; Tolerance Across 4 Scales</div>
+        </button>
+        <button type="button" class="protocol-tab" role="tab" aria-selected="false" onclick="selectProtocol(1, this)">
+          <div class="pt-num">Workflow 02</div>
+          <div class="pt-title">Forensic Toxicology &amp; Relapse Math (Marshall &amp; Kim)</div>
+        </button>
+        <button type="button" class="protocol-tab" role="tab" aria-selected="false" onclick="selectProtocol(2, this)">
+          <div class="pt-num">Workflow 03</div>
+          <div class="pt-title">Psychiatric Dogma Audit: ADHD, Stress &amp; Akathisia</div>
+        </button>
+        <button type="button" class="protocol-tab" role="tab" aria-selected="false" onclick="selectProtocol(3, this)">
+          <div class="pt-num">Workflow 04</div>
+          <div class="pt-title">Quantum Sterics, Topology &amp; Non-Gradient Physics</div>
+        </button>
+      </div>
+
+      <div class="protocol-body" id="protocolBody">
+        <!-- Populated dynamically by JS with Workflow 01 pre-rendered for instant SEO/no-JS resiliency -->
+        <div class="protocol-summary">
+          <p id="protoDesc">Trace how a single N-methyl group alters blood-brain barrier entry, silences compensatory cortical NMDA noise, flips the intracellular DARPP-32 Thr75 switch over chronic dosing, and leaves behind an undruggable 18 Å³ transcription factor.</p>
+          <span class="protocol-scale-chain" id="protoChain">10⁰ m Organ → 10⁻³ m Circuit → 10⁻⁶ m Spine → 10⁻¹⁰ m Pocket</span>
+        </div>
+        <div class="protocol-steps" id="protoSteps"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- EPISTEMIC & NUMERICAL RIGOR STANDARDS -->
+  <section id="architecture">
+    <div class="section-label">03 · Glass-Box Methodology</div>
+    <div class="standards-grid">
+      <div class="standard-card">
+        <div class="standard-tag" style="color: var(--accent);">Rule 01 · Glass-Box Equations</div>
+        <h3>No Black-Box Curves</h3>
+        <p>Every simulation exposes its exact differential equations, dissociation constants, and biophysical parameters—from Hodgkin–Huxley ventricular conductances to Itô-corrected log-space drift terms.</p>
+      </div>
+      <div class="standard-card">
+        <div class="standard-tag" style="color: var(--accent2);">Rule 02 · Explicit [?] Boundaries</div>
+        <h3>Contested Claims Flagged</h3>
+        <p>Following Article 07’s epistemic standard, unresolved gaps in the literature—such as GluA2 vs. CP-AMPAR withdrawal timescales or unscreened C172 ΔpKa shifts—are modeled transparently as testable hypotheses.</p>
+      </div>
+      <div class="standard-card">
+        <div class="standard-tag" style="color: var(--cyan);">Rule 03 · Zero-Dependency Speed</div>
+        <h3>100% Static Browser Execution</h3>
+        <p>Zero server round-trips, zero tracking cookies, and Retina-calibrated HTML5 Canvas solvers running natively at 60fps on desktop and mobile devices.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <a href="./index.html" class="footer-logo">Neuroscience with <span>RPrime</span></a>
+    <div class="footer-links">
+      <a href="./index.html">Research Archive</a>
+      <a href="./article7.html">Article 07 (ΔFosB)</a>
+      <a href="./article8.html">Article 08 (Marshall &amp; Kim)</a>
+      <a href="https://www.instagram.com/neurosciencerprime/" target="_blank" rel="noopener">Instagram @neurosciencerprime</a>
+      <a href="mailto:neurosciencerprime@gmail.com">Contact Lab</a>
+    </div>
+    <div class="footer-note">RPrime NeuroLab © 2026 Rishik Pannala</div>
+  </footer>
+
+</main>
+
+<script>
+// ─── DATA: 5 SPATIAL SCALES ──────────────────────────────────────────────────
+const SCALES = [
+  {
+    kicker: 'SCALE 01 · 10⁻¹⁰ m (ÅNGSTRÖM) · QUANTUM & STRUCTURAL BIOPHYSICS',
+    title: 'Lab 03 — Quantum & Covalent Pocket Lab (ΔFosB / JunD)',
+    desc: '11.59 Å redox backbone closure between 5VPE (13.62 Å) and 5VPB (2.03 Å), 18 Å³ static LIGSITE cavity vs. 250 Å³ druggability floor, and mild −9.9 kcal/mol phenacyl warhead tuning.',
+    eqLabel: 'C172 Redox Closure & LIGSITE Volume Bound',
+    latex: 'V_{\\text{static}}(\\Delta\\text{FosB}) = 18\\text{ \\AA}^3 \\ll 250\\text{ \\AA}^3, \\quad \\Delta d_{\\text{S–S}} = 11.59\\text{ \\AA}',
+    fallbackEq: 'V_static(ΔFosB) = 18 Å³ << 250 Å³  |  Δd(S–S) = 11.59 Å',
+    launchHref: './sim_quantum_pocket.html',
+    launchText: 'Launch Lab 03 →',
+    cardHref: '#lab-03',
+    color: '#00e5ff'
+  },
+  {
+    kicker: 'SCALE 02 · 10⁻⁸ m (10 NANOMETERS) · GPCR CONFORMATION & CLEFT',
+    title: 'Lab 05 — Naloxone vs. MOR Steric Lockout',
+    desc: 'Competitive binding at the mu-opioid receptor (Asp147 anchor). Naloxone’s Kd (~1.5 nM) beats morphine (~4.0 nM) while its rigid allyl arm physically blocks TM5/TM6 outward opening.',
+    eqLabel: 'Cheng–Prusoff Competitive Receptor Occupancy',
+    latex: '\\theta_{\\text{Nal}} = \\frac{[\\text{Nal}]/1.5}{1 + [\\text{Nal}]/1.5 + [\\text{Mor}]/4.0}, \\quad t_{1/2} \\approx 60\\text{–}90\\text{ min}',
+    fallbackEq: 'θ_Nal = ([Nal]/1.5) / (1 + [Nal]/1.5 + [Mor]/4.0)',
+    launchHref: './naloxone_sim.html',
+    launchText: 'Launch Lab 05 →',
+    cardHref: '#lab-05',
+    color: '#ff6b35'
+  },
+  {
+    kicker: 'SCALE 03 · 10⁻⁶ m (1 MICROMETER) · DENDRITIC SPINE & STOCHASTIC PERSISTENCE',
+    title: 'Lab 01 — RPrime SYNAPSE (Cortico-Striatal D1 MSN Twin)',
+    desc: 'Unites DAT reversal, GRK2/β-arrestin2 trafficking, and ΔFosB → CDK5 → DARPP-32 Thr75 PKA inhibition with Willmore spine curvature energy and non-gradient Freidlin–Wentzell curl dynamics.',
+    eqLabel: 'Persistence Power Law & Non-Gradient Curl Obstruction',
+    latex: '\\tau \\propto \\rho^{\\,\\alpha/D} \\approx \\rho^{23.3}, \\qquad \\oint \\Delta V = +1.73 \\neq 0, \\qquad E_d \\equiv 0',
+    fallbackEq: 'τ ∝ ρ^(α/D) ≈ ρ^23.3  |  ∮ ΔV = +1.73 ≠ 0  |  E_d ≡ 0',
+    launchHref: './sim_synapse.html',
+    launchText: 'Launch Lab 01 →',
+    cardHref: '#lab-01',
+    color: '#c8ff00'
+  },
+  {
+    kicker: 'SCALE 04 · 10⁻³ m (1 MILLIMETER) · MESOCORTICOLIMBIC SPIKING CIRCUIT',
+    title: 'Lab 02 — THE PARADOX RIG (450-Neuron Patch-Clamp & Audio Lab)',
+    desc: 'Real-time 1 kHz spiking network testing why restoring presynaptic DA release silences maladaptive NMDA glutamate noise in ADHD, how α1A stress collapses PFC recurrent tuning, and why D2 mismatch triggers akathisia.',
+    eqLabel: 'Cortical Working-Memory Signal-to-Noise Ratio',
+    latex: 'C_m\\dot{V}_i = I_{\\text{syn}}(\\text{AMPA, NMDA, GABA}) + g_{\\alpha 2A}(I_{\\text{HCN}}\\downarrow) - g_{\\alpha 1A}\\eta(t)',
+    fallbackEq: 'Cm dV/dt = I_syn(AMPA, NMDA, GABA) + g_α2A - g_α1A·noise',
+    launchHref: './sim_paradox_rig.html',
+    launchText: 'Launch Lab 02 →',
+    cardHref: '#lab-02',
+    color: '#9b88ff'
+  },
+  {
+    kicker: 'SCALE 05 · 10⁰ m (WHOLE-ORGANISM) · BRAIN–LIVER–HEART DIGITAL TWIN',
+    title: 'Lab 04 — BBB Lipophilicity, Hepatic Cocaethylene & Ventricular hERG',
+    desc: 'Couples Blood-Brain Barrier partitioning (Adderall 3:1 D:L vs. Desoxyn), CYP2D6 N-demethylation, and hepatic CES1 cocaethylene synthesis with a human ventricular myocyte and Lead-II ECG monitor.',
+    eqLabel: 'Ventricular Action Potential & hERG Repolarization Reserve',
+    latex: 'C_m\\frac{dV_m}{dt} = -\\big(I_{\\text{Na}} + I_{\\text{CaL}}(\\beta_1) + I_{\\text{Kr}}(\\text{hERG}) + I_{\\text{Ks}} + I_{\\text{K1}}\\big)',
+    fallbackEq: 'Cm dVm/dt = -(INa + ICaL(β1) + IKr(hERG) + IKs + IK1)',
+    launchHref: './sim_brain_heart.html',
+    launchText: 'Launch Lab 04 →',
+    cardHref: '#lab-04',
+    color: '#ff6b35'
+  }
+];
+
+// ─── DATA: 4 CROSS-SCALE GUIDED WORKFLOWS ────────────────────────────────────
+const PROTOCOLS = [
+  {
+    desc: 'Trace how a single N-methyl group alters blood-brain barrier entry, silences compensatory cortical NMDA noise, flips the intracellular DARPP-32 Thr75 switch over chronic dosing, and leaves behind an undruggable 18 Å³ transcription factor.',
+    chain: '10⁰ m Organ → 10⁻³ m Circuit → 10⁻⁶ m Spine → 10⁻¹⁰ m Pocket',
+    steps: [
+      {
+        idx: 'Step 01 · Lab 04', scale: '10⁰ m',
+        title: 'BBB Partitioning & Hour-6 Metabolite',
+        desc: 'Compare 3:1 D:L Adderall vs. Desoxyn across the BBB, then watch CYP2D6 convert 15–30% of meth into peripheral-NE amphetamine.',
+        goHref: './sim_brain_heart.html#preset=cv-paradox', goText: 'Open in Lab 04 →',
+        readHref: './article2.html', readText: 'Article 02'
+      },
+      {
+        idx: 'Step 02 · Lab 02', scale: '10⁻³ m',
+        title: 'Paradoxical Calm & NMDA Silence',
+        desc: 'Restore presynaptic DA release via DAT reversal in the 450-neuron rig and hear Poisson NMDA agitation static lock into crisp PFC SNR.',
+        goHref: './sim_paradox_rig.html#preset=mph-vs-amp', goText: 'Open in Lab 02 →',
+        readHref: './article4.html', readText: 'Article 04'
+      },
+      {
+        idx: 'Step 03 · Lab 01', scale: '10⁻⁶ m',
+        title: 'Dual-Clock Tolerance & ATP Rent',
+        desc: 'Run a 48h weekend washout: surface D1 receptors recover from β-arrestin2, but ΔFosB keeps DARPP-32 Thr75 braking PKA.',
+        goHref: './sim_synapse.html#preset=holiday', goText: 'Open in Lab 01 →',
+        readHref: './article1.html', readText: 'Article 01'
+      },
+      {
+        idx: 'Step 04 · Lab 03', scale: '10⁻¹⁰ m',
+        title: 'Target the C172 Redox Switch',
+        desc: 'Verify in 3D why ΔFosB has zero conventional pockets (18 Å³) and why a mild −9.9 kcal/mol phenacyl warhead wins CNS MPO.',
+        goHref: './sim_quantum_pocket.html#preset=warheads', goText: 'Open in Lab 03 →',
+        readHref: './article7.html', readText: 'Article 07'
+      }
+    ]
+  },
+  {
+    desc: 'Reconstruct the molecular asymmetries underneath Article 08 (Marshall & Kim) and Article 05: hepatic transesterification into cocaethylene, competitive MOR rescue, renarcotization kinetics, and why forced abstinence has zero elasticity (Ed ≡ 0) on escape time.',
+    chain: '10⁰ m Liver/Heart → 10⁻⁸ m MOR → 10⁰ m PK Clock → 10⁻⁶ m SDE',
+    steps: [
+      {
+        idx: 'Step 01 · Lab 04', scale: '10⁰ m',
+        title: 'Cocaethylene & 3× hERG Clamp',
+        desc: 'Co-administer cocaine + ethanol: hepatic CES1 builds cocaethylene, stretching ventricular APD90 and QTc toward Torsades.',
+        goHref: './sim_brain_heart.html#preset=cocaethylene', goText: 'Open in Lab 04 →',
+        readHref: './article8.html', readText: 'Article 08'
+      },
+      {
+        idx: 'Step 02 · Lab 05', scale: '10⁻⁸ m',
+        title: 'Competitive MOR Lockout',
+        desc: 'Introduce Naloxone (Kd 1.5 nM): displace agonist at Asp147 and jam TM6 closed with its rigid allyl group.',
+        goHref: './naloxone_sim.html', goText: 'Open in Lab 05 →',
+        readHref: './article5.html', readText: 'Article 05'
+      },
+      {
+        idx: 'Step 03 · Lab 04', scale: '10⁰ m',
+        title: 'The 90-Minute Renarcotization Trap',
+        desc: 'Track brainstem respiratory drive as Naloxone clears (t½ 60–90m) while lipophilic Fentanyl (t½ 3–8h) rebinds MOR.',
+        goHref: './sim_brain_heart.html#preset=renarcotization', goText: 'Open in Lab 04 →',
+        readHref: './naloxone_sim.html', readText: 'Scene 7 Note'
+      },
+      {
+        idx: 'Step 04 · Lab 01', scale: '10⁻⁶ m',
+        title: 'Why 22 Years of Beds Had Ed ≡ 0',
+        desc: 'Test the Abstinence Futility Slider (d ≡ 0 during withdrawal) vs. a 10.6% cut in self-reinforcement v (Ev = +21.8).',
+        goHref: './sim_synapse.html#preset=abstinence', goText: 'Open in Lab 01 →',
+        readHref: './article7.html', readText: 'Article 07 §10.4'
+      }
+    ]
+  },
+  {
+    desc: 'Challenge textbook psychiatric symptom-lumping at single-receptor resolution: NDRI vs. releaser mechanics in severe ADHD, α1A adrenoceptor cognitive sabotage under status threat, striatal D2 akathisia, and Week-1 SSRI raphe braking.',
+    chain: 'VTA Release → Cortical NMDA → PFC Layer III → Striatal D2 & Raphe',
+    steps: [
+      {
+        idx: 'Step 01 · Lab 02', scale: '10⁻³ m',
+        title: 'Why NDRIs Fail Release Deficits',
+        desc: 'Compare Methylphenidate (high NE, blocked reuptake, persistent NMDA noise) against Amphetamine DAT reversal in low-η_rel VTA neurons.',
+        goHref: './sim_paradox_rig.html#preset=mph-vs-amp', goText: 'Open in Lab 02 →',
+        readHref: './article4.html', readText: 'Article 04'
+      },
+      {
+        idx: 'Step 02 · Lab 02', scale: '10⁻³ m',
+        title: 'Penrose α1A Prefrontal Sabotage',
+        desc: 'Push NE from high-affinity α2A (HCN closed, crisp working memory) into α1A overdrive—collapsing PFC metacognition.',
+        goHref: './sim_paradox_rig.html#preset=penrose-stress', goText: 'Open in Lab 02 →',
+        readHref: './penrose_article.html', readText: 'Penrose Essay'
+      },
+      {
+        idx: 'Step 03 · Lab 02', scale: '10⁻³ m',
+        title: 'Haloperidol & Aripiprazole Akathisia',
+        desc: 'Uncouple NAc D1/D2 motor gating from reward tone and watch the Psychomotor Agitation / Akathisia index spike.',
+        goHref: './sim_paradox_rig.html#preset=akathisia', goText: 'Open in Lab 02 →',
+        readHref: './index.html#research', readText: 'Focus 06'
+      },
+      {
+        idx: 'Step 04 · Lab 02', scale: '10⁻³ m',
+        title: 'Week-1 SSRI 5-HT1A Brake',
+        desc: 'Block SERT acutely: somatodendritic 5-HT1A autoreceptors silence raphe firing while 5-HT2C clamps VTA dopamine.',
+        goHref: './sim_paradox_rig.html#preset=ssri-week1', goText: 'Open in Lab 02 →',
+        readHref: './index.html#research', readText: 'Focus 05'
+      }
+    ]
+  },
+  {
+    desc: 'Replace high-school ball-and-stick cartoons and "deep energy well" metaphors with real physical equations: frontier orbital sterics, counter-ion electrostatics, Gauss–Bonnet surface invariants, and overdamped Freidlin–Wentzell curl fields.',
+    chain: 'HOMO/LUMO → C172 Electrostatics → χ = 2 Topology → Re = 5×10⁻⁹ Curl',
+    steps: [
+      {
+        idx: 'Step 01 · Lab 03', scale: '10⁻¹⁰ m',
+        title: 'Quantum Sterics & Orbitals at MOR',
+        desc: 'Inspect Asp147 electrostatic anchoring, HOMO/LUMO electron density, and why classical lock-and-key models fail.',
+        goHref: './sim_quantum_pocket.html#preset=mor-sterics', goText: 'Open in Lab 03 →',
+        readHref: './article6.html', readText: 'Article 06'
+      },
+      {
+        idx: 'Step 02 · Lab 03', scale: '10⁻¹⁰ m',
+        title: 'The 8.1-Unit C172 ΔpKa Swing',
+        desc: 'Toggle 5 Cl⁻ counter-ions around ΔFosB’s +5 basic cage to see why unscreened DFT invents a false thiolate.',
+        goHref: './sim_quantum_pocket.html#preset=pka-cage', goText: 'Open in Lab 03 →',
+        readHref: './article7.html', readText: 'Article 07 §6'
+      },
+      {
+        idx: 'Step 03 · Lab 01', scale: '10⁻⁶ m',
+        title: 'Gauss–Bonnet vs. Willmore Energy',
+        desc: 'Sprout 6 spines on an MSN shaft: total Gaussian curvature stays locked at 4π while Willmore neck energy jumps 7.7×.',
+        goHref: './sim_synapse.html#preset=therapeutic', goText: 'Open in Lab 01 →',
+        readHref: './article7.html', readText: 'Article 07 §10.1'
+      },
+      {
+        idx: 'Step 04 · Lab 01', scale: '10⁻⁶ m',
+        title: 'No Scalar Potential Exists',
+        desc: 'Observe Euler–Maruyama trajectories in a curl field (∮ ΔV = +1.73 ≠ 0) at Re = 5×10⁻⁹ where inertia vanishes to 14 digits.',
+        goHref: './sim_synapse.html#preset=destabilize', goText: 'Open in Lab 01 →',
+        readHref: './article7.html', readText: 'Article 07 §10.3'
+      }
+    ]
+  }
+];
+
+// ─── UI STATE & HELPERS ──────────────────────────────────────────────────────
+let activeScale = 0;
+let matrixMode = false;
+let autoCycle = true;
+let paused = false;
+let lastSwitchTime = performance.now();
+const AUTO_CYCLE_MS = 6500;
+
+function renderFormula(el, latex, fallback) {
+  if (window.katex && typeof window.katex.render === 'function') {
+    try {
+      window.katex.render(latex, el, { displayMode: false, throwOnError: false });
+      return;
+    } catch (_) {}
+  }
+  el.textContent = fallback;
+}
+
+function updateScaleReadout() {
+  const s = SCALES[activeScale];
+  document.getElementById('roKicker').textContent = s.kicker;
+  document.getElementById('roKicker').style.color = s.color;
+  document.getElementById('roTitle').textContent = s.title;
+  document.getElementById('roDesc').textContent = s.desc;
+  document.getElementById('roEqLabel').textContent = s.eqLabel;
+  const eqEl = document.getElementById('roEqMath');
+  renderFormula(eqEl, s.latex, s.fallbackEq);
+
+  const launchBtn = document.getElementById('roLaunchBtn');
+  launchBtn.href = s.launchHref;
+  launchBtn.textContent = s.launchText;
+  launchBtn.style.background = s.color;
+
+  const cardBtn = document.getElementById('roCardLink');
+  cardBtn.href = s.cardHref;
+
+  document.querySelectorAll('.scale-node').forEach((btn, idx) => {
+    const isAct = !matrixMode && idx === activeScale;
+    btn.classList.toggle('active', isAct);
+    btn.setAttribute('aria-selected', isAct ? 'true' : 'false');
+  });
+}
+
+function selectScale(idx, stopAuto) {
+  activeScale = idx;
+  if (matrixMode) {
+    matrixMode = false;
+    document.getElementById('btnMatrixView').classList.remove('active');
+  }
+  if (stopAuto && autoCycle) {
+    autoCycle = false;
+    const b = document.getElementById('btnAutoCycle');
+    b.classList.remove('active');
+    b.textContent = '⟳ Auto-Sweep: OFF';
+  }
+  lastSwitchTime = performance.now();
+  updateScaleReadout();
+}
+
+function hoverScale(idx) {
+  if (!matrixMode && autoCycle) {
+    activeScale = idx;
+    lastSwitchTime = performance.now();
+    updateScaleReadout();
+  }
+}
+
+function toggleAutoCycle() {
+  autoCycle = !autoCycle;
+  if (autoCycle && matrixMode) {
+    matrixMode = false;
+    document.getElementById('btnMatrixView').classList.remove('active');
+  }
+  const b = document.getElementById('btnAutoCycle');
+  b.classList.toggle('active', autoCycle);
+  b.textContent = autoCycle ? '⟳ Auto-Sweep: ON' : '⟳ Auto-Sweep: OFF';
+  lastSwitchTime = performance.now();
+  updateScaleReadout();
+}
+
+function toggleMatrixView() {
+  matrixMode = !matrixMode;
+  if (matrixMode && autoCycle) {
+    autoCycle = false;
+    const ab = document.getElementById('btnAutoCycle');
+    ab.classList.remove('active');
+    ab.textContent = '⟳ Auto-Sweep: OFF';
+  }
+  document.getElementById('btnMatrixView').classList.toggle('active', matrixMode);
+  updateScaleReadout();
+}
+
+function togglePause() {
+  paused = !paused;
+  const b = document.getElementById('btnPauseSim');
+  b.classList.toggle('active', paused);
+  b.textContent = paused ? '▶ Resume' : '⏸ Pause';
+}
+
+function filterLabs(tag, btn) {
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.lab-card').forEach(card => {
+    if (tag === 'all') {
+      card.classList.remove('hidden');
+    } else {
+      const tags = (card.getAttribute('data-tags') || '').split(/\s+/);
+      card.classList.toggle('hidden', !tags.includes(tag));
+    }
+  });
+}
+
+function selectProtocol(idx, tabBtn) {
+  if (tabBtn) {
+    document.querySelectorAll('.protocol-tab').forEach(t => {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected', 'false');
+    });
+    tabBtn.classList.add('active');
+    tabBtn.setAttribute('aria-selected', 'true');
+  }
+  const p = PROTOCOLS[idx];
+  document.getElementById('protoDesc').textContent = p.desc;
+  document.getElementById('protoChain').textContent = p.chain;
+  const container = document.getElementById('protoSteps');
+  container.innerHTML = p.steps.map(s => `
+    <div class="p-step">
+      <div class="p-step-head">
+        <span class="p-step-idx">${s.idx}</span>
+        <span class="p-step-scale">${s.scale}</span>
+      </div>
+      <div class="p-step-title">${s.title}</div>
+      <p class="p-step-desc">${s.desc}</p>
+      <div class="p-step-links">
+        <a href="${s.goHref}" class="p-step-go">${s.goText}</a>
+        <a href="${s.readHref}" class="p-step-read">${s.readText}</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── MULTI-SCALE RETINA CANVAS SIMULATION ENGINE ─────────────────────────────
+const canvas = document.getElementById('scaleCanvas');
+const ctx = canvas.getContext('2d');
+let cw = 900, ch = 390, dpr = 1;
+let simTime = 0;
+let inViewport = true;
+
+// Stochastic curl particles for Scale 2 (10^-6 m)
+const curlParticles = Array.from({ length: 42 }, (_, i) => ({
+  x: (Math.sin(i * 7.13) * 0.5 + 0.5) * 2 - 1,
+  y: (Math.cos(i * 3.71) * 0.5 + 0.5) * 2 - 1,
+  age: (i * 17) % 100
+}));
+
+// Spiking raster buffer for Scale 3 (10^-3 m)
+const rasterHistory = [];
+const MAX_RASTER_COLS = 150;
+
+function resizeCanvas() {
+  const rect = canvas.parentElement.getBoundingClientRect();
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  cw = Math.max(300, rect.width);
+  ch = Math.max(260, rect.height);
+  canvas.width = Math.round(cw * dpr);
+  canvas.height = Math.round(ch * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function drawGridBg(x, y, w, h) {
+  ctx.save();
+  ctx.strokeStyle = 'rgba(255,255,255,0.035)';
+  ctx.lineWidth = 1;
+  const step = 36;
+  for (let gx = x + step; gx < x + w; gx += step) {
+    ctx.beginPath(); ctx.moveTo(gx, y); ctx.lineTo(gx, y + h); ctx.stroke();
+  }
+  for (let gy = y + step; gy < y + h; gy += step) {
+    ctx.beginPath(); ctx.moveTo(x, gy); ctx.lineTo(x + w, gy); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// SCALE 0: 10^-10 m — 3D bZIP ΔFosB/JunD Helices + C172 Redox Switch + 18 vs 250 A^3
+function drawScaleQuantum(x, y, w, h, t, compact) {
+  ctx.save();
+  ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+  const cx = x + w * (compact ? 0.5 : 0.36);
+  const cy = y + h * 0.52;
+  const morph = (Math.sin(t * 0.022) + 1) * 0.5; // 0 = 5VPE (13.62 A), 1 = 5VPB (2.03 A)
+  const ssDist = 13.62 - morph * 11.59;
+  const rot = t * 0.014;
+
+  // 3D Coiled-Coil bZIP Helices
+  const nRes = compact ? 22 : 30;
+  for (let strand = 0; strand < 2; strand++) {
+    const sign = strand === 0 ? -1 : 1;
+    const col = strand === 0 ? '#00e5ff' : '#c8ff00';
+    ctx.strokeStyle = col;
+    ctx.lineWidth = compact ? 2 : 2.8;
+    ctx.beginPath();
+    for (let i = 0; i < nRes; i++) {
+      const u = (i / (nRes - 1)) * 2 - 1; // -1 to 1
+      // Splay open at basic end (u < 0) when morph=0, pinch closed when morph=1
+      const splay = u < 0 ? (1 - morph * 0.82) * (14 + Math.abs(u) * 26) : 13;
+      const angle = i * 0.95 + rot + strand * Math.PI;
+      const rad = compact ? 7 : 10;
+      const px = cx + u * (w * (compact ? 0.36 : 0.25)) + Math.cos(angle) * 4;
+      const py = cy + sign * splay + Math.sin(angle) * rad;
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+
+      // Highlight C172 / C285 Sulfur Redox Switch at i === 7
+      if (i === 7) {
+        ctx.save();
+        ctx.fillStyle = morph > 0.78 ? '#ff6b35' : col;
+        ctx.beginPath(); ctx.arc(px, py, compact ? 4 : 6, 0, Math.PI * 2); ctx.fill();
+        // Frontier HOMO/LUMO orbital lobes
+        const orbR = (compact ? 11 : 18) + Math.sin(t * 0.08 + strand) * 2.5;
+        const grad = ctx.createRadialGradient(px, py, 1, px, py, orbR);
+        grad.addColorStop(0, morph > 0.78 ? 'rgba(255,107,53,0.42)' : 'rgba(0,229,255,0.34)');
+        grad.addColorStop(1, 'transparent');
+        ctx.fillStyle = grad;
+        ctx.beginPath(); ctx.arc(px, py, orbR, 0, Math.PI * 2); ctx.fill();
+        ctx.restore();
+      }
+    }
+    ctx.stroke();
+  }
+
+  if (!compact) {
+    // Right comparison: 18 A^3 Cavity vs 250 A^3 Druggability Sphere
+    const rx = x + w * 0.77;
+    const ry = y + h * 0.5;
+    // 250 A^3 threshold sphere
+    ctx.strokeStyle = 'rgba(255,107,53,0.45)';
+    ctx.setLineDash([5, 4]);
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(rx, ry, 58, 0, Math.PI * 2); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(255,107,53,0.06)';
+    ctx.fill();
+
+    // 18 A^3 static speck (radius scales as V^(1/3): (18/250)^(1/3) * 58 ≈ 24px diameter -> ~12px radius)
+    const pulseSpeck = 11 + Math.sin(t * 0.06) * 1.5;
+    ctx.fillStyle = 'rgba(0,229,255,0.35)';
+    ctx.strokeStyle = '#00e5ff';
+    ctx.lineWidth = 1.8;
+    ctx.beginPath(); ctx.arc(rx, ry, pulseSpeck, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+    ctx.font = '600 11px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#00e5ff';
+    ctx.textAlign = 'center';
+    ctx.fillText('18 Å³ ΔFosB', rx, ry - 16);
+    ctx.fillStyle = '#ff6b35';
+    ctx.fillText('250 Å³ Druggable Floor', rx, ry + 76);
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#f0ece4';
+    ctx.fillText(`C172–C285 S–S Distance: ${ssDist.toFixed(2)} Å`, x + 22, y + 32);
+    ctx.fillStyle = morph > 0.6 ? '#ff6b35' : '#c8ff00';
+    ctx.fillText(morph > 0.6 ? 'STATE: 5VPB OXIDISED (DNA EJECTED)' : 'STATE: 5VPE REDUCED (AP-1 DNA BOUND)', x + 22, y + 50);
+  } else {
+    ctx.font = '600 10px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#00e5ff';
+    ctx.fillText(`10⁻¹⁰ m · S–S ${ssDist.toFixed(1)} Å`, x + 10, y + 20);
+  }
+  ctx.restore();
+}
+
+// SCALE 1: 10^-8 m — GPCR 7TM Bundle + Naloxone Competitive Steric Jam
+function drawScaleGPCR(x, y, w, h, t, compact) {
+  ctx.save();
+  ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+  const cx = x + w * (compact ? 0.5 : 0.36);
+  const memTop = y + h * 0.28;
+  const memBot = y + h * 0.74;
+  const mH = memBot - memTop;
+
+  // Lipid bilayer band
+  ctx.fillStyle = 'rgba(200,160,60,0.08)';
+  ctx.fillRect(x, memTop, w, mH);
+  ctx.strokeStyle = 'rgba(200,160,60,0.24)';
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  ctx.moveTo(x, memTop); ctx.lineTo(x + w, memTop);
+  ctx.moveTo(x, memBot); ctx.lineTo(x + w, memBot);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Naloxone swap cycle: 0 = Morphine active (TM6 open), 1 = Naloxone jammed (TM6 locked)
+  const nalFrac = (Math.sin(t * 0.025) + 1) * 0.5;
+  const openFrac = 1 - nalFrac;
+  const sp = compact ? 15 : 26;
+
+  for (let i = 0; i < 7; i++) {
+    let hx = cx + (i - 3) * sp;
+    if (i === 4) hx += openFrac * (compact ? 5 : 9);
+    if (i === 5) hx += openFrac * (compact ? 11 : 20);
+    const hw = compact ? 10 : 17;
+    ctx.fillStyle = i === 2 ? 'rgba(100,220,100,0.22)' : (i >= 4 && i <= 5 ? 'rgba(155,136,255,0.24)' : 'rgba(255,255,255,0.08)');
+    ctx.strokeStyle = i === 2 ? 'rgba(100,220,100,0.5)' : 'rgba(255,255,255,0.16)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(hx - hw / 2, memTop + 6, hw, mH - 12, 4);
+    ctx.fill(); ctx.stroke();
+  }
+
+  // Docked Ligand + Rigid Allyl Arm
+  const px = cx - 4, py = memTop + mH * 0.36;
+  const ligCol = nalFrac > 0.5 ? '#c8ff00' : '#ff6b35';
+  ctx.fillStyle = ligCol;
+  ctx.beginPath(); ctx.arc(px, py, compact ? 8 : 13, 0, Math.PI * 2); ctx.fill();
+  if (nalFrac > 0.5) {
+    // Stiff allyl arm jamming TM6
+    ctx.strokeStyle = '#c8ff00';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(px + 10, py - 3); ctx.lineTo(px + (compact ? 22 : 36), py - 12); ctx.stroke();
+  }
+
+  if (!compact) {
+    // Live Cheng-Prusoff Occupancy Curves on Right
+    const gx = x + w * 0.62, gy = y + h * 0.22, gw = w * 0.33, gh = h * 0.56;
+    ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+    ctx.strokeRect(gx, gy, gw, gh);
+    const curNal = nalFrac * 40; // 0 to 40 nM vs 10 nM Morphine
+    for (let curve = 0; curve < 2; curve++) {
+      ctx.strokeStyle = curve === 0 ? '#c8ff00' : '#ff6b35';
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      for (let k = 0; k <= 60; k++) {
+        const cN = (k / 60) * 40;
+        const n = cN / 1.5, m = 10 / 4.0, d = 1 + n + m;
+        const occ = curve === 0 ? n / d : m / d;
+        const vx = gx + (k / 60) * gw;
+        const vy = gy + gh - occ * gh;
+        if (k === 0) ctx.moveTo(vx, vy); else ctx.lineTo(vx, vy);
+      }
+      ctx.stroke();
+    }
+    const markerX = gx + (curNal / 40) * gw;
+    ctx.strokeStyle = 'rgba(255,255,255,0.45)';
+    ctx.beginPath(); ctx.moveTo(markerX, gy); ctx.lineTo(markerX, gy + gh); ctx.stroke();
+
+    ctx.font = '600 11px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#f0ece4';
+    ctx.fillText(`[Naloxone] = ${curNal.toFixed(1)} nM vs [Morphine] = 10.0 nM`, x + 22, y + 32);
+    ctx.fillStyle = nalFrac > 0.5 ? '#c8ff00' : '#ff6b35';
+    ctx.fillText(nalFrac > 0.5 ? 'TM5/TM6 LOCKED INACTIVE · Gi BLOCKED' : 'TM5/TM6 OPEN · Gi SIGNALING ACTIVE', x + 22, y + 50);
+  } else {
+    ctx.font = '600 10px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#ff6b35';
+    ctx.fillText('10⁻⁸ m · MOR Kd 1.5 nM', x + 10, y + 20);
+  }
+  ctx.restore();
+}
+
+// SCALE 2: 10^-6 m — Dendritic Spine Geometry + Freidlin-Wentzell Non-Gradient Curl
+function drawScaleSpine(x, y, w, h, t, compact) {
+  ctx.save();
+  ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+
+  // Non-gradient rotational curl vector field + stochastic particles
+  const fx = compact ? x + w * 0.5 : x + w * 0.68;
+  const fy = y + h * 0.52;
+  const scaleR = Math.min(w * (compact ? 0.38 : 0.22), h * 0.36);
+
+  // Draw subtle phase-space attractors
+  for (let a = 0; a < 3; a++) {
+    const ang = (a * Math.PI * 2) / 3 + 0.4;
+    const ax = fx + Math.cos(ang) * scaleR * 0.62;
+    const ay = fy + Math.sin(ang) * scaleR * 0.62;
+    const g = ctx.createRadialGradient(ax, ay, 2, ax, ay, scaleR * 0.45);
+    g.addColorStop(0, a === 0 ? 'rgba(200,255,0,0.22)' : 'rgba(255,107,53,0.16)');
+    g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(ax, ay, scaleR * 0.45, 0, Math.PI * 2); ctx.fill();
+  }
+
+  // Advance & render curl trajectories
+  curlParticles.forEach((p, idx) => {
+    if (!paused) {
+      // Rotational curl + radial confinement: b(x,y) with non-zero curl (+1.73 loop residual)
+      const r2 = p.x * p.x + p.y * p.y;
+      const vx = -p.y * 1.38 + p.x * (0.65 - r2);
+      const vy =  p.x * 1.38 + p.y * (0.65 - r2);
+      p.x += vx * 0.016 + Math.sin(t * 0.13 + idx) * 0.006;
+      p.y += vy * 0.016 + Math.cos(t * 0.17 + idx) * 0.006;
+    }
+    const sx = fx + p.x * scaleR;
+    const sy = fy + p.y * scaleR;
+    ctx.fillStyle = idx % 3 === 0 ? '#c8ff00' : '#ff6b35';
+    ctx.beginPath(); ctx.arc(sx, sy, compact ? 2 : 2.6, 0, Math.PI * 2); ctx.fill();
+  });
+
+  if (!compact) {
+    // Left side: Sprouting Dendritic Shaft + Thin-Necked Spines (Willmore W(S))
+    const sx0 = x + 48, sx1 = x + w * 0.42, sy0 = y + h * 0.62;
+    ctx.strokeStyle = 'rgba(200,255,0,0.55)';
+    ctx.fillStyle = 'rgba(200,255,0,0.09)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(sx0, sy0 - 12, sx1 - sx0, 24, 10);
+    ctx.fill(); ctx.stroke();
+
+    const nSpines = 6;
+    const sprout = 0.55 + 0.45 * Math.sin(t * 0.02);
+    for (let s = 0; s < nSpines; s++) {
+      const bx = sx0 + 34 + s * ((sx1 - sx0 - 68) / (nSpines - 1));
+      const neckL = (22 + (s % 2) * 12) * sprout;
+      const headR = 8 + (s % 3) * 2;
+      // Thin neck (high πL/2r Willmore contribution)
+      ctx.strokeStyle = s % 2 === 0 ? '#c8ff00' : '#ff6b35';
+      ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(bx, sy0 - 12); ctx.lineTo(bx, sy0 - 12 - neckL); ctx.stroke();
+      // Spine head
+      ctx.fillStyle = s % 2 === 0 ? 'rgba(200,255,0,0.28)' : 'rgba(255,107,53,0.28)';
+      ctx.beginPath(); ctx.arc(bx, sy0 - 12 - neckL - headR + 2, headR, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    }
+
+    const willmore = (18.8 + 6 * sprout * 20.9).toFixed(1);
+    ctx.font = '600 11px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#f0ece4';
+    ctx.fillText(`Gauss–Bonnet χ = 2 (∫K dA = 4π FIXED)  |  Willmore W(S) = ${willmore}`, x + 22, y + 32);
+    ctx.fillStyle = '#c8ff00';
+    ctx.fillText('Freidlin–Wentzell Curl Field: ∮ ΔV = +1.73 ≠ 0  ·  τ ∝ ρ²³·³', x + 22, y + 50);
+  } else {
+    ctx.font = '600 10px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#c8ff00';
+    ctx.fillText('10⁻⁶ m · ∮ΔV = +1.73', x + 10, y + 20);
+  }
+  ctx.restore();
+}
+
+// SCALE 3: 10^-3 m — 450-Neuron Spiking Raster + Paradoxical Calm Patch-Clamp
+function drawScaleCircuit(x, y, w, h, t, compact) {
+  ctx.save();
+  ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+
+  // Oscillate between Untreated NMDA Hypercompensation (noisy) & DAT-Restored Calm (coherent)
+  const daRestored = (Math.sin(t * 0.018) + 1) * 0.5 > 0.48;
+  if (!paused) {
+    const spikes = [];
+    const nRows = 28;
+    for (let r = 0; r < nRows; r++) {
+      let pFire = 0.05;
+      if (r < 10) {
+        // Cortical NMDA pool: hyperactive Poisson noise when DA is low!
+        pFire = daRestored ? 0.03 : 0.34;
+      } else if (r < 20) {
+        // PFC Layer III recurrent working memory: coherent gamma/theta rhythm when DA/α2A restored
+        pFire = daRestored ? (Math.sin(t * 0.25) > 0.65 ? 0.55 : 0.02) : 0.08;
+      } else {
+        // VTA DA + NAc D1
+        pFire = daRestored ? 0.18 : 0.04;
+      }
+      // Deterministic pseudo-random from t & r for smooth glitch-free frames
+      const hash = Math.sin(t * 12.9898 + r * 78.233) * 43758.5453;
+      const rand = hash - Math.floor(hash);
+      if (rand < pFire) spikes.push(r);
+    }
+    rasterHistory.push({ spikes, daRestored });
+    if (rasterHistory.length > MAX_RASTER_COLS) rasterHistory.shift();
+  }
+
+  // Draw Spike Raster
+  const rx = x + (compact ? 10 : 24);
+  const rw = w - (compact ? 20 : 48);
+  const ry = y + (compact ? 32 : 68);
+  const rh = (compact ? h * 0.42 : h * 0.38);
+
+  rasterHistory.forEach((col, ci) => {
+    const px = rx + (ci / MAX_RASTER_COLS) * rw;
+    col.spikes.forEach(r => {
+      const py = ry + (r / 28) * rh;
+      ctx.fillStyle = r < 10 ? '#ff6b35' : (r < 20 ? '#9b88ff' : '#c8ff00');
+      ctx.fillRect(px, py, 2, compact ? 2.2 : 3.2);
+    });
+  });
+
+  // Draw Patch-Clamp Intracellular Vm Trace below raster
+  const vy0 = y + h * 0.78;
+  ctx.strokeStyle = daRestored ? '#c8ff00' : '#ff6b35';
+  ctx.lineWidth = compact ? 1.5 : 2;
+  ctx.beginPath();
+  const nPts = compact ? 90 : 220;
+  for (let i = 0; i <= nPts; i++) {
+    const u = i / nPts;
+    const vx = rx + u * rw;
+    const phase = t * 0.16 + u * 28;
+    let vm = 0;
+    if (daRestored) {
+      // Clean phase-locked rhythmic spiking
+      const cyc = phase % (Math.PI * 2);
+      vm = cyc < 0.35 ? -Math.sin((cyc / 0.35) * Math.PI) * (compact ? 30 : 46) : Math.sin(phase * 2) * 2;
+    } else {
+      // Chaotic subthreshold NMDA agitation + erratic bursts
+      const noise = Math.sin(phase * 3.7) * 8 + Math.cos(phase * 7.3) * 6;
+      const burst = Math.sin(phase * 1.9) > 0.82 ? -(compact ? 28 : 42) : 0;
+      vm = noise + burst;
+    }
+    if (i === 0) ctx.moveTo(vx, vy0 + vm); else ctx.lineTo(vx, vy0 + vm);
+  }
+  ctx.stroke();
+
+  if (!compact) {
+    ctx.font = '600 11px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#f0ece4';
+    ctx.fillText('VTA–NAc–PFC 450-Neuron Raster & Layer III Patch-Clamp (−70 mV)', x + 24, y + 32);
+    ctx.fillStyle = daRestored ? '#c8ff00' : '#ff6b35';
+    ctx.fillText(
+      daRestored
+        ? 'DAT REVERSAL ACTIVE → NMDA NOISE SILENCED · PARADOXICAL CALM (+18.4 dB SNR)'
+        : 'HYPODOPAMINERGIC STATE → COMPENSATORY NMDA POISSON AGITATION (−3.2 dB SNR)',
+      x + 24, y + 50
+    );
+  } else {
+    ctx.font = '600 10px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#9b88ff';
+    ctx.fillText('10⁻³ m · 1 kHz Rig', x + 10, y + 20);
+  }
+  ctx.restore();
+}
+
+// SCALE 4: 10^0 m — Ventricular Action Potential (APD90 / hERG) + Scrolling Lead-II ECG
+function drawScaleCardiac(x, y, w, h, t, compact) {
+  ctx.save();
+  ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+
+  const hergBlock = (Math.sin(t * 0.02) + 1) * 0.5; // 0 = Normal Sinus, 1 = Cocaethylene 3x hERG QT prolongation
+  const qtc = Math.round(395 + hergBlock * 118);
+
+  // Scrolling Lead-II Surface ECG waveform
+  const ex = x + (compact ? 10 : 24);
+  const ew = w * (compact ? 0.88 : 0.56);
+  const ey = y + h * (compact ? 0.64 : 0.62);
+
+  ctx.strokeStyle = hergBlock > 0.65 ? '#ff6b35' : '#c8ff00';
+  ctx.lineWidth = compact ? 1.7 : 2.3;
+  ctx.beginPath();
+  const pts = compact ? 100 : 200;
+  for (let i = 0; i <= pts; i++) {
+    const u = i / pts;
+    const px = ex + u * ew;
+    const beat = ((u * 3.2 + t * 0.018) % 1 + 1) % 1;
+    const tShift = 0.34 + hergBlock * 0.16; // Prolonged QT interval!
+    let v = 0;
+    // P wave
+    v -= 7 * Math.exp(-Math.pow((beat - 0.12) / 0.028, 2));
+    // Q dip
+    v += 6 * Math.exp(-Math.pow((beat - 0.205) / 0.008, 2));
+    // Sharp R spike
+    v -= (compact ? 36 : 58) * Math.exp(-Math.pow((beat - 0.22) / 0.011, 2));
+    // S dip
+    v += 12 * Math.exp(-Math.pow((beat - 0.238) / 0.01, 2));
+    // T wave (broadens & delays under cocaethylene hERG blockade)
+    v -= (14 - hergBlock * 4) * Math.exp(-Math.pow((beat - tShift) / (0.045 + hergBlock * 0.025), 2));
+    // Early afterdepolarization (EAD) notch at high hERG block
+    if (hergBlock > 0.72) {
+      v -= 8 * Math.exp(-Math.pow((beat - (tShift + 0.09)) / 0.02, 2));
+    }
+    if (i === 0) ctx.moveTo(px, ey + v); else ctx.lineTo(px, ey + v);
+  }
+  ctx.stroke();
+
+  if (!compact) {
+    // Right panel: Ventricular Myocyte Action Potential (Phase 0-4, APD90)
+    const ax = x + w * 0.64, ay = y + h * 0.24, aw = w * 0.31, ah = h * 0.54;
+    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+    ctx.strokeRect(ax, ay, aw, ah);
+
+    // Baseline normal AP (ghost cyan) vs Current AP (orange/lime)
+    for (let mode = 0; mode < 2; mode++) {
+      const blk = mode === 0 ? 0 : hergBlock;
+      ctx.strokeStyle = mode === 0 ? 'rgba(0,229,255,0.32)' : (blk > 0.65 ? '#ff6b35' : '#c8ff00');
+      ctx.lineWidth = mode === 0 ? 1.4 : 2.4;
+      ctx.beginPath();
+      for (let k = 0; k <= 80; k++) {
+        const s = k / 80;
+        const apdEnd = 0.48 + blk * 0.34;
+        let ap = 0;
+        if (s < 0.06) ap = s / 0.06; // Phase 0 INa upstroke
+        else if (s < 0.12) ap = 1 - (s - 0.06) * 2.2; // Phase 1 notch
+        else if (s < apdEnd) {
+          const p = (s - 0.12) / (apdEnd - 0.12);
+          ap = 0.86 * (1 - Math.pow(p, 2.4)); // Phase 2 Ca2+ plateau & Phase 3 IKr/hERG
+          if (mode === 1 && blk > 0.72 && p > 0.65 && p < 0.9) {
+            ap += 0.16 * Math.sin(((p - 0.65) / 0.25) * Math.PI); // EAD bump
+          }
+        }
+        const vx = ax + s * aw;
+        const vy = ay + ah - 14 - ap * (ah - 28);
+        if (k === 0) ctx.moveTo(vx, vy); else ctx.lineTo(vx, vy);
+      }
+      ctx.stroke();
+    }
+
+    ctx.font = '600 11px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#f0ece4';
+    ctx.fillText(`Lead-II Telemetry & Ventricular Myocyte AP  |  Bazett QTc = ${qtc} ms`, x + 24, y + 32);
+    ctx.fillStyle = qtc > 470 ? '#ff6b35' : '#c8ff00';
+    ctx.fillText(
+      qtc > 470
+        ? 'HEPATIC COCAETHYLENE → 3× hERG (IKr) BLOCKADE · EAD / TORSADES RISK'
+        : 'NORMAL SINUS REPOLARIZATION · UNIMPEDED IKr (hERG) & BBB PARTITIONING',
+      x + 24, y + 50
+    );
+  } else {
+    ctx.font = '600 10px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#ff6b35';
+    ctx.fillText(`10⁰ m · QTc ${qtc} ms`, x + 10, y + 20);
+  }
+  ctx.restore();
+}
+
+const SCALE_DRAWERS = [
+  drawScaleQuantum,
+  drawScaleGPCR,
+  drawScaleSpine,
+  drawScaleCircuit,
+  drawScaleCardiac
+];
+
+function renderLoop(now) {
+  if (inViewport) {
+    if (!paused) {
+      simTime += 1;
+      if (autoCycle && !matrixMode && now - lastSwitchTime > AUTO_CYCLE_MS) {
+        activeScale = (activeScale + 1) % SCALES.length;
+        lastSwitchTime = now;
+        updateScaleReadout();
+      }
+    }
+
+    ctx.fillStyle = '#070707';
+    ctx.fillRect(0, 0, cw, ch);
+    drawGridBg(0, 0, cw, ch);
+
+    if (matrixMode) {
+      // Simultaneous 5-Scale Telemetry Matrix
+      const cols = cw < 640 ? 2 : 5;
+      const rows = Math.ceil(5 / cols);
+      const cellW = cw / cols;
+      const cellH = ch / rows;
+      for (let i = 0; i < 5; i++) {
+        const cx0 = (i % cols) * cellW;
+        const cy0 = Math.floor(i / cols) * cellH;
+        ctx.strokeStyle = 'rgba(255,255,255,0.09)';
+        ctx.strokeRect(cx0, cy0, cellW, cellH);
+        SCALE_DRAWERS[i](cx0, cy0, cellW, cellH, simTime, true);
+      }
+    } else {
+      SCALE_DRAWERS[activeScale](0, 0, cw, ch, simTime, false);
+    }
+  }
+  requestAnimationFrame(renderLoop);
+}
+
+// Pause GPU work when canvas scrolls out of view
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { inViewport = e.isIntersecting; });
+}, { threshold: 0.05 });
+io.observe(canvas);
+
+// Click on Matrix View cell to zoom into that scale
+canvas.addEventListener('click', e => {
+  if (!matrixMode) return;
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  const my = e.clientY - rect.top;
+  const cols = cw < 640 ? 2 : 5;
+  const rows = Math.ceil(5 / cols);
+  const col = Math.floor(mx / (cw / cols));
+  const row = Math.floor(my / (ch / rows));
+  const idx = row * cols + col;
+  if (idx >= 0 && idx < 5) selectScale(idx, true);
+});
+
+// Keyboard shortcuts (1-5 scales, M matrix, Space pause)
+document.addEventListener('keydown', e => {
+  if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+  if (e.key >= '1' && e.key <= '5') {
+    selectScale(parseInt(e.key, 10) - 1, true);
+  } else if (e.key === 'm' || e.key === 'M') {
+    toggleMatrixView();
+  } else if (e.key === ' ' && e.target === document.body) {
+    e.preventDefault();
+    togglePause();
+  }
+});
+
+// Scroll progress bar
+window.addEventListener('scroll', () => {
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docH > 0 ? Math.min(100, Math.max(0, (window.scrollY / docH) * 100)) : 0;
+  document.getElementById('scrollBar').style.width = pct.toFixed(1) + '%';
+}, { passive: true });
+
+// Boot KaTeX + initial state
+function initNeuroLab() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('view') === 'matrix') {
+    matrixMode = true;
+    autoCycle = false;
+    document.getElementById('btnMatrixView').classList.add('active');
+    document.getElementById('btnAutoCycle').classList.remove('active');
+    document.getElementById('btnAutoCycle').textContent = '⟳ Auto-Sweep: OFF';
+  } else if (params.has('scale')) {
+    const s = parseInt(params.get('scale'), 10);
+    if (s >= 0 && s < 5) selectScale(s, true);
+  }
+
+  selectProtocol(0, null);
+  updateScaleReadout();
+
+  if (typeof renderMathInElement === 'function') {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '\\(', right: '\\)', display: false }
+      ],
+      throwOnError: false
+    });
+    updateScaleReadout();
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initNeuroLab);
+} else {
+  initNeuroLab();
+}
+window.addEventListener('load', () => {
+  if (typeof renderMathInElement === 'function') {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '\\(', right: '\\)', display: false }
+      ],
+      throwOnError: false
+    });
+  }
+  updateScaleReadout();
+});
+
+requestAnimationFrame(renderLoop);
+</script>
+</body>
+</html>

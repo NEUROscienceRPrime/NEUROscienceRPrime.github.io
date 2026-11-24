@@ -1,0 +1,3542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QUANTUM &amp; COVALENT POCKET LAB — 3D Structural Biophysics &amp; Warhead Bench — Neuroscience with RPrime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #080808;
+    --panel: #0e0e10;
+    --panel2: #141418;
+    --surface: rgba(255,255,255,0.03);
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.16);
+    --text: #f0ece4;
+    --muted: #666;
+    --muted2: #9a968e;
+    --accent: #c8ff00;
+    --accent2: #ff6b35;
+    --violet: #9b88ff;
+    --cyan: #00e5ff;
+    --danger: #ff3355;
+    --amber: #ffb800;
+    --emerald: #00e676;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* GEN-2 FRACTAL NOISE OVERLAY */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 9998;
+    mix-blend-mode: overlay;
+  }
+
+  /* AMBIENT AURORA */
+  .aurora {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(125px);
+  }
+  .blob-1 {
+    width: 620px; height: 620px;
+    background: radial-gradient(circle, rgba(200,255,0,0.11), transparent 68%);
+    top: -220px; left: -160px;
+  }
+  .blob-2 {
+    width: 520px; height: 520px;
+    background: radial-gradient(circle, rgba(0,229,255,0.09), transparent 68%);
+    top: 28%; right: -180px;
+  }
+  .blob-3 {
+    width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(155,136,255,0.09), transparent 68%);
+    bottom: -140px; left: 22%;
+  }
+
+  /* STICKY TOP NAV */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(8,8,8,0.82);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 24px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--muted2);
+    text-decoration: none;
+    padding: 5px 9px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition: all 0.16s ease;
+    white-space: nowrap;
+  }
+  .nav-links a:hover {
+    color: var(--text);
+    border-color: var(--border);
+    background: rgba(255,255,255,0.03);
+  }
+  .nav-links a.active {
+    color: #080808;
+    background: var(--accent);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-btn {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding: 6px 11px;
+    border-radius: 6px;
+    border: 1px solid var(--border-strong);
+    background: var(--panel2);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.16s ease;
+    white-space: nowrap;
+  }
+  .nav-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .nav-btn.reel-active {
+    background: var(--accent2);
+    border-color: var(--accent2);
+    color: #080808;
+    font-weight: 600;
+  }
+  .nav-btn.eq-btn {
+    border-color: rgba(155,136,255,0.4);
+    color: var(--violet);
+  }
+  .nav-btn.eq-btn:hover {
+    background: rgba(155,136,255,0.12);
+    border-color: var(--violet);
+  }
+
+  /* MAIN SHELL */
+  .shell {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 26px 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HERO HEADER */
+  .lab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+  }
+  .lab-title {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3.4vw, 40px);
+    font-weight: 800;
+    letter-spacing: -1.1px;
+    line-height: 1.06;
+    margin-bottom: 8px;
+  }
+  .lab-sub {
+    color: var(--muted2);
+    font-size: 14.5px;
+    max-width: 820px;
+    line-height: 1.55;
+  }
+  .companion-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .companion-pill {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted2);
+    text-decoration: none;
+    padding: 6px 11px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    transition: all 0.15s;
+  }
+  .companion-pill:hover {
+    color: var(--accent);
+    border-color: rgba(200,255,0,0.35);
+  }
+
+  /* PRIMARY SYSTEM TABS */
+  .system-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .sys-tab {
+    flex: 1 1 320px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    color: var(--muted2);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.18s ease;
+  }
+  .sys-tab:hover {
+    border-color: var(--border-strong);
+    color: var(--text);
+  }
+  .sys-tab.active {
+    border-color: var(--accent);
+    background: linear-gradient(90deg, rgba(200,255,0,0.08), rgba(255,255,255,0.02));
+    color: var(--text);
+    box-shadow: 0 0 24px rgba(200,255,0,0.06);
+  }
+  .sys-tab.mor-tab.active {
+    border-color: var(--cyan);
+    background: linear-gradient(90deg, rgba(0,229,255,0.09), rgba(155,136,255,0.04));
+    box-shadow: 0 0 24px rgba(0,229,255,0.07);
+  }
+  .sys-tab-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14.5px;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .sys-tab-meta {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted2);
+  }
+  .sys-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.05);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .sys-tab.mor-tab .sys-badge { color: var(--cyan); }
+
+  /* PRESET STRIP */
+  .preset-strip {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 18px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .preset-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-right: 4px;
+    white-space: nowrap;
+  }
+  .preset-btn {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 6px 11px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: #bbb;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .preset-btn:hover {
+    border-color: rgba(200,255,0,0.4);
+    color: var(--text);
+  }
+  .preset-btn.active {
+    background: rgba(200,255,0,0.13);
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* WORKBENCH GRID */
+  .workbench {
+    display: grid;
+    grid-template-columns: minmax(0, 1.52fr) minmax(370px, 1fr);
+    gap: 18px;
+    align-items: start;
+  }
+  @media (max-width: 1080px) {
+    .workbench { grid-template-columns: 1fr; }
+  }
+
+  /* LEFT VIEWPORT STACK */
+  .viewport-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .viewport-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .vp-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.015);
+    flex-wrap: wrap;
+  }
+  .vp-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+  .pdb-pill {
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(200,255,0,0.12);
+    border: 1px solid rgba(200,255,0,0.35);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .vp-cam-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .mini-btn {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    padding: 4px 9px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    background: var(--panel2);
+    color: var(--muted2);
+    cursor: pointer;
+    transition: all 0.14s;
+  }
+  .mini-btn:hover { color: var(--text); border-color: var(--border-strong); }
+  .mini-btn.on {
+    color: var(--accent);
+    border-color: rgba(200,255,0,0.45);
+    background: rgba(200,255,0,0.08);
+  }
+
+  .canvas-wrap {
+    position: relative;
+    width: 100%;
+    height: 550px;
+    background: radial-gradient(circle at 50% 44%, #13151a 0%, #09090b 72%);
+    cursor: grab;
+    user-select: none;
+    overflow: hidden;
+  }
+  .canvas-wrap:active { cursor: grabbing; }
+  canvas#molCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* FLOATING HUD BADGES ON 3D CANVAS */
+  .canvas-hud-tl {
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 340px;
+  }
+  .hud-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    line-height: 1.4;
+    padding: 5px 9px;
+    border-radius: 5px;
+    background: rgba(8,8,10,0.78);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #d6d2c8;
+    backdrop-filter: blur(8px);
+  }
+  .hud-tag strong { color: var(--accent); font-weight: 600; }
+  .hud-tag .warn { color: var(--accent2); font-weight: 600; }
+  .hud-tag .cyn { color: var(--cyan); font-weight: 600; }
+  .hud-tag .vio { color: var(--violet); font-weight: 600; }
+
+  .canvas-hud-br {
+    position: absolute;
+    bottom: 10px;
+    right: 12px;
+    pointer-events: none;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.42);
+    background: rgba(8,8,10,0.68);
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* HOVER ATOM TOOLTIP */
+  .atom-tooltip {
+    position: absolute;
+    pointer-events: none;
+    z-index: 30;
+    background: rgba(10,10,14,0.94);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.65);
+    display: none;
+    max-width: 260px;
+  }
+
+  /* REEL OVERLAY CAPTION (VISIBLE ONLY IN REEL MODE) */
+  .reel-caption {
+    display: none;
+    position: absolute;
+    bottom: 68px;
+    left: 14px;
+    right: 14px;
+    pointer-events: none;
+    background: rgba(8,8,10,0.84);
+    border: 1px solid rgba(200,255,0,0.35);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 10px 13px;
+    backdrop-filter: blur(10px);
+  }
+  .reel-caption-kicker {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 3px;
+  }
+  .reel-caption-text {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  /* TELEMETRY BAR */
+  .telemetry-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--border);
+    background: #0b0b0d;
+  }
+  @media (max-width: 680px) {
+    .telemetry-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .tele-cell {
+    padding: 11px 14px;
+    border-right: 1px solid var(--border);
+  }
+  .tele-cell:last-child { border-right: none; }
+  .tele-label {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.11em;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+  .tele-val {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .tele-sub {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted2);
+    margin-top: 1px;
+  }
+
+  /* QUANTITATIVE 2D PLOT CARD */
+  .plot-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px 16px;
+  }
+  .plot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .plot-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .plot-tab {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    background: var(--panel2);
+    color: var(--muted2);
+    cursor: pointer;
+    transition: all 0.14s;
+  }
+  .plot-tab.active {
+    background: rgba(200,255,0,0.12);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .plot-hint {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+  }
+  canvas#plotCanvas {
+    display: block;
+    width: 100%;
+    height: 185px;
+    background: #0a0a0c;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 7px;
+    cursor: crosshair;
+  }
+
+  /* RIGHT CONTROL DECK */
+  .control-deck {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+  .ctrl-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    padding: 15px 16px;
+  }
+  .ctrl-card.highlight-cyan { border-color: rgba(0,229,255,0.3); }
+  .ctrl-card.highlight-violet { border-color: rgba(155,136,255,0.32); }
+  .ctrl-card.highlight-orange { border-color: rgba(255,107,53,0.32); }
+
+  .ctrl-kicker {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .ctrl-title {
+    font-family: var(--font-display);
+    font-size: 15.5px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .ctrl-desc {
+    font-size: 13px;
+    color: #aaa69e;
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+
+  /* SLIDERS */
+  .slider-row {
+    margin-bottom: 11px;
+  }
+  .slider-row:last-child { margin-bottom: 0; }
+  .slider-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    margin-bottom: 5px;
+  }
+  .slider-top .lbl { color: #ccc; }
+  .slider-top .val { color: var(--accent); font-weight: 600; }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: #22232a;
+    border-radius: 4px;
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid #080808;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(200,255,0,0.5);
+  }
+
+  .state-stops {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-top: 7px;
+  }
+  .stop-btn {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 6px 6px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    background: var(--panel2);
+    color: var(--muted2);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.14s;
+  }
+  .stop-btn:hover { color: var(--text); border-color: var(--border-strong); }
+  .stop-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(200,255,0,0.09);
+  }
+
+  /* TOGGLE BUTTON GRID */
+  .toggle-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+    margin-top: 8px;
+  }
+  .toggle-btn {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--panel2);
+    color: #ccc;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    transition: all 0.15s;
+  }
+  .toggle-btn:hover { border-color: var(--border-strong); }
+  .toggle-btn.active {
+    border-color: var(--accent);
+    background: rgba(200,255,0,0.1);
+    color: var(--accent);
+  }
+  .toggle-btn.active-cyan {
+    border-color: var(--cyan);
+    background: rgba(0,229,255,0.1);
+    color: var(--cyan);
+  }
+  .toggle-btn.active-orange {
+    border-color: var(--accent2);
+    background: rgba(255,107,53,0.12);
+    color: var(--accent2);
+  }
+  .toggle-btn.active-violet {
+    border-color: var(--violet);
+    background: rgba(155,136,255,0.13);
+    color: var(--violet);
+  }
+  .toggle-btn.full-span { grid-column: 1 / -1; }
+
+  /* PKA SWING METER */
+  .pka-meter {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 7px;
+    background: #09090c;
+    border: 1px solid var(--border);
+  }
+  .pka-track {
+    position: relative;
+    height: 10px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #ff3355 0%, #9b88ff 35%, #444 50%, #00e5ff 80%, #00e676 100%);
+    margin: 8px 0 6px;
+  }
+  .pka-needle {
+    position: absolute;
+    top: -4px;
+    width: 4px;
+    height: 18px;
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 0 8px #fff;
+    transition: left 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .pka-scale {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--muted2);
+  }
+
+  /* WARHEAD CARDS */
+  .warhead-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .wh-item {
+    padding: 9px 11px;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    background: var(--panel2);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .wh-item:hover { border-color: var(--border-strong); }
+  .wh-item.active {
+    border-color: var(--accent);
+    background: rgba(200,255,0,0.08);
+  }
+  .wh-item.active.danger {
+    border-color: var(--danger);
+    background: rgba(255,51,85,0.09);
+  }
+  .wh-item.active.warn {
+    border-color: var(--accent2);
+    background: rgba(255,107,53,0.09);
+  }
+  .wh-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 3px;
+  }
+  .wh-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .wh-badge {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .wh-badge.opt { background: rgba(200,255,0,0.18); color: var(--accent); }
+  .wh-badge.bad { background: rgba(255,51,85,0.18); color: var(--danger); }
+  .wh-badge.wrn { background: rgba(255,107,53,0.18); color: var(--accent2); }
+  .wh-badge.vio { background: rgba(155,136,255,0.18); color: var(--violet); }
+  .wh-metrics {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted2);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* RECEIPT CALLOUT */
+  .receipt-box {
+    background: rgba(200,255,0,0.04);
+    border: 1px solid rgba(200,255,0,0.2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 9px 9px 0;
+    padding: 13px 15px;
+  }
+  .receipt-kicker {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 5px;
+  }
+  .receipt-text {
+    font-size: 13px;
+    color: #d4d0c8;
+    line-height: 1.6;
+  }
+  .receipt-text strong { color: #fff; font-weight: 600; }
+
+  /* SLIDE-OVER QM/MD DRAWER */
+  .drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.72);
+    backdrop-filter: blur(6px);
+    z-index: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s ease;
+  }
+  .drawer-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(680px, 96vw);
+    height: 100vh;
+    background: #0c0c10;
+    border-left: 1px solid var(--border-strong);
+    z-index: 510;
+    transform: translateX(102%);
+    transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+    display: flex;
+    flex-direction: column;
+  }
+  .drawer.open { transform: translateX(0); }
+  .drawer-head {
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #09090c;
+  }
+  .drawer-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+  }
+  .drawer-body {
+    padding: 22px 24px 60px;
+    overflow-y: auto;
+    font-size: 14px;
+    color: #c8c4bc;
+    line-height: 1.7;
+  }
+  .drawer-body h3 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    color: var(--accent);
+    margin: 24px 0 10px;
+  }
+  .drawer-body h3:first-child { margin-top: 0; }
+  .eq-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--violet);
+    border-radius: 0 7px 7px 0;
+    padding: 13px 16px;
+    margin: 12px 0;
+    overflow-x: auto;
+  }
+  .eq-lbl {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--violet);
+    margin-bottom: 6px;
+  }
+  .qm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 18px;
+    font-size: 12.5px;
+    font-family: var(--font-mono);
+  }
+  .qm-table th {
+    text-align: left;
+    color: var(--muted2);
+    font-size: 10px;
+    text-transform: uppercase;
+    padding: 7px 8px;
+    border-bottom: 1px solid var(--border-strong);
+  }
+  .qm-table td {
+    padding: 7px 8px;
+    border-bottom: 1px solid var(--border);
+    color: #ccc;
+  }
+  .qm-table td strong { color: var(--accent); }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--muted2);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-note {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* 9:16 REEL MODE (?mode=reel) */
+  body.reel-mode .lab-header,
+  body.reel-mode .plot-card,
+  body.reel-mode .footer {
+    display: none;
+  }
+  body.reel-mode .shell {
+    max-width: 1020px;
+    padding-top: 12px;
+  }
+  body.reel-mode .workbench {
+    grid-template-columns: 420px 1fr;
+    justify-content: center;
+    gap: 20px;
+  }
+  body.reel-mode .viewport-card {
+    width: 420px;
+    height: 746px; /* Exact 9:16 aspect ratio! */
+    display: flex;
+    flex-direction: column;
+    border-color: rgba(200,255,0,0.4);
+    box-shadow: 0 0 50px rgba(200,255,0,0.1);
+  }
+  body.reel-mode .canvas-wrap {
+    flex: 1;
+    height: auto;
+  }
+  body.reel-mode .telemetry-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  body.reel-mode .reel-caption {
+    display: block;
+  }
+  @media (max-width: 900px) {
+    body.reel-mode .workbench {
+      grid-template-columns: 1fr;
+    }
+    body.reel-mode .viewport-card {
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+  }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="aurora">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<!-- STICKY TOP NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="./index.html" class="logo">Neuroscience with <span>RPrime</span></a>
+    <div class="nav-links">
+      <a href="./index.html">← Home</a>
+      <a href="./neurolab.html">NeuroLab Hub</a>
+      <a href="./sim_synapse.html">Sim 01</a>
+      <a href="./sim_paradox_rig.html">Sim 02</a>
+      <a href="./sim_quantum_pocket.html" class="active">Sim 03</a>
+      <a href="./sim_brain_heart.html">Sim 04</a>
+      <a href="./naloxone_sim.html">Naloxone</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn" id="btnReelMode" onclick="toggleReelMode()">[9:16 Reel Mode]</button>
+      <button class="nav-btn eq-btn" onclick="toggleDrawer(true)">[Inspect QM/MD Data &amp; Equations]</button>
+    </div>
+  </div>
+</nav>
+
+<main class="shell">
+  <!-- HEADER -->
+  <header class="lab-header">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> LAB 03 · 3D STRUCTURAL BIOPHYSICS, LIGSITE VOLUMETRICS &amp; COVALENT MED-CHEM</div>
+      <h1 class="lab-title">QUANTUM &amp; COVALENT POCKET LAB</h1>
+      <p class="lab-sub">Why ΔFosB has zero druggable pocket (<strong>18 Å³</strong> static vs <strong>250 Å³</strong> floor), why <strong>C172</strong> is an exposed unactivated thiol across an <strong>8.1-unit ΔpK<sub>a</sub></strong> counter-ion swing, and how mild phenacyl warheads + quantum sterics solve what classical lock-and-key gets wrong.</p>
+    </div>
+    <div class="companion-links">
+      <a href="./article6.html" class="companion-pill">Companion: Article 06 (Quantum) →</a>
+      <a href="./article7.html" class="companion-pill">Companion: Article 07 (§5–9 ΔFosB QM/MD) →</a>
+    </div>
+  </header>
+
+  <!-- PRIMARY SYSTEM TABS -->
+  <div class="system-tabs">
+    <button class="sys-tab active" id="tabSysFosb" onclick="setSystem('fosb')">
+      <div>
+        <span class="sys-tab-title">Target System A — ΔFosB / JunD Heterodimer + AP-1 DNA</span>
+        <span class="sys-tab-meta">5VPE ↔ 7UCC ↔ 5VPB ↔ 7UCD · Full-Length RMSF · LIGSITE 40-Frame Trajectory · C172 Cage &amp; Warheads</span>
+      </div>
+      <span class="sys-badge">Article 07 §5–9</span>
+    </button>
+    <button class="sys-tab mor-tab" id="tabSysMor" onclick="setSystem('mor')">
+      <div>
+        <span class="sys-tab-title">Target System B — MOR Quantum Sterics &amp; Frontier Orbitals</span>
+        <span class="sys-tab-meta">7TM GPCR · Asp147 Anchor · Bilayer London Dispersion · HOMO/LUMO Clouds · Naloxone Allyl Jam</span>
+      </div>
+      <span class="sys-badge">Article 06 + MOR</span>
+    </button>
+  </div>
+
+  <!-- SCIENTIFIC QUICK-JUMP PRESETS -->
+  <div class="preset-strip" id="presetStrip">
+    <span class="preset-label">Presets:</span>
+    <button class="preset-btn active" data-preset="5vpe" onclick="applyPreset('5vpe')">01 · DNA-Bound AP-1 (5VPE · 13.62 Å)</button>
+    <button class="preset-btn" data-preset="redox" onclick="applyPreset('redox')">02 · Oxidised Disulfide Switch (5VPB · 2.03 Å)</button>
+    <button class="preset-btn" data-preset="disorder" onclick="applyPreset('disorder')">03 · Full-Length Disorder Whip (Core 8.79 Å)</button>
+    <button class="preset-btn" data-preset="ligsite" onclick="applyPreset('ligsite')">04 · LIGSITE 6.64 ns Peak (173 Å³ vs 1HSG 368 Å³)</button>
+    <button class="preset-btn" data-preset="c172cage" onclick="applyPreset('c172cage')">05 · C172 +5 Cage &amp; 8.1-Unit pKa Swing</button>
+    <button class="preset-btn" data-preset="warhead" onclick="applyPreset('warhead')">06 · Optimal Phenacyl vs Maleimide Splatter</button>
+    <button class="preset-btn" data-preset="mor_quantum" onclick="applyPreset('mor_quantum')">07 · MOR Naloxone Allyl Jam &amp; Orbitals</button>
+  </div>
+
+  <!-- WORKBENCH -->
+  <div class="workbench">
+    <!-- LEFT: 3D VIEWPORT + 2D QUANTITATIVE PLOT -->
+    <div class="viewport-stack">
+      <div class="viewport-card">
+        <div class="vp-topbar">
+          <div class="vp-status">
+            <span class="pdb-pill" id="hudPdbCode">PDB: 5VPE</span>
+            <span id="hudStateTitle" style="color:#d8d4cc;">ΔFosB/JunD bZIP · AP-1 Major Groove Complex</span>
+          </div>
+          <div class="vp-cam-controls">
+            <button class="mini-btn on" id="btnAutoSpin" onclick="toggleSpin()">Auto-Spin</button>
+            <button class="mini-btn on" id="btnLabels" onclick="toggleLabels()">3D Callouts</button>
+            <button class="mini-btn" onclick="resetCamera()">Reset View</button>
+          </div>
+        </div>
+
+        <div class="canvas-wrap" id="canvasWrap">
+          <canvas id="molCanvas"></canvas>
+
+          <div class="canvas-hud-tl" id="canvasHudTl">
+            <!-- Populated dynamically -->
+          </div>
+
+          <div class="reel-caption" id="reelCaption">
+            <div class="reel-caption-kicker" id="reelKicker">@NEUROSCIENCERPRIME · QUANTUM POCKET LAB</div>
+            <div class="reel-caption-text" id="reelText">ΔFosB has NO druggable pocket (18 Å³ vs 250 Å³ floor). Only covalent C172 locking breaks AP-1 DNA geometry.</div>
+          </div>
+
+          <div class="canvas-hud-br">Drag: 3D Orbit · Scroll: Zoom · Hover Atom: Inspect</div>
+          <div class="atom-tooltip" id="atomTooltip"></div>
+        </div>
+
+        <!-- LIVE 4-CELL TELEMETRY -->
+        <div class="telemetry-grid">
+          <div class="tele-cell">
+            <div class="tele-label" id="teleLbl1">C172–C285 S–S Dist</div>
+            <div class="tele-val" id="teleVal1">13.62 Å</div>
+            <div class="tele-sub" id="teleSub1">Backbone open · 11/12 DNA contacts</div>
+          </div>
+          <div class="tele-cell">
+            <div class="tele-label" id="teleLbl2">LIGSITE Largest Cavity</div>
+            <div class="tele-val" id="teleVal2">18 Å³</div>
+            <div class="tele-sub" id="teleSub2">Floor: 250 Å³ (UNDUGGABLE)</div>
+          </div>
+          <div class="tele-cell">
+            <div class="tele-label" id="teleLbl3">C172 Thiol State</div>
+            <div class="tele-val" id="teleVal3">32.2 Å² SASA</div>
+            <div class="tele-sub" id="teleSub3">Exposed, unactivated thiol</div>
+          </div>
+          <div class="tele-cell">
+            <div class="tele-label" id="teleLbl4">Active Candidate</div>
+            <div class="tele-val" id="teleVal4">−9.9 kcal/mol</div>
+            <div class="tele-sub" id="teleSub4">Phenacyl · 5/5 CNS MPO</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2D SYNCHRONIZED PLOT CARD -->
+      <div class="plot-card">
+        <div class="plot-header">
+          <div class="plot-tabs" id="plotTabsFosb">
+            <button class="plot-tab active" data-plot="ligsite" onclick="setPlotMode('ligsite')">10 ns LIGSITE Cavity Trajectory (40 Frames)</button>
+            <button class="plot-tab" data-plot="rmsf" onclick="setPlotMode('rmsf')">Full-Length ΔFosB Cα RMSF &amp; Disorder (1–237)</button>
+            <button class="plot-tab" data-plot="warheads" onclick="setPlotMode('warheads')">Warhead ΔE (GFN2 vs DFT) &amp; CNS MPO</button>
+          </div>
+          <div class="plot-tabs hidden" id="plotTabsMor">
+            <button class="plot-tab active" data-plot="mor_occ" onclick="setPlotMode('mor_occ')">Cheng–Prusoff MOR Occupancy &amp; TM6 Steric Barrier</button>
+          </div>
+          <span class="plot-hint" id="plotHint">Click/drag plot to scrub 10 ns MD trajectory</span>
+        </div>
+        <canvas id="plotCanvas"></canvas>
+      </div>
+    </div>
+
+    <!-- RIGHT: INTERACTIVE BIOPHYSICS & MED-CHEM BENCH -->
+    <div class="control-deck">
+
+      <!-- ================= SYSTEM A: ΔFOSB / JUND CONTROLS ================= -->
+      <div id="controlsFosb" style="display:flex; flex-direction:column; gap:13px;">
+
+        <!-- MODULE 1: CONFORMATIONAL SCRUBBER & DISORDER -->
+        <div class="ctrl-card">
+          <div class="ctrl-kicker">
+            <span>01 · CONFORMATIONAL MORPH &amp; MD ARCHITECTURE</span>
+            <span id="morphBadge" style="color:var(--muted2);">5VPE (1.52 Å RMSD)</span>
+          </div>
+          <div class="ctrl-title">Redox Backbone Closure &amp; Thermal Whip</div>
+          <p class="ctrl-desc">Scrub from DNA-bound <strong>5VPE (13.62 Å)</strong> → Reduced Apo <strong>7UCC (9.03 Å)</strong> → Oxidised Disulfide <strong>5VPB (2.03 Å)</strong>. Forming the unstrained disulfide (<strong>1.44 kcal/mol</strong>, χ<sub>3</sub> = <strong>90.9°</strong>) forces <strong>11.59 Å</strong> of backbone closure, geometrically ejecting AP-1 DNA.</p>
+
+          <div class="slider-row">
+            <div class="slider-top">
+              <span class="lbl">Conformational State Scrubber</span>
+              <span class="val" id="lblMorphState">5VPE · DNA-Bound (S–S 13.62 Å)</span>
+            </div>
+            <input type="range" id="sliderMorph" min="0" max="2" step="0.01" value="0" oninput="onMorphInput(this.value)">
+            <div class="state-stops">
+              <button class="stop-btn active" id="stop0" onclick="animateMorphTo(0)">5VPE · DNA (13.62 Å)</button>
+              <button class="stop-btn" id="stop1" onclick="animateMorphTo(1)">7UCC · Apo (9.03 Å)</button>
+              <button class="stop-btn" id="stop2" onclick="animateMorphTo(2)">5VPB · S–S (2.03 Å)</button>
+            </div>
+          </div>
+
+          <div class="slider-row" style="margin-top:12px;">
+            <div class="slider-top">
+              <span class="lbl">Langevin Thermal Breathing (Cα RMSF Scale)</span>
+              <span class="val" id="lblThermal">1.0× (310 K MD)</span>
+            </div>
+            <input type="range" id="sliderThermal" min="0" max="2.5" step="0.05" value="1.0" oninput="onThermalInput(this.value)">
+          </div>
+
+          <div class="toggle-grid">
+            <button class="toggle-btn" id="btnFullLength" onclick="toggleFullLength()">
+              <span>Full-Length 237 aa Chain</span><span id="indFull">OFF</span>
+            </button>
+            <button class="toggle-btn" id="btnRmsfColor" onclick="toggleRmsfColor()">
+              <span>RMSF Heatmap Coloring</span><span id="indRmsf">OFF</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- MODULE 2: LIVE 3D LIGSITE VOLUMETRIC CAVITY INSPECTOR -->
+        <div class="ctrl-card highlight-cyan">
+          <div class="ctrl-kicker">
+            <span style="color:var(--cyan);">02 · LIGSITE VOLUMETRIC CAVITY INSPECTOR</span>
+            <span id="lblLigsiteMean" style="color:var(--muted2);">Mean: 42.7 Å³</span>
+          </div>
+          <div class="ctrl-title">"There Is No Pocket" — 10 ns Apo Trajectory</div>
+          <p class="ctrl-desc">Static dimer largest cavity is a tiny <strong>18 Å³</strong> speck. Across 40 apo frames, 0 frames reach <strong>250 Å³</strong>. Peak transient pocket at <strong>6.64 ns (173 Å³)</strong> opens directly on the <strong>C172/C285 redox switch</strong>; leucine zipper has <strong>0 cavities</strong>.</p>
+
+          <div class="slider-row">
+            <div class="slider-top">
+              <span class="lbl">Apo Trajectory Scrubber (Frame 0 = Static)</span>
+              <span class="val" id="lblFrameVal" style="color:var(--cyan);">Static · 18 Å³</span>
+            </div>
+            <input type="range" id="sliderFrame" min="0" max="40" step="1" value="0" oninput="onFrameInput(this.value)">
+          </div>
+
+          <div class="toggle-grid">
+            <button class="toggle-btn active-cyan" id="btnShowCavity" onclick="toggleCavityMesh()">
+              <span>3D LIGSITE Voxels</span><span id="indCav">ON</span>
+            </button>
+            <button class="toggle-btn" id="btnPeakJump" onclick="jumpToPeakFrame()">
+              <span>Jump Peak (6.64 ns)</span><span style="color:var(--cyan);">173 Å³</span>
+            </button>
+            <button class="toggle-btn" id="btnFloorSphere" onclick="toggleFloorSphere()">
+              <span>250 Å³ Druggable Floor</span><span id="indFloor">OFF</span>
+            </button>
+            <button class="toggle-btn" id="btnHivControl" onclick="toggleHivControl()">
+              <span>1HSG HIV-1 Control (368 Å³)</span><span id="indHiv">OFF</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- MODULE 3: C172 QUANTUM ELECTROSTATIC CAGE -->
+        <div class="ctrl-card highlight-violet">
+          <div class="ctrl-kicker">
+            <span style="color:var(--violet);">03 · C172 QUANTUM CAGE &amp; COUNTER-ION SCREENING</span>
+            <span style="color:var(--muted2);">8 Å Sphere · 6 Cations / 0 Acids</span>
+          </div>
+          <div class="ctrl-title">The 8.1-Unit ΔpK<sub>a</sub> Negative Result</div>
+          <p class="ctrl-desc">6 cations (<strong>K171, R173, R175, R176, JunD R286, K289</strong>) surround C172, yet nearest polar N is <strong>3.85 Å</strong> and nearest cation <strong>4.29 Å</strong>. Unscreened +5 DFT falsely predicts an activated thiolate; adding <strong>5 Cl⁻ counter-ions</strong> flips the sign across <strong>8.1 units</strong>.</p>
+
+          <div class="toggle-grid">
+            <button class="toggle-btn" id="btnCageZoom" onclick="toggleCageZoom()">
+              <span>Zoom 8 Å C172 Cage</span><span id="indCage">OFF</span>
+            </button>
+            <button class="toggle-btn active-violet" id="btnCounterIons" onclick="toggleCounterIons()">
+              <span>5 Cl⁻ + Solvent Screening</span><span id="indIons">ON</span>
+            </button>
+          </div>
+
+          <div class="pka-meter">
+            <div style="display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:11px;">
+              <span id="lblQmModel" style="color:#ddd;">GFN2-xTB/ALPB + 5 Cl⁻ (Charge-Neutral)</span>
+              <span id="lblPkaVal" style="color:var(--cyan); font-weight:600;">ΔpKₐ = +4.00</span>
+            </div>
+            <div class="pka-track">
+              <div class="pka-needle" id="pkaNeedle" style="left:86%;"></div>
+            </div>
+            <div class="pka-scale">
+              <span style="color:var(--danger);">−4.09 (Bare +5 PBE0 Artifact)</span>
+              <span>0.0 (Free Cys)</span>
+              <span style="color:var(--emerald);">+4.00 (5 Cl⁻ Screened)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODULE 4: COVALENT WARHEAD & CNS MPO BENCH -->
+        <div class="ctrl-card highlight-orange">
+          <div class="ctrl-kicker">
+            <span style="color:var(--accent2);">04 · COVALENT WARHEAD &amp; CNS MPO BENCH</span>
+            <button class="mini-btn" id="btnDftToggle" onclick="toggleTheoryLevel()" title="Switch between Semiempirical GFN2-xTB and ωB97X-D/def2-SVP DFT">QM: ωB97X-D DFT</button>
+          </div>
+          <div class="ctrl-title">Target Reactivity vs Proteome &amp; BBB Conflict</div>
+          <p class="ctrl-desc">Because C172 is unactivated, hot warheads (−30 kcal/mol) alkylate the proteome indiscriminately, while anionic <strong>9OC3</strong> groove binders fail CNS entry. Select a ligand class to test in 3D:</p>
+
+          <div class="warhead-list" id="warheadList">
+            <div class="wh-item" data-wh="maleimide" onclick="selectWarhead('maleimide')">
+              <div class="wh-top">
+                <span class="wh-name">(a) Maleimide</span>
+                <span class="wh-badge bad">PROTEOME SPLATTER</span>
+              </div>
+              <div class="wh-metrics">
+                <span>ΔE: <strong>−34.2 kcal/mol</strong></span>
+                <span>ω: <strong>21.6 eV</strong></span>
+                <span>CNS: 4/5</span>
+              </div>
+            </div>
+
+            <div class="wh-item" data-wh="acrylamide" onclick="selectWarhead('acrylamide')">
+              <div class="wh-top">
+                <span class="wh-name">(b) Acrylamide / Vinyl Sulfone</span>
+                <span class="wh-badge wrn">TOO EXERGONIC</span>
+              </div>
+              <div class="wh-metrics">
+                <span>ΔE: <strong>−29 to −32 kcal/mol</strong></span>
+                <span>ω: <strong>9.5–14.1 eV</strong></span>
+                <span>No pocket K<sub>I</sub></span>
+              </div>
+            </div>
+
+            <div class="wh-item" data-wh="epoxide" onclick="selectWarhead('epoxide')">
+              <div class="wh-top">
+                <span class="wh-name">(c) Epoxide (Glycidamide)</span>
+                <span class="wh-badge vio">13 kcal/mol GFN2 ARTIFACT</span>
+              </div>
+              <div class="wh-metrics">
+                <span id="epoxMetric">ΔE: −23.9 (GFN2) → <strong style="color:var(--danger);">−37.1 (DFT)</strong></span>
+                <span>ω: 7.8 eV</span>
+              </div>
+            </div>
+
+            <div class="wh-item" data-wh="anionic9oc3" onclick="selectWarhead('anionic9oc3')">
+              <div class="wh-top">
+                <span class="wh-name">(d) Anionic 9OC3 Sulfonate / Tetrazole</span>
+                <span class="wh-badge bad">BLOCKED AT BBB (3/5)</span>
+              </div>
+              <div class="wh-metrics">
+                <span>Non-covalent (K171/R175/R182)</span>
+                <span>TPSA: <strong>115 Å²</strong></span>
+                <span>Ionised pH 7.4</span>
+              </div>
+            </div>
+
+            <div class="wh-item active" data-wh="phenacyl" onclick="selectWarhead('phenacyl')">
+              <div class="wh-top">
+                <span class="wh-name">(e) Hybrid Benzofuranone Phenacyl</span>
+                <span class="wh-badge opt">OPTIMAL · 5/5 CNS</span>
+              </div>
+              <div class="wh-metrics">
+                <span>ΔE: <strong style="color:var(--accent);">−9.9 kcal/mol</strong></span>
+                <span>ω: 7.2–16.9 eV</span>
+                <span>TPSA: 64 Å² · 1.85 Å C–S</span>
+              </div>
+            </div>
+
+            <div class="wh-item" data-wh="mv0trap" onclick="selectWarhead('mv0trap')">
+              <div class="wh-top">
+                <span class="wh-name">(f) PDB 7UCD Deposited "MV0" Model</span>
+                <span class="wh-badge wrn">MISSING LEAVING GROUP</span>
+              </div>
+              <div class="wh-metrics">
+                <span>7-acetyl-4-methoxy-benzofuranone</span>
+                <span>Unreactive α-CH₃ ketone trap!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ================= SYSTEM B: MOR QUANTUM STERICS CONTROLS ================= -->
+      <div id="controlsMor" class="hidden" style="display:flex; flex-direction:column; gap:13px;">
+
+        <div class="ctrl-card highlight-cyan">
+          <div class="ctrl-kicker">
+            <span style="color:var(--cyan);">01 · ARTICLE 06 — QUANTUM vs CLASSICAL BOHR MODEL</span>
+            <span>Membrane &amp; Pocket</span>
+          </div>
+          <div class="ctrl-title">Why Classical Chemistry Collapses the Brain</div>
+          <p class="ctrl-desc">Toggle between quantum electron probability clouds (instantaneous dipole <strong>London dispersion</strong> holding the phospholipid bilayer together) and school-taught classical Bohr orbits (zero dispersion → membrane &amp; receptor failure; radiative collapse in <strong>10⁻¹¹ s</strong>).</p>
+          <div class="toggle-grid">
+            <button class="toggle-btn active-cyan" id="btnQmReal" onclick="setQuantumFoundation(true)">
+              <span>Quantum |ψ|² + Dispersion</span><span>ACTIVE</span>
+            </button>
+            <button class="toggle-btn" id="btnQmBohr" onclick="setQuantumFoundation(false)">
+              <span>Classical Bohr Atom</span><span>TEST FAILURE</span>
+            </button>
+            <button class="toggle-btn active-violet full-span" id="btnFrontierOrb" onclick="toggleFrontierOrbitals()">
+              <span>Render HOMO / LUMO Frontier Molecular Orbitals</span><span id="indHomo">ON</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="ctrl-card">
+          <div class="ctrl-kicker">
+            <span>02 · ORTHOSTERIC SUBSTITUENT &amp; TM6 STERIC LOCKOUT</span>
+            <span>Asp147 Salt-Bridge</span>
+          </div>
+          <div class="ctrl-title">Swap N-Methyl (Morphine) vs Allyl Arm (Naloxone)</div>
+          <p class="ctrl-desc">Both ligands anchor via protonated amine to <strong>Asp147 (TM3, 2.80 Å)</strong>. Morphine's compact <code>-CH₃</code> lets <strong>TM6 swing out ~10.2 Å</strong> so <strong>G<sub>i</sub></strong> docks. Naloxone's rigid sp² <code>-CH₂-CH=CH₂</code> allyl arm jams <strong>Trp293 / TM6</strong> shut.</p>
+
+          <div class="warhead-list">
+            <div class="wh-item" id="morLigMorphine" onclick="setMorLigand('morphine')">
+              <div class="wh-top">
+                <span class="wh-name">Morphine (Full/Partial Agonist · -CH₃)</span>
+                <span class="wh-badge wrn">TM6 OPEN · Gi ON</span>
+              </div>
+              <div class="wh-metrics">
+                <span>K<sub>d</sub> ≈ <strong>4.0 nM</strong></span>
+                <span>Compact N-methyl</span>
+                <span>cAMP ↓ · Analgesia / Resp Dep</span>
+              </div>
+            </div>
+
+            <div class="wh-item active" id="morLigNaloxone" onclick="setMorLigand('naloxone')">
+              <div class="wh-top">
+                <span class="wh-name">Naloxone (Competitive Antagonist · Allyl)</span>
+                <span class="wh-badge opt">3× AFFINITY · TM6 JAMMED</span>
+              </div>
+              <div class="wh-metrics">
+                <span>K<sub>d</sub> ≈ <strong style="color:var(--accent);">1.5 nM</strong></span>
+                <span>Rigid <code>-CH₂-CH=CH₂</code></span>
+                <span>t<sub>½</sub> 60–90 min rescue</span>
+              </div>
+            </div>
+
+            <div class="wh-item" id="morLigFentanyl" onclick="setMorLigand('fentanyl')">
+              <div class="wh-top">
+                <span class="wh-name">Fentanyl (Lipophilic 4-Anilinopiperidine)</span>
+                <span class="wh-badge bad">RENARCOTIZATION RISK</span>
+              </div>
+              <div class="wh-metrics">
+                <span>K<sub>d</sub> ≈ <strong>0.8 nM</strong></span>
+                <span>t<sub>½</sub> 3–8 hrs &gt; Naloxone</span>
+                <span>Deep TM2/TM3/TM6 engagement</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ctrl-card highlight-violet">
+          <div class="ctrl-kicker">
+            <span style="color:var(--violet);">03 · COMPETITIVE DISPLACEMENT (CHENG–PRUSOFF)</span>
+            <a href="./naloxone_sim.html" style="color:var(--accent); text-decoration:none;">Full Lab 05 →</a>
+          </div>
+          <div class="ctrl-title">Live Concentration Competition</div>
+          <div class="slider-row">
+            <div class="slider-top">
+              <span class="lbl">[Naloxone] Antagonist</span>
+              <span class="val" id="lblMorNalConc">15.0 nM</span>
+            </div>
+            <input type="range" id="sliderMorNal" min="0" max="100" step="0.5" value="15" oninput="onMorConcInput()">
+          </div>
+          <div class="slider-row">
+            <div class="slider-top">
+              <span class="lbl">[Opioid Agonist]</span>
+              <span class="val" id="lblMorAgoConc" style="color:var(--accent2);">10.0 nM</span>
+            </div>
+            <input type="range" id="sliderMorAgo" min="0" max="100" step="0.5" value="10" oninput="onMorConcInput()">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- DYNAMIC RISHIK COMPUTATIONAL RECEIPT -->
+      <div class="receipt-box">
+        <div class="receipt-kicker" id="receiptKicker">RISHIK'S COMPUTATIONAL RECEIPT · ARTICLE 07 §6–9</div>
+        <div class="receipt-text" id="receiptText">
+          <strong>Why the hybrid phenacyl wins on both grounds:</strong> ΔFosB/JunD buries <strong>1,524 Å²/side</strong> against DNA with no enclosed pocket (18 Å³ static). Because C172 is an unactivated surface thiol, −30 kcal/mol Michael acceptors label the proteome indiscriminately, while 9OC3 anionic effectors (TPSA 115 Å², 3/5 CNS) fail BBB penetration. A mild phenacyl warhead (−9.9 kcal/mol) on a neutral groove scaffold meets <strong>5/5 CNS criteria</strong> and locks C172 out of the AP-1 major groove.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <a href="./index.html" class="footer-logo">Neuroscience with <span>RPrime</span></a>
+    <div class="footer-note">© 2026 Rishik Pannala · Computational Biophysics &amp; Quantum Neuropharmacology Workbench</div>
+  </footer>
+</main>
+
+<!-- SLIDE-OVER DRAWER: QM/MD DATA & EQUATIONS -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="toggleDrawer(false)"></div>
+<aside class="drawer" id="eqDrawer" aria-label="QM/MD Data and Equations">
+  <div class="drawer-head">
+    <div class="drawer-title">QM / MD Methods, Equations &amp; Structural Data</div>
+    <button class="nav-btn" onclick="toggleDrawer(false)">✕ Close</button>
+  </div>
+  <div class="drawer-body">
+    <h3>1. Full-Length ΔFosB (UniProt P53539-11, 237 aa) MD Architecture</h3>
+    <p>Simulated in OpenMM 8.6.1 (`amber14SB`, HMR, Langevin integrator). Threaded onto `1FOS` and validated blindly against held-out crystal structure `5VPE`: **1.52 Å Cα RMSD** over all 117 shared positions and **11/12 crystallographic DNA contacts** recovered (precision 0.85, recall 0.92).</p>
+    <table class="qm-table">
+      <tr><th>Region (P53539-11)</th><th>Residues</th><th>Cα RMSF</th><th>Ordered</th><th>Tractability Note</th></tr>
+      <tr><td>N-terminal tail</td><td>1–54</td><td>4.45 Å</td><td>0.00</td><td>Intrinsically disordered</td></tr>
+      <tr><td>Linker island</td><td>55–78</td><td>4.34 Å</td><td><strong>0.51</strong></td><td>Sole partial order outside bZIP</td></tr>
+      <tr><td>Transactivation core</td><td>79–149</td><td><strong>8.79 Å</strong></td><td>0.03</td><td>2.8× zipper fluctuation</td></tr>
+      <tr><td>Basic DNA-binding</td><td>157–182</td><td><strong>3.29 Å</strong></td><td><strong>0.92</strong></td><td>Contains C172 redox switch</td></tr>
+      <tr><td>Leucine zipper</td><td>183–211</td><td><strong>3.00 Å</strong></td><td>0.87</td><td>Rigid; 0 cavities; 0 DNA contacts</td></tr>
+      <tr><td>Retained C-tail</td><td>219–237</td><td>7.27 Å</td><td>0.16</td><td>Truncated splice tail</td></tr>
+    </table>
+
+    <h3>2. Redox Geometry &amp; Unstrained Disulfide Mechanics</h3>
+    <div class="eq-box">
+      <div class="eq-lbl">Backbone Closure &amp; Disulfide Strain</div>
+      $$ \Delta d_{\mathrm{S\text{–}S}} = d_{\mathrm{5VPE}}(13.62\,\text{\AA}) - d_{\mathrm{5VPB}}(2.03\,\text{\AA}) = \mathbf{11.59\,\text{\AA}} $$
+      $$ \Delta E_{\mathrm{strain}}(\mathrm{C172\text{–}C285}) = \mathbf{1.44\;\mathrm{kcal\,mol^{-1}}}, \qquad \chi_3(\mathrm{C_\beta\text{–}S\text{–}S\text{–}C_\beta}) = \mathbf{90.9^\circ} $$
+    </div>
+    <p><strong>Methodological trap recorded:</strong> Omitting hydrogen relaxation prior to single-point evaluation inflates apparent disulfide strain by **+26.0 kcal/mol** (to ~27.4 kcal/mol). Furthermore, UniProt `P53539-2` (302 aa) deletes residues `150–185` (removing the DNA-binding basic region) — `P53539-11` (237 aa) is the true ΔFosB isoform.</p>
+
+    <h3>3. C172 Counter-Ion Screening &amp; The 8.1-Unit ΔpK<sub>a</sub> Span</h3>
+    <div class="eq-box">
+      <div class="eq-lbl">Protonation Thermodynamic Cycle &amp; Monopole Bias</div>
+      $$ \Delta\mathrm{p}K_a = \frac{\Delta G_{\mathrm{deprot}}(\text{protein cluster}) - \Delta G_{\mathrm{deprot}}(\text{ref Cys})}{2.303\,RT} $$
+      $$ \Delta\mathrm{p}K_a \in \big[\,\mathbf{-4.09}\;(\text{PBE0/def2-SVP + IEFPCM, bare }+5),\;\; \mathbf{+4.00}\;(\text{GFN2-xTB/ALPB + }5\,\mathrm{Cl^-})\,\big] $$
+    </div>
+    <p>Within 8 Å of C172 Sγ sit 6 cationic residues (`K171, R173, R175, R176, JunD R286, K289`) and 0 acids, yet no H-bond donor is `&lt; 4 Å` (nearest polar N: `R173` at **3.85 Å**; nearest cation: **4.29 Å**; SASA **47.6 Å²** apo → **32.2 Å²** DNA-bound). Deprotonating an unscreened `+5` cluster drops total charge to `+4`, creating a purely electrostatic artifact.</p>
+
+    <h3>4. LIGSITE Buriedness &amp; Covalent Electrophilicity</h3>
+    <div class="eq-box">
+      <div class="eq-lbl">Parr Global Electrophilicity Index &amp; DFT Validation</div>
+      $$ \omega = \frac{\mu^2}{2\eta}, \qquad \mu \approx \frac{\varepsilon_{\mathrm{HOMO}} + \varepsilon_{\mathrm{LUMO}}}{2}, \qquad \eta \approx \varepsilon_{\mathrm{LUMO}} - \varepsilon_{\mathrm{HOMO}} $$
+    </div>
+    <p>Across 38 warhead species, single-point `ωB97X-D/def2-SVP` preserves `GFN2-xTB` ordering ($\rho = 0.773$, $p = 0.005$, mean offset $+0.5\;\text{kcal/mol}$) except **epoxide ring opening**, which `GFN2-xTB` underestimates by **~13.2 kcal/mol** (`−23.9` vs `−37.1 kcal/mol` at DFT). Note also that deposited `7UCD` ligand `MV0` lacks the α-leaving group required for C172 alkylation (`1.85 Å` C–S bond).</p>
+
+    <h3>5. Quantum Dispersion &amp; MOR Competitive Sterics (Article 06)</h3>
+    <div class="eq-box">
+      <div class="eq-lbl">London Dispersion &amp; Cheng–Prusoff Competitive Occupancy</div>
+      $$ E_{\mathrm{disp}} = -\sum_{i<j} f_{\mathrm{damp}}(r_{ij})\left(\frac{C_6^{ij}}{r_{ij}^6} + \frac{C_8^{ij}}{r_{ij}^8}\right), \qquad \theta_{\mathrm{ago}} = \frac{[A]/K_A}{1 + [A]/K_A + [N]/K_N} $$
+    </div>
+    <p>Instantaneous electron density fluctuations ($\langle \hat{\mu}_i \hat{\mu}_j \rangle \neq 0$) stabilize phospholipid acyl chains and hydrophobic receptor pockets; in MOR, Naloxone ($K_d \approx 1.5\;\text{nM}$) outcompetes Morphine ($K_d \approx 4.0\;\text{nM}$) while its rigid allyl π-bond sterically blocks `Trp293` / `TM6` outward activation.</p>
+  </div>
+</aside>
+
+<script>
+// ============================================================================
+// QUANTUM & COVALENT POCKET LAB — ZERO-DEPENDENCY 3D BIOPHYSICS ENGINE
+// Author: Neuroscience with RPrime (Rishik Pannala Article 06 & Article 07)
+// ============================================================================
+
+(function() {
+  'use strict';
+
+  // --- EXACT 40-FRAME LIGSITE APO TRAJECTORY DATA (Article 07 §7) ---
+  // Mean = 42.70 Å³ exact (sum = 1708 / 40), Max = 173 Å³ at Frame 27 (6.64 ns),
+  // Exactly 4 frames > 100 Å³ (109, 118, 173, 112), 0 frames >= 250 Å³!
+  const LIGSITE_STATIC = 18;
+  const LIGSITE_FRAMES = [
+    18, 22, 19, 26, 33, 28, 21, 17, 25, 38, 52, 69,
+    76, 109, 61, 39, 28, 22, 18, 15, 21, 32, 43, 34,
+    49, 118, 173, 112, 72, 58, 38, 27, 21, 17, 24, 34,
+    31, 26, 23, 19
+  ];
+  const FRAME_TIMES_NS = LIGSITE_FRAMES.map((_, idx) =>
+    idx === 26 ? 6.64 : +(((idx + 1) * 0.25)).toFixed(2)
+  );
+
+  // --- FULL-LENGTH ΔFOSB MD ARCHITECTURE REGIONS (Article 07 §5) ---
+  const FOSB_REGIONS = [
+    { name: 'N-terminal (1–54)', start: 1, end: 54, rmsf: 4.45, ordered: 0.00, color: '#ffb800' },
+    { name: 'Linker Island (55–78)', start: 55, end: 78, rmsf: 4.34, ordered: 0.51, color: '#ffd166' },
+    { name: 'Transactivation Core (79–149)', start: 79, end: 149, rmsf: 8.79, ordered: 0.03, color: '#ff2a6d' },
+    { name: 'Pre-basic hinge (150–156)', start: 150, end: 156, rmsf: 5.10, ordered: 0.35, color: '#ff8c42' },
+    { name: 'Basic DNA-Binding (157–182)', start: 157, end: 182, rmsf: 3.29, ordered: 0.92, color: '#c8ff00' },
+    { name: 'Leucine Zipper (183–211)', start: 183, end: 211, rmsf: 3.00, ordered: 0.87, color: '#00e5ff' },
+    { name: 'Zipper C-cap (212–218)', start: 212, end: 218, rmsf: 4.80, ordered: 0.40, color: '#ff9f1c' },
+    { name: 'Retained C-tail (219–237)', start: 219, end: 237, rmsf: 7.27, ordered: 0.16, color: '#ff6b35' }
+  ];
+
+  // --- WARHEAD & CANDIDATE LIBRARY (Article 07 §8–9) ---
+  const WARHEADS = {
+    maleimide: {
+      name: 'Maleimide',
+      dE_gfn2: -34.2, dE_dft: -34.2,
+      omega: '21.6 eV', tpsa: 49, cns: '4/5',
+      offTarget: 0.94, bbbPass: true, covalent: true, reactive: true,
+      verdict: 'TOXIC OFF-TARGET',
+      color: '#ff3355',
+      receipt: '<strong>Maleimide (−34.2 kcal/mol, ω = 21.6 eV):</strong> Because C172 is an unactivated exposed thiol with no pocket to provide non-covalent K<sub>I</sub> selectivity, a hyper-electrophilic Michael acceptor alkylates glutathione and surface cysteines proteome-wide (red off-target splatter).'
+    },
+    acrylamide: {
+      name: 'Acrylamide / Vinyl Sulfone',
+      dE_gfn2: -30.5, dE_dft: -31.0,
+      omega: '9.5–14.1 eV', tpsa: 58, cns: '4/5',
+      offTarget: 0.62, bbbPass: true, covalent: true, reactive: true,
+      verdict: 'TOO EXERGONIC',
+      color: '#ff6b35',
+      receipt: '<strong>Acrylamide / Vinyl Sulfone (−29 to −32 kcal/mol; Cyanoacrylamide −27.0 kcal/mol):</strong> Roughly 3× more exergonic than the validated phenacyl window. Kinase inhibitors get away with acrylamides only because a deep ATP pocket (&gt;300 Å³) supplies high-affinity pre-organization; ΔFosB has 18 Å³.'
+    },
+    epoxide: {
+      name: 'Epoxide (Glycidamide)',
+      dE_gfn2: -23.9, dE_dft: -37.1,
+      omega: '7.8 eV', tpsa: 65, cns: '4/5',
+      offTarget: 0.88, bbbPass: true, covalent: true, reactive: true,
+      verdict: '13.2 kcal/mol GFN2 TRAP',
+      color: '#9b88ff',
+      receipt: '<strong>The Semiempirical Epoxide Artifact:</strong> Across 38 species, ωB97X-D/def2-SVP agrees with GFN2-xTB (Spearman ρ = 0.773, p = 0.005, mean offset +0.5 kcal/mol) EXCEPT for epoxide ring opening, which GFN2-xTB underestimates by ~13.2 kcal/mol (−23.9 vs −37.1 kcal/mol at DFT — the hottest warhead in the entire set!).'
+    },
+    anionic9oc3: {
+      name: '9OC3 Anionic Sulfonate / Tetrazole',
+      dE_gfn2: -6.4, dE_dft: -6.8,
+      omega: 'Non-cov', tpsa: 115, cns: '3/5',
+      offTarget: 0.04, bbbPass: false, covalent: false, reactive: false,
+      verdict: 'BBB BLOCKED (3/5 CNS)',
+      color: '#ff3355',
+      receipt: '<strong>Unsolvable CNS Conflict in 9OC3:</strong> Engaging the cationic groove (K171, R175, R182) requires an anionic group (sulfonate, carboxylate, or tetrazole — all ionised at pH 7.4), pushing TPSA to 105–122 Å² and dropping CNS MPO to 3/5. ΔFosB acts inside striatal nuclei; a BBB-impermeable probe fails in vivo.'
+    },
+    phenacyl: {
+      name: 'Hybrid Benzofuranone Phenacyl',
+      dE_gfn2: -9.4, dE_dft: -9.9,
+      omega: '7.2–16.9 eV', tpsa: 64, cns: '5/5',
+      offTarget: 0.05, bbbPass: true, covalent: true, reactive: true,
+      verdict: 'OPTIMAL 5/5 CNS',
+      color: '#c8ff00',
+      receipt: '<strong>Optimal Design (−9.9 kcal/mol, 5/5 CNS, 0 PAINS):</strong> Mild phenacyl warhead (~3× less exergonic than Michael acceptors) tethered to a neutral groove-binding motif. Crosses the BBB cleanly, spares off-target thiols, and forms the 1.85 Å C–S adduct on C172 to lock ΔFosB out of AP-1 DNA.'
+    },
+    mv0trap: {
+      name: 'Deposited 7UCD "MV0" Ketone',
+      dE_gfn2: 0.0, dE_dft: 0.0,
+      omega: 'Unreactive', tpsa: 56, cns: '5/5',
+      offTarget: 0.0, bbbPass: true, covalent: false, reactive: false,
+      verdict: 'MISSING LEAVING GROUP',
+      color: '#ffb800',
+      receipt: '<strong>PDB 7UCD Structural Trap:</strong> In crystal structure 7UCD, ligand MV0 (7-acetyl-4-methoxy-1-benzofuran-3(2H)-one) is bonded to C172 at 1.85 Å. Yet MV0 itself has no leaving group on that α-carbon and is non-electrophilic! Copying MV0 directly from the PDB produces dead analogues.'
+    }
+  };
+
+  // --- SIMULATION STATE ---
+  const state = {
+    system: 'fosb',          // 'fosb' | 'mor'
+    morph: 0.0,              // 0.0 = 5VPE (13.62 Å), 1.0 = 7UCC (9.03 Å), 2.0 = 5VPB (2.03 Å)
+    morphTarget: null,
+    thermal: 1.0,            // Langevin RMSF multiplier
+    fullLength: false,       // Show 1-237 chain
+    rmsfColor: false,        // Color by RMSF table
+    frame: 0,                // 0 = Static (18 Å³), 1..40 = 10 ns apo frames
+    showCavity: true,        // 3D LIGSITE voxels
+    showFloorSphere: false,  // 250 Å³ benchmark sphere
+    showHivControl: false,   // 368 Å³ 1HSG side-by-side control
+    cageZoom: false,         // Zoom 8 Å around C172
+    counterIons: true,       // true = 5 Cl- screened (+4.00), false = bare +5 (-4.09)
+    warhead: 'phenacyl',
+    useDft: true,            // true = ωB97X-D/def2-SVP, false = GFN2-xTB
+    plotMode: 'ligsite',     // 'ligsite' | 'rmsf' | 'warheads' | 'mor_occ'
+
+    // MOR State
+    quantumReal: true,       // true = Quantum |psi|^2 + dispersion, false = Classical Bohr
+    showOrbitals: true,      // HOMO/LUMO lobes
+    morLigand: 'naloxone',   // 'morphine' | 'naloxone' | 'fentanyl'
+    nalConc: 15.0,           // nM
+    agoConc: 10.0,           // nM
+
+    // Camera & Viewport
+    yaw: 0.48,
+    pitch: 0.20,
+    zoom: 1.0,
+    panX: 0,
+    panY: 0,
+    targetYaw: null,
+    targetPitch: null,
+    targetZoom: null,
+    targetPanX: null,
+    targetPanY: null,
+    autoSpin: true,
+    showLabels: true,
+    reelMode: false,
+    time: 0
+  };
+
+  // --- DOM REFERENCES ---
+  const molCanvas = document.getElementById('molCanvas');
+  const ctx = molCanvas.getContext('2d');
+  const canvasWrap = document.getElementById('canvasWrap');
+  const plotCanvas = document.getElementById('plotCanvas');
+  const pctx = plotCanvas.getContext('2d');
+  const tooltipEl = document.getElementById('atomTooltip');
+
+  let dpr = Math.min(window.devicePixelRatio || 1, 2);
+  let cw = 800, ch = 550;
+  let pw = 800, ph = 185;
+
+  function resizeCanvases() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const rect = canvasWrap.getBoundingClientRect();
+    cw = Math.max(300, rect.width);
+    ch = Math.max(320, rect.height);
+    molCanvas.width = Math.round(cw * dpr);
+    molCanvas.height = Math.round(ch * dpr);
+
+    const prect = plotCanvas.getBoundingClientRect();
+    if (prect.width > 40) {
+      pw = prect.width;
+      ph = prect.height || 185;
+      plotCanvas.width = Math.round(pw * dpr);
+      plotCanvas.height = Math.round(ph * dpr);
+    }
+  }
+  window.addEventListener('resize', resizeCanvases);
+
+  // --- POINTER INTERACTION (3D ORBIT, ZOOM, HOVER) ---
+  let isDragging = false;
+  let dragStartX = 0, dragStartY = 0;
+  let hoverScreenX = -999, hoverScreenY = -999;
+  let hoveredInteractive = null;
+
+  canvasWrap.addEventListener('pointerdown', (e) => {
+    isDragging = true;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    state.targetYaw = null;
+    state.targetPitch = null;
+    canvasWrap.setPointerCapture(e.pointerId);
+  });
+
+  canvasWrap.addEventListener('pointermove', (e) => {
+    const r = canvasWrap.getBoundingClientRect();
+    hoverScreenX = e.clientX - r.left;
+    hoverScreenY = e.clientY - r.top;
+    if (!isDragging) return;
+    const dx = e.clientX - dragStartX;
+    const dy = e.clientY - dragStartY;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    if (e.shiftKey) {
+      state.panX += dx;
+      state.panY += dy;
+    } else {
+      state.yaw += dx * 0.0075;
+      state.pitch = Math.max(-1.35, Math.min(1.35, state.pitch + dy * 0.0075));
+    }
+  });
+
+  canvasWrap.addEventListener('pointerup', () => { isDragging = false; });
+  canvasWrap.addEventListener('pointerleave', () => {
+    isDragging = false;
+    hoverScreenX = -999;
+    hoverScreenY = -999;
+    tooltipEl.style.display = 'none';
+  });
+
+  canvasWrap.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    state.targetZoom = null;
+    const factor = e.deltaY < 0 ? 1.09 : 0.92;
+    state.zoom = Math.max(0.45, Math.min(3.8, state.zoom * factor));
+  }, { passive: false });
+
+  // Plot Canvas Scrubbing
+  let plotDragging = false;
+  function handlePlotScrub(e) {
+    if (state.system !== 'fosb' || state.plotMode !== 'ligsite') return;
+    const r = plotCanvas.getBoundingClientRect();
+    const x = e.clientX - r.left;
+    const padL = 48, padR = 20;
+    const frac = Math.max(0, Math.min(1, (x - padL) / Math.max(1, r.width - padL - padR)));
+    const f = Math.round(frac * 40);
+    document.getElementById('sliderFrame').value = f;
+    onFrameInput(f);
+  }
+  plotCanvas.addEventListener('pointerdown', (e) => {
+    plotDragging = true;
+    handlePlotScrub(e);
+  });
+  window.addEventListener('pointermove', (e) => {
+    if (plotDragging) handlePlotScrub(e);
+  });
+  window.addEventListener('pointerup', () => { plotDragging = false; });
+
+  // --- PRE-GENERATED DETERMINISTIC VOXEL & DISORDER TABLES ---
+  // Deterministic pseudo-random helper so frames are repeatable
+  function hashNoise(n) {
+    const s = Math.sin(n * 127.1 + 311.7) * 43758.5453123;
+    return s - Math.floor(s);
+  }
+
+  // Precompute 3D lattice points inside a sphere for LIGSITE voxel rendering
+  const UNIT_LATTICE = [];
+  for (let gx = -5; gx <= 5; gx++) {
+    for (let gy = -5; gy <= 5; gy++) {
+      for (let gz = -5; gz <= 5; gz++) {
+        const d2 = gx * gx + gy * gy + gz * gz;
+        if (d2 <= 25) {
+          UNIT_LATTICE.push({ gx, gy, gz, r: Math.sqrt(d2) });
+        }
+      }
+    }
+  }
+  UNIT_LATTICE.sort((a, b) => a.r - b.r);
+
+  // Precompute background cellular proteome thiols for off-target splatter demo
+  const PROTEOME_THIOLS = [
+    { label: 'GSH Cys-SH #1', x: -24, y: 14, z: -10 },
+    { label: 'Albumin Cys34-SH', x: 25, y: 18, z: 8 },
+    { label: 'GAPDH Cys152-SH', x: -26, y: -6, z: 12 },
+    { label: 'Tubulin Cys239-SH', x: 23, y: -9, z: -13 },
+    { label: 'Keap1 Cys151-SH', x: -19, y: 27, z: 9 },
+    { label: 'Prx1 Cys52-SH', x: 19, y: 29, z: -8 }
+  ];
+
+  // --- 3D PROJECTION & RENDERING PRIMITIVE POOL ---
+  const renderList = [];
+  const labelList = [];
+
+  function project3D(x, y, z) {
+    // Center offset when C172 cage zoom is active
+    const cy = Math.cos(state.yaw), sy = Math.sin(state.yaw);
+    const cp = Math.cos(state.pitch), sp = Math.sin(state.pitch);
+
+    const rx = x * cy + z * sy;
+    const rz = -x * sy + z * cy;
+    const ry = y * cp - rz * sp;
+    const rz2 = y * sp + rz * cp;
+
+    const camDist = 115;
+    const baseScale = Math.min(cw, ch) * 0.0145 * state.zoom;
+    const fov = camDist / Math.max(18, camDist - rz2);
+    const sx = cw * 0.5 + state.panX + rx * baseScale * fov;
+    const syScreen = ch * 0.52 + state.panY - ry * baseScale * fov;
+    return { sx, sy: syScreen, z: rz2, scale: baseScale * fov };
+  }
+
+  function pushSphere(x, y, z, radiusA, color, alpha, info, glow) {
+    const p = project3D(x, y, z);
+    renderList.push({
+      kind: 'sphere',
+      sx: p.sx, sy: p.sy, z: p.z,
+      r: Math.max(1.2, radiusA * p.scale),
+      color, alpha: alpha == null ? 1 : alpha,
+      info: info || null,
+      glow: glow || 0
+    });
+    return p;
+  }
+
+  function pushBond(p1, p2, widthA, color, alpha, dashed) {
+    renderList.push({
+      kind: 'bond',
+      x1: p1.sx, y1: p1.sy, x2: p2.sx, y2: p2.sy,
+      z: (p1.z + p2.z) * 0.5 - 0.15,
+      w: Math.max(1, widthA * ((p1.scale + p2.scale) * 0.5)),
+      color, alpha: alpha == null ? 1 : alpha,
+      dashed: !!dashed
+    });
+  }
+
+  function pushLabel(x, y, z, text, color, bg) {
+    if (!state.showLabels) return;
+    const p = project3D(x, y, z);
+    labelList.push({ sx: p.sx, sy: p.sy, z: p.z, text, color: color || '#f0ece4', bg: bg || 'rgba(8,8,12,0.82)' });
+  }
+
+  // Helper: Exact piecewise S-S target distance across morph [0..2]
+  function getExactSSDistance(morph) {
+    if (morph <= 1.0) {
+      // Smoothly 13.62 Å (5VPE) -> 9.03 Å (7UCC)
+      const u = morph;
+      return 13.62 + (9.03 - 13.62) * u;
+    } else {
+      // Smoothly 9.03 Å (7UCC) -> 2.03 Å (5VPB)
+      const u = morph - 1.0;
+      return 9.03 + (2.03 - 9.03) * u;
+    }
+  }
+
+  function getResidueRmsfInfo(resNum) {
+    for (let i = 0; i < FOSB_REGIONS.length; i++) {
+      const reg = FOSB_REGIONS[i];
+      if (resNum >= reg.start && resNum <= reg.end) return reg;
+    }
+    return { name: 'bZIP', rmsf: 3.1, ordered: 0.9, color: '#c8ff00' };
+  }
+
+  // ==========================================================================
+  // BUILD SCENE A: ΔFOSB / JUND HETERODIMER + AP-1 DNA + LIGSITE + C172 + WARHEADS
+  // ==========================================================================
+  function buildSceneFosb(t) {
+    const morph = state.morph;
+    const dSS = getExactSSDistance(morph);
+    const shiftX = state.showHivControl ? -13.5 : 0;
+    const cageOffsetY = state.cageZoom ? 11.2 : -4.0;
+    const cageOffsetX = state.cageZoom ? 3.2 : 0;
+
+    // 1. AP-1 B-DNA DOUBLE HELIX (21 bp along Z-axis; recedes smoothly as morph -> 1..2)
+    const dnaDrop = morph <= 0.35 ? 0 : Math.pow((morph - 0.35) / 1.65, 1.25) * 24.0;
+    const dnaAlpha = morph <= 0.45 ? 0.92 : Math.max(0.16, 0.92 - (morph - 0.45) * 0.58);
+    const dnaCenterY = -17.5 - dnaDrop + cageOffsetY;
+
+    if (!state.cageZoom || morph < 0.5) {
+      let prevS1 = null, prevS2 = null;
+      for (let bp = -10; bp <= 10; bp++) {
+        const z = bp * 3.38;
+        const twist = bp * (36.0 * Math.PI / 180) + 0.35;
+        const rDna = 9.8;
+        // Major/minor groove asymmetry (~132 deg between glycosidic/backbone)
+        const x1 = shiftX + cageOffsetX + Math.cos(twist) * rDna;
+        const y1 = dnaCenterY + Math.sin(twist) * rDna;
+        const x2 = shiftX + cageOffsetX + Math.cos(twist + 2.35) * rDna;
+        const y2 = dnaCenterY + Math.sin(twist + 2.35) * rDna;
+
+        const isAp1 = Math.abs(bp) <= 3; // 5'-TGACTCA-3' AP-1 heptamer core!
+        const pCol = isAp1 ? '#00e5ff' : '#3a506b';
+        const p1 = pushSphere(x1, y1, z, isAp1 ? 0.95 : 0.75, pCol, dnaAlpha,
+          isAp1 ? { title: `AP-1 DNA Core (bp ${bp + 4}/7)`, detail: `5'-TGACTCA-3' consensus · 1,524 Å² buried interface/side` } : null);
+        const p2 = pushSphere(x2, y2, z, isAp1 ? 0.95 : 0.75, pCol, dnaAlpha);
+
+        if (prevS1) {
+          pushBond(prevS1, p1, 0.55, pCol, dnaAlpha * 0.85);
+          pushBond(prevS2, p2, 0.55, pCol, dnaAlpha * 0.85);
+        }
+        // Base-pair rung
+        pushBond(p1, p2, isAp1 ? 0.48 : 0.32, isAp1 ? '#c8ff00' : '#4a607a', dnaAlpha * (isAp1 ? 0.72 : 0.42));
+        prevS1 = p1;
+        prevS2 = p2;
+      }
+      if (morph < 0.4 && !state.cageZoom) {
+        pushLabel(shiftX + cageOffsetX, dnaCenterY - 10.8, 0, "AP-1 DNA (5'-TGACTCA-3' · 11/12 contacts)", '#00e5ff');
+      } else if (morph > 1.4 && !state.cageZoom) {
+        pushLabel(shiftX + cageOffsetX, dnaCenterY + 6.5, 0, 'DNA Ejected (11.59 Å Backbone Closure)', '#ff6b35');
+      }
+    }
+
+    // 2. ΔFOSB (157–211) & JUND (270–324) COILED-COIL bZIP HELICES
+    // Hinge at index 26 (ΔFosB 183 / JunD 296).
+    // Below hinge (idx 0..25 => 157..182): Basic region splays by morph state.
+    // Above hinge (idx 26..54 => 183..211): Rigid coiled-coil Leucine Zipper (RMSF 3.00 Å, 0 cavities).
+    // At idx 15 (ΔFosB C172 / JunD C285), exact S-S distance = dSS!
+    const splayAtC172 = (dSS * 0.5) + 1.85; // Helix axis X at C172 so Sγ sits cleanly at ±dSS/2
+    const fosbBackbone = [];
+    const jundBackbone = [];
+    let c172Ca = null, c285Ca = null;
+
+    for (let idx = 0; idx <= 54; idx++) {
+      const resFos = 157 + idx;
+      const resJun = 270 + idx;
+      const regInfo = getResidueRmsfInfo(resFos);
+
+      // Thermal Langevin breathing weighted by exact Cα RMSF!
+      const rmsfAmp = state.thermal * (regInfo.rmsf / 3.0) * 0.22;
+      const wobX = Math.sin(t * 2.7 + idx * 0.55) * rmsfAmp;
+      const wobZ = Math.cos(t * 2.3 + idx * 0.63) * rmsfAmp;
+
+      let axisX, axisY, axisZ;
+      if (idx >= 26) {
+        // Leucine Zipper coiled-coil (183–211)
+        const u = idx - 26;
+        const superTwist = u * 0.068;
+        const rCC = 4.65;
+        axisY = 4.2 + u * 1.46 + cageOffsetY;
+        axisX = Math.cos(superTwist) * rCC;
+        axisZ = Math.sin(superTwist) * rCC;
+      } else {
+        // Basic DNA-binding region (157–182)
+        // idx = 26 -> axisX = 4.65; idx = 15 (C172) -> axisX = splayAtC172
+        const distFromHinge = 26 - idx; // 1..26 (11 at C172)
+        const slope = (splayAtC172 - 4.65) / 11.0;
+        axisX = Math.max(2.6, 4.65 + slope * distFromHinge);
+        axisY = 4.2 - distFromHinge * 1.40 + cageOffsetY;
+        // Slight helical wrap into major groove when DNA-bound
+        const grooveZ = (1.0 - Math.min(1, morph * 0.8)) * Math.sin(distFromHinge * 0.11) * 3.1;
+        axisZ = grooveZ;
+      }
+
+      // Local right-handed α-helix (3.6 res/turn => 100 deg = 1.7453 rad/res, r = 2.25 Å)
+      const phi = idx * 1.745329;
+      const rHelix = 2.15;
+
+      const fx = shiftX + cageOffsetX - axisX + Math.cos(phi) * rHelix + wobX;
+      const fy = axisY + Math.sin(phi) * 0.45;
+      const fz = axisZ + Math.sin(phi) * rHelix + wobZ;
+
+      const jx = shiftX + cageOffsetX + axisX - Math.cos(phi) * rHelix - wobX * 0.9;
+      const jy = axisY + Math.sin(phi) * 0.45;
+      const jz = -axisZ - Math.sin(phi) * rHelix - wobZ * 0.9;
+
+      let fColor = idx >= 26 ? '#9ad8ff' : '#c8ff00';
+      let jColor = idx >= 26 ? '#7b6cf6' : '#9b88ff';
+      if (state.rmsfColor) {
+        fColor = regInfo.color;
+        jColor = idx >= 26 ? '#00b4d8' : '#aacc00';
+      }
+
+      const isC172 = (resFos === 172);
+      const isLeucineD = (idx >= 26 && ((idx - 29) % 7 === 0));
+
+      const pf = pushSphere(
+        fx, fy, fz,
+        isC172 ? 1.25 : 0.92,
+        isC172 ? '#ffd166' : fColor,
+        0.96,
+        {
+          title: `ΔFosB ${isC172 ? 'Cys172 (Redox Switch)' : 'Res ' + resFos}`,
+          detail: `${regInfo.name} · Cα RMSF ${regInfo.rmsf} Å · Ordered ${regInfo.ordered.toFixed(2)}`
+        }
+      );
+      const pj = pushSphere(
+        jx, jy, jz,
+        resJun === 285 ? 1.25 : 0.92,
+        resJun === 285 ? '#ffd166' : jColor,
+        0.94,
+        {
+          title: `JunD ${resJun === 285 ? 'Cys285 (Partner Thiol)' : 'Res ' + resJun}`,
+          detail: idx >= 26 ? 'JunD Leucine Zipper Partner' : 'JunD Basic Region Partner'
+        }
+      );
+
+      if (fosbBackbone.length > 0) {
+        pushBond(fosbBackbone[fosbBackbone.length - 1], pf, 0.72, fColor, 0.9);
+        pushBond(jundBackbone[jundBackbone.length - 1], pj, 0.72, jColor, 0.88);
+      }
+      // α-helix i -> i+4 H-bond struts for rich 3D helical feel
+      if (idx >= 4) {
+        pushBond(fosbBackbone[idx - 4], pf, 0.22, fColor, 0.26);
+        pushBond(jundBackbone[idx - 4], pj, 0.22, jColor, 0.24);
+      }
+
+      // Hydrophobic leucine zipper interlocking side-chain rungs (183–211)
+      if (isLeucineD && !state.cageZoom) {
+        const lx1 = (fx * 0.65 + (shiftX + cageOffsetX) * 0.35);
+        const lx2 = (jx * 0.65 + (shiftX + cageOffsetX) * 0.35);
+        const pl1 = pushSphere(lx1, axisY, fz * 0.4, 0.78, '#00e5ff', 0.75,
+          { title: `ΔFosB Leu${resFos} (Heptad d)`, detail: 'Rigid hydrophobic seam · RMSF 3.00 Å · 0 cavities' });
+        const pl2 = pushSphere(lx2, axisY, jz * 0.4, 0.78, '#9b88ff', 0.75);
+        pushBond(pf, pl1, 0.38, '#00e5ff', 0.6);
+        pushBond(pj, pl2, 0.38, '#9b88ff', 0.6);
+      }
+
+      if (isC172) {
+        c172Ca = { x: fx, y: fy, z: fz, p: pf };
+        c285Ca = { x: jx, y: jy, z: jz, p: pj };
+      }
+
+      fosbBackbone.push(pf);
+      jundBackbone.push(pj);
+    }
+
+    // 3. FULL-LENGTH ΔFOSB INTRINSICALLY DISORDERED REGIONS (1–156 & 212–237)
+    if (state.fullLength && !state.cageZoom) {
+      // N-ward chain from 157 down to 1 (sampled every 2 residues for clean 60fps clarity)
+      let prevP = fosbBackbone[0];
+      let curX = shiftX - splayAtC172 - 3.5;
+      let curY = 4.2 - 26 * 1.40 + cageOffsetY;
+      let curZ = 2.0;
+
+      for (let res = 155; res >= 1; res -= 2) {
+        const reg = getResidueRmsfInfo(res);
+        // Whip amplitude directly proportional to Rishik's Cα RMSF (8.79 Å in 79–149!)
+        const whip = state.thermal * (reg.rmsf / 3.0) * 0.85;
+        const seed = res * 0.37;
+
+        if (res >= 55 && res <= 78) {
+          // 51%-ordered nascent helical island at 55–78!
+          const ang = res * 1.65;
+          curX += -0.35 + Math.cos(ang) * 0.9;
+          curY += 0.95;
+          curZ += Math.sin(ang) * 0.9;
+        } else {
+          curX += (hashNoise(seed) - 0.52) * 3.4 + Math.sin(t * 2.1 + res * 0.19) * whip * 0.42;
+          curY += 0.72 + (hashNoise(seed + 9) - 0.44) * 2.6 + Math.cos(t * 1.8 + res * 0.15) * whip * 0.36;
+          curZ += (hashNoise(seed + 21) - 0.5) * 3.5 + Math.sin(t * 2.5 + res * 0.23) * whip * 0.42;
+        }
+        // Soft radial tether (implicit solvent Rg compaction ~23 Å)
+        curX = shiftX + (curX - shiftX) * 0.965;
+
+        const col = state.rmsfColor ? reg.color : (res >= 79 && res <= 149 ? '#ff2a6d' : (res >= 55 && res <= 78 ? '#ffd166' : '#ff9f1c'));
+        const pr = pushSphere(curX, curY, curZ, (res >= 79 && res <= 149) ? 0.88 : 0.76, col, 0.88, {
+          title: `ΔFosB Res ${res} (${reg.name})`,
+          detail: `Cα RMSF: ${reg.rmsf} Å · Ordered fraction: ${reg.ordered.toFixed(2)}`
+        });
+        pushBond(prevP, pr, 0.52, col, 0.78);
+        prevP = pr;
+
+        if (res === 113) {
+          pushLabel(curX - 3, curY + 2, curZ, 'Transactivation Core 79–149 (RMSF 8.79 Å · 0.03 ord)', '#ff2a6d');
+        } else if (res === 67) {
+          pushLabel(curX - 3, curY, curZ, 'Linker 55–78 (0.51 Ordered Island)', '#ffd166');
+        }
+      }
+
+      // Retained C-tail (212–237, RMSF 7.27 Å, 0.16 ordered)
+      let prevC = fosbBackbone[fosbBackbone.length - 1];
+      let cx = shiftX - 4.8, cy = 4.2 + 28 * 1.46 + cageOffsetY, cz = 1.0;
+      for (let res = 213; res <= 237; res += 2) {
+        const reg = getResidueRmsfInfo(res);
+        const whip = state.thermal * (reg.rmsf / 3.0) * 0.75;
+        cx += (hashNoise(res * 1.1) - 0.55) * 2.8 + Math.sin(t * 2.4 + res * 0.3) * whip * 0.4;
+        cy += 1.05 + Math.cos(t * 2.0 + res * 0.25) * whip * 0.3;
+        cz += (hashNoise(res * 2.3) - 0.5) * 2.8;
+        const col = state.rmsfColor ? reg.color : '#ff6b35';
+        const pc = pushSphere(cx, cy, cz, 0.78, col, 0.86, {
+          title: `ΔFosB Res ${res} (Retained C-tail)`,
+          detail: `Isoform P53539-11 truncates at 237 · RMSF 7.27 Å`
+        });
+        pushBond(prevC, pc, 0.48, col, 0.75);
+        prevC = pc;
+      }
+      pushLabel(cx, cy + 2.0, cz, 'C-Tail 219–237 (RMSF 7.27 Å)', '#ff6b35');
+    }
+
+    // 4. EXACT C172 & C285 SULFUR REDOX SWITCH GEOMETRY
+    const midX = (c172Ca.x + c285Ca.x) * 0.5;
+    const midY = (c172Ca.y + c285Ca.y) * 0.5 - 0.3;
+    const midZ = (c172Ca.z + c285Ca.z) * 0.5;
+
+    const s1x = midX - dSS * 0.5;
+    const s1y = midY;
+    const s1z = midZ + 0.18;
+
+    const s2x = midX + dSS * 0.5;
+    const s2y = midY;
+    const s2z = midZ - 0.18;
+
+    // Cβ atoms with realistic 90.9° dihedral at disulfide state
+    const cb1x = (c172Ca.x * 0.45 + s1x * 0.55);
+    const cb1y = c172Ca.y - 0.65;
+    const cb1z = c172Ca.z + 0.85;
+
+    const cb2x = (c285Ca.x * 0.45 + s2x * 0.55);
+    const cb2y = c285Ca.y + 0.55;
+    const cb2z = c285Ca.z + 0.82;
+
+    const pCb1 = pushSphere(cb1x, cb1y, cb1z, 0.78, '#bbb', 0.95);
+    const pCb2 = pushSphere(cb2x, cb2y, cb2z, 0.78, '#bbb', 0.95);
+    pushBond(c172Ca.p, pCb1, 0.55, '#ccc', 0.9);
+    pushBond(c285Ca.p, pCb2, 0.55, '#ccc', 0.9);
+
+    const sasaVal = morph < 0.5 ? (32.2 + morph * 2 * (47.6 - 32.2)) : 47.6;
+    const isDisulfide = dSS <= 2.35;
+
+    const pS1 = pushSphere(s1x, s1y, s1z, 1.55, '#ffd60a', 1.0, {
+      title: 'ΔFosB Cys172 Sγ (Target Thiol)',
+      detail: `S–S = ${dSS.toFixed(2)} Å · SASA = ${sasaVal.toFixed(1)} Å² · Exposed, unactivated`
+    }, 10);
+    const pS2 = pushSphere(s2x, s2y, s2z, 1.48, '#ffc300', 0.98, {
+      title: 'JunD Cys285 Sγ (Redox Partner)',
+      detail: isDisulfide ? 'Oxidised Disulfide (5VPB) · Strain 1.44 kcal/mol · χ3 = 90.9°' : `Distance to C172 Sγ: ${dSS.toFixed(2)} Å`
+    }, 8);
+
+    pushBond(pCb1, pS1, 0.62, '#ffd60a', 0.95);
+    pushBond(pCb2, pS2, 0.62, '#ffc300', 0.95);
+
+    if (isDisulfide) {
+      // Glowing covalent S-S bond (2.03 Å)
+      pushBond(pS1, pS2, 0.95, '#ffd60a', 1.0, false);
+      pushLabel(midX, midY + 3.4, midZ, `S–S Disulfide = ${dSS.toFixed(2)} Å (Strain 1.44 kcal/mol · 90.9°)`, '#ffd60a');
+    } else {
+      // Dashed measurement ruler between Sγ atoms
+      pushBond(pS1, pS2, 0.36, '#ffd60a', 0.72, true);
+      pushLabel(midX, midY + 2.8, midZ, `S–S = ${dSS.toFixed(2)} Å`, '#ffd60a');
+    }
+
+    // 5. LIVE 3D LIGSITE VOLUMETRIC CAVITY MESH & BENCHMARKS
+    const curVol = state.frame === 0 ? LIGSITE_STATIC : LIGSITE_FRAMES[state.frame - 1];
+    const rEff = Math.pow((3 * curVol) / (4 * Math.PI), 1 / 3); // True spherical radius in Å!
+
+    if (state.showCavity && !state.cageZoom) {
+      const cavCx = midX;
+      const cavCy = midY - 1.1;
+      const cavCz = midZ;
+      const isPeak = curVol >= 150;
+      const voxCol = isPeak ? '#c8ff00' : '#00e5ff';
+
+      for (let i = 0; i < UNIT_LATTICE.length; i++) {
+        const pt = UNIT_LATTICE[i];
+        // Anisotropic cleft scaling matching basic cleft between A169-E178 and C285-L290
+        const vx = pt.gx * 0.95;
+        const vy = pt.gy * 0.85;
+        const vz = pt.gz * 0.95;
+        const dAniso = Math.sqrt(vx * vx + vy * vy + vz * vz);
+        if (dAniso <= rEff) {
+          pushSphere(
+            cavCx + vx, cavCy + vy, cavCz + vz,
+            0.52, voxCol, isPeak ? 0.42 : 0.36,
+            {
+              title: `LIGSITE Cavity Voxel (${curVol} Å³)`,
+              detail: isPeak
+                ? '6.64 ns Peak (173 Å³) · Lined by ΔFosB A169, C172, R173, R176, R177, E178 & JunD C285, R286, K289, L290'
+                : `Volume ${curVol} Å³ < 250 Å³ druggability floor`
+            }
+          );
+        }
+      }
+
+      // Highlight lining residues when near the 6.64 ns peak
+      if (curVol >= 100) {
+        pushLabel(cavCx, cavCy - rEff - 2.3, cavCz,
+          `Transient Cleft: ${curVol} Å³ (C172/R173/R176 · JunD C285/R286/K289)`, '#c8ff00');
+      }
+    }
+
+    // 250 Å³ Druggability Floor Benchmark Sphere (r = 3.908 Å)
+    if (state.showFloorSphere) {
+      const rFloor = Math.pow((3 * 250) / (4 * Math.PI), 1 / 3); // 3.91 Å
+      const latRings = [-0.65, 0, 0.65];
+      latRings.forEach(sinLat => {
+        const cosLat = Math.sqrt(1 - sinLat * sinLat);
+        let prevRingP = null, firstRingP = null;
+        for (let k = 0; k <= 20; k++) {
+          const th = (k / 20) * Math.PI * 2;
+          const rx = midX + Math.cos(th) * rFloor * cosLat;
+          const ry = (midY - 1.1) + sinLat * rFloor;
+          const rz = midZ + Math.sin(th) * rFloor * cosLat;
+          const pr = project3D(rx, ry, rz);
+          if (prevRingP) pushBond(prevRingP, pr, 0.28, '#ff6b35', 0.65, true);
+          else firstRingP = pr;
+          prevRingP = pr;
+        }
+        if (firstRingP && prevRingP) pushBond(prevRingP, firstRingP, 0.28, '#ff6b35', 0.65, true);
+      });
+      pushLabel(midX, midY - 6.2, midZ, '250 Å³ Druggability Floor (Unreached in 10 ns)', '#ff6b35');
+    }
+
+    // Side-by-Side Positive Control: HIV-1 Protease (1HSG, 368 Å³)
+    if (state.showHivControl && !state.cageZoom) {
+      const hx = 17.5, hy = -2.0 + cageOffsetY, hz = 0;
+      const rHiv = Math.pow((3 * 368) / (4 * Math.PI), 1 / 3); // 4.446 Å
+      // β-barrel homodimer walls + Ile50 β-hairpin flaps enclosing the 368 Å³ active tunnel
+      for (let side of [-1, 1]) {
+        for (let s = 0; s < 3; s++) {
+          let prevB = null;
+          for (let k = -5; k <= 5; k++) {
+            const bx = hx + side * (5.6 + Math.cos(k * 0.35 + s) * 1.3);
+            const by = hy + k * 1.45;
+            const bz = hz + (s - 1) * 3.4 + Math.sin(k * 0.5) * 0.9;
+            const pb = pushSphere(bx, by, bz, 0.82, '#64dfdf', 0.72, {
+              title: 'HIV-1 Protease (1HSG Positive Control)',
+              detail: 'β-barrel homodimer · LIGSITE recovers 368 Å³ druggable pocket'
+            });
+            if (prevB) pushBond(prevB, pb, 0.58, '#64dfdf', 0.65);
+            prevB = pb;
+          }
+        }
+        // Overhead Ile50 flap closing over the tunnel
+        let prevFlap = null;
+        for (let f = 0; f <= 6; f++) {
+          const u = f / 6;
+          const fx = hx + side * (5.4 * (1 - u * 0.88));
+          const fy = hy + 6.2 + Math.sin(u * Math.PI) * 1.8;
+          const fz = hz + side * (1.2 - u * 1.0);
+          const pf = pushSphere(fx, fy, fz, 0.78, '#80ffdb', 0.82);
+          if (prevFlap) pushBond(prevFlap, pf, 0.55, '#80ffdb', 0.75);
+          prevFlap = pf;
+        }
+      }
+      // Asp25 / Asp25' catalytic dyad at floor of pocket
+      pushSphere(hx - 1.5, hy - 3.8, hz, 1.05, '#ff3355', 0.95, {
+        title: '1HSG Catalytic Dyad (Asp25 / Asp25\')',
+        detail: 'Deep enclosed active site · Volume = 368 Å³ (> 250 Å³ floor)'
+      });
+      pushSphere(hx + 1.5, hy - 3.8, hz, 1.05, '#ff3355', 0.95);
+
+      // 368 Å³ lush enclosed LIGSITE voxel cloud
+      for (let i = 0; i < UNIT_LATTICE.length; i++) {
+        const pt = UNIT_LATTICE[i];
+        const vx = pt.gx * 0.98, vy = pt.gy * 0.90, vz = pt.gz * 1.12;
+        if (Math.sqrt(vx * vx + vy * vy + vz * vz) <= rHiv) {
+          pushSphere(hx + vx, hy + vy, hz + vz, 0.58, '#00e676', 0.34, {
+            title: '1HSG LIGSITE Positive Control (368 Å³)',
+            detail: 'Validates LIGSITE buriedness algorithm on a textbook druggable pocket'
+          });
+        }
+      }
+      pushLabel(hx, hy + 10.2, hz, 'Positive Control: HIV-1 Protease 1HSG (368 Å³ Pocket)', '#00e676');
+    }
+
+    // 6. C172 8 Å QUANTUM ELECTROSTATIC CAGE & 5 Cl⁻ COUNTER-IONS
+    if (state.cageZoom) {
+      // 8 Å sphere ring around C172 Sγ
+      let prevC = null;
+      for (let k = 0; k <= 28; k++) {
+        const ang = (k / 28) * Math.PI * 2;
+        const pr = project3D(s1x + Math.cos(ang) * 8.0, s1y + Math.sin(ang) * 8.0, s1z);
+        if (prevC) pushBond(prevC, pr, 0.22, '#9b88ff', 0.45, true);
+        prevC = pr;
+      }
+
+      // R173 Backbone Polar N at 3.85 Å (no H-bond < 4 Å properly oriented)
+      const n173 = { x: s1x - 2.65, y: s1y - 2.60, z: s1z + 1.02 }; // dist = 3.85 Å
+      const pN173 = pushSphere(n173.x, n173.y, n173.z, 0.95, '#4cc9f0', 0.95, {
+        title: 'R173 Backbone Nitrogen (3.85 Å)',
+        detail: 'Nearest polar atom · Zero H-bond donors within 4 Å stabilizing thiolate'
+      });
+      pushBond(pS1, pN173, 0.28, '#4cc9f0', 0.8, true);
+      pushLabel(n173.x - 1.5, n173.y - 1.3, n173.z, 'R173 Backbone N (3.85 Å)', '#4cc9f0');
+
+      // Six Cationic Side Chains within 8 Å (Zero Acidic Side Chains!)
+      const cations = [
+        { name: 'R173 (+) · 4.29 Å', dx: -3.10, dy: -2.20, dz: -1.98, closest: true },
+        { name: 'K171 (+)', dx: -4.20, dy: 2.50, dz: 1.50 },
+        { name: 'R175 (+)', dx: -5.30, dy: 0.40, dz: -3.20 },
+        { name: 'R176 (+)', dx: -2.40, dy: -4.80, dz: 2.10 },
+        { name: 'JunD R286 (+)', dx: 5.10, dy: -2.30, dz: -2.40 },
+        { name: 'JunD K289 (+)', dx: 5.80, dy: 2.90, dz: 1.90 }
+      ];
+
+      cations.forEach((cat, idx) => {
+        const cx = s1x + cat.dx, cy = s1y + cat.dy, cz = s1z + cat.dz;
+        const pCat = pushSphere(cx, cy, cz, 1.18, '#3a86ff', 0.96, {
+          title: `${cat.name} (8 Å Cationic Cage)`,
+          detail: '6 cations & 0 acids within 8 Å · Net bare cluster charge = +5'
+        }, 6);
+        pushLabel(cx, cy + 1.5, cz, cat.name, '#72efdd');
+
+        if (cat.closest) {
+          pushBond(pS1, pCat, 0.30, '#3a86ff', 0.85, true);
+        }
+
+        if (!state.counterIons) {
+          // Unscreened +5 monopole artifact: intense electrostatic field lines pulling on C172!
+          pushBond(pCat, pS1, 0.35, '#ff3355', 0.55, true);
+        } else if (idx < 5) {
+          // 5 Cl⁻ counter-ions screening the cationic side chains (+ explicit ALPB dielectric)
+          const clx = cx + (cat.dx > 0 ? 1.6 : -1.6) + Math.sin(t * 1.8 + idx) * 0.25;
+          const cly = cy + 1.3 + Math.cos(t * 1.6 + idx) * 0.25;
+          const clz = cz + 0.8;
+          const pCl = pushSphere(clx, cly, clz, 1.32, '#00e676', 0.94, {
+            title: `Chloride Counter-Ion Cl⁻ #${idx + 1}`,
+            detail: 'Neutralizes artificial +5 cluster bias → ΔpKa shifts +8.1 units to +4.00!'
+          }, 7);
+          pushBond(pCat, pCl, 0.32, '#00e676', 0.72, true);
+        }
+      });
+
+      // Protonated -SH vs Artifact Thiolate S⁻ indicator on C172
+      if (state.counterIons) {
+        const pH = pushSphere(s1x + 0.95, s1y + 0.95, s1z + 0.4, 0.65, '#ffffff', 0.98, {
+          title: 'C172 Thiol Proton (-SH Retained)',
+          detail: 'Screened ΔpKa = +4.00 · Normal protonated thiol sitting in solvent (47.6 Å²)'
+        });
+        pushBond(pS1, pH, 0.42, '#ffffff', 0.95);
+      } else {
+        // Artificial S⁻ polarization halo
+        pushSphere(s1x, s1y, s1z, 2.6, '#ff3355', 0.24, null, 14);
+        pushLabel(s1x, s1y - 2.6, s1z, 'FALSE ARTIFACT: Unscreened +5 → +4 Thiolate Bias (ΔpKa −4.09)', '#ff3355');
+      }
+    }
+
+    // 7. COVALENT WARHEAD & CNS MPO 3D VISUALIZATION
+    if (!state.cageZoom) {
+      const wh = WARHEADS[state.warhead];
+
+      if (!wh.bbbPass) {
+        // Render Blood-Brain Barrier endothelial plane above the nuclear target
+        const bbbY = 23.0 + cageOffsetY;
+        for (let bx = -18; bx <= 18; bx += 4.5) {
+          for (let bz = -8; bz <= 8; bz += 4.0) {
+            pushSphere(shiftX + bx, bbbY, bz, 0.85, '#ff3355', 0.38, {
+              title: 'Blood–Brain Barrier Tight Junction',
+              detail: 'Blocks ionised anionic 9OC3 sulfonate/tetrazole ligands (TPSA 115 Å² · CNS 3/5)'
+            });
+          }
+        }
+        // Bouncing anionic ligand above BBB
+        const bounceY = bbbY + 4.0 + Math.abs(Math.sin(t * 3.2)) * 5.5;
+        const pAnion = pushSphere(shiftX - 2.0, bounceY, 0, 1.65, '#ff3355', 0.95, {
+          title: '9OC3 Anionic Sulfonate / Tetrazole (−1 at pH 7.4)',
+          detail: 'TPSA 115 Å² · 3/5 CNS MPO · Rejected at Blood–Brain Barrier!'
+        }, 10);
+        pushSphere(shiftX - 0.1, bounceY + 0.8, 0.5, 1.1, '#ff9f1c', 0.92);
+        pushLabel(shiftX, bbbY + 2.2, 0, 'BBB REJECTION: Ionised Anion (TPSA 115 Å² · 3/5 CNS)', '#ff3355');
+      } else if (state.warhead === 'mv0trap') {
+        // MV0 non-reactive ketone drifting & bouncing off C172 without forming bond
+        const drift = 3.8 + Math.abs(Math.sin(t * 2.6)) * 3.4;
+        const lx = s1x - drift, ly = s1y - 1.5, lz = s1z + 2.2;
+        const pMv0 = pushSphere(lx, ly, lz, 1.5, '#ffb800', 0.95, {
+          title: 'Deposited 7UCD Ligand MV0 (Non-Electrophilic!)',
+          detail: '7-acetyl-4-methoxy-1-benzofuran-3(2H)-one lacks α-leaving group → ZERO covalent reaction!'
+        }, 8);
+        const pRing = pushSphere(lx - 2.1, ly - 0.6, lz + 0.5, 1.7, '#ffd166', 0.9);
+        pushBond(pMv0, pRing, 0.65, '#ffb800', 0.9);
+        pushBond(pMv0, pS1, 0.30, '#ffb800', 0.65, true);
+        pushLabel(lx - 1.5, ly - 3.0, lz, '7UCD MV0 Trap: Missing α-Leaving Group (No Reaction)', '#ffb800');
+      } else {
+        // Covalent adduct docked at C172 at 1.85 Å C–S bond!
+        // Alpha-methylene carbon at 1.85 Å from S1:
+        const cx = s1x - 1.45, cy = s1y - 0.92, cz = s1z + 0.68; // sqrt(1.45^2+0.92^2+0.68^2) = 1.85 Å!
+        const pCalpha = pushSphere(cx, cy, cz, 1.05, wh.color, 0.98, {
+          title: `${wh.name} α-Carbon (1.85 Å C–S Adduct)`,
+          detail: `Capped C172 prevents return to 5VPE DNA-bound geometry`
+        }, 8);
+        // Benzofuranone / recognition core tucked along neutral basic groove
+        const pKet = pushSphere(cx - 1.35, cy + 0.85, cz + 0.4, 0.95, '#ff6b35', 0.95);
+        const pCore1 = pushSphere(cx - 2.75, cy - 0.35, cz + 0.95, 1.45, wh.color, 0.94, {
+          title: `${wh.name} Recognition Scaffold`,
+          detail: `ΔE = ${(state.useDft ? wh.dE_dft : wh.dE_gfn2).toFixed(1)} kcal/mol · CNS ${wh.cns}`
+        });
+        const pCore2 = pushSphere(cx - 4.25, cy - 0.95, cz + 1.25, 1.35, '#e0fbfc', 0.88);
+
+        pushBond(pS1, pCalpha, 0.78, wh.color, 1.0);
+        pushBond(pCalpha, pKet, 0.55, '#ff6b35', 0.9);
+        pushBond(pCalpha, pCore1, 0.68, wh.color, 0.92);
+        pushBond(pCore1, pCore2, 0.68, '#e0fbfc', 0.88);
+
+        if (state.warhead === 'phenacyl') {
+          pushLabel(cx - 3.2, cy - 3.0, cz + 1.0, 'Optimal Phenacyl Adduct (1.85 Å C–S · −9.9 kcal/mol · 5/5 CNS)', '#c8ff00');
+        }
+
+        // Off-target proteome splatter for hot warheads (Maleimide, Acrylamide, DFT Epoxide)
+        const activeDE = state.useDft ? wh.dE_dft : wh.dE_gfn2;
+        const splatterLevel = Math.abs(activeDE) > 26 ? wh.offTarget : 0;
+        if (splatterLevel > 0.2 && !state.showHivControl) {
+          const numHit = Math.round(PROTEOME_THIOLS.length * splatterLevel);
+          PROTEOME_THIOLS.forEach((pt, idx) => {
+            const hit = idx < numHit;
+            const px = pt.x, py = pt.y + cageOffsetY, pz = pt.z;
+            const pThiol = pushSphere(px, py, pz, hit ? 1.35 : 0.95, hit ? '#ff3355' : '#555', 0.9, {
+              title: pt.label,
+              detail: hit ? `ALKYLATED OFF-TARGET! (${wh.name} ΔE = ${activeDE.toFixed(1)} kcal/mol)` : 'Unmodified cellular thiol'
+            }, hit ? 11 : 0);
+            if (hit) {
+              // Pulsing covalent off-target splatter ray
+              const pulse = 0.35 + 0.35 * Math.sin(t * 6.0 + idx);
+              pushBond(pCore1, pThiol, 0.32, '#ff3355', pulse, true);
+            }
+          });
+          pushLabel(0, 25 + cageOffsetY, 0, `OFF-TARGET PROTEOME SPLATTER (${activeDE.toFixed(1)} kcal/mol Indiscriminate Alkylation!)`, '#ff3355');
+        }
+      }
+    }
+  }
+
+  // ==========================================================================
+  // BUILD SCENE B: MOR 7TM GPCR + PHOSPHOLIPID DISPERSION + HOMO/LUMO + ALLYL JAM
+  // ==========================================================================
+  function buildSceneMor(t) {
+    const isQm = state.quantumReal;
+    const lig = state.morLigand;
+
+    // Cheng-Prusoff competitive occupancy
+    const kdAgo = lig === 'fentanyl' ? 0.8 : 4.0;
+    const kdNal = 1.5;
+    const denom = 1 + (state.agoConc / kdAgo) + (state.nalConc / kdNal);
+    const occAgo = (state.agoConc / kdAgo) / denom;
+    const occNal = (state.nalConc / kdNal) / denom;
+
+    // TM6 outward intracellular swing (Å): Morphine/Fentanyl opens TM6 ~10.2 Å; Naloxone jams it at 0 Å!
+    const isAntagonistBound = (lig === 'naloxone') || (occNal > occAgo && state.nalConc > 1);
+    const tm6Swing = (!isQm) ? 0 : (lig === 'naloxone' ? 0.0 : 10.2);
+
+    // 1. PHOSPHOLIPID BILAYER & LONDON DISPERSION (Article 06)
+    const driftChaos = isQm ? 0 : 1.0;
+    for (let ring = 0; ring < 18; ring++) {
+      const ang = (ring / 18) * Math.PI * 2;
+      const rad = 19.5 + driftChaos * (4.5 + Math.sin(t * 2.2 + ring) * 3.2);
+      const lx = Math.cos(ang) * rad;
+      const lz = Math.sin(ang) * rad;
+
+      for (let leaf of [1, -1]) {
+        const headY = leaf * (14.5 + driftChaos * Math.cos(t * 1.9 + ring * 1.7) * 3.5);
+        const tailY = leaf * (4.2 + driftChaos * 2.8);
+        const pHead = pushSphere(lx, headY, lz, 1.15, isQm ? '#4cc9f0' : '#ff3355', 0.58, {
+          title: 'Phospholipid Headgroup',
+          detail: isQm
+            ? 'Bilayer cohesive via quantum London dispersion (instantaneous dipole clouds)'
+            : 'CLASSICAL FAILURE: Zero London dispersion in Bohr model → membrane disintegrates!'
+        });
+        const pTail = pushSphere(lx * 0.96, tailY, lz * 0.96, 0.65, '#3d5a80', 0.45);
+        pushBond(pHead, pTail, 0.38, isQm ? '#4cc9f0' : '#ff3355', 0.4);
+      }
+
+      // Quantum London dispersion shimmer cloud between acyl chains
+      if (isQm && ring % 2 === 0) {
+        const shimmer = 0.16 + 0.10 * Math.sin(t * 3.5 + ring);
+        pushSphere(lx * 0.95, 0, lz * 0.95, 2.6, '#00e5ff', shimmer, null, 6);
+      }
+    }
+
+    if (!isQm) {
+      pushLabel(0, 21.5, 0, 'CLASSICAL BOHR FAILURE: 0 Dispersion → Membrane Unbound + 10⁻¹¹ s Spiral Collapse!', '#ff3355');
+    }
+
+    // 2. 7-TRANSMEMBRANE HELICAL BUNDLE (TM1–TM7)
+    const tmAngles = [0.2, 1.1, 2.05, 2.95, 3.85, 4.75, 5.65]; // TM3 = idx 2, TM6 = idx 5
+    let asp147Pos = null, trp293Pos = null;
+
+    for (let h = 0; h < 7; h++) {
+      const baseAng = tmAngles[h];
+      const rBundle = 9.4;
+      const isTM3 = (h === 2);
+      const isTM6 = (h === 5);
+      let prevTm = null;
+
+      for (let k = -9; k <= 9; k++) {
+        // k = +9 extracellular (top), k = -9 intracellular (bottom)
+        const fracIntra = Math.max(0, (-k) / 9); // 0..1 on intracellular half
+        const swingOut = isTM6 ? (tm6Swing * Math.pow(fracIntra, 1.4)) : 0;
+        const rad = rBundle + swingOut;
+        const phi = k * 1.74;
+
+        const hx = Math.cos(baseAng) * rad + Math.cos(phi) * 1.45;
+        const hy = k * 1.55;
+        const hz = Math.sin(baseAng) * rad + Math.sin(phi) * 1.45;
+
+        const col = isTM6 ? (tm6Swing > 3 ? '#c8ff00' : '#ff6b35') : (isTM3 ? '#00e5ff' : '#7b8cde');
+        const pRes = pushSphere(hx, hy, hz, isTM6 || isTM3 ? 1.0 : 0.84, col, 0.88, {
+          title: `MOR TM${h + 1} Helix`,
+          detail: isTM6
+            ? (tm6Swing > 3 ? 'TM6 swung outward 10.2 Å → Intracellular Gi cavity OPEN' : 'TM6 jammed CLOSED by Naloxone allyl steric clash!')
+            : (isTM3 ? 'TM3 carries Asp147 ionic anchor' : '7TM GPCR transmembrane helix')
+        });
+        if (prevTm) pushBond(prevTm, pRes, 0.68, col, 0.82);
+        prevTm = pRes;
+
+        if (isTM3 && k === 3) asp147Pos = { x: hx * 0.55, y: hy, z: hz * 0.55, p: pRes };
+        if (isTM6 && k === 1) trp293Pos = { x: hx * 0.52, y: hy, z: hz * 0.52, p: pRes };
+      }
+    }
+
+    // 3. ORTHOSTERIC POCKET: Asp147 IONIC ANCHOR + Trp293 TOGGLE SWITCH + LIGAND
+    const pAsp = pushSphere(asp147Pos.x, asp147Pos.y, asp147Pos.z, 1.25, '#ff3355', 0.98, {
+      title: 'Asp147 COO⁻ (TM3 Ionic Anchor)',
+      detail: 'Forms 2.80 Å quantum electrostatic salt-bridge with protonated opioid nitrogen'
+    }, 8);
+    pushBond(asp147Pos.p, pAsp, 0.5, '#ff3355', 0.85);
+    pushLabel(asp147Pos.x - 2.5, asp147Pos.y + 2.2, asp147Pos.z, 'Asp147⁻ (TM3 Anchor)', '#ff6b35');
+
+    const pTrp = pushSphere(trp293Pos.x, trp293Pos.y, trp293Pos.z, 1.32, '#ffd166', 0.96, {
+      title: 'Trp293 (TM6 Micro-Switch)',
+      detail: lig === 'naloxone' ? 'STERIC CLASH with Naloxone sp² allyl arm → locks TM6 inactive!' : 'Unobstructed rotation → TM6 opens outward'
+    });
+    pushBond(trp293Pos.p, pTrp, 0.5, '#ffd166', 0.85);
+
+    // Protonated Nitrogen + Scaffold in pocket center
+    const nx = 0.0, ny = 3.8, nz = 0.0;
+    const ligCol = lig === 'naloxone' ? '#c8ff00' : (lig === 'fentanyl' ? '#ff3355' : '#ff6b35');
+    const pN = pushSphere(nx, ny, nz, 1.35, '#3a86ff', 1.0, {
+      title: `${lig.toUpperCase()} Protonated R₃NH⁺`,
+      detail: 'Anchored 2.80 Å to Asp147 · Kd = ' + (lig === 'naloxone' ? '1.5 nM (3× Morphine dwell)' : (lig === 'fentanyl' ? '0.8 nM' : '4.0 nM'))
+    }, 9);
+    const pScaf1 = pushSphere(nx - 1.6, ny + 1.8, nz - 1.1, 1.55, ligCol, 0.95, {
+      title: `${lig.toUpperCase()} Core Scaffold`,
+      detail: 'Phenolic / aromatic ring engaging His297 & hydrophobic subpocket'
+    });
+    const pScaf2 = pushSphere(nx + 1.4, ny + 2.2, nz + 1.0, 1.42, ligCol, 0.92);
+    pushBond(pN, pScaf1, 0.68, ligCol, 0.95);
+    pushBond(pScaf1, pScaf2, 0.68, ligCol, 0.92);
+    pushBond(pN, pAsp, 0.38, '#00e5ff', 0.9, true); // 2.80 Å Salt-bridge!
+
+    // N-Substituent: Morphine (-CH3) vs Naloxone (-CH2-CH=CH2 rigid allyl) vs Fentanyl (phenethyl)
+    const dirX = (trp293Pos.x - nx), dirY = (trp293Pos.y - ny), dirZ = (trp293Pos.z - nz);
+    const dirLen = Math.hypot(dirX, dirY, dirZ) || 1;
+    const ux = dirX / dirLen, uy = dirY / dirLen, uz = dirZ / dirLen;
+
+    if (lig === 'morphine') {
+      // Compact -CH3 (leaves space before Trp293!)
+      const pMe = pushSphere(nx + ux * 1.65, ny + uy * 1.65, nz + uz * 1.65, 1.05, '#ff6b35', 0.98, {
+        title: 'Morphine Compact N-Methyl (-CH₃)',
+        detail: 'Zero clash with Trp293 → TM6 swings open 10.2 Å → Gi docks!'
+      });
+      pushBond(pN, pMe, 0.65, '#ff6b35', 0.95);
+      pushLabel(nx + ux * 2.0, ny - 1.5, nz, 'Compact -CH₃ (No Clash → TM6 Opens)', '#ff6b35');
+    } else if (lig === 'naloxone') {
+      // Rigid 3-carbon sp2 Allyl arm (-CH2-CH=CH2) jamming directly into Trp293!
+      const pC1 = pushSphere(nx + ux * 1.55, ny + uy * 1.55, nz + uz * 1.55, 1.0, '#c8ff00', 1.0);
+      const pC2 = pushSphere(nx + ux * 2.95, ny + uy * 2.95 + 0.35, nz + uz * 2.95, 1.05, '#c8ff00', 1.0);
+      const pC3 = pushSphere(trp293Pos.x - ux * 0.85, trp293Pos.y + 0.2, trp293Pos.z - uz * 0.85, 1.15, '#c8ff00', 1.0, {
+        title: 'Naloxone Rigid Allyl Arm (-CH₂-CH=CH₂)',
+        detail: 'sp² π-bond fixed angle jams Trp293 / TM6 → Pauli repulsion locks receptor INACTIVE!'
+      }, 12);
+      pushBond(pN, pC1, 0.68, '#c8ff00', 1.0);
+      pushBond(pC1, pC2, 0.68, '#c8ff00', 1.0);
+      pushBond(pC2, pC3, 0.88, '#c8ff00', 1.0); // C=C double bond!
+
+      // Pauli steric clash halo on Trp293!
+      const pulse = 0.28 + 0.16 * Math.sin(t * 6.5);
+      pushSphere(trp293Pos.x, trp293Pos.y, trp293Pos.z, 2.85, '#ff6b35', pulse, null, 15);
+      pushLabel(trp293Pos.x + 2.2, trp293Pos.y - 1.8, trp293Pos.z, 'ALLYL STERIC JAM on Trp293 / TM6 (Gi Locked Out!)', '#c8ff00');
+    } else {
+      // Fentanyl elongated phenethyl + anilinopiperidine
+      const pF1 = pushSphere(nx + ux * 1.6, ny + uy * 1.6 + 1.2, nz + uz * 1.6, 1.05, '#ff3355', 0.98);
+      const pF2 = pushSphere(nx + ux * 2.8, ny + uy * 2.8 + 2.4, nz + uz * 2.8, 1.45, '#ff3355', 0.95, {
+        title: 'Fentanyl Phenethyl Tail (Kd ≈ 0.8 nM)',
+        detail: 'High lipophilicity & t½ 3–8 hrs → rebinds MOR once Naloxone (t½ 60–90 min) clears!'
+      });
+      pushBond(pN, pF1, 0.65, '#ff3355', 0.95);
+      pushBond(pF1, pF2, 0.65, '#ff3355', 0.95);
+    }
+
+    // 4. FRONTIER MOLECULAR ORBITALS (HOMO / LUMO ELECTRON PROBABILITY CLOUDS)
+    if (state.showOrbitals && isQm) {
+      // Dual-phase (+ψ lime / -ψ violet) HOMO π-lobes around phenolic scaffold & LUMO lobe
+      pushSphere(nx - 1.6, ny + 3.4, nz - 1.1, 2.55, '#c8ff00', 0.25, {
+        title: 'HOMO (+ψ Phase) Frontier Orbital Lobe',
+        detail: 'Quantum electron probability density governing π-stacking & electrostatic recognition'
+      }, 14);
+      pushSphere(nx - 1.6, ny + 0.2, nz - 1.1, 2.45, '#9b88ff', 0.25, {
+        title: 'HOMO (−ψ Phase) Frontier Orbital Lobe',
+        detail: 'Frontier Molecular Orbital Theory predicts exact site reactivity & affinity'
+      }, 14);
+    }
+
+    // 5. INTRACELLULAR Gi HETEROTRIMER DOCKING vs STERIC LOCKOUT
+    const giY = tm6Swing > 3 ? -14.2 : -22.5 - Math.abs(Math.sin(t * 2.1)) * 2.2;
+    const giCol = tm6Swing > 3 ? '#00e676' : '#666';
+    pushSphere(0, giY, 0, 3.2, giCol, 0.82, {
+      title: 'Intracellular Gαi-βγ Heterotrimer',
+      detail: tm6Swing > 3 ? 'DOCKED in open intracellular cavity → cAMP ↓, GIRK ↑' : 'LOCKED OUT — TM6 closed; zero Gi signaling (Overdose Reversed)'
+    }, tm6Swing > 3 ? 12 : 0);
+    pushLabel(0, giY - 4.0, 0, tm6Swing > 3 ? 'Gi Heterotrimer DOCKED (cAMP ↓)' : 'Gi LOCKED OUT (Zero Signal)', giCol);
+  }
+
+  // ==========================================================================
+  // RENDER 3D FRAME (60 FPS PAINTER'S DEPTH SORT + SHADING)
+  // ==========================================================================
+  function render3D() {
+    ctx.save();
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, cw, ch);
+
+    // Subtle scientific coordinate grid lines
+    ctx.strokeStyle = 'rgba(255,255,255,0.025)';
+    ctx.lineWidth = 1;
+    for (let x = (cw % 48) * 0.5; x < cw; x += 48) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, ch); ctx.stroke();
+    }
+    for (let y = (ch % 48) * 0.5; y < ch; y += 48) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(cw, y); ctx.stroke();
+    }
+
+    renderList.length = 0;
+    labelList.length = 0;
+
+    if (state.system === 'fosb') {
+      buildSceneFosb(state.time);
+    } else {
+      buildSceneMor(state.time);
+    }
+
+    // Sort back-to-front by Z depth
+    renderList.sort((a, b) => a.z - b.z);
+
+    let bestHit = null;
+    let bestDist2 = 256; // 16px hit radius
+
+    for (let i = 0; i < renderList.length; i++) {
+      const it = renderList[i];
+      if (it.kind === 'bond') {
+        ctx.save();
+        ctx.globalAlpha = it.alpha;
+        ctx.strokeStyle = it.color;
+        ctx.lineWidth = it.w;
+        ctx.lineCap = 'round';
+        if (it.dashed) ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(it.x1, it.y1);
+        ctx.lineTo(it.x2, it.y2);
+        ctx.stroke();
+        ctx.restore();
+      } else {
+        ctx.save();
+        ctx.globalAlpha = it.alpha;
+        if (it.glow > 0) {
+          ctx.shadowColor = it.color;
+          ctx.shadowBlur = it.glow;
+        }
+        ctx.fillStyle = it.color;
+        ctx.beginPath();
+        ctx.arc(it.sx, it.sy, it.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Crisp 3D specular highlight on solid atoms
+        if (it.alpha > 0.65 && it.r > 2.4) {
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = 'rgba(255,255,255,0.34)';
+          ctx.beginPath();
+          ctx.arc(it.sx - it.r * 0.3, it.sy - it.r * 0.3, it.r * 0.32, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+
+        if (it.info && hoverScreenX > 0) {
+          const dx = hoverScreenX - it.sx;
+          const dy = hoverScreenY - it.sy;
+          const d2 = dx * dx + dy * dy;
+          const hitR = Math.max(10, it.r + 4);
+          if (d2 <= hitR * hitR && d2 <= bestDist2) {
+            bestDist2 = d2;
+            bestHit = it;
+          }
+        }
+      }
+    }
+
+    // Draw crisp 3D labels on top
+    ctx.font = '500 10.5px "IBM Plex Mono", monospace';
+    for (let i = 0; i < labelList.length; i++) {
+      const lb = labelList[i];
+      if (lb.sx < 10 || lb.sx > cw - 10 || lb.sy < 14 || lb.sy > ch - 14) continue;
+      const tw = ctx.measureText(lb.text).width;
+      const bx = Math.max(8, Math.min(cw - tw - 16, lb.sx - tw * 0.5 - 6));
+      const by = lb.sy - 10;
+      ctx.fillStyle = lb.bg;
+      ctx.strokeStyle = lb.color;
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.roundRect(bx, by, tw + 12, 19, 4);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = lb.color;
+      ctx.fillText(lb.text, bx + 6, by + 13);
+    }
+
+    // Hover Tooltip
+    if (bestHit && bestHit.info) {
+      hoveredInteractive = bestHit;
+      tooltipEl.style.display = 'block';
+      tooltipEl.style.left = Math.min(cw - 265, bestHit.sx + 14) + 'px';
+      tooltipEl.style.top = Math.max(10, bestHit.sy - 18) + 'px';
+      tooltipEl.innerHTML = `<div style="color:var(--accent);font-weight:600;margin-bottom:2px;">${bestHit.info.title}</div><div style="color:#bbb;font-size:10px;line-height:1.4;">${bestHit.info.detail}</div>`;
+    } else {
+      hoveredInteractive = null;
+      tooltipEl.style.display = 'none';
+    }
+
+    ctx.restore();
+  }
+
+  // ==========================================================================
+  // RENDER 2D SYNCHRONIZED QUANTITATIVE PLOT
+  // ==========================================================================
+  function renderPlot() {
+    if (state.reelMode) return;
+    pctx.save();
+    pctx.scale(dpr, dpr);
+    pctx.clearRect(0, 0, pw, ph);
+
+    const padL = 48, padR = 20, padT = 22, padB = 30;
+    const gw = pw - padL - padR;
+    const gh = ph - padT - padB;
+
+    pctx.font = '10px "IBM Plex Mono", monospace';
+
+    if (state.system === 'fosb' && state.plotMode === 'ligsite') {
+      // 10 ns LIGSITE Cavity Trajectory (Static + 40 frames) vs 250 Å³ Floor & 368 Å³ 1HSG
+      const maxY = state.showHivControl ? 400 : 280;
+      const yOf = (v) => padT + gh - (v / maxY) * gh;
+      const xOf = (f) => padL + (f / 40) * gw;
+
+      // Grid & 250 Å³ Druggability Floor
+      pctx.strokeStyle = 'rgba(255,255,255,0.06)';
+      pctx.lineWidth = 1;
+      [0, 100, 200].forEach(yv => {
+        const py = yOf(yv);
+        pctx.beginPath(); pctx.moveTo(padL, py); pctx.lineTo(padL + gw, py); pctx.stroke();
+        pctx.fillStyle = '#666';
+        pctx.fillText(yv + ' Å³', 6, py + 3);
+      });
+
+      // 250 Å³ Druggable Floor dashed red/orange line
+      const y250 = yOf(250);
+      pctx.save();
+      pctx.strokeStyle = '#ff6b35';
+      pctx.setLineDash([5, 4]);
+      pctx.beginPath(); pctx.moveTo(padL, y250); pctx.lineTo(padL + gw, y250); pctx.stroke();
+      pctx.fillStyle = '#ff6b35';
+      pctx.fillText('250 Å³ Druggability Floor (0/40 frames reach!)', padL + 8, y250 - 5);
+      pctx.restore();
+
+      if (state.showHivControl) {
+        const y368 = yOf(368);
+        pctx.save();
+        pctx.strokeStyle = '#00e676';
+        pctx.setLineDash([3, 3]);
+        pctx.beginPath(); pctx.moveTo(padL, y368); pctx.lineTo(padL + gw, y368); pctx.stroke();
+        pctx.fillStyle = '#00e676';
+        pctx.fillText('368 Å³ HIV-1 Protease (1HSG Control)', padL + gw - 220, y368 - 4);
+        pctx.restore();
+      }
+
+      // Mean 42.7 Å³ line
+      const yMean = yOf(42.7);
+      pctx.save();
+      pctx.strokeStyle = 'rgba(0,229,255,0.4)';
+      pctx.setLineDash([2, 3]);
+      pctx.beginPath(); pctx.moveTo(padL, yMean); pctx.lineTo(padL + gw, yMean); pctx.stroke();
+      pctx.fillStyle = 'rgba(0,229,255,0.75)';
+      pctx.fillText('Mean: 42.7 Å³', padL + gw - 92, yMean - 4);
+      pctx.restore();
+
+      // Area & Curve across Static (0) + 40 Frames
+      pctx.beginPath();
+      pctx.moveTo(xOf(0), yOf(0));
+      pctx.lineTo(xOf(0), yOf(LIGSITE_STATIC));
+      for (let f = 1; f <= 40; f++) {
+        pctx.lineTo(xOf(f), yOf(LIGSITE_FRAMES[f - 1]));
+      }
+      pctx.lineTo(xOf(40), yOf(0));
+      pctx.closePath();
+      pctx.fillStyle = 'rgba(0,229,255,0.10)';
+      pctx.fill();
+
+      pctx.beginPath();
+      pctx.moveTo(xOf(0), yOf(LIGSITE_STATIC));
+      for (let f = 1; f <= 40; f++) {
+        pctx.lineTo(xOf(f), yOf(LIGSITE_FRAMES[f - 1]));
+      }
+      pctx.strokeStyle = '#00e5ff';
+      pctx.lineWidth = 2;
+      pctx.stroke();
+
+      // Highlight the 4 frames > 100 Å³ & Peak Frame 27 (6.64 ns = 173 Å³)
+      for (let f = 1; f <= 40; f++) {
+        const v = LIGSITE_FRAMES[f - 1];
+        if (v > 100) {
+          pctx.fillStyle = v === 173 ? '#c8ff00' : '#ffd166';
+          pctx.beginPath();
+          pctx.arc(xOf(f), yOf(v), v === 173 ? 4.5 : 3, 0, Math.PI * 2);
+          pctx.fill();
+        }
+      }
+      pctx.fillStyle = '#c8ff00';
+      pctx.fillText('6.64 ns Peak: 173 Å³ (Redox Switch)', xOf(27) - 75, yOf(173) - 8);
+
+      // Active scrubber cursor
+      const curV = state.frame === 0 ? LIGSITE_STATIC : LIGSITE_FRAMES[state.frame - 1];
+      const cx = xOf(state.frame);
+      pctx.strokeStyle = '#c8ff00';
+      pctx.lineWidth = 1.4;
+      pctx.beginPath(); pctx.moveTo(cx, padT); pctx.lineTo(cx, padT + gh); pctx.stroke();
+      pctx.fillStyle = '#c8ff00';
+      pctx.beginPath(); pctx.arc(cx, yOf(curV), 5, 0, Math.PI * 2); pctx.fill();
+
+      // X-axis ticks
+      pctx.fillStyle = '#777';
+      pctx.fillText('Static (18 Å³)', padL, ph - 8);
+      pctx.fillText('2.5 ns', xOf(10) - 14, ph - 8);
+      pctx.fillText('5.0 ns', xOf(20) - 14, ph - 8);
+      pctx.fillText('6.64 ns', xOf(27) - 18, ph - 8);
+      pctx.fillText('10.0 ns', xOf(40) - 36, ph - 8);
+
+    } else if (state.system === 'fosb' && state.plotMode === 'rmsf') {
+      // Full-Length ΔFosB Cα RMSF Bar/Region Profile (Article 07 §5 Table)
+      const bars = [
+        { lbl: 'N-term 1–54', rmsf: 4.45, ord: '0.00', col: '#ffb800' },
+        { lbl: 'Linker 55–78', rmsf: 4.34, ord: '0.51', col: '#ffd166' },
+        { lbl: 'Core 79–149', rmsf: 8.79, ord: '0.03', col: '#ff2a6d' },
+        { lbl: 'Basic 157–182', rmsf: 3.29, ord: '0.92', col: '#c8ff00' },
+        { lbl: 'Zipper 183–211', rmsf: 3.00, ord: '0.87', col: '#00e5ff' },
+        { lbl: 'C-tail 219–237', rmsf: 7.27, ord: '0.16', col: '#ff6b35' }
+      ];
+      const maxR = 10.0;
+      const bw = (gw / bars.length) * 0.64;
+      const step = gw / bars.length;
+
+      [3, 6, 9].forEach(rv => {
+        const py = padT + gh - (rv / maxR) * gh;
+        pctx.strokeStyle = 'rgba(255,255,255,0.06)';
+        pctx.beginPath(); pctx.moveTo(padL, py); pctx.lineTo(padL + gw, py); pctx.stroke();
+        pctx.fillStyle = '#666';
+        pctx.fillText(rv + ' Å', 12, py + 3);
+      });
+
+      bars.forEach((b, i) => {
+        const bx = padL + i * step + (step - bw) * 0.5;
+        const bh = (b.rmsf / maxR) * gh;
+        const by = padT + gh - bh;
+        pctx.fillStyle = b.col;
+        pctx.globalAlpha = 0.85;
+        pctx.beginPath();
+        pctx.roundRect(bx, by, bw, bh, [4, 4, 0, 0]);
+        pctx.fill();
+        pctx.globalAlpha = 1;
+        pctx.fillStyle = '#f0ece4';
+        pctx.fillText(`${b.rmsf} Å`, bx + 4, by - 5);
+        pctx.fillStyle = '#aaa';
+        pctx.fillText(`ord:${b.ord}`, bx + 4, by + 13);
+        pctx.fillStyle = '#888';
+        pctx.fillText(b.lbl, bx - 4, ph - 8);
+      });
+
+    } else if (state.system === 'fosb' && state.plotMode === 'warheads') {
+      // Warhead ΔE comparison: GFN2-xTB vs ωB97X-D/def2-SVP DFT + Sweet Spot Window
+      const items = [
+        { key: 'phenacyl', lbl: 'Phenacyl (5/5)', gfn: -9.9, dft: -10.3 },
+        { key: 'cyano', lbl: 'Cyanoacryl.', gfn: -27.0, dft: -27.4 },
+        { key: 'acrylamide', lbl: 'Acrylamide', gfn: -30.5, dft: -31.0 },
+        { key: 'maleimide', lbl: 'Maleimide', gfn: -34.2, dft: -34.6 },
+        { key: 'epoxide', lbl: 'Epoxide (!)', gfn: -23.9, dft: -37.1 }
+      ];
+      const maxE = 42;
+      const step = gw / items.length;
+
+      // Highlight mild phenacyl sweet spot (-8 to -11.4 kcal/mol)
+      const x1 = padL + (8 / maxE) * gw, x2 = padL + (11.5 / maxE) * gw;
+      pctx.fillStyle = 'rgba(200,255,0,0.09)';
+      pctx.fillRect(x1, padT, x2 - x1, gh);
+      pctx.fillStyle = '#c8ff00';
+      pctx.fillText('Selective Window (−8 to −11 kcal/mol)', x1 + 4, padT + 11);
+
+      items.forEach((it, idx) => {
+        const yBase = padT + 20 + idx * ((gh - 18) / items.length);
+        const wGfn = (Math.abs(it.gfn) / maxE) * gw;
+        const wDft = (Math.abs(it.dft) / maxE) * gw;
+
+        pctx.fillStyle = '#999';
+        pctx.fillText(it.lbl, padL + 4, yBase - 2);
+
+        // GFN2 bar
+        pctx.fillStyle = 'rgba(0,229,255,0.55)';
+        pctx.fillRect(padL + 105, yBase - 9, wGfn * 0.68, 6);
+        // DFT bar
+        pctx.fillStyle = it.key === 'epoxide' ? '#ff3355' : (it.key === 'phenacyl' ? '#c8ff00' : '#9b88ff');
+        pctx.fillRect(padL + 105, yBase - 1, wDft * 0.68, 6);
+
+        pctx.fillStyle = '#ddd';
+        pctx.fillText(`GFN2 ${it.gfn} / DFT ${it.dft} kcal/mol`, padL + 112 + Math.max(wGfn, wDft) * 0.68, yBase + 3);
+      });
+
+    } else {
+      // MOR Cheng-Prusoff Competitive Occupancy vs [Naloxone] Curve
+      const kdAgo = state.morLigand === 'fentanyl' ? 0.8 : 4.0;
+      const kdNal = 1.5;
+
+      pctx.strokeStyle = 'rgba(255,255,255,0.06)';
+      [0, 50, 100].forEach(pct => {
+        const py = padT + gh - (pct / 100) * gh;
+        pctx.beginPath(); pctx.moveTo(padL, py); pctx.lineTo(padL + gw, py); pctx.stroke();
+        pctx.fillStyle = '#666';
+        pctx.fillText(pct + '%', 12, py + 3);
+      });
+
+      // Agonist curve (orange) & Naloxone curve (lime) across [Nal] = 0..100 nM
+      for (let series of ['ago', 'nal']) {
+        pctx.beginPath();
+        for (let k = 0; k <= 100; k++) {
+          const nalX = k;
+          const den = 1 + (state.agoConc / kdAgo) + (nalX / kdNal);
+          const occ = series === 'ago' ? ((state.agoConc / kdAgo) / den) : ((nalX / kdNal) / den);
+          const px = padL + (k / 100) * gw;
+          const py = padT + gh - occ * gh;
+          if (k === 0) pctx.moveTo(px, py); else pctx.lineTo(px, py);
+        }
+        pctx.strokeStyle = series === 'ago' ? '#ff6b35' : '#c8ff00';
+        pctx.lineWidth = 2.2;
+        pctx.stroke();
+      }
+
+      // Current [Naloxone] marker
+      const curX = padL + (state.nalConc / 100) * gw;
+      pctx.strokeStyle = '#00e5ff';
+      pctx.setLineDash([4, 3]);
+      pctx.beginPath(); pctx.moveTo(curX, padT); pctx.lineTo(curX, padT + gh); pctx.stroke();
+      pctx.setLineDash([]);
+      pctx.fillStyle = '#00e5ff';
+      pctx.fillText(`[Nal] = ${state.nalConc.toFixed(1)} nM`, Math.min(padL + gw - 95, curX + 6), padT + 14);
+      pctx.fillStyle = '#888';
+      pctx.fillText('0 nM [Naloxone]', padL, ph - 8);
+      pctx.fillText('50 nM', padL + gw * 0.5 - 15, ph - 8);
+      pctx.fillText('100 nM', padL + gw - 42, ph - 8);
+    }
+
+    pctx.restore();
+  }
+
+  // ==========================================================================
+  // UI SYNCHRONIZATION & TELEMETRY UPDATES
+  // ==========================================================================
+  function syncUI() {
+    const hudTl = document.getElementById('canvasHudTl');
+
+    if (state.system === 'fosb') {
+      const dSS = getExactSSDistance(state.morph);
+      const curVol = state.frame === 0 ? LIGSITE_STATIC : LIGSITE_FRAMES[state.frame - 1];
+      const wh = WARHEADS[state.warhead];
+      const activeDE = state.useDft ? wh.dE_dft : wh.dE_gfn2;
+      const sasa = state.morph < 0.5 ? (32.2 + state.morph * 2 * (47.6 - 32.2)) : 47.6;
+
+      let pdbTag = 'PDB: 5VPE';
+      let stateTitle = 'ΔFosB/JunD bZIP · AP-1 DNA Complex (1.52 Å RMSD)';
+      if (state.morph >= 0.65 && state.morph < 1.45) {
+        pdbTag = state.warhead === 'phenacyl' ? 'PDB: 7UCC → 7UCD' : 'PDB: 7UCC';
+        stateTitle = 'ΔFosB/JunD Reduced Apo Heterodimer (DNA-Free)';
+      } else if (state.morph >= 1.45) {
+        pdbTag = 'PDB: 5VPB';
+        stateTitle = 'ΔFosB/JunD Oxidised Disulfide (11.59 Å Closure)';
+      }
+      document.getElementById('hudPdbCode').textContent = pdbTag;
+      document.getElementById('hudStateTitle').textContent = stateTitle;
+
+      // Top-left floating HUD receipts
+      let hudHtml = `<div class="hud-tag"><strong>S–S (C172–C285):</strong> ${dSS.toFixed(2)} Å ${dSS <= 2.35 ? '· <span class="warn">Disulfide Locked (90.9°)</span>' : ''}</div>`;
+      hudHtml += `<div class="hud-tag"><span class="cyn">LIGSITE Max Cavity:</span> ${curVol} Å³ ${curVol < 250 ? '(Below 250 Å³ Floor)' : ''}</div>`;
+      if (state.cageZoom) {
+        hudHtml += `<div class="hud-tag"><span class="vio">C172 8 Å Cage:</span> ${state.counterIons ? '5 Cl⁻ Screened → ΔpKₐ = +4.00' : '<span class="warn">Bare +5 Artifact → ΔpKₐ = −4.09</span>'}</div>`;
+      } else {
+        hudHtml += `<div class="hud-tag"><strong>Warhead:</strong> ${wh.name} (${wh.reactive ? activeDE.toFixed(1) + ' kcal/mol' : 'Non-cov'}) · ${wh.verdict}</div>`;
+      }
+      hudTl.innerHTML = hudHtml;
+
+      // 4-cell bottom telemetry
+      document.getElementById('teleLbl1').textContent = 'C172–C285 S–S Dist';
+      document.getElementById('teleVal1').textContent = dSS.toFixed(2) + ' Å';
+      document.getElementById('teleSub1').textContent = dSS <= 2.35
+        ? 'Strain: 1.44 kcal/mol · χ3 = 90.9°'
+        : `Closure vs 5VPE: ${(13.62 - dSS).toFixed(2)} Å`;
+
+      document.getElementById('teleLbl2').textContent = 'LIGSITE Largest Cavity';
+      document.getElementById('teleVal2').textContent = curVol + ' Å³';
+      document.getElementById('teleVal2').style.color = curVol >= 150 ? 'var(--accent)' : 'var(--cyan)';
+      document.getElementById('teleSub2').textContent = state.frame === 0
+        ? 'Static dimer (Floor: 250 Å³)'
+        : `Frame ${state.frame}/40 (${FRAME_TIMES_NS[state.frame - 1]} ns)`;
+
+      document.getElementById('teleLbl3').textContent = state.cageZoom ? 'C172 ΔpKₐ (8.1-u Span)' : 'C172 Sulfur SASA';
+      document.getElementById('teleVal3').textContent = state.cageZoom
+        ? (state.counterIons ? '+4.00 units' : '−4.09 units')
+        : sasa.toFixed(1) + ' Å²';
+      document.getElementById('teleVal3').style.color = (!state.counterIons && state.cageZoom) ? 'var(--danger)' : 'var(--violet)';
+      document.getElementById('teleSub3').textContent = state.counterIons
+        ? '5 Cl⁻ screened · Normal -SH thiol'
+        : 'Bare +5 cluster artifact!';
+
+      document.getElementById('teleLbl4').textContent = 'Candidate / CNS MPO';
+      document.getElementById('teleVal4').textContent = wh.reactive ? `${activeDE.toFixed(1)} kcal/mol` : `CNS ${wh.cns}`;
+      document.getElementById('teleVal4').style.color = wh.color;
+      document.getElementById('teleSub4').textContent = `${wh.verdict} · TPSA ${wh.tpsa} Å²`;
+
+    } else {
+      // MOR Telemetry
+      const kdAgo = state.morLigand === 'fentanyl' ? 0.8 : 4.0;
+      const den = 1 + (state.agoConc / kdAgo) + (state.nalConc / 1.5);
+      const occAgo = ((state.agoConc / kdAgo) / den) * 100;
+      const occNal = ((state.nalConc / 1.5) / den) * 100;
+      const tm6 = (!state.quantumReal || state.morLigand === 'naloxone') ? '0.0 Å (LOCKED)' : '10.2 Å (OPEN)';
+
+      document.getElementById('hudPdbCode').textContent = state.morLigand === 'naloxone' ? 'MOR · INACTIVE' : 'MOR · ACTIVE';
+      document.getElementById('hudStateTitle').textContent = 'μ-Opioid Receptor 7TM · Quantum Electrostatics & Sterics';
+
+      hudTl.innerHTML = `
+        <div class="hud-tag"><span class="cyn">Physics Engine:</span> ${state.quantumReal ? 'Quantum |ψ|² + London Dispersion' : '<span class="warn">Classical Bohr (Bilayer Collapse!)</span>'}</div>
+        <div class="hud-tag"><strong>Orthosteric Pocket:</strong> ${state.morLigand.toUpperCase()} · Asp147 Salt-Bridge (2.80 Å)</div>
+        <div class="hud-tag"><span class="vio">TM6 Switch:</span> ${tm6}</div>
+      `;
+
+      document.getElementById('teleLbl1').textContent = 'Naloxone Occupancy';
+      document.getElementById('teleVal1').textContent = occNal.toFixed(1) + '%';
+      document.getElementById('teleSub1').textContent = 'Kd ≈ 1.5 nM (3× Morphine dwell)';
+
+      document.getElementById('teleLbl2').textContent = 'Agonist Occupancy';
+      document.getElementById('teleVal2').textContent = occAgo.toFixed(1) + '%';
+      document.getElementById('teleVal2').style.color = 'var(--accent2)';
+      document.getElementById('teleSub2').textContent = occAgo < 30 ? 'Gi signaling abolished (<30%)' : 'Active Gi coupling!';
+
+      document.getElementById('teleLbl3').textContent = 'TM6 Outward Swing';
+      document.getElementById('teleVal3').textContent = state.morLigand === 'naloxone' ? '0.0 Å' : '10.2 Å';
+      document.getElementById('teleVal3').style.color = state.morLigand === 'naloxone' ? 'var(--accent)' : 'var(--accent2)';
+      document.getElementById('teleSub3').textContent = state.morLigand === 'naloxone' ? 'Allyl arm jams Trp293' : 'Intracellular cavity open';
+
+      document.getElementById('teleLbl4').textContent = 'Bilayer Dispersion';
+      document.getElementById('teleVal4').textContent = state.quantumReal ? '−C₆ / r⁶ ON' : '0.0 (COLLAPSE)';
+      document.getElementById('teleVal4').style.color = state.quantumReal ? 'var(--cyan)' : 'var(--danger)';
+      document.getElementById('teleSub4').textContent = state.quantumReal ? 'Instantaneous |ψ|² dipoles' : 'Bohr planetary failure';
+    }
+  }
+
+  // ==========================================================================
+  // INTERACTIVE HANDLERS (LOCAL LEXICAL + EXPOSED TO WINDOW)
+  // ==========================================================================
+  function setSystem(sys) {
+    state.system = sys;
+    document.getElementById('tabSysFosb').classList.toggle('active', sys === 'fosb');
+    document.getElementById('tabSysMor').classList.toggle('active', sys === 'mor');
+    document.getElementById('controlsFosb').classList.toggle('hidden', sys !== 'fosb');
+    document.getElementById('controlsMor').classList.toggle('hidden', sys !== 'mor');
+    document.getElementById('plotTabsFosb').classList.toggle('hidden', sys !== 'fosb');
+    document.getElementById('plotTabsMor').classList.toggle('hidden', sys !== 'mor');
+
+    if (sys === 'mor') {
+      state.plotMode = 'mor_occ';
+      document.getElementById('plotHint').textContent = 'Cheng–Prusoff competitive occupancy across [Naloxone]';
+      document.getElementById('receiptKicker').textContent = 'RISHIK\'S QUANTUM RECEIPT · ARTICLE 06 + MOR STERICS';
+      document.getElementById('receiptText').innerHTML = '<strong>Why school lock-and-key fails:</strong> Without quantum electron-cloud fluctuations, London dispersion vanishes and phospholipid membranes cannot even form. Inside MOR, frontier orbital density locks the protonated amine to <strong>Asp147</strong>, while Naloxone\'s rigid sp² <code>-CH₂-CH=CH₂</code> allyl arm creates a Pauli steric wall against <strong>Trp293 / TM6</strong> — freezing the receptor inactive.';
+      document.getElementById('reelText').textContent = 'Classical chemistry cannot even hold a neuron\'s membrane together. Watch Naloxone\'s rigid allyl π-arm jam TM6 at the quantum level.';
+    } else {
+      state.plotMode = 'ligsite';
+      document.getElementById('plotHint').textContent = 'Click/drag plot to scrub 10 ns MD trajectory';
+      selectWarhead(state.warhead);
+    }
+    syncUI();
+  }
+
+  function onMorphInput(val) {
+    state.morph = parseFloat(val);
+    state.morphTarget = null;
+    updateMorphLabels();
+    syncUI();
+  }
+
+  function updateMorphLabels() {
+    const dSS = getExactSSDistance(state.morph);
+    let txt = `5VPE · DNA-Bound (S–S ${dSS.toFixed(2)} Å)`;
+    if (state.morph >= 0.65 && state.morph < 1.45) txt = `7UCC · Reduced Apo (S–S ${dSS.toFixed(2)} Å)`;
+    else if (state.morph >= 1.45) txt = `5VPB · Disulfide (S–S ${dSS.toFixed(2)} Å)`;
+    document.getElementById('lblMorphState').textContent = txt;
+    document.getElementById('stop0').classList.toggle('active', state.morph < 0.5);
+    document.getElementById('stop1').classList.toggle('active', state.morph >= 0.5 && state.morph < 1.5);
+    document.getElementById('stop2').classList.toggle('active', state.morph >= 1.5);
+  }
+
+  function animateMorphTo(target) {
+    state.morphTarget = target;
+  }
+
+  function onThermalInput(val) {
+    state.thermal = parseFloat(val);
+    document.getElementById('lblThermal').textContent = `${state.thermal.toFixed(2)}× (${Math.round(state.thermal * 310)} K)`;
+  }
+
+  function toggleFullLength() {
+    state.fullLength = !state.fullLength;
+    document.getElementById('btnFullLength').classList.toggle('active', state.fullLength);
+    document.getElementById('indFull').textContent = state.fullLength ? 'ON' : 'OFF';
+    if (state.fullLength) {
+      state.targetZoom = 0.72;
+      setPlotMode('rmsf');
+    } else {
+      state.targetZoom = 1.0;
+    }
+    syncUI();
+  }
+
+  function toggleRmsfColor() {
+    state.rmsfColor = !state.rmsfColor;
+    document.getElementById('btnRmsfColor').classList.toggle('active', state.rmsfColor);
+    document.getElementById('indRmsf').textContent = state.rmsfColor ? 'ON' : 'OFF';
+  }
+
+  function onFrameInput(val) {
+    state.frame = parseInt(val, 10);
+    const v = state.frame === 0 ? LIGSITE_STATIC : LIGSITE_FRAMES[state.frame - 1];
+    document.getElementById('lblFrameVal').textContent = state.frame === 0
+      ? `Static · ${v} Å³`
+      : `F${state.frame} (${FRAME_TIMES_NS[state.frame - 1]} ns) · ${v} Å³`;
+    syncUI();
+  }
+
+  function jumpToPeakFrame() {
+    state.showCavity = true;
+    document.getElementById('btnShowCavity').classList.add('active-cyan');
+    document.getElementById('indCav').textContent = 'ON';
+    document.getElementById('sliderFrame').value = 27;
+    onFrameInput(27);
+    setPlotMode('ligsite');
+  }
+
+  function toggleCavityMesh() {
+    state.showCavity = !state.showCavity;
+    document.getElementById('btnShowCavity').classList.toggle('active-cyan', state.showCavity);
+    document.getElementById('indCav').textContent = state.showCavity ? 'ON' : 'OFF';
+    syncUI();
+  }
+
+  function toggleFloorSphere() {
+    state.showFloorSphere = !state.showFloorSphere;
+    document.getElementById('btnFloorSphere').classList.toggle('active-orange', state.showFloorSphere);
+    document.getElementById('indFloor').textContent = state.showFloorSphere ? 'ON' : 'OFF';
+  }
+
+  function toggleHivControl() {
+    state.showHivControl = !state.showHivControl;
+    document.getElementById('btnHivControl').classList.toggle('active', state.showHivControl);
+    document.getElementById('indHiv').textContent = state.showHivControl ? 'ON' : 'OFF';
+    state.targetZoom = state.showHivControl ? 0.84 : 1.0;
+    syncUI();
+  }
+
+  function toggleCageZoom() {
+    state.cageZoom = !state.cageZoom;
+    document.getElementById('btnCageZoom').classList.toggle('active-violet', state.cageZoom);
+    document.getElementById('indCage').textContent = state.cageZoom ? 'ON' : 'OFF';
+    if (state.cageZoom) {
+      state.showHivControl = false;
+      document.getElementById('btnHivControl').classList.remove('active');
+      document.getElementById('indHiv').textContent = 'OFF';
+      state.targetZoom = 1.95;
+      state.targetYaw = 0.22;
+      state.targetPitch = 0.12;
+      document.getElementById('receiptKicker').textContent = 'RISHIK\'S NEGATIVE RESULT · 8.1-UNIT ΔpKa SPAN';
+      document.getElementById('receiptText').innerHTML = '<strong>Why C172 is exposed, NOT activated:</strong> Despite 6 cations within 8 Å, nearest polar N is <strong>3.85 Å</strong> and nearest cation <strong>4.29 Å</strong>. Toggle the 5 Cl⁻ counter-ions above to watch computed ΔpK<sub>a</sub> swing <strong>8.1 units</strong> (−4.09 bare +5 PBE0 cluster vs +4.00 screened GFN2+5Cl⁻). The sign was a counter-ion artifact!';
+    } else {
+      state.targetZoom = 1.0;
+    }
+    syncUI();
+  }
+
+  function toggleCounterIons() {
+    state.counterIons = !state.counterIons;
+    document.getElementById('btnCounterIons').classList.toggle('active-violet', state.counterIons);
+    document.getElementById('indIons').textContent = state.counterIons ? 'ON' : 'OFF';
+    document.getElementById('lblQmModel').textContent = state.counterIons
+      ? 'GFN2-xTB/ALPB + 5 Cl⁻ (Charge-Neutral)'
+      : 'PBE0/def2-SVP + IEFPCM (Bare +5 Cluster)';
+    const lblPka = document.getElementById('lblPkaVal');
+    lblPka.textContent = state.counterIons ? 'ΔpKₐ = +4.00' : 'ΔpKₐ = −4.09';
+    lblPka.style.color = state.counterIons ? 'var(--emerald)' : 'var(--danger)';
+    document.getElementById('pkaNeedle').style.left = state.counterIons ? '86%' : '11%';
+    syncUI();
+  }
+
+  function toggleTheoryLevel() {
+    state.useDft = !state.useDft;
+    document.getElementById('btnDftToggle').textContent = state.useDft ? 'QM: ωB97X-D DFT' : 'QM: GFN2-xTB';
+    syncUI();
+  }
+
+  function selectWarhead(key) {
+    state.warhead = key;
+    document.querySelectorAll('#warheadList .wh-item').forEach(el => {
+      const match = el.dataset.wh === key;
+      el.classList.toggle('active', match);
+      el.classList.toggle('danger', match && (key === 'maleimide' || key === 'anionic9oc3'));
+      el.classList.toggle('warn', match && (key === 'acrylamide' || key === 'mv0trap'));
+    });
+    const wh = WARHEADS[key];
+    document.getElementById('receiptKicker').textContent = 'RISHIK\'S COMPUTATIONAL RECEIPT · ARTICLE 07 §8–9';
+    document.getElementById('receiptText').innerHTML = wh.receipt;
+    syncUI();
+  }
+
+  function setPlotMode(mode) {
+    state.plotMode = mode;
+    document.querySelectorAll('#plotTabsFosb .plot-tab').forEach(b => {
+      b.classList.toggle('active', b.dataset.plot === mode);
+    });
+    const hints = {
+      ligsite: 'Click/drag plot to scrub 10 ns MD trajectory (Frame 27 = 6.64 ns peak)',
+      rmsf: 'Cα RMSF (Å) and ordered fraction across full-length ΔFosB (1–237)',
+      warheads: 'Computed thiol addition ΔE: GFN2-xTB (cyan) vs ωB97X-D/def2-SVP DFT'
+    };
+    document.getElementById('plotHint').textContent = hints[mode] || '';
+  }
+
+  // MOR Handlers
+  function setQuantumFoundation(real) {
+    state.quantumReal = real;
+    document.getElementById('btnQmReal').classList.toggle('active-cyan', real);
+    document.getElementById('btnQmBohr').classList.toggle('active-orange', !real);
+    syncUI();
+  }
+
+  function toggleFrontierOrbitals() {
+    state.showOrbitals = !state.showOrbitals;
+    document.getElementById('btnFrontierOrb').classList.toggle('active-violet', state.showOrbitals);
+    document.getElementById('indHomo').textContent = state.showOrbitals ? 'ON' : 'OFF';
+  }
+
+  function setMorLigand(lig) {
+    state.morLigand = lig;
+    document.getElementById('morLigMorphine').classList.toggle('active', lig === 'morphine');
+    document.getElementById('morLigNaloxone').classList.toggle('active', lig === 'naloxone');
+    document.getElementById('morLigFentanyl').classList.toggle('active', lig === 'fentanyl');
+    syncUI();
+  }
+
+  function onMorConcInput() {
+    state.nalConc = parseFloat(document.getElementById('sliderMorNal').value);
+    state.agoConc = parseFloat(document.getElementById('sliderMorAgo').value);
+    document.getElementById('lblMorNalConc').textContent = state.nalConc.toFixed(1) + ' nM';
+    document.getElementById('lblMorAgoConc').textContent = state.agoConc.toFixed(1) + ' nM';
+    syncUI();
+  }
+
+  // Camera & UI Toggles
+  function toggleSpin() {
+    state.autoSpin = !state.autoSpin;
+    document.getElementById('btnAutoSpin').classList.toggle('on', state.autoSpin);
+  }
+
+  function toggleLabels() {
+    state.showLabels = !state.showLabels;
+    document.getElementById('btnLabels').classList.toggle('on', state.showLabels);
+  }
+
+  function resetCamera() {
+    state.targetYaw = 0.48;
+    state.targetPitch = 0.20;
+    state.targetZoom = 1.0;
+    state.targetPanX = 0;
+    state.targetPanY = 0;
+  }
+
+  function toggleReelMode(force) {
+    state.reelMode = typeof force === 'boolean' ? force : !state.reelMode;
+    document.body.classList.toggle('reel-mode', state.reelMode);
+    document.getElementById('btnReelMode').classList.toggle('reel-active', state.reelMode);
+    try {
+      const url = new URL(window.location.href);
+      if (state.reelMode) url.searchParams.set('mode', 'reel');
+      else url.searchParams.delete('mode');
+      window.history.replaceState({}, '', url.toString());
+    } catch (_) {}
+    setTimeout(resizeCanvases, 30);
+  }
+
+  function toggleDrawer(open) {
+    document.getElementById('drawerBackdrop').classList.toggle('open', open);
+    document.getElementById('eqDrawer').classList.toggle('open', open);
+  }
+
+  // --- SCIENTIFIC ONE-CLICK PRESETS ---
+  const PRESET_ALIASES = {
+    'redox-morph': 'redox',
+    'pka-cage': 'c172cage',
+    'warheads': 'warhead',
+    'mor-sterics': 'mor_quantum',
+    'mor': 'mor_quantum',
+    'phenacyl': '5vpe'
+  };
+
+  function applyPreset(rawId) {
+    const id = PRESET_ALIASES[rawId] || rawId;
+    document.querySelectorAll('.preset-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.preset === id);
+    });
+
+    if (id === 'mor_quantum') {
+      setSystem('mor');
+      setQuantumFoundation(true);
+      setMorLigand('naloxone');
+      resetCamera();
+      return;
+    }
+
+    setSystem('fosb');
+    // Reset clean defaults before applying specific focus
+    state.cageZoom = false;
+    document.getElementById('btnCageZoom').classList.remove('active-violet');
+    document.getElementById('indCage').textContent = 'OFF';
+    state.showHivControl = false;
+    document.getElementById('btnHivControl').classList.remove('active');
+    document.getElementById('indHiv').textContent = 'OFF';
+    state.showFloorSphere = false;
+    document.getElementById('btnFloorSphere').classList.remove('active-orange');
+    document.getElementById('indFloor').textContent = 'OFF';
+    state.fullLength = false;
+    document.getElementById('btnFullLength').classList.remove('active');
+    document.getElementById('indFull').textContent = 'OFF';
+    state.rmsfColor = false;
+    document.getElementById('btnRmsfColor').classList.remove('active');
+    document.getElementById('indRmsf').textContent = 'OFF';
+
+    if (id === '5vpe') {
+      animateMorphTo(0.0);
+      document.getElementById('sliderFrame').value = 0;
+      onFrameInput(0);
+      selectWarhead('phenacyl');
+      setPlotMode('ligsite');
+      resetCamera();
+      document.getElementById('reelText').textContent = '5VPE AP-1 DNA Complex: C172 & C285 sit 13.62 Å apart across a flat 1,524 Å² interface.';
+    } else if (id === 'redox') {
+      animateMorphTo(2.0);
+      document.getElementById('sliderFrame').value = 0;
+      onFrameInput(0);
+      setPlotMode('ligsite');
+      resetCamera();
+      document.getElementById('reelText').textContent = '5VPB Disulfide Switch: 11.59 Å of backbone closure locks S–S at 2.03 Å (1.44 kcal/mol unstrained) and ejects DNA.';
+    } else if (id === 'disorder') {
+      animateMorphTo(1.0);
+      state.fullLength = true;
+      state.rmsfColor = true;
+      document.getElementById('btnFullLength').classList.add('active');
+      document.getElementById('indFull').textContent = 'ON';
+      document.getElementById('btnRmsfColor').classList.add('active');
+      document.getElementById('indRmsf').textContent = 'ON';
+      state.targetZoom = 0.68;
+      setPlotMode('rmsf');
+      document.getElementById('reelText').textContent = 'One folded bZIP module on a chaotic disordered chain: Transactivation core whips at 8.79 Å RMSF (3% ordered).';
+    } else if (id === 'ligsite') {
+      animateMorphTo(1.0);
+      state.showFloorSphere = true;
+      state.showHivControl = true;
+      document.getElementById('btnFloorSphere').classList.add('active-orange');
+      document.getElementById('indFloor').textContent = 'ON';
+      document.getElementById('btnHivControl').classList.add('active');
+      document.getElementById('indHiv').textContent = 'ON';
+      jumpToPeakFrame();
+      state.targetZoom = 0.82;
+      document.getElementById('reelText').textContent = 'There Is No Pocket: Even the best 10 ns frame (173 Å³) fails the 250 Å³ floor — next to HIV-1 protease (368 Å³).';
+    } else if (id === 'c172cage') {
+      animateMorphTo(1.0);
+      toggleCageZoom();
+      document.getElementById('reelText').textContent = 'C172 8 Å Quantum Cage: 6 cations, 0 acids — yet ΔpKa swings 8.1 units (−4.09 to +4.00) when 5 Cl⁻ ions are modelled!';
+    } else if (id === 'warhead') {
+      animateMorphTo(1.0);
+      selectWarhead('maleimide');
+      setPlotMode('warheads');
+      resetCamera();
+      document.getElementById('reelText').textContent = 'Hot Michael acceptors (−34.2 kcal/mol) splatter the proteome. Mild phenacyls (−9.9 kcal/mol, 5/5 CNS) win.';
+    }
+    syncUI();
+  }
+
+  Object.assign(window, {
+    setSystem, onMorphInput, animateMorphTo, onThermalInput,
+    toggleFullLength, toggleRmsfColor, onFrameInput, jumpToPeakFrame,
+    toggleCavityMesh, toggleFloorSphere, toggleHivControl, toggleCageZoom,
+    toggleCounterIons, toggleTheoryLevel, selectWarhead, setPlotMode,
+    setQuantumFoundation, toggleFrontierOrbitals, setMorLigand, onMorConcInput,
+    toggleSpin, toggleLabels, resetCamera, toggleReelMode, toggleDrawer, applyPreset
+  });
+
+  // --- MAIN 60FPS ANIMATION LOOP ---
+  let lastTs = performance.now();
+  function tick(now) {
+    const dt = Math.min(0.05, (now - lastTs) * 0.001);
+    lastTs = now;
+    state.time += dt;
+
+    if (state.autoSpin && !isDragging && state.targetYaw === null) {
+      state.yaw += dt * 0.28;
+    }
+
+    // Smooth camera & morph interpolation
+    if (state.morphTarget !== null) {
+      const diff = state.morphTarget - state.morph;
+      if (Math.abs(diff) < 0.005) {
+        state.morph = state.morphTarget;
+        state.morphTarget = null;
+      } else {
+        state.morph += diff * Math.min(1, dt * 5.5);
+      }
+      document.getElementById('sliderMorph').value = state.morph.toFixed(2);
+      updateMorphLabels();
+      syncUI();
+    }
+
+    if (state.targetZoom !== null) {
+      state.zoom += (state.targetZoom - state.zoom) * Math.min(1, dt * 6);
+      if (Math.abs(state.targetZoom - state.zoom) < 0.005) state.targetZoom = null;
+    }
+    if (state.targetYaw !== null) {
+      state.yaw += (state.targetYaw - state.yaw) * Math.min(1, dt * 6);
+      if (Math.abs(state.targetYaw - state.yaw) < 0.005) state.targetYaw = null;
+    }
+    if (state.targetPitch !== null) {
+      state.pitch += (state.targetPitch - state.pitch) * Math.min(1, dt * 6);
+      if (Math.abs(state.targetPitch - state.pitch) < 0.005) state.targetPitch = null;
+    }
+    if (state.targetPanX !== null) {
+      state.panX += (state.targetPanX - state.panX) * Math.min(1, dt * 7);
+      state.panY += (state.targetPanY - state.panY) * Math.min(1, dt * 7);
+      if (Math.abs(state.targetPanX - state.panX) < 0.5) {
+        state.targetPanX = null; state.targetPanY = null;
+      }
+    }
+
+    render3D();
+    renderPlot();
+    requestAnimationFrame(tick);
+  }
+
+  // --- INITIALIZATION & URL DEEP-LINK PARSING ---
+  if (typeof CanvasRenderingContext2D !== 'undefined' && !CanvasRenderingContext2D.prototype.roundRect) {
+    CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h) {
+      this.rect(x, y, w, h);
+    };
+  }
+
+  function tryRenderMath() {
+    const drawer = document.getElementById('eqDrawer');
+    if (drawer && typeof renderMathInElement === 'function') {
+      renderMathInElement(drawer, {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '\\(', right: '\\)', display: false }
+        ],
+        throwOnError: false
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    resizeCanvases();
+    tryRenderMath();
+
+    // Support ?mode=reel and #preset=... deep links from NeuroLab Hub
+    function applyHashPreset() {
+      const hash = window.location.hash || '';
+      const m = hash.match(/preset=([a-z0-9_-]+)/i);
+      if (m && m[1]) {
+        applyPreset(m[1].toLowerCase());
+        return true;
+      }
+      return false;
+    }
+
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('mode') === 'reel') {
+        toggleReelMode(true);
+      }
+      if (!applyHashPreset()) {
+        syncUI();
+      }
+    } catch (_) {
+      syncUI();
+    }
+
+    window.addEventListener('hashchange', applyHashPreset);
+    requestAnimationFrame(tick);
+  });
+
+  window.addEventListener('load', tryRenderMath);
+})();
+</script>
+</body>
+</html>
