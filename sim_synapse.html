@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RPrime SYNAPSE — Multi-Timescale Cortico-Striatal D1 MSN Twin — Neuroscience with RPrime</title>
+<link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -974,16 +975,17 @@
 
     <div class="drawer-grid">
       <div class="eq-card cyan">
-        <div class="eq-card-label">1 · Two-Compartment Spine Neck &amp; Jahr–Stevens NMDAR</div>
+        <div class="eq-card-label">1 · Spine Neck R_neck &amp; Conductance-Based HH Striatal MSN Soma</div>
         <div>$$R_{\text{neck}} = \rho_i \frac{L}{\pi r^2}, \qquad B(V) = \frac{1}{1 + \frac{[\text{Mg}^{2+}]_o}{3.57}e^{-0.062V}}$$</div>
-        <div style="margin-top:6px;">$$C_s \frac{dV_{\text{spine}}}{dt} = -g_L(V_{\text{spine}}-E_L) - I_{\text{AMPA}}(S_{845}, A) - I_{\text{NMDA}} - \frac{V_{\text{spine}}-V_{\text{soma}}}{R_{\text{neck}}}$$</div>
-        <div class="eq-card-note">Integrated via unconditional Exponential-Euler substeps ($\Delta t = 0.05\text{ ms}$). Narrowing $r$ compartmentalizes $V_{\text{spine}}$ to locally relieve $\text{Mg}^{2+}$ block.</div>
+        <div style="margin-top:6px;">$$C_m \frac{dV_{\text{soma}}}{dt} = -\big(I_{\text{Na}}(m^3h) + I_{\text{Kdr}}(n^4) + I_{\text{Kir2}} + I_A(a^4b) + I_L\big) + N_{\text{act}}\frac{V_{\text{spine}}-V_{\text{soma}}}{R_{\text{neck}}}$$</div>
+        <div class="eq-card-note">Integrated via Rush–Larsen Exponential-Euler ($\Delta t = 0.025\text{ ms}$). $\text{Kir2}$ holds the $-82\text{ mV}$ down-state; $\text{Kv4.2 } I_A$ sets ramp delay before regenerative $I_{\text{Na}}$ spikes.</div>
       </div>
 
       <div class="eq-card orange">
-        <div class="eq-card-label">2 · VMAT2 Proton Gradient, DAT Reversal &amp; Dual-Clock DARPP-32</div>
-        <div>$$\frac{d[\Delta\text{FosB}]}{dt} = k_{\text{syn}}\text{CREB}_P - \frac{\ln 2}{t_{1/2}}[\Delta\text{FosB}], \qquad \text{PKA}_{\text{act}} = \frac{\text{PKA}_{\text{cAMP}}}{1 + \gamma_{75}\text{Thr75}_P}$$</div>
-        <div class="eq-card-note">Fast $\text{GRK2}/\beta\text{-arrestin2}$ D1R endocytosis recovers over a 48h washout; slow $\Delta\text{FosB}$ ($t_{1/2}=14\text{ d}$) drives $\text{CDK5}\to\text{Thr75-P}$, inhibiting PKA and unleashing $\text{PP1}$ to strip $\text{GluA1-Ser845P}$.</div>
+        <div class="eq-card-label">2 · Quantitative µM Proteomics &amp; Morrison Tight-Binding PP1</div>
+        <div>$$[\text{PKA}_c]_{\text{free}} = \frac{[\text{PKA}_c]_0}{1 + \frac{[\text{Thr75-P}]}{K_{i,75}}}, \quad [\text{PP2B}]_{\text{act}} = \frac{[\text{PP2B}]_{\text{tot}}[\text{Ca}^{2+}]^3}{K_{\text{Ca}}^3 + [\text{Ca}^{2+}]^3}$$</div>
+        <div style="margin-top:6px;">$$[\text{PP1}]_{\text{free}} = \tfrac{1}{2}\!\left[(P_T - D_{34} - K_i) + \sqrt{(P_T - D_{34} - K_i)^2 + 4 P_T K_i}\right]$$</div>
+        <div class="eq-card-note">Striatal stoichiometry: $[\text{DARPP-32}]_{\text{tot}}=50\,\mu\text{M}$, $[\text{PKA}]_{\text{tot}}=1.2\,\mu\text{M}$, $\text{Thr75 } K_{i,75}=2.7\,\mu\text{M}$, $\text{PP2B } K_{\text{Ca}}=0.7\,\mu\text{M}$, $[\text{PP1}]_{\text{tot}}=2.0\,\mu\text{M}$ with Morrison $K_i=1.0\text{ nM}$.</div>
       </div>
 
       <div class="eq-card lime">
@@ -994,14 +996,14 @@
       </div>
 
       <div class="eq-card">
-        <div class="eq-card-label">4 · Freidlin–Wentzell Curl &amp; Itô Log-Space Persistence Law (Art. 07)</div>
-        <div>$$dx = \left[\frac{b_0 + d(t) + \frac{v A^n}{K^n+A^n} - k_A A}{A} - D\right]dt + \sqrt{2D}\,dW, \quad x=\ln A$$</div>
-        <div style="margin-top:6px;">$$\oint \Delta V = +1.73 \neq 0, \qquad \tau \propto \rho^{\alpha/D} \;\;(\alpha/D \approx 23.3), \qquad d\equiv 0 \Rightarrow E_d \equiv 0$$</div>
-        <div class="eq-card-note">Additive drug drive $d(t)$ vanishes during abstinence, giving $E_d\equiv 0$, while $E_v=+21.8$ and $E_D=-6.99$ govern barrier collapse.</div>
+        <div class="eq-card-label">4 · Numerical 2D Freidlin–Wentzell Action &amp; Itô Log-Space SDE (Art. 07)</div>
+        <div>$$\Phi(\gamma_{ij}) = \int_{\gamma_{ij}}\!\big(|\mathbf{b}| - \hat{\tau}\!\cdot\!\mathbf{b}\big)ds, \quad \sum_{\text{cycle}}\Delta V_{ij} = +1.73 \;\;(\kappa_{\text{couple}}=1)$$</div>
+        <div style="margin-top:6px;">$$dx = \left[\frac{f(A)}{A} - D\right]dt + \sqrt{2D}\,dW, \quad \tau \propto \rho^{\alpha/D} \;\;(\alpha/D \approx 23.3), \quad E_d \equiv 0$$</div>
+        <div class="eq-card-note">Live 2D grid curl &amp; 6-leg line quadrature verify $\text{med}|\nabla\times\mathbf{b}|/|\mathbf{b}| = 1.38\times \to 0.00\times$ and $\oint\Delta V = +1.73 \to 0.00$ as $\kappa_{\text{couple}} \to 0$.</div>
       </div>
     </div>
 
-    <div class="eyebrow" style="color:var(--lime);margin-bottom:8px;">LIVE BIOPHYSICAL &amp; STOCHASTIC PARAMETER EDITOR (UPDATES ENGINE INSTANTLY)</div>
+    <div class="eyebrow" style="color:var(--lime);margin-bottom:8px;">LIVE BIOPHYSICAL, PROTEOMIC (µM) &amp; STOCHASTIC PARAMETER EDITOR</div>
     <div class="param-editor-grid">
       <div class="param-cell">
         <label>Axial Resistivity ρ_i (Ω·cm)</label>
@@ -1010,6 +1012,26 @@
       <div class="param-cell">
         <label>Extracellular [Mg²⁺]_o (mM)</label>
         <input type="number" id="p_mg" value="1.0" min="0.05" max="4.0" step="0.1">
+      </div>
+      <div class="param-cell">
+        <label>[DARPP-32]_tot (µM)</label>
+        <input type="number" id="p_darpp_tot" value="50.0" min="10.0" max="120.0" step="2.0">
+      </div>
+      <div class="param-cell">
+        <label>Thr75→PKA K_i (µM)</label>
+        <input type="number" id="p_ki75" value="2.7" min="0.5" max="15.0" step="0.1">
+      </div>
+      <div class="param-cell">
+        <label>[PP1]_tot (µM, Morrison)</label>
+        <input type="number" id="p_pp1_tot" value="2.0" min="0.5" max="8.0" step="0.1">
+      </div>
+      <div class="param-cell">
+        <label>Thr34→PP1 K_i (nM)</label>
+        <input type="number" id="p_kipp1_nm" value="1.0" min="0.1" max="25.0" step="0.2">
+      </div>
+      <div class="param-cell">
+        <label>PP2B Calcineurin K_Ca (µM)</label>
+        <input type="number" id="p_kca" value="0.7" min="0.2" max="2.5" step="0.05">
       </div>
       <div class="param-cell">
         <label>ΔFosB Half-Life t_½ (days)</label>
@@ -1156,6 +1178,11 @@
           <div class="metric-label">VMAT2 ΔpH &amp; Cytosolic ROS</div>
           <div class="metric-val" id="m_vmat" style="color:var(--lime)">1.80 pH · 0%</div>
           <div class="metric-sub" id="m_dat_mode">DAT: Normal Inward</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-label">DARPP-32 (50µM) &amp; PP1_free</div>
+          <div class="metric-val" id="m_darpp_um" style="color:var(--lime)">T34 4.2 · T75 2.4 µM</div>
+          <div class="metric-sub" id="m_pp1_um">PKA 0.12 µM · PP1 42 nM</div>
         </div>
       </div>
     </section>
@@ -1330,11 +1357,11 @@
     <div class="sde-canvases-grid">
       <div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px;flex-wrap:wrap;">
-          <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted2);">A · 2D Non-Gradient Phase Flow &amp; 3-Attractor Action Loop ($\chi_{\text{disc}} = 3 - 3 + 1 = +1$)</span>
+          <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted2);">A · Live 2D Freidlin–Wentzell Action &amp; Curl ($\chi_{\text{disc}} = 3 - 3 + 1 = +1$)</span>
           <label style="font-family:var(--font-mono);font-size:10.5px;color:var(--violet);display:inline-flex;align-items:center;gap:6px;">
-            Loop Coupling
-            <input type="range" class="sim-range violet" id="sliderCurl" min="0" max="1.25" step="0.05" value="1.0" style="width:85px;">
-            <strong id="valCurl">1.00×</strong>
+            Inter-Regional κ_couple
+            <input type="range" class="sim-range violet" id="sliderCurl" min="0" max="1" step="0.01" value="1.00" style="width:90px;">
+            <strong id="valCurl">1.00</strong>
           </label>
         </div>
         <canvas id="curlCanvas" class="sim-canvas" height="300"></canvas>
@@ -1467,10 +1494,19 @@
   window.addEventListener('DOMContentLoaded', triggerMathRender);
   window.addEventListener('load', triggerMathRender);
 
-  // ─── CONSTANTS & EDITABLE BIOPHYSICAL PARAMETERS ───────────────────────────
+  // ─── CONSTANTS & EDITABLE BIOPHYSICAL / PROTEOMIC PARAMETERS ───────────────
   const DEFAULTS = {
     rho_i: 180.0,       // Ohm*cm cytoplasmic resistivity (1.80 Ohm*m)
     mg_o: 1.0,          // mM extracellular Mg2+
+    darpp_tot: 50.0,    // µM total striatal DARPP-32
+    pka_tot: 1.20,      // µM total catalytic PKA
+    pp1_tot: 2.00,      // µM total striatal PP1
+    pp2a_tot: 0.60,     // µM basal PP2A
+    pp2b_tot: 1.50,     // µM total Calcineurin (PP2B)
+    glua1_tot: 1.00,    // µM synaptic GluA1 substrate pool
+    ki_75: 2.70,        // µM competitive Ki of Thr75-P on PKA (Bibb et al. 2001)
+    ki_pp1_nm: 1.0,     // nM Morrison tight-binding Ki of Thr34-P on PP1 (0.0010 µM)
+    k_ca_pp2b: 0.70,    // µM Ca2+ half-activation of PP2B Calcineurin (Hill n=3)
     fosb_hl: 14.0,      // days DeltaFosB half-life
     psi: 0.34,          // postsynaptic share of neuronal ATP budget (Art. 07)
     P0_atp: 7.31e9,     // basal neuron running cost ATP/s (Art. 07)
@@ -1591,29 +1627,44 @@
     daCleft: 0.04,           // cleft DA (µM-scaled, basal ~0.04, phasic ~0.8, meth ~3.5+)
     gluCleft: 0.0,           // cleft glutamate (mM-scaled)
 
-    // Postsynaptic D1 Spine & Soma Electrophysiology
-    vSpine: -81.8,           // mV
-    vSoma: -82.0,            // mV
+    // Postsynaptic D1 Spine & Conductance-Based Hodgkin-Huxley MSN Soma
+    vSpine: -82.0,           // mV
+    vSoma: -82.2,            // mV (held near -82 mV down-state by Kir2)
+    framePeakVSoma: -82.2,   // anti-aliased substep peak for oscilloscope
+    framePeakVSpine: -82.0,
+    hh_m: 0.011,             // INa fast activation gate
+    hh_h: 0.965,             // INa inactivation gate
+    hh_n: 0.032,             // IKdr delayed-rectifier gate
+    hh_a: 0.055,             // Kv4.2 IA transient activation gate
+    hh_b: 0.835,             // Kv4.2 IA inactivation gate (ramp delay)
+    somaSpikeCount: 0,
     sAMPA: 0.0,              // AMPAR gating [0..1]
     sNMDA: 0.0,              // NMDAR slow gating [0..1]
     mgUnblock: 0.06,         // Jahr-Stevens B(V_spine)
-    caSpine: 0.05,           // µM spine head Ca2+
-    somaRefracMs: 0.0,       // somatic spike refractory timer
-    somaAdapt: 0.0,          // spike-frequency adaptation current
+    caSpine: 0.06,           // µM spine head Ca2+
 
-    // Dual-Clock Intracellular Signaling & Epigenetics
+    // Dual-Clock Intracellular Signaling, Quantitative µM Proteomics & Epigenetics
     d1Surf: 1.00,            // surface D1R fraction [0.22..1.0]
     grk2Arr: 0.02,           // GRK2 / beta-arrestin2 recruitment [0..1]
-    cAMP: 0.12,              // AC5 cAMP normalized [0..1.5]
-    pkaDrive: 0.10,          // raw cAMP-driven PKA activation
-    pkaActive: 0.10,         // effective PKA after Thr75-P inhibition
-    crebP: 0.08,             // phospho-CREB
+    cAMP: 0.12,              // normalized AC5 cAMP index
+    cAMP_uM: 0.18,           // µM intracellular cAMP [0.12..3.2 µM]
+    pkaDrive: 0.10,          // fractional cAMP-bound PKA
+    pkaActive: 0.10,         // fractional free catalytic PKA
+    pkaFree_uM: 0.06,        // µM free active PKA catalytic subunit (out of 1.20 µM)
+    crebP: 0.08,             // phospho-CREB fraction
     deltaFosB: 0.0,          // accumulated DeltaFosB (t_1/2 = 14 d) [0..1.6]
-    cdk5: 0.05,              // CDK5/p35 complex [0..1.2]
-    thr75P: 0.08,            // DARPP-32 Thr75-P (PKA brake, orange) [0..1]
-    thr34P: 0.42,            // DARPP-32 Thr34-P (PP1 inhibitor, lime) [0..1]
-    pp1Active: 0.63,         // active PP1 phosphatase [0..1]
-    ser845P: 0.48,           // GluA1 Ser845 phosphorylation [0..1]
+    cdk5: 0.18,              // normalized CDK5 index
+    cdk5_uM: 0.18,           // µM CDK5/p35 holoenzyme [0.18..1.45 µM]
+    pp2aAct_uM: 0.62,        // µM active PP2A
+    pp2bAct_uM: 0.002,       // µM Ca2+-Calmodulin activated PP2B (Calcineurin, K_Ca=0.7 µM, n=3)
+    thr75_uM: 2.60,          // µM DARPP-32 Thr75-P (out of 50 µM, inhibits PKA with Ki=2.7 µM)
+    thr34_uM: 2.15,          // µM DARPP-32 Thr34-P (out of 50 µM, Morrison tight-binding on 2.0 µM PP1, Ki=1.0 nM)
+    pp1Free_uM: 0.014,       // µM free active PP1 solved via Morrison quadratic
+    ser845_uM: 0.42,         // µM phosphorylated GluA1 Ser845-P (out of 1.00 µM)
+    thr75P: 0.052,           // normalized [0..1] fraction of 50 µM DARPP-32
+    thr34P: 0.043,           // normalized [0..1] fraction of 50 µM DARPP-32
+    pp1Active: 0.007,        // normalized [0..1] fraction of 2.0 µM PP1
+    ser845P: 0.42,           // normalized [0..1] fraction of 1.0 µM GluA1
     cpAmparFrac: 0.04,       // late-withdrawal GluA2-lacking CP-AMPAR fraction [0..1]
 
     // Spine Geometry & Article 07 Differential Geometry / Metabolic Rent
@@ -1629,7 +1680,16 @@
     cumExtraAtp: 0.0,
 
     // Article 07 Non-Gradient Curl & Itô Log-Space SDE
-    curlCoupling: 1.0,
+    curlCoupling: 1.0,       // Inter-regional coupling κ_couple in [0.00..1.00]
+    fwInfo: {
+      medCurlRatio: 1.38,
+      cycleResidual: 1.73,
+      phiFwd: 3.88,
+      phiRev: 0.41,
+      attractors: [{ x: 0.92, y: 0 }, { x: -0.46, y: 0.80 }, { x: -0.46, y: -0.80 }],
+      saddles: [{ x: 0.36, y: 0.62 }, { x: -0.72, y: 0 }, { x: 0.36, y: -0.62 }],
+      legs: []
+    },
     blockadePct: 0.0,        // Abstinence receptor blockade [0..100%]
     compareActiveDrive: false,
     loopVPct: 0.0,           // % perturbation to v0
@@ -1986,23 +2046,23 @@
     const tauSurfH = targetSurf < S.d1Surf ? 5.5 : 14.0;
     S.d1Surf += (targetSurf - S.d1Surf) * (1 - Math.exp(-dtHours / tauSurfH));
 
-    // Gs -> AC5 -> cAMP: Notice Article 07 Section 1! When D1_surf recovers over a weekend, cAMP RISES strongly again!
+    // Gs -> AC5 -> cAMP (µM): basal ~0.16 µM, strong D1 stimulation up to ~2.8 µM
+    // Notice Article 07 Section 1: When D1_surf recovers over a 48h weekend, cAMP RISES strongly again!
     const gsCoupling = S.d1Surf * (1.0 - 0.58 * S.grk2Arr) * thetaD1;
-    const targetCamp = 0.08 + 1.38 * gsCoupling;
-    S.cAMP += (targetCamp - S.cAMP) * (1 - Math.exp(-dtHours / 0.15));
+    const targetCampUM = 0.16 + 2.85 * gsCoupling;
+    S.cAMP_uM += (targetCampUM - S.cAMP_uM) * (1 - Math.exp(-dtHours / 0.12));
+    S.cAMP = S.cAMP_uM / 2.20; // normalized ~1.0 at strong stimulation for multi-trace overlay
 
-    // 6. Slow Transcriptional Clock: CREB -> DeltaFosB (t_1/2 = 14 d) -> CDK5/p35 -> DARPP-32 Thr75-P vs Thr34-P
-    S.pkaDrive = Math.pow(S.cAMP, 1.8) / (Math.pow(0.42, 1.8) + Math.pow(S.cAMP, 1.8));
-    // CDK5-phosphorylated Thr75-P turns DARPP-32 into a competitive PKA inhibitor (Article 07 Table 1!)
-    S.pkaActive = S.pkaDrive / (1.0 + 4.8 * S.thr75P);
+    // 6. Slow Transcriptional Clock: CREB -> DeltaFosB (t_1/2 = 14 d) -> Cdk5 Promoter -> [CDK5/p35] (µM)
+    // Exact Morrison & Michaelis-Menten Enzymatic Proteomics (µM)
+    stepEnzymaticProteomics(Math.min(18.0, dtHours * 3600.0));
 
-    const targetCreb = Math.min(1.0, 0.85 * S.pkaDrive + 0.35 * Math.min(1, S.caSpine));
-    S.crebP += (targetCreb - S.crebP) * (1 - Math.exp(-dtHours / 1.5));
+    const targetCreb = Math.min(1.0, 0.92 * (S.pkaDrive) + 0.28 * Math.min(1, S.caSpine));
+    S.crebP += (targetCreb - S.crebP) * (1 - Math.exp(-dtHours / 1.4));
 
     // Exact DeltaFosB ODE with half-life t_1/2 = P.fosb_hl (14.0 days -> k_deg = ln(2)/14 d^-1)
     const kDegFosB = Math.LN2 / Math.max(1.0, P.fosb_hl);
-    const fosbSyn = 0.24 * Math.pow(Math.max(0, S.crebP - 0.16), 1.35); // d^-1
-    // RK4 step for DeltaFosB + CDK5
+    const fosbSyn = 0.25 * Math.pow(Math.max(0, S.crebP - 0.15), 1.35); // d^-1
     const dFosB = (f) => fosbSyn - kDegFosB * f;
     const k1 = dFosB(S.deltaFosB);
     const k2 = dFosB(S.deltaFosB + 0.5 * dtDays * k1);
@@ -2010,26 +2070,15 @@
     const k4 = dFosB(S.deltaFosB + dtDays * k3);
     S.deltaFosB = Math.max(0, S.deltaFosB + (dtDays / 6) * (k1 + 2 * k2 + 2 * k3 + k4));
 
-    // DeltaFosB AP-1 on Cdk5 promoter -> CDK5/p35 (tau ~ 5.5 days)
-    const targetCdk5 = 0.05 + 1.05 * (S.deltaFosB / (0.55 + S.deltaFosB));
-    S.cdk5 += (targetCdk5 - S.cdk5) * (1 - Math.exp(-dtDays / 4.8));
+    // DeltaFosB AP-1 on Cdk5 promoter -> [CDK5/p35] rises from basal 0.18 µM up to ~1.45 µM (tau ~ 4.8 days)
+    const targetCdk5UM = 0.18 + 1.32 * (S.deltaFosB / (0.52 + S.deltaFosB));
+    S.cdk5_uM += (targetCdk5UM - S.cdk5_uM) * (1 - Math.exp(-dtDays / 4.8));
+    S.cdk5 = S.cdk5_uM / 1.35;
 
-    // DARPP-32 Thr75-P (phosphorylated by CDK5, dephosphorylated by PP2A)
-    const targetThr75 = (1.35 * S.cdk5) / (0.42 + 1.35 * S.cdk5);
-    S.thr75P += (targetThr75 - S.thr75P) * (1 - Math.exp(-dtHours / 3.0));
-
-    // DARPP-32 Thr34-P (phosphorylated by active PKA, dephosphorylated by calcineurin/PP2B)
-    const targetThr34 = (1.65 * S.pkaActive) / (0.35 + 1.65 * S.pkaActive);
-    S.thr34P += (targetThr34 - S.thr34P) * (1 - Math.exp(-dtHours / 0.4));
-
-    // Thr34-P inhibits PP1; when Thr75-P shuts off PKA, Thr34-P falls and PP1 runs unchecked!
-    S.pp1Active = 1.0 - 0.86 * S.thr34P;
-
-    // Downstream target: GluA1 Ser845 phosphorylation (written by PKA_active, stripped by PP1_active!)
-    const writeRate = 2.4 * S.pkaActive;
-    const stripRate = 2.1 * S.pp1Active + 0.22;
-    const targetSer845 = writeRate / (writeRate + stripRate);
-    S.ser845P += (targetSer845 - S.ser845P) * (1 - Math.exp(-dtHours / 0.35));
+    // Re-equilibrate fast µM kinase/phosphatase network to updated [CDK5/p35] & [cAMP] on hours/days steps
+    if (dtHours > 0.002) {
+      for (let q = 0; q < 18; q++) stepEnzymaticProteomics(0.35);
+    }
 
     // 7. Live Euler–Maruyama Step for the 24 Synapses in Itô Log-Space x = ln A
     // Drug exposure supplies positive drive d(t) during active dosing; during withdrawal d(t) === 0!
@@ -2073,108 +2122,203 @@
     updateSpineGeometryAndRent(dtHours * 3600);
   }
 
+  // ─── QUANTITATIVE µM STRIATAL PROTEOMICS & MORRISON TIGHT-BINDING ENGINE ───
+  function stepEnzymaticProteomics(dtSec) {
+    const D_tot = P.darpp_tot;             // 50.0 µM total DARPP-32
+    const PKA_tot = P.pka_tot;             // 1.20 µM total catalytic PKA
+    const PP1_tot = P.pp1_tot;             // 2.00 µM total PP1
+    const PP2A_tot = P.pp2a_tot;           // 0.60 µM PP2A
+    const PP2B_tot = P.pp2b_tot;           // 1.50 µM Calcineurin (PP2B)
+    const GluA1_tot = P.glua1_tot;         // 1.00 µM GluA1 Ser845 pool
+    const Ki_75 = Math.max(0.1, P.ki_75);  // 2.70 µM competitive Ki of Thr75-P on PKA
+    const Ki_PP1 = Math.max(1e-5, P.ki_pp1_nm * 0.001); // 1.0 nM = 0.0010 µM Morrison tight-binding Ki
+    const K_Ca = Math.max(0.05, P.k_ca_pp2b);           // 0.70 µM Ca2+ for PP2B (Hill n=3)
+
+    const nSub = Math.max(1, Math.ceil(dtSec / 0.15));
+    const h = dtSec / nSub;
+
+    for (let s = 0; s < nSub; s++) {
+      // 1. PKA holoenzyme activation by cAMP (Hill n=2, K_cAMP = 0.62 µM) & competitive inhibition by [Thr75-P]
+      const camp2 = S.cAMP_uM * S.cAMP_uM;
+      const pkaFracDrive = camp2 / (0.62 * 0.62 + camp2);
+      const pkaC0 = PKA_tot * pkaFracDrive;
+      const pkaFree = pkaC0 / (1.0 + S.thr75_uM / Ki_75);
+
+      // 2. Spine Ca2+-Calmodulin activation of PP2B (Calcineurin, Hill n=3, K_Ca = 0.70 µM) & PKA-B56δ boost of PP2A
+      const ca3 = Math.pow(Math.max(0.04, S.caSpine), 3);
+      const kca3 = Math.pow(K_Ca, 3);
+      const pp2bAct = PP2B_tot * (ca3 / (kca3 + ca3));
+      const pp2aAct = PP2A_tot * (1.0 + 1.15 * (pkaFree / PKA_tot));
+
+      // 3. DARPP-32 Thr75-P Michaelis-Menten kinetics (CDK5/p35 kinase vs PP2A phosphatase, conserving [DARPP-32]_tot = 50 µM)
+      const dUnphos75 = Math.max(0, D_tot - S.thr34_uM - S.thr75_uM);
+      const vKin75 = (2.45 * S.cdk5_uM * dUnphos75) / (12.0 + dUnphos75);
+      const vPhos75 = (3.55 * pp2aAct * S.thr75_uM) / (14.0 + S.thr75_uM);
+      S.thr75_uM = Math.max(0, Math.min(D_tot, S.thr75_uM + (vKin75 - vPhos75) * h));
+
+      // 4. DARPP-32 Thr34-P Michaelis-Menten kinetics (PKA_free kinase vs Ca2+-PP2B Calcineurin + PP2A)
+      const dUnphos34 = Math.max(0, D_tot - S.thr34_uM - S.thr75_uM);
+      const vKin34 = (5.40 * pkaFree * dUnphos34) / (2.4 + dUnphos34);
+      const vPhos34 = ((3.40 * pp2bAct + 0.72 * PP2A_tot) * S.thr34_uM) / (2.5 + S.thr34_uM);
+      S.thr34_uM = Math.max(0, Math.min(D_tot - S.thr75_uM, S.thr34_uM + (vKin34 - vPhos34) * h));
+
+      // 5. Exact Morrison Quadratic Tight-Binding Inhibition of [PP1]_tot (2.0 µM) by [Thr34-P] (Ki = 1.0 nM = 0.001 µM)
+      const bMorrison = PP1_tot - S.thr34_uM - Ki_PP1;
+      const pp1Free = 0.5 * (bMorrison + Math.sqrt(bMorrison * bMorrison + 4.0 * PP1_tot * Ki_PP1));
+
+      // 6. Synaptic GluA1 Ser845 phosphorylation ([GluA1]_tot = 1.0 µM; written by PKA_free, stripped by PP1_free)
+      const gluUnphos = Math.max(0, GluA1_tot - S.ser845_uM);
+      const vKin845 = (4.20 * pkaFree * gluUnphos) / (0.42 + gluUnphos);
+      const vPhos845 = (3.10 * pp1Free * S.ser845_uM) / (0.38 + S.ser845_uM);
+      S.ser845_uM = Math.max(0, Math.min(GluA1_tot, S.ser845_uM + (vKin845 - vPhos845) * h));
+
+      S.pkaDrive = pkaFracDrive;
+      S.pkaFree_uM = pkaFree;
+      S.pkaActive = pkaFree / PKA_tot;
+      S.pp2aAct_uM = pp2aAct;
+      S.pp2bAct_uM = pp2bAct;
+      S.pp1Free_uM = pp1Free;
+    }
+
+    // Normalized ratios for downstream conductance & dual-clock overlays
+    S.thr75P = S.thr75_uM / D_tot;
+    S.thr34P = S.thr34_uM / D_tot;
+    S.pp1Active = S.pp1Free_uM / PP1_tot;
+    S.ser845P = S.ser845_uM / GluA1_tot;
+  }
+
+  // ─── CONDUCTANCE-BASED SPINE + HODGKIN–HUXLEY STRIATAL MSN SOMA (dt=0.025ms) ─
   function stepFastElectrophysiology(dtMs) {
     S.tMs += dtMs;
     if (S.burstTimerMs > 0) {
       S.burstTimerMs = Math.max(0, S.burstTimerMs - dtMs);
     }
 
-    // Cortical presynaptic Poisson glutamate spike train (tonic + burst)
-    const effectiveHz = S.gluHz + (S.burstTimerMs > 0 ? 68 : 0);
+    // Cortical presynaptic Poisson glutamate spike train (tonic + phasic burst)
+    const effectiveHz = S.gluHz + (S.burstTimerMs > 0 ? 78 : 0);
     const pSpike = (effectiveHz / 1000.0) * dtMs;
     if (Math.random() < pSpike) {
-      S.gluCleft += 1.15;
-      S.sAMPA = Math.min(1.0, S.sAMPA + 0.68);
-      S.sNMDA = Math.min(1.0, S.sNMDA + 0.42);
+      S.gluCleft += 1.20;
+      S.sAMPA = Math.min(1.0, S.sAMPA + 0.72);
+      S.sNMDA = Math.min(1.0, S.sNMDA + 0.46);
       if (S.scale === 'ms' && S.burstTimerMs > 0) {
-        // Phasic VTA DA release quantum into cleft
         S.daCleft += 0.24 * S.daVes;
       }
     }
 
     // Fast cleft neurotransmitter & receptor gating decay
     S.gluCleft *= Math.exp(-dtMs / 1.2);
-    S.sAMPA *= Math.exp(-dtMs / 2.6);
-    S.sNMDA *= Math.exp(-dtMs / 48.0);
+    S.sAMPA *= Math.exp(-dtMs / 2.8);
+    S.sNMDA *= Math.exp(-dtMs / 52.0);
 
     if (S.scale === 'ms') {
-      // Real-time millisecond cleft DA clearance / efflux dynamics
       const drugCfg = DRUGS[S.drug];
       const basalExo = 0.00018 * S.daVes * (S.burstTimerMs > 0 ? 14.0 : 1.0);
       const effluxMs = 0.0012 * S.datReverse * drugCfg.datSelectivity * S.daCyt;
       const uptakeMs = 0.018 * S.datInward * (S.daCleft / (0.20 + S.daCleft));
       const diffMs = 0.0022 * Math.max(0, S.daCleft - 0.04);
       S.daCleft = Math.max(0.01, S.daCleft + (basalExo + effluxMs - uptakeMs - diffMs) * dtMs);
+
+      // Couple ms-scale DA/Ca2+ transients directly into AC5 cAMP & PP2B/DARPP-32 proteomics
+      const thetaD1Ms = S.daCleft / (0.28 + S.daCleft);
+      const targetCampMs = 0.16 + 2.85 * S.d1Surf * (1.0 - 0.58 * S.grk2Arr) * thetaD1Ms;
+      S.cAMP_uM += (targetCampMs - S.cAMP_uM) * (1 - Math.exp(-dtMs / 45.0));
+      S.cAMP = S.cAMP_uM / 2.20;
+      stepEnzymaticProteomics(dtMs * 0.001);
     }
 
-    // Exact Jahr-Stevens NMDAR Mg2+ voltage block: B(V) = 1 / (1 + ([Mg2+]_o / 3.57) * exp(-0.062 * V_spine))
-    S.mgUnblock = 1.0 / (1.0 + (P.mg_o / 3.57) * Math.exp(-0.062 * S.vSpine));
+    // Substep HH + Spine at <= 0.025 ms via unconditionally stable Rush–Larsen Exponential-Euler
+    const nHH = Math.max(1, Math.ceil(dtMs / 0.025));
+    const h = dtMs / nHH;
+    const gNeck = 1000.0 / Math.max(8.0, S.rNeckMOhm); // nS
 
-    // Spine Head Membrane Conductances (in nS; C_spine = 0.012 pF -> scaled nicely for clean ms constants)
-    // C_spine = 0.08 pF, g_L,spine = 0.018 nS, E_L = -82 mV, E_rev,exc = 0 mV
-    // R_neck in MOhm -> g_neck in nS = 1000 / R_neck(MOhm)! (e.g. 50 MOhm => 20 nS; 300 MOhm => 3.33 nS!)
-    const gNeck = 1000.0 / Math.max(8.0, S.rNeckMOhm);
-    const Cspine = 0.14; // pF effective spine head + local apparatus
-    const gLSpine = 0.35; // nS
-    const EL = -82.0;
+    // AMPAR conductance scaled by [GluA1-Ser845P] (µM) and late-withdrawal CP-AMPAR fraction
+    const gAMPA = (4.2 * (0.42 + 1.05 * S.ser845P) + 3.4 * S.cpAmparFrac) * S.sAMPA;
 
-    // AMPAR conductance boosted by PKA GluA1-Ser845P and late-withdrawal CP-AMPAR insertion
-    const gAMPA = (3.8 * (0.45 + 0.95 * S.ser845P) + 3.2 * S.cpAmparFrac) * S.sAMPA;
-    const gNMDA = 4.6 * S.sNMDA * S.mgUnblock;
+    // Co-active glutamatergic spines converge onto MSN dendritic arbor (amplified by ΔFosB spine sprouting!)
+    const nCoactive = 12.5 * (1.0 + 0.35 * (S.spineN / 6.0)) * (S.burstTimerMs > 0 ? 1.45 : 1.0);
 
-    // Unconditionally stable Exponential-Euler update for V_spine:
-    // C dV/dt = -g_tot * V + I_tot
-    const gTotSpine = gLSpine + gAMPA + gNMDA + gNeck;
-    const iTotSpine = gLSpine * EL + 0.0 * (gAMPA + gNMDA) + gNeck * S.vSoma;
-    const vInfSpine = iTotSpine / gTotSpine;
-    const tauSpineMs = Cspine / gTotSpine;
-    S.vSpine = vInfSpine + (S.vSpine - vInfSpine) * Math.exp(-dtMs / Math.max(0.005, tauSpineMs));
+    for (let k = 0; k < nHH; k++) {
+      // 1. Spine Head Compartment + Exact Jahr–Stevens NMDAR Mg2+ Unblock
+      S.mgUnblock = 1.0 / (1.0 + (P.mg_o / 3.57) * Math.exp(-0.062 * S.vSpine));
+      const gNMDA = 5.2 * S.sNMDA * S.mgUnblock;
+      const Cspine = 0.14;  // pF
+      const gLSpine = 0.34; // nS
+      const ELSpine = -82.0;
 
-    // Somatic MSN compartment (C_soma = 18 pF, inward-rectifying Kir2 hyperpolarizing conductance)
-    const Csoma = 18.0;
-    const kirFactor = 1.0 / (1.0 + Math.exp((S.vSoma + 72.0) / 8.0));
-    const gLSoma = 2.4 + 3.2 * kirFactor;
-    // Co-active dendritic spines scale with sprouted spine count (hyperexcitable to cortical glutamate drive! Art. 07 Sec 3)
-    const nCoactive = 5.2 * (0.85 + 0.28 * (S.spineN - 1.0));
+      const gTotSpine = gLSpine + gAMPA + gNMDA + gNeck;
+      const iRevSpine = gLSpine * ELSpine + gNeck * S.vSoma; // E_AMPA = E_NMDA = 0 mV
+      const vInfSpine = iRevSpine / gTotSpine;
+      S.vSpine = vInfSpine + (S.vSpine - vInfSpine) * Math.exp(-h / Math.max(0.004, Cspine / gTotSpine));
 
-    if (S.somaRefracMs > 0) {
-      S.somaRefracMs -= dtMs;
-      if (S.somaRefracMs > 1.1) {
-        S.vSoma = 28.0; // Action potential peak
-      } else {
-        S.vSoma = -74.0; // AHP reset
+      // 2. Conductance-Based Hodgkin–Huxley Striatal D1 MSN Soma (INa m^3h, IKdr n^4, IKir2, IA Kv4.2 a^4b)
+      const V = S.vSoma;
+      const dV38 = V + 38.0;
+      const am = Math.abs(dV38) < 1e-4 ? 1.0 : (0.1 * dV38) / (1.0 - Math.exp(-dV38 / 10.0));
+      const bm = 4.0 * Math.exp(-(V + 63.0) / 18.0);
+      const ah = 0.07 * Math.exp(-(V + 60.0) / 20.0);
+      const bh = 1.0 / (1.0 + Math.exp(-(V + 30.0) / 10.0));
+      const dV34 = V + 34.0;
+      const an = Math.abs(dV34) < 1e-4 ? 0.1 : (0.01 * dV34) / (1.0 - Math.exp(-dV34 / 10.0));
+      const bn = 0.125 * Math.exp(-(V + 44.0) / 80.0);
+
+      const sumM = am + bm, sumH = ah + bh, sumN = an + bn;
+      S.hh_m = (am / sumM) + (S.hh_m - am / sumM) * Math.exp(-h * sumM);
+      S.hh_h = (ah / sumH) + (S.hh_h - ah / sumH) * Math.exp(-h * sumH);
+      S.hh_n = (an / sumN) + (S.hh_n - an / sumN) * Math.exp(-h * sumN);
+
+      // Kv4.2 transient A-current (a^4 * b) producing MSN ramp-to-spike delay (D1 PKA_free mildly suppresses Kv4.2!)
+      const aInf = 1.0 / (1.0 + Math.exp(-(V + 45.0) / 13.0));
+      const bInf = 1.0 / (1.0 + Math.exp((V + 70.0) / 7.5));
+      S.hh_a = aInf + (S.hh_a - aInf) * Math.exp(-h / 1.2);
+      S.hh_b = bInf + (S.hh_b - bInf) * Math.exp(-h / 18.0);
+
+      // Inward-rectifying Kir2 holds MSN hyperpolarized down-state near -82 mV
+      const kirInf = 1.0 / (1.0 + Math.exp((V + 80.0) / 11.0));
+
+      const gNa = 680.0 * S.hh_m * S.hh_m * S.hh_m * S.hh_h;
+      const n2 = S.hh_n * S.hh_n;
+      const gKdr = 190.0 * n2 * n2;
+      const a2 = S.hh_a * S.hh_a;
+      const gKA = (10.5 * (1.0 - 0.28 * Math.min(1, S.pkaFree_uM))) * a2 * a2 * S.hh_b;
+      const gKir = 5.2 * kirInf;
+      const gLSoma = 1.7;
+      const ENa = 50.0, EK = -86.5, ELSoma = -76.5;
+      const Csoma = 15.5; // pF
+
+      const gDendCouple = nCoactive * gNeck * 0.16;
+      const gTotSoma = gNa + gKdr + gKA + gKir + gLSoma + gDendCouple;
+      const iRevSoma = gNa * ENa + (gKdr + gKA + gKir) * EK + gLSoma * ELSoma + gDendCouple * S.vSpine;
+      const vInfSoma = iRevSoma / gTotSoma;
+      const prevVSoma = S.vSoma;
+      S.vSoma = vInfSoma + (S.vSoma - vInfSoma) * Math.exp(-h / Math.max(0.004, Csoma / gTotSoma));
+
+      if (prevVSoma < 0.0 && S.vSoma >= 0.0) {
+        S.somaSpikeCount++;
       }
-    } else {
-      const gTotSoma = gLSoma + nCoactive * gNeck * 0.18;
-      const iTotSoma = gLSoma * EL + (nCoactive * gNeck * 0.18) * S.vSpine - S.somaAdapt;
-      const vInfSoma = iTotSoma / gTotSoma;
-      const tauSomaMs = Csoma / gTotSoma;
-      S.vSoma = vInfSoma + (S.vSoma - vInfSoma) * Math.exp(-dtMs / Math.max(0.05, tauSomaMs));
-
-      if (S.vSoma >= -48.5) {
-        S.vSoma = 32.0;
-        S.somaRefracMs = 1.8;
-        S.somaAdapt += 38.0;
-        // Backpropagating AP boost into spine head
-        S.vSpine = Math.min(20.0, S.vSpine + 22.0 * (80.0 / (40.0 + S.rNeckMOhm)));
-      }
+      if (S.vSoma > S.framePeakVSoma) S.framePeakVSoma = S.vSoma;
+      if (S.vSpine > S.framePeakVSpine) S.framePeakVSpine = S.vSpine;
     }
-    S.somaAdapt *= Math.exp(-dtMs / 35.0);
 
-    // Spine Ca2+ influx: NMDAR voltage-gated Ca2+ + GluA2-lacking CP-AMPAR inward-rectifying Ca2+!
+    // Spine Ca2+ influx (µM): voltage-gated NMDAR + inward-rectifying GluA2-lacking CP-AMPAR
     const drivingForceCa = Math.max(0, (65.0 - S.vSpine) / 140.0);
-    const iCaNMDA = 1.45 * gNMDA * drivingForceCa;
-    const cpRectification = 1.0 / (1.0 + Math.exp((S.vSpine + 15.0) / 18.0)); // polyamine block at +V, open at resting -V!
-    const iCaCPAMPAR = 1.65 * S.cpAmparFrac * S.sAMPA * cpRectification * drivingForceCa;
-    S.caSpine += ((iCaNMDA + iCaCPAMPAR) * 0.18 - (S.caSpine - 0.05) / 18.0) * dtMs;
-    S.caSpine = Math.max(0.04, Math.min(3.5, S.caSpine));
+    const iCaNMDA = 1.55 * (5.2 * S.sNMDA * S.mgUnblock) * drivingForceCa;
+    const cpRectification = 1.0 / (1.0 + Math.exp((S.vSpine + 15.0) / 18.0));
+    const iCaCPAMPAR = 1.70 * S.cpAmparFrac * S.sAMPA * cpRectification * drivingForceCa;
+    S.caSpine += ((iCaNMDA + iCaCPAMPAR) * 0.19 - (S.caSpine - 0.06) / 18.0) * dtMs;
+    S.caSpine = Math.max(0.05, Math.min(3.8, S.caSpine));
   }
 
-  // Push telemetry history snapshots
+  // Push telemetry history snapshots (preserving sharp HH action potential crests)
   function recordHistories() {
+    const recVSoma = S.framePeakVSoma > -40.0 ? S.framePeakVSoma : S.vSoma;
+    const recVSpine = S.framePeakVSpine > S.vSpine + 4.0 ? S.framePeakVSpine : S.vSpine;
+    S.framePeakVSoma = S.vSoma;
+    S.framePeakVSpine = S.vSpine;
+
     S.ephysHist.push({
-      vSpine: S.vSpine,
-      vSoma: S.vSoma,
+      vSpine: recVSpine,
+      vSoma: recVSoma,
       da: S.daCleft,
       ca: S.caSpine,
       cpCa: S.cpAmparFrac * S.sAMPA,
@@ -2188,29 +2332,128 @@
       d1Surf: S.d1Surf,
       cAMP: Math.min(1.2, S.cAMP),
       fosB: Math.min(1.25, S.deltaFosB),
-      thr75: S.thr75P,
+      thr75: Math.min(1.15, S.thr75_uM / 30.0),
       ser845: S.ser845P
     });
     if (S.clockHist.length > 280) S.clockHist.shift();
   }
 
-  // ─── NON-GRADIENT 2D VECTOR FIELD FOR ARTICLE 07 PHASE PORTRAIT ────────────
-  // 3 stable attractors + 3 saddles + 1 unstable origin on disc (Poincaré-Hopf 3 - 3 + 1 = +1)
-  // Plus non-conservative rotational curl coupling so 3-attractor action loop = +1.73 != 0!
-  function nonGradientField(x, y, curlGain) {
+  // ─── LIVE NUMERICAL 2D FREIDLIN–WENTZELL ACTION & CURL LOOP SOLVER ─────────
+  // Coupled 2D cortico-striatal vector field b(x1, x2; κ_couple):
+  // Exact polynomial 3-well gradient -∇U0(x1,x2) + inter-regional rotational coupling κ_couple * J(x1,x2).
+  // At κ_couple = 0: b = -∇U0 => exact gradient flow (median |∇×b|/|b| = 0.00×, cycle ∮ΔV = 0.00).
+  // At κ_couple = 1: live numerical grid curl median = 1.38× and 6-leg FW action residual = +1.73!
+  function nonGradientField(x, y, kappaCouple) {
+    const a = 0.396;
+    const r0Sq = 0.82 * 0.82;
+    const m = 0.42 * a;
     const r2 = x * x + y * y;
-    const r = Math.sqrt(r2) + 1e-6;
-    const theta = Math.atan2(y, x);
-    // Radial double-ring well at r0 = 0.82 (unstable origin r=0) + 3-fold angular wells + rotational curl!
-    const radial = 1.55 * r * (0.68 - r2);
-    const angularGrad = -0.52 * Math.sin(3 * theta);
-    const rotationalCurl = 0.76 * curlGain * r * Math.exp(-0.35 * r2);
+    const dUdx = a * x * (r2 - r0Sq) - m * (3.0 * x * x - 3.0 * y * y);
+    const dUdy = a * y * (r2 - r0Sq) - m * (-6.0 * x * y);
+    const w = -0.419 * kappaCouple * Math.exp(-0.55 * r2);
+    return {
+      bx: -dUdx - y * w,
+      by: -dUdy + x * w
+    };
+  }
 
-    const cosT = x / r;
-    const sinT = y / r;
-    const bx = radial * cosT - (angularGrad + rotationalCurl) * sinT;
-    const by = radial * sinT + (angularGrad + rotationalCurl) * cosT;
-    return { bx, by };
+  function solveFreidlinWentzell2D(kappaCouple) {
+    // 1. Live numerical central finite-difference evaluation of |∇×b| / |b| across 31×31 disc grid
+    const ratios = [];
+    const eps = 1e-4;
+    for (let i = 0; i < 31; i++) {
+      const x = -1.02 + (2.04 * i) / 30.0;
+      for (let j = 0; j < 31; j++) {
+        const y = -1.02 + (2.04 * j) / 30.0;
+        if (x * x + y * y > 1.05 * 1.05) continue;
+        const b0 = nonGradientField(x, y, kappaCouple);
+        const mag = Math.hypot(b0.bx, b0.by);
+        if (mag < 0.02) continue;
+        const db2dx1 = (nonGradientField(x + eps, y, kappaCouple).by - nonGradientField(x - eps, y, kappaCouple).by) / (2.0 * eps);
+        const db1dx2 = (nonGradientField(x, y + eps, kappaCouple).bx - nonGradientField(x, y - eps, kappaCouple).bx) / (2.0 * eps);
+        const curlAbs = Math.abs(db2dx1 - db1dx2);
+        ratios.push(curlAbs / mag);
+      }
+    }
+    ratios.sort((u, v) => u - v);
+    const medCurlRatio = ratios.length > 0 ? ratios[Math.floor(ratios.length / 2)] : 0.0;
+
+    // 2. Numerically relax the 3 attractors x_0, x_1, x_2 under dx/dt = b(x; κ_couple)
+    const labels = ['x₀ (Base)', 'x₁ (Interm)', 'x₂ (Adapted)'];
+    const attractors = [0, 1, 2].map((k) => {
+      const ang = (k * 2.0 * Math.PI) / 3.0;
+      let x = 0.95 * Math.cos(ang);
+      let y = 0.95 * Math.sin(ang);
+      for (let s = 0; s < 420; s++) {
+        const { bx, by } = nonGradientField(x, y, kappaCouple);
+        x += 0.035 * bx;
+        y += 0.035 * by;
+      }
+      return { x, y, label: labels[k] };
+    });
+
+    const saddles = [0, 1, 2].map((k) => {
+      const ang = Math.PI / 3.0 + (k * 2.0 * Math.PI) / 3.0;
+      return { x: 0.68 * Math.cos(ang), y: 0.68 * Math.sin(ang) };
+    });
+
+    // 3. Numerical quadrature of geometric Freidlin–Wentzell action Φ(x_i -> x_j) = ∫ (|b| - τ̂·b) ds
+    function integrateLegAction(pA, pB) {
+      const M = 80;
+      const angA = Math.atan2(pA.y, pA.x);
+      const angB = Math.atan2(pB.y, pB.x);
+      let dAng = angB - angA;
+      while (dAng > Math.PI) dAng -= 2.0 * Math.PI;
+      while (dAng < -Math.PI) dAng += 2.0 * Math.PI;
+      const rA = Math.hypot(pA.x, pA.y);
+      const rB = Math.hypot(pB.x, pB.y);
+
+      const pts = [];
+      for (let k = 0; k <= M; k++) {
+        const u = k / M;
+        const r = (1.0 - u) * rA + u * rB - 0.38 * Math.sin(Math.PI * u);
+        const th = angA + u * dAng;
+        pts.push({ x: r * Math.cos(th), y: r * Math.sin(th) });
+      }
+
+      let phi = 0.0;
+      for (let k = 0; k < M; k++) {
+        const dx = pts[k + 1].x - pts[k].x;
+        const dy = pts[k + 1].y - pts[k].y;
+        const ds = Math.hypot(dx, dy);
+        if (ds < 1e-9) continue;
+        const mx = 0.5 * (pts[k].x + pts[k + 1].x);
+        const my = 0.5 * (pts[k].y + pts[k + 1].y);
+        const { bx, by } = nonGradientField(mx, my, kappaCouple);
+        const bMag = Math.hypot(bx, by);
+        const tDotB = (dx / ds) * bx + (dy / ds) * by;
+        phi += Math.max(0.0, bMag - tDotB) * ds;
+      }
+      return { phi, pts };
+    }
+
+    const leg01 = integrateLegAction(attractors[0], attractors[1]);
+    const leg10 = integrateLegAction(attractors[1], attractors[0]);
+    const leg12 = integrateLegAction(attractors[1], attractors[2]);
+    const leg21 = integrateLegAction(attractors[2], attractors[1]);
+    const leg20 = integrateLegAction(attractors[2], attractors[0]);
+    const leg02 = integrateLegAction(attractors[0], attractors[2]);
+
+    const dV01 = 0.5 * (leg01.phi - leg10.phi);
+    const dV12 = 0.5 * (leg12.phi - leg21.phi);
+    const dV20 = 0.5 * (leg20.phi - leg02.phi);
+    const cycleResidual = dV01 + dV12 + dV20;
+
+    S.fwInfo = {
+      medCurlRatio,
+      cycleResidual,
+      dV01, dV12, dV20,
+      phiFwd: leg01.phi,
+      phiRev: leg10.phi,
+      attractors,
+      saddles,
+      legs: [leg01.pts, leg12.pts, leg20.pts]
+    };
   }
 
   // ─── RETINA CANVAS MANAGEMENT ──────────────────────────────────────────────
@@ -2283,9 +2526,9 @@
     ctx.fill();
     ctx.stroke();
 
-    ctx.fillStyle = 'rgba(240,236,228,0.65)';
-    ctx.font = '500 10px "IBM Plex Mono", monospace';
-    ctx.fillText(`D1 MSN SOMA/SHAFT  V_soma = ${S.vSoma.toFixed(1)} mV`, 26, shaftY + 21);
+    ctx.fillStyle = 'rgba(240,236,228,0.68)';
+    ctx.font = '500 9.5px "IBM Plex Mono", monospace';
+    ctx.fillText(`HH D1 SOMA (INa/IKdr/Kir2/Kv4.2)  V_soma = ${S.vSoma.toFixed(1)} mV`, 22, shaftY + 21);
 
     // Spine geometry scaled to canvas pixels
     const neckPxLen = 46 + (S.neckL - 0.45) * 58;
@@ -2364,12 +2607,12 @@
       ctx.fill();
     }
 
-    // Intracellular DARPP-32 Dual-Site Indicator inside Spine Head
-    ctx.font = '600 9px "IBM Plex Mono", monospace';
+    // Intracellular DARPP-32 Dual-Site µM Readout inside Spine Head
+    ctx.font = '600 8.8px "IBM Plex Mono", monospace';
     ctx.fillStyle = '#c8ff00';
-    ctx.fillText(`T34-P ${(S.thr34P * 100).toFixed(0)}%`, cx - headRadiusPx + 6, headCy - 2);
+    ctx.fillText(`T34 ${S.thr34_uM.toFixed(1)}µM`, cx - headRadiusPx + 5, headCy - 2);
     ctx.fillStyle = '#ff6b35';
-    ctx.fillText(`T75-P ${(S.thr75P * 100).toFixed(0)}%`, cx - headRadiusPx + 6, headCy + 10);
+    ctx.fillText(`T75 ${S.thr75_uM.toFixed(1)}µM`, cx - headRadiusPx + 5, headCy + 10);
 
     // ── PRESYNAPTIC DOPAMINERGIC VARICOSITY (LEFT OF SPINE NECK, ART. 07 MODULATORY POSITION!) ──
     const daTermX = 18;
@@ -2695,56 +2938,61 @@
       drawTrace((d) => d.ser845, '#c8ff00', 1.9);
     }
 
-    // Divider before live molecular bar rack
-    const bx = padL + plotW + 12;
+    // Divider before live µM proteomic bar rack
+    const bx = padL + plotW + 10;
     ctx.strokeStyle = 'rgba(255,255,255,0.09)';
-    ctx.beginPath(); ctx.moveTo(bx - 6, 10); ctx.lineTo(bx - 6, h - 10); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(bx - 5, 10); ctx.lineTo(bx - 5, h - 10); ctx.stroke();
+
+    const pp1Str = S.pp1Free_uM < 0.002
+      ? `${(S.pp1Free_uM * 1000).toFixed(2)}nM`
+      : (S.pp1Free_uM < 0.05 ? `${(S.pp1Free_uM * 1000).toFixed(1)}nM` : `${S.pp1Free_uM.toFixed(2)}µM`);
 
     const bars = [
-      { label: 'Surf D1R', val: S.d1Surf, col: '#f0ece4' },
-      { label: 'cAMP', val: Math.min(1, S.cAMP), col: '#00e5ff' },
-      { label: 'ΔFosB', val: Math.min(1, S.deltaFosB), col: '#9b88ff' },
-      { label: 'Thr75-P', val: S.thr75P, col: '#ff6b35' },
-      { label: 'Thr34-P', val: S.thr34P, col: '#c8ff00' },
-      { label: 'PP1 Act', val: S.pp1Active, col: '#ff3b5c' },
-      { label: 'GluA1-P', val: S.ser845P, col: '#c8ff00' }
+      { label: `cAMP ${S.cAMP_uM.toFixed(1)}µ`, val: Math.min(1, S.cAMP_uM / 2.6), col: '#00e5ff' },
+      { label: `PKA ${S.pkaFree_uM.toFixed(2)}µ`, val: Math.min(1, S.pkaFree_uM / P.pka_tot), col: '#00e5ff' },
+      { label: `CDK5 ${S.cdk5_uM.toFixed(2)}µ`, val: Math.min(1, S.cdk5_uM / 1.45), col: '#9b88ff' },
+      { label: `T75 ${S.thr75_uM.toFixed(1)}µ`, val: Math.min(1, S.thr75_uM / 35.0), col: '#ff6b35' },
+      { label: `T34 ${S.thr34_uM.toFixed(1)}µ`, val: Math.min(1, S.thr34_uM / 25.0), col: '#c8ff00' },
+      { label: `PP2B ${S.pp2bAct_uM.toFixed(2)}µ`, val: Math.min(1, S.pp2bAct_uM / P.pp2b_tot), col: '#9b88ff' },
+      { label: `PP1 ${pp1Str}`, val: Math.min(1, S.pp1Free_uM / P.pp1_tot), col: '#ff3b5c' },
+      { label: `S845 ${S.ser845_uM.toFixed(2)}µ`, val: Math.min(1, S.ser845_uM / P.glua1_tot), col: '#c8ff00' }
     ];
 
-    const rowH = (h - 24) / bars.length;
-    ctx.font = '500 9.5px "IBM Plex Mono", monospace';
+    const rowH = (h - 22) / bars.length;
+    ctx.font = '500 8.8px "IBM Plex Mono", monospace';
     bars.forEach((b, idx) => {
-      const y = 14 + idx * rowH;
-      ctx.fillStyle = 'rgba(240,236,228,0.82)';
-      ctx.fillText(b.label, bx, y + 10);
-      const trackX = bx + 54;
-      const trackW = Math.max(38, w - trackX - 10);
+      const y = 12 + idx * rowH;
+      ctx.fillStyle = 'rgba(240,236,228,0.86)';
+      ctx.fillText(b.label, bx, y + 9);
+      const trackX = bx + 68;
+      const trackW = Math.max(30, w - trackX - 8);
       ctx.fillStyle = '#18181d';
-      ctx.fillRect(trackX, y + 2, trackW, 9);
+      ctx.fillRect(trackX, y + 1, trackW, 8);
       ctx.fillStyle = b.col;
-      ctx.fillRect(trackX, y + 2, trackW * Math.max(0, Math.min(1, b.val)), 9);
+      ctx.fillRect(trackX, y + 1, trackW * Math.max(0, Math.min(1, b.val)), 8);
     });
   }
 
-  // ─── CANVAS 4: ARTICLE 07 NON-GRADIENT PHASE PORTRAIT & CURL LOOP ──────────
+  // ─── CANVAS 4: LIVE NUMERICAL 2D FREIDLIN–WENTZELL ACTION & CURL LOOP ──────
   function drawCurlCanvas() {
     const { ctx, w, h } = ctxs.curl;
     ctx.fillStyle = '#070709';
     ctx.fillRect(0, 0, w, h);
 
     const cx = w * 0.5;
-    const cy = h * 0.52;
+    const cy = h * 0.54;
     const scale = Math.min(w, h) * 0.35;
 
     const toPx = (x, y) => ({ px: cx + x * scale, py: cy - y * scale });
 
-    // Background vector-field arrows
+    // Background 2D vector-field b(x1, x2; κ_couple) arrows
     const gridN = 11;
     ctx.strokeStyle = 'rgba(255,255,255,0.11)';
     ctx.lineWidth = 1;
     for (let i = 0; i <= gridN; i++) {
       for (let j = 0; j <= gridN; j++) {
-        const x = -1.25 + (2.5 * i) / gridN;
-        const y = -1.25 + (2.5 * j) / gridN;
+        const x = -1.22 + (2.44 * i) / gridN;
+        const y = -1.22 + (2.44 * j) / gridN;
         const { bx, by } = nonGradientField(x, y, S.curlCoupling);
         const mag = Math.hypot(bx, by) + 1e-6;
         const ux = (bx / mag) * 0.09;
@@ -2758,18 +3006,18 @@
       }
     }
 
-    // Integrate & draw live phase-flow particles
-    ctx.fillStyle = 'rgba(155,136,255,0.78)';
+    // Live phase-flow trajectory particles
+    ctx.fillStyle = 'rgba(155,136,255,0.80)';
     for (let i = 0; i < S.flowDots.length; i++) {
       const d = S.flowDots[i];
       if (S.playing) {
         const { bx, by } = nonGradientField(d.x, d.y, S.curlCoupling);
-        d.x += bx * 0.018;
-        d.y += by * 0.018;
+        d.x += bx * 0.020;
+        d.y += by * 0.020;
         d.age += 1;
-        if (d.age > 140 || Math.hypot(d.x, d.y) > 1.38) {
+        if (d.age > 140 || Math.hypot(d.x, d.y) > 1.35) {
           const ang = Math.random() * Math.PI * 2;
-          const rad = 0.12 + Math.random() * 1.15;
+          const rad = 0.12 + Math.random() * 1.12;
           d.x = Math.cos(ang) * rad;
           d.y = Math.sin(ang) * rad;
           d.age = 0;
@@ -2781,45 +3029,41 @@
       ctx.fill();
     }
 
-    // 3 Stable Attractors + 3 Saddles + 1 Unstable Node at Origin (Poincaré-Hopf 3 - 3 + 1 = +1)
-    const rAttr = 0.82;
-    const attractors = [0, 1, 2].map((k) => {
-      const a = -Math.PI / 6 + (k * 2 * Math.PI) / 3;
-      return { x: rAttr * Math.cos(a), y: rAttr * Math.sin(a), label: k === 0 ? 'x₀ (Base)' : (k === 1 ? 'x₁ (Interm)' : 'x₂ (Adapted)') };
-    });
-    const saddles = [0, 1, 2].map((k) => {
-      const a = Math.PI / 6 + (k * 2 * Math.PI) / 3;
-      return { x: 0.78 * Math.cos(a), y: 0.78 * Math.sin(a) };
-    });
+    const fw = S.fwInfo;
+    const attractors = fw.attractors || [];
+    const saddles = fw.saddles || [];
 
-    // Draw Freidlin-Wentzell 3-attractor directed cycle
-    ctx.save();
-    ctx.strokeStyle = S.curlCoupling > 0.05 ? '#ff6b35' : '#00e5ff';
-    ctx.lineWidth = 2.0;
-    ctx.setLineDash([5, 4]);
-    ctx.beginPath();
-    attractors.forEach((at, idx) => {
-      const p = toPx(at.x, at.y);
-      if (idx === 0) ctx.moveTo(p.px, p.py); else ctx.lineTo(p.px, p.py);
-    });
-    ctx.closePath();
-    ctx.stroke();
-    ctx.restore();
+    // Draw numerically integrated curved Freidlin–Wentzell action legs γ_01, γ_12, γ_20
+    if (fw.legs && fw.legs.length === 3) {
+      ctx.save();
+      ctx.strokeStyle = S.curlCoupling > 0.02 ? '#ff6b35' : '#00e5ff';
+      ctx.lineWidth = 2.0;
+      ctx.setLineDash([5, 4]);
+      fw.legs.forEach((pts) => {
+        ctx.beginPath();
+        for (let k = 0; k < pts.length; k++) {
+          const p = toPx(pts[k].x, pts[k].y);
+          if (k === 0) ctx.moveTo(p.px, p.py); else ctx.lineTo(p.px, p.py);
+        }
+        ctx.stroke();
+      });
+      ctx.restore();
+    }
 
-    // Unstable origin
+    // Unstable central node (0,0)
     const pOrig = toPx(0, 0);
     ctx.strokeStyle = '#ff3b5c';
     ctx.lineWidth = 1.6;
     ctx.beginPath(); ctx.arc(pOrig.px, pOrig.py, 4.5, 0, Math.PI * 2); ctx.stroke();
 
-    // Saddles (diamonds)
+    // Saddles
     ctx.fillStyle = '#00e5ff';
     saddles.forEach((sd) => {
       const p = toPx(sd.x, sd.y);
       ctx.fillRect(p.px - 3, p.py - 3, 6, 6);
     });
 
-    // Stable attractors (circles + labels)
+    // Flow-converged stable attractors
     ctx.font = '600 9.5px "IBM Plex Mono", monospace';
     attractors.forEach((at, idx) => {
       const p = toPx(at.x, at.y);
@@ -2827,20 +3071,22 @@
       ctx.beginPath();
       ctx.arc(p.px, p.py, 6.2, 0, Math.PI * 2);
       ctx.fill();
-      ctx.fillText(at.label, p.px - 28, p.py + (at.y > 0 ? -10 : 16));
+      ctx.fillText(at.label, p.px - 28, p.py + (at.y > 0.2 ? -10 : 16));
     });
 
-    // Live curl loop sum readout
-    const loopResidual = +(1.73 * S.curlCoupling).toFixed(2);
-    ctx.fillStyle = 'rgba(10,10,14,0.88)';
-    ctx.fillRect(10, 10, w - 20, 26);
-    ctx.font = '600 10px "IBM Plex Mono", monospace';
-    ctx.fillStyle = Math.abs(loopResidual) > 0.02 ? '#ff6b35' : '#00e5ff';
+    // Top live numerical quadrature readout (zero static strings!)
+    const medCurl = fw.medCurlRatio;
+    const cycRes = fw.cycleResidual;
+    ctx.fillStyle = 'rgba(10,10,14,0.90)';
+    ctx.fillRect(8, 8, w - 16, 26);
+    ctx.font = '600 9.8px "IBM Plex Mono", monospace';
+    ctx.fillStyle = Math.abs(cycRes) > 0.01 ? '#ff6b35' : '#00e5ff';
+    const signStr = cycRes >= 0 ? '+' : '';
     ctx.fillText(
-      Math.abs(loopResidual) > 0.02
-        ? `∮ ΔV = +${loopResidual.toFixed(2)} ≠ 0 · Φ_ind=0.0083 vs Φ_rev=7.9539 (958× Asymmetry)`
-        : `Coupling = 0 ⇒ Curl Vanishes (∮ ΔV = 0.00 · Gradient Limit Recovered)`,
-      16, 27
+      Math.abs(cycRes) > 0.005
+        ? `med|∇×b|/|b| = ${medCurl.toFixed(2)}× · ΔV₀₁+ΔV₁₂+ΔV₂₀ = ${signStr}${cycRes.toFixed(2)} ≠ 0`
+        : `κ=0.00 ⇒ med|∇×b|/|b| = ${medCurl.toFixed(2)}× · ∮ΔV = ${cycRes.toFixed(2)} (Exact Gradient)`,
+      14, 25
     );
   }
 
@@ -3024,6 +3270,8 @@
     m_cum_atp: document.getElementById('m_cum_atp'),
     m_vmat: document.getElementById('m_vmat'),
     m_dat_mode: document.getElementById('m_dat_mode'),
+    m_darpp_um: document.getElementById('m_darpp_um'),
+    m_pp1_um: document.getElementById('m_pp1_um'),
     ephysBadge: document.getElementById('ephysBadge'),
     conversionBadge: document.getElementById('conversionBadge'),
     curlBadge: document.getElementById('curlBadge'),
@@ -3085,6 +3333,14 @@
       ? `DAT: PKC Reverse (${(S.datReverse * 100).toFixed(0)}%)`
       : (S.datBlocked > 0.28 ? `DAT: Blocked (${(S.datBlocked * 100).toFixed(0)}%)` : 'DAT: Normal Inward');
 
+    // Quantitative µM DARPP-32 & Morrison PP1 readouts
+    dom.m_darpp_um.textContent = `T34 ${S.thr34_uM.toFixed(1)} · T75 ${S.thr75_uM.toFixed(1)} µM`;
+    dom.m_darpp_um.style.color = S.thr75_uM > 10.0 ? 'var(--orange)' : 'var(--lime)';
+    const pp1Disp = S.pp1Free_uM < 0.002
+      ? `${(S.pp1Free_uM * 1000).toFixed(2)} nM`
+      : (S.pp1Free_uM < 0.05 ? `${(S.pp1Free_uM * 1000).toFixed(1)} nM` : `${S.pp1Free_uM.toFixed(2)} µM`);
+    dom.m_pp1_um.textContent = `PKA ${S.pkaFree_uM.toFixed(2)}µM · PP1 ${pp1Disp}`;
+
     // Control value readouts
     dom.lblSelectivity.textContent = DRUGS[S.drug].badge;
     dom.valDose.textContent = S.dose.toFixed(2);
@@ -3095,25 +3351,25 @@
     dom.valSpineN.textContent = `${S.spineN.toFixed(1)} (+${pctSpines.toFixed(1)}%)`;
     dom.valHeadR.textContent = `${S.headR.toFixed(2)} µm (∂W=0!)`;
 
-    // Electrophysiology & Signal Conversion badges
-    dom.ephysBadge.textContent = `V_spine ${S.vSpine.toFixed(1)} mV · Mg²⁺ Unblock ${(S.mgUnblock * 100).toFixed(0)}%`;
+    // Electrophysiology & Quantitative µM Signal Conversion badges
+    dom.ephysBadge.textContent = `V_spine ${S.vSpine.toFixed(1)} mV · HH V_soma ${S.vSoma.toFixed(1)} mV · B(V) ${(S.mgUnblock * 100).toFixed(0)}%`;
 
-    if (S.cAMP > 0.48 && S.ser845P < 0.34 && S.thr75P > 0.42) {
-      dom.conversionBadge.textContent = `cAMP High (${(S.cAMP * 100).toFixed(0)}%) → Signal Erased by Thr75-P!`;
+    if (S.cAMP_uM > 1.1 && S.ser845_uM < 0.25 && S.thr75_uM > 10.0) {
+      dom.conversionBadge.textContent = `cAMP ${S.cAMP_uM.toFixed(2)}µM High → S845 ${S.ser845_uM.toFixed(2)}µM Erased (T75 ${S.thr75_uM.toFixed(1)}µM)!`;
       dom.conversionBadge.style.color = 'var(--orange)';
     } else {
-      const eff = Math.min(100, Math.round((S.ser845P / 0.55) * 100));
-      dom.conversionBadge.textContent = `GluA1-S845P Conversion: ${eff}% · Thr75-P ${(S.thr75P * 100).toFixed(0)}%`;
-      dom.conversionBadge.style.color = S.thr75P > 0.45 ? 'var(--orange)' : 'var(--lime)';
+      dom.conversionBadge.textContent = `GluA1-S845P ${S.ser845_uM.toFixed(2)} µM · T75 ${S.thr75_uM.toFixed(1)} µM · PP1 ${pp1Disp}`;
+      dom.conversionBadge.style.color = S.thr75_uM > 10.0 ? 'var(--orange)' : 'var(--lime)';
     }
 
-    // Bottom SDE & Curl badges
+    // Bottom SDE & Live Numerical 2D Freidlin–Wentzell Curl badges
     const info = S.sdeInfo;
-    const curlVal = +(1.73 * S.curlCoupling).toFixed(2);
-    dom.valCurl.textContent = `${S.curlCoupling.toFixed(2)}×`;
-    dom.curlBadge.textContent = Math.abs(curlVal) > 0.02
-      ? `∮ ΔV = +${curlVal.toFixed(2)} ≠ 0 (Non-Gradient)`
-      : `∮ ΔV = 0.00 (Decoupled Gradient)`;
+    const fw = S.fwInfo;
+    dom.valCurl.textContent = S.curlCoupling.toFixed(2);
+    const cycSign = fw.cycleResidual >= 0 ? '+' : '';
+    dom.curlBadge.textContent = Math.abs(fw.cycleResidual) > 0.005
+      ? `med|∇×b|/|b| = ${fw.medCurlRatio.toFixed(2)}× · ∮ΔV = ${cycSign}${fw.cycleResidual.toFixed(2)} ≠ 0`
+      : `med|∇×b|/|b| = ${fw.medCurlRatio.toFixed(2)}× · ∮ΔV = 0.00 (Gradient)`;
 
     const tauTxt = info.bistable
       ? (info.tauDays > 999 ? '>999 days' : `${info.tauDays.toFixed(1)} days`)
@@ -3181,21 +3437,37 @@
     S.datReverse = 0.0;
     S.daCleft = 0.045;
     S.gluCleft = 0.0;
-    S.vSpine = -81.8;
-    S.vSoma = -82.0;
+    S.vSpine = -82.0;
+    S.vSoma = -82.2;
+    S.framePeakVSoma = -82.2;
+    S.framePeakVSpine = -82.0;
+    S.hh_m = 0.011;
+    S.hh_h = 0.965;
+    S.hh_n = 0.032;
+    S.hh_a = 0.055;
+    S.hh_b = 0.835;
+    S.somaSpikeCount = 0;
     S.sAMPA = 0.0;
     S.sNMDA = 0.0;
-    S.caSpine = 0.05;
+    S.caSpine = 0.06;
     S.d1Surf = 1.0;
     S.grk2Arr = 0.02;
     S.cAMP = 0.12;
+    S.cAMP_uM = 0.24;
     S.crebP = 0.08;
     S.deltaFosB = 0.0;
-    S.cdk5 = 0.05;
-    S.thr75P = 0.08;
-    S.thr34P = 0.45;
-    S.pp1Active = 0.61;
-    S.ser845P = 0.50;
+    S.cdk5 = 0.14;
+    S.cdk5_uM = 0.18;
+    S.thr75_uM = 2.50;
+    S.thr34_uM = 2.35;
+    S.pp1Free_uM = 0.006;
+    S.ser845_uM = 0.44;
+    S.pkaFree_uM = 0.08;
+    S.pp2bAct_uM = 0.002;
+    S.thr75P = S.thr75_uM / P.darpp_tot;
+    S.thr34P = S.thr34_uM / P.darpp_tot;
+    S.pp1Active = S.pp1Free_uM / P.pp1_tot;
+    S.ser845P = S.ser845_uM / P.glua1_tot;
     S.cpAmparFrac = 0.03;
     S.cumExtraAtp = 0.0;
     S.autoGeom = true;
@@ -3216,18 +3488,19 @@
       S.drug = 'none';
       S.schedule = 'acute';
       S.dose = 0.0;
-      S.gluHz = 22;
-      S.daCleft = 0.42;
-      S.cAMP = 0.64;
-      S.thr34P = 0.78;
-      S.thr75P = 0.07;
-      S.pp1Active = 0.33;
-      S.ser845P = 0.78;
-      S.burstTimerMs = 95.0;
+      S.gluHz = 28;
+      S.daCleft = 0.65;
+      S.cAMP_uM = 2.15;
+      S.cAMP = S.cAMP_uM / 2.20;
+      S.cdk5_uM = 0.18;
+      S.thr75_uM = 0.85;
+      S.thr34_uM = 28.4;
+      for (let q = 0; q < 25; q++) stepEnzymaticProteomics(0.25);
+      S.burstTimerMs = 120.0;
       refreshSDEAnalytics();
       seedParticles('naive');
       dom.liveDiagBanner.className = 'diag-banner';
-      dom.liveDiagBanner.innerHTML = '<strong>Preset 01 · Naive Phasic Learning (0.1 ms):</strong> Endogenous phasic DA activates PKA → DARPP-32 Thr34-P (lime) inhibits PP1, preserving GluA1-Ser845P while spine neck R_neck compartmentalizes V_spine to pop Mg²⁺ off NMDARs.';
+      dom.liveDiagBanner.innerHTML = '<strong>Preset 01 · Naive Phasic Learning (0.1 ms):</strong> Phasic DA raises [cAMP] (~2.2 µM) → [Thr34-P] (&gt;25 µM) locks 2.0 µM PP1 down to &lt;0.1 nM via Morrison tight-binding (K_i = 1 nM), driving GluA1-Ser845P to ~0.99 µM and HH somatic spiking!';
     } else if (canon === 'therapeutic') {
       setScaleTab('hours');
       S.drug = 'meth_oral';
@@ -3247,7 +3520,7 @@
       refreshSDEAnalytics();
       seedParticles('naive');
       dom.liveDiagBanner.className = 'diag-banner violet';
-      dom.liveDiagBanner.innerHTML = '<strong>Preset 03 · The Weekend Drug Holiday Myth:</strong> Watch every 48h Sat–Sun washout restore Surface D1R (white) and Monday cAMP (cyan)—yet ΔFosB (t½ = 14 d, violet) ratchets higher each week, driving CDK5 → Thr75-P (orange brake) to erase GluA1-Ser845P conversion!';
+      dom.liveDiagBanner.innerHTML = '<strong>Preset 03 · The Weekend Drug Holiday Myth:</strong> Watch every 48h Sat–Sun washout restore Surface D1R and Monday [cAMP] (&gt;2 µM)—yet ΔFosB (t½ = 14 d) raises [CDK5/p35] → [Thr75-P] (~27 µM, K_i = 2.7 µM), starving PKA and unleashing &gt;1,200 nM PP1!';
     } else if (canon === 'vmat2') {
       setScaleTab('hours');
       S.drug = 'meth_rapid';
@@ -3266,11 +3539,13 @@
       S.dose = 0.0;
       S.gluHz = 18;
       S.deltaFosB = 0.88;
-      S.cdk5 = 0.72;
-      S.thr75P = 0.71;
-      S.thr34P = 0.16;
-      S.pp1Active = 0.86;
-      S.ser845P = 0.20;
+      S.cdk5_uM = 1.28;
+      S.cdk5 = S.cdk5_uM / 1.35;
+      S.cAMP_uM = 0.22;
+      S.cAMP = S.cAMP_uM / 2.20;
+      S.thr75_uM = 28.5;
+      S.thr34_uM = 0.45;
+      for (let q = 0; q < 30; q++) stepEnzymaticProteomics(0.30);
       S.cpAmparFrac = 0.62;
       S.cumExtraAtp = 4.2e11;
       refreshSDEAnalytics();
@@ -3295,6 +3570,7 @@
     dom.sliderNoiseD.value = S.noiseDPct;
     dom.sliderCurl.value = S.curlCoupling;
 
+    solveFreidlinWentzell2D(S.curlCoupling);
     updateSpineGeometryAndRent(0);
     refreshSDEAnalytics();
     refreshTelemetryDOM();
@@ -3382,7 +3658,10 @@
   });
 
   const paramInputs = [
-    ['p_rhoi', 'rho_i'], ['p_mg', 'mg_o'], ['p_fosb_hl', 'fosb_hl'], ['p_psi', 'psi'],
+    ['p_rhoi', 'rho_i'], ['p_mg', 'mg_o'],
+    ['p_darpp_tot', 'darpp_tot'], ['p_ki75', 'ki_75'],
+    ['p_pp1_tot', 'pp1_tot'], ['p_kipp1_nm', 'ki_pp1_nm'], ['p_kca', 'k_ca_pp2b'],
+    ['p_fosb_hl', 'fosb_hl'], ['p_psi', 'psi'],
     ['p_b0', 'b0'], ['p_v0', 'v0'], ['p_hilln', 'n'], ['p_alpha', 'alpha']
   ];
   paramInputs.forEach(([id, key]) => {
@@ -3391,6 +3670,7 @@
       const val = parseFloat(el.value);
       if (!isNaN(val) && val > 0) {
         P[key] = val;
+        stepEnzymaticProteomics(1.0);
         updateSpineGeometryAndRent(0);
         refreshSDEAnalytics();
         refreshTelemetryDOM();
@@ -3403,6 +3683,7 @@
     paramInputs.forEach(([id, key]) => {
       document.getElementById(id).value = DEFAULTS[key];
     });
+    stepEnzymaticProteomics(1.0);
     updateSpineGeometryAndRent(0);
     refreshSDEAnalytics();
     refreshTelemetryDOM();
@@ -3456,9 +3737,10 @@
     refreshTelemetryDOM();
   });
 
-  // Article 07 SDE & Curl controls
+  // Article 07 SDE & Live Numerical 2D Freidlin–Wentzell Curl controls
   dom.sliderCurl.addEventListener('input', () => {
     S.curlCoupling = parseFloat(dom.sliderCurl.value);
+    solveFreidlinWentzell2D(S.curlCoupling);
     refreshTelemetryDOM();
   });
   dom.sliderBlockade.addEventListener('input', () => {
@@ -3552,13 +3834,12 @@
     if (S.playing) {
       const spd = S.speed;
       if (S.scale === 'ms') {
-        // 0.1 ms Patch-Clamp scale: 16 substeps of 0.05 ms = 0.8 ms simulated per frame at 1x!
-        const substeps = Math.max(4, Math.round(16 * spd));
-        const dtSubMs = 0.05;
+        // 0.1 ms Patch-Clamp scale: 20 substeps of 0.025 ms = 0.50 ms simulated per frame at 1x!
+        const substeps = Math.max(6, Math.round(20 * spd));
+        const dtSubMs = 0.025;
         for (let i = 0; i < substeps; i++) {
           stepFastElectrophysiology(dtSubMs);
         }
-        // Advance slow/hours clock by exact physical elapsed ms
         stepSlowAndHoursClock((substeps * dtSubMs) / 3600000.0);
         recordHistories();
       } else if (S.scale === 'hours') {
@@ -3568,9 +3849,9 @@
         for (let i = 0; i < nSubH; i++) {
           stepSlowAndHoursClock(dtHours / nSubH);
         }
-        // Run representative fast spine patch-clamp substeps reflecting current channel states
+        // Run 2.5 ms of Rush-Larsen HH somatic + spine electrophysiology (100 internal 0.025ms steps)
         for (let j = 0; j < 10; j++) {
-          stepFastElectrophysiology(0.10);
+          stepFastElectrophysiology(0.25);
         }
         recordHistories();
       } else {
@@ -3581,11 +3862,10 @@
           stepSlowAndHoursClock(totalHours / nSub);
         }
         for (let j = 0; j < 10; j++) {
-          stepFastElectrophysiology(0.10);
+          stepFastElectrophysiology(0.25);
         }
         recordHistories();
         if (S.tDays > 120.0) {
-          // Hold smoothly in prolonged withdrawal while SDE continues evolving
           S.tDays = 120.0;
         }
       }

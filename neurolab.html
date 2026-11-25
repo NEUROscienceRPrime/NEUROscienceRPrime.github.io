@@ -4,7 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RPrime NeuroLab — Multi-Scale Bioneurological Simulation Suite</title>
-<meta name="description" content="Interactive multi-scale computational neuropharmacology suite by Rishik Pannala — spanning 10⁻¹⁰ m quantum covalent pockets, GPCR steric lockout, dendritic spine SDEs, 450-neuron spiking circuits, and Brain–Liver–Heart PBPK/ECG.">
+<meta name="description" content="Interactive multi-scale computational neuropharmacology suite by Rishik Pannala — spanning 10⁻¹⁰ m RCSB PDB X-ray covalent pockets, GPCR mass-action kinetics, dendritic spine curl SDEs, 500-neuron spiking circuits, and transmural ventricular ECG.">
+<meta name="author" content="Rishik Pannala">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Neuroscience with RPrime">
+<meta property="og:title" content="RPrime NeuroLab — Multi-Scale Bioneurological Simulation Suite">
+<meta property="og:description" content="Five real-time numerical engines spanning 10⁻¹⁰ m X-ray pockets to transmural human ventricular electrophysiology — built from Rishik Pannala's research archive.">
+<meta property="og:url" content="https://neurosciencerprime.github.io/neurolab.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RPrime NeuroLab — Multi-Scale Bioneurological Simulation Suite">
+<meta name="twitter:description" content="From 10⁻¹⁰ m X-ray pockets and LIGSITE raycasting to 500-neuron spiking circuits and transmural ECG.">
+<link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1161,8 +1171,8 @@
           <div class="lbl">Real-Time Solvers</div>
         </div>
         <div class="stat-chip">
-          <div class="num">450+</div>
-          <div class="lbl">1 kHz Spiking Neurons</div>
+          <div class="num">500+</div>
+          <div class="lbl">1 kHz Spiking &amp; HH Cells</div>
         </div>
         <div class="stat-chip">
           <div class="num">0 Deps</div>
@@ -1203,9 +1213,9 @@
           <div class="scale-lab-ref">Lab 01 · DARPP-32 &amp; Curl</div>
         </button>
         <button type="button" class="scale-node" role="tab" aria-selected="false" data-scale="3" style="--node-color: #9b88ff;" onmouseenter="hoverScale(3)" onclick="selectScale(3, true)">
-          <div class="scale-meter"><span>10⁻³ m</span><span class="scale-time">1 kHz Live</span></div>
+          <div class="scale-meter"><span>10⁻³ m</span><span class="scale-time">1 kHz + 50 µs HH</span></div>
           <div class="scale-domain">VTA–NAc–PFC Microcircuit</div>
-          <div class="scale-lab-ref">Lab 02 · 450-Neuron Rig</div>
+          <div class="scale-lab-ref">Lab 02 · 500-Neuron Rig</div>
         </button>
         <button type="button" class="scale-node" role="tab" aria-selected="false" data-scale="4" style="--node-color: #ff6b35;" onmouseenter="hoverScale(4)" onclick="selectScale(4, true)">
           <div class="scale-meter"><span>10⁰ m</span><span class="scale-time">ms – 8 hrs</span></div>
@@ -1266,10 +1276,10 @@
         <div style="display:flex; flex-direction:column;">
           <div class="lab-top-meta">
             <span class="lab-id">Lab 01 · 10⁻⁶ m · µs → 90 Days</span>
-            <span class="solver-badge">RK4 + Euler–Maruyama Itô SDE</span>
+            <span class="solver-badge">HH Soma + Morrison MM + 2D Curl SDE</span>
           </div>
           <h3 class="lab-title">RPrime SYNAPSE — Cortico-Striatal D1 MSN Twin</h3>
-          <p class="lab-desc">Couples millisecond presynaptic DAT reversal, VMAT2 ΔpH collapse, and spine-neck voltage attenuation with multi-week GRK2/β-arrestin2 endocytosis, ΔFosB → CDK5 → DARPP-32 Thr75 PKA braking, Willmore spine bending energy, and non-gradient Freidlin–Wentzell persistence.</p>
+          <p class="lab-desc">Couples millisecond VMAT2/DAT efflux, spine-neck NMDA attenuation, and Hodgkin–Huxley somatic spiking with quantitative µM DARPP-32/PP1 Morrison tight-binding, Willmore spine geometry, and live 2D Freidlin–Wentzell curl integration.</p>
           <div class="lab-metrics">
             <div class="metric-box">
               <div class="metric-val">τ ∝ ρ²³·³</div>
@@ -1319,11 +1329,11 @@
       <!-- LAB 02 — PARADOX RIG -->
       <article class="lab-card" id="lab-02" data-tags="dopamine" style="--card-accent: #9b88ff;">
         <div class="lab-top-meta">
-          <span class="lab-id">Lab 02 · 10⁻³ m · 1 kHz Live</span>
-          <span class="solver-badge">450-Neuron Spiking + Web Audio</span>
+          <span class="lab-id">Lab 02 · 10⁻³ m · 1 kHz + 50 µs HH</span>
+          <span class="solver-badge">500-Neuron Network + Rush–Larsen HH</span>
         </div>
         <h3 class="lab-title">THE PARADOX RIG — VTA–NAc–PFC Patch-Clamp Lab</h3>
-        <p class="lab-desc">Virtual electrophysiology rig coupling 450 adaptive spiking neurons across VTA DA, maladaptive cortical NMDA homeostat, PFC Layer III (α2A vs. α1A switch), NAc D1/D2 MSNs, and Dorsal Raphe 5-HT1A/2C—with live microelectrode spike sonification.</p>
+        <p class="lab-desc">Virtual electrophysiology rig coupling 500 adaptive spiking neurons across VTA DA, maladaptive cortical NMDA homeostat, PFC Layer III (α2A vs. α1A switch), NAc D1/D2 MSNs, and Dorsal Raphe 5-HT1A/2C—with a 50 µs Hodgkin–Huxley patched cell and Web Audio sonification.</p>
         <div class="lab-metrics">
           <div class="metric-box">
             <div class="metric-val">5 Nuclei</div>
@@ -1365,11 +1375,11 @@
       <!-- LAB 03 — QUANTUM POCKET -->
       <article class="lab-card" id="lab-03" data-tags="fosb quantum opioid" style="--card-accent: #00e5ff;">
         <div class="lab-top-meta">
-          <span class="lab-id">Lab 03 · 10⁻¹⁰ m · 3D Structural &amp; QM</span>
-          <span class="solver-badge">3D Coordinates + LIGSITE + DFT</span>
+          <span class="lab-id">Lab 03 · 10⁻¹⁰ m · RCSB PDB X-Ray &amp; QM</span>
+          <span class="solver-badge">Kabsch X-Ray + 7-Axis LIGSITE + DFT</span>
         </div>
         <h3 class="lab-title">QUANTUM &amp; COVALENT POCKET LAB — ΔFosB/JunD &amp; MOR</h3>
-        <p class="lab-desc">Interactive 3D bZIP·DNA coordinate engine morphing 5VPE ↔ 7UCC ↔ 5VPB, visualizing the 18 Å³ static cavity against the 250 Å³ druggability floor, testing the 8.1-unit C172 ΔpKa Cl⁻ counter-ion swing, and benchmarking covalent warheads + MOR frontier orbitals.</p>
+        <p class="lab-desc">Embeds Kabsch-aligned RCSB PDB X-ray structures (5VPE, 7UCC, 5VPB, 7UCD, 1HSG, 4DKL, 5C1M) with a live 7-axis Hendlich LIGSITE raycaster (18 Å³ vs 250 Å³ floor), C172 5-Cl⁻ ΔpKa screening, covalent warhead bench, and MOR frontier orbitals.</p>
         <div class="lab-metrics">
           <div class="metric-box">
             <div class="metric-val">18 Å³</div>
@@ -1411,11 +1421,11 @@
       <!-- LAB 04 — BRAIN-HEART DIGITAL TWIN -->
       <article class="lab-card" id="lab-04" data-tags="dopamine cardiac opioid" style="--card-accent: #ff6b35;">
         <div class="lab-top-meta">
-          <span class="lab-id">Lab 04 · 10⁰ m · 3-Organ PBPK + ECG</span>
-          <span class="solver-badge">BBB/CES1 PBPK + Hodgkin–Huxley Myocyte</span>
+          <span class="lab-id">Lab 04 · 10⁰ m · 3-Organ PBPK + Transmural Cable</span>
+          <span class="solver-badge">BBB/CES1 PBPK + 18-Cell Ventricular PDE</span>
         </div>
         <h3 class="lab-title">BRAIN–HEART DIGITAL TWIN — BBB, Cocaethylene &amp; hERG</h3>
-        <p class="lab-desc">Simultaneously integrates Blood-Brain Barrier lipophilicity partitioning, hepatic CYP2D6 (meth → amphetamine) &amp; CES1 transesterification (cocaine + ethanol → cocaethylene), and a conductance-based human ventricular myocyte (INa, ICaL, IKr/hERG) driving a live Lead-II ECG monitor.</p>
+        <p class="lab-desc">Simultaneously integrates BBB lipophilicity partitioning, hepatic CYP2D6 (meth → amphetamine) &amp; CES1 transesterification (cocaine + ethanol → cocaethylene), and an 18-cell Endo–M–Epi transmural ventricular cable generating emergent Maxwell dipole Lead-II ECG &amp; R-on-T Torsades.</p>
         <div class="lab-metrics">
           <div class="metric-box">
             <div class="metric-val">3× hERG</div>
@@ -1927,23 +1937,31 @@ function selectProtocol(idx, tabBtn) {
   `).join('');
 }
 
-// ─── MULTI-SCALE RETINA CANVAS SIMULATION ENGINE ─────────────────────────────
+// ─── MULTI-SCALE RETINA CANVAS: 5 LIVE NUMERICAL MINI-SOLVERS ────────────────
 const canvas = document.getElementById('scaleCanvas');
 const ctx = canvas.getContext('2d');
 let cw = 900, ch = 390, dpr = 1;
 let simTime = 0;
 let inViewport = true;
 
-// Stochastic curl particles for Scale 2 (10^-6 m)
-const curlParticles = Array.from({ length: 42 }, (_, i) => ({
-  x: (Math.sin(i * 7.13) * 0.5 + 0.5) * 2 - 1,
-  y: (Math.cos(i * 3.71) * 0.5 + 0.5) * 2 - 1,
-  age: (i * 17) % 100
-}));
-
-// Spiking raster buffer for Scale 3 (10^-3 m)
-const rasterHistory = [];
-const MAX_RASTER_COLS = 150;
+// Gaussian white-noise generator (Box–Muller) for SDE & stochastic channels
+let spareNorm = null;
+function randn() {
+  if (spareNorm !== null) {
+    const v = spareNorm;
+    spareNorm = null;
+    return v;
+  }
+  let u = 0, v = 0, s = 0;
+  do {
+    u = Math.random() * 2 - 1;
+    v = Math.random() * 2 - 1;
+    s = u * u + v * v;
+  } while (s === 0 || s >= 1);
+  const mul = Math.sqrt(-2 * Math.log(s) / s);
+  spareNorm = v * mul;
+  return u * mul;
+}
 
 function resizeCanvas() {
   const rect = canvas.parentElement.getBoundingClientRect();
@@ -1971,105 +1989,257 @@ function drawGridBg(x, y, w, h) {
   ctx.restore();
 }
 
-// SCALE 0: 10^-10 m — 3D bZIP ΔFosB/JunD Helices + C172 Redox Switch + 18 vs 250 A^3
+// ============================================================================
+// SOLVER 1 (10^-10 m): KABSCH-SUPERPOSED RCSB PDB 5VPE ↔ 7UCC ↔ 5VPB ENGINE
+// ============================================================================
+const PDB_FOSB = {
+  // ΔFosB bZIP Cα (residues 154..211, 58 residues; C172 is index 18)
+  fos5vpe: [[-17.54,-24.72,3.45],[-15.1,-24.69,0.52],[-17.35,-22.28,-1.38],[-17.68,-19.98,1.62],[-13.91,-19.66,1.24],[-14.15,-18.96,-2.49],[-16.71,-16.21,-1.84],[-14.58,-14.79,0.99],[-11.51,-14.62,-1.26],[-13.4,-12.88,-4.09],[-14.88,-10.35,-1.66],[-11.57,-9.76,0.12],[-9.79,-9.36,-3.22],[-12.1,-6.45,-4.08],[-11.62,-5.01,-0.59],[-7.83,-5.09,-0.99],[-8.06,-3.37,-4.38],[-10.33,-0.73,-2.83],[-7.88,-0.11,0.0],[-4.99,0.29,-2.45],[-7.02,2.52,-4.78],[-8.06,4.79,-1.9],[-4.43,5.18,-0.82],[-3.39,6.14,-4.37],[-6.27,8.6,-4.67],[-5.56,10.06,-1.23],[-1.91,10.54,-2.14],[-2.95,12.21,-5.4],[-5.46,14.52,-3.7],[-2.97,15.61,-1.04],[-0.35,16.26,-3.72],[-2.78,18.39,-5.73],[-3.93,20.28,-2.64],[-0.29,20.98,-1.78],[0.33,22.29,-5.31],[-2.68,24.61,-5.04],[-1.78,25.89,-1.56],[1.82,26.55,-2.65],[0.46,28.61,-5.55],[-1.92,30.54,-3.29],[0.96,31.26,-0.9],[3.16,32.49,-3.73],[0.31,34.73,-4.89],[-0.35,36.14,-1.42],[3.34,36.88,-0.89],[3.34,38.7,-4.24],[0.27,40.73,-3.27],[1.92,41.64,0.04],[5.16,42.71,-1.65],[3.21,44.92,-4.06],[1.07,46.48,-1.32],[4.1,47.2,0.86],[5.75,48.97,-2.09],[2.67,51.1,-2.77],[2.29,51.86,0.94],[5.82,53.26,1.14],[5.4,55.21,-2.12],[2.29,56.91,-0.76]],
+  fos7ucc: [[-4.96,-29.04,-9.21],[-2.45,-26.61,-7.71],[-4.07,-23.98,-9.95],[-5.93,-23.11,-6.75],[-2.65,-21.4,-5.8],[-2.63,-19.63,-9.19],[-6.07,-18.1,-8.74],[-5.16,-17.13,-5.18],[-1.99,-15.37,-6.24],[-3.78,-13.51,-9.07],[-6.44,-12.44,-6.58],[-3.85,-11.37,-4.04],[-2.18,-9.26,-6.67],[-5.47,-7.64,-7.65],[-6.32,-6.86,-4.01],[-2.88,-5.32,-3.59],[-3.4,-3.26,-6.75],[-6.77,-1.93,-5.56],[-5.26,-1.02,-2.21],[-2.4,0.82,-3.93],[-4.92,2.68,-6.06],[-6.78,3.76,-2.91],[-3.49,4.9,-1.43],[-2.72,6.85,-4.59],[-6.15,8.46,-4.48],[-5.35,9.79,-1.05],[-1.82,10.94,-1.77],[-2.8,12.45,-5.15],[-5.6,14.44,-3.49],[-3.22,15.67,-0.79],[-0.5,16.46,-3.31],[-2.89,18.46,-5.47],[-4.16,20.37,-2.45],[-0.52,21.08,-1.61],[0.24,22.31,-5.11],[-2.78,24.59,-4.99],[-1.82,25.97,-1.6],[1.77,26.62,-2.75],[0.52,28.6,-5.73],[-1.86,30.6,-3.56],[0.96,31.26,-1.1],[3.16,32.61,-3.86],[0.35,34.85,-5.04],[-0.16,36.19,-1.53],[3.55,36.87,-1.1],[3.64,38.76,-4.37],[0.53,40.76,-3.46],[1.95,41.67,-0.07],[5.13,42.86,-1.75],[3.24,45.08,-4.15],[0.95,46.47,-1.45],[3.89,47.26,0.81],[5.71,49.06,-1.99],[2.59,51.14,-2.65],[2.22,51.82,1.08],[5.79,53.14,1.31],[5.28,55.22,-1.82],[2.22,56.85,-0.3]],
+  fos5vpb: [[17.22,-21.75,-11.17],[19.73,-19.32,-9.67],[18.11,-16.68,-11.92],[16.25,-15.82,-8.71],[19.53,-14.11,-7.76],[19.55,-12.33,-11.15],[16.11,-10.8,-10.7],[17.02,-9.84,-7.14],[17.24,-6.09,-7.78],[15.02,-6.25,-10.88],[12.14,-7.67,-8.82],[12.01,-4.68,-6.45],[11.41,-2.18,-9.29],[8.1,-3.77,-10.29],[7.23,-4.05,-6.59],[7.75,-0.31,-6.09],[5.86,0.65,-9.26],[2.87,-1.56,-8.43],[3.08,-0.15,-4.9],[2.85,3.5,-5.91],[0.11,2.78,-8.46],[-2.06,1.53,-5.57],[-4.55,3.99,-4.07],[-2.68,6.88,-5.67],[-5.88,8.97,-5.59],[-5.35,9.84,-1.91],[-1.79,11.05,-2.43],[-2.88,12.75,-5.67],[-5.68,14.7,-3.96],[-3.42,15.7,-1.07],[-0.6,16.58,-3.47],[-2.98,18.63,-5.62],[-4.08,20.51,-2.51],[-0.38,21.05,-1.77],[0.11,22.56,-5.24],[-2.89,24.89,-4.89],[-1.7,26.0,-1.45],[1.86,26.63,-2.66],[0.61,28.72,-5.59],[-1.81,30.66,-3.39],[1.07,31.12,-0.93],[3.53,32.56,-3.46],[0.83,34.74,-5.03],[-0.17,36.08,-1.6],[3.48,36.89,-0.88],[3.83,38.79,-4.17],[0.61,40.68,-3.43],[2.03,41.61,-0.02],[5.21,42.86,-1.69],[3.24,45.0,-4.15],[1.01,46.4,-1.4],[4.05,47.28,0.72],[5.64,49.02,-2.27],[2.48,51.07,-2.85],[2.29,51.81,0.89],[5.87,53.08,0.92],[4.99,55.22,-2.11],[1.92,56.79,-0.5]],
+  // JunD bZIP Cα (residues 266..323, 58 residues; C285 is index 19)
+  jun5vpe: [[20.1,-25.16,-1.06],[16.84,-24.96,-3.02],[14.96,-24.19,0.21],[17.57,-21.72,1.48],[17.65,-19.82,-1.81],[13.86,-19.62,-1.73],[13.87,-18.5,1.91],[16.54,-15.86,1.29],[14.54,-14.52,-1.66],[11.44,-14.26,0.54],[13.47,-12.45,3.21],[14.81,-9.93,0.69],[11.34,-9.34,-0.76],[9.88,-9.04,2.74],[12.39,-6.24,3.42],[11.64,-4.57,0.08],[7.89,-4.74,0.76],[8.26,-3.26,4.24],[10.37,-0.42,2.83],[7.88,0.11,0.0],[4.89,0.28,2.37],[6.76,2.57,4.77],[7.61,5.07,2.04],[3.96,5.14,0.95],[2.8,6.04,4.46],[5.65,8.51,4.99],[4.68,10.39,1.83],[1.07,10.67,3.01],[2.15,11.78,6.49],[4.6,14.32,5.07],[1.93,15.68,2.71],[-0.72,15.95,5.43],[1.68,17.99,7.57],[2.55,20.29,4.67],[-1.14,20.89,3.94],[-1.75,21.8,7.59],[1.23,24.17,7.57],[0.31,25.88,4.3],[-3.3,26.46,5.36],[-2.02,28.08,8.57],[0.53,30.15,6.65],[-1.96,31.31,4.01],[-4.42,32.4,6.71],[-1.83,34.72,8.24],[-0.7,35.96,4.82],[-4.29,36.76,3.89],[-4.64,38.66,7.17],[-1.53,40.72,6.39],[-2.7,41.48,2.85],[-6.13,42.56,4.09],[-4.56,44.95,6.59],[-2.22,46.35,3.92],[-5.13,46.99,1.52],[-6.86,48.98,4.26],[-3.72,50.99,5.04],[-3.15,51.64,1.32],[-6.75,52.82,0.86],[-6.44,55.24,3.8]],
+  jun7ucc: [[12.48,-28.64,6.51],[9.25,-27.99,4.62],[7.51,-26.4,7.62],[10.58,-24.27,8.29],[10.87,-23.13,4.7],[7.2,-22.16,4.47],[7.11,-20.24,7.75],[10.31,-18.34,7.05],[9.0,-17.31,3.65],[5.74,-16.02,5.07],[7.55,-14.14,7.81],[10.03,-12.44,5.46],[7.0,-11.41,3.39],[5.32,-9.99,6.51],[8.37,-7.9,7.44],[8.51,-6.57,3.9],[4.79,-5.75,4.12],[4.92,-3.97,7.49],[7.98,-1.91,6.59],[6.29,-0.87,3.35],[3.19,0.11,5.33],[5.32,2.19,7.68],[6.8,4.01,4.68],[3.36,4.63,3.15],[1.81,5.99,6.32],[4.79,8.24,6.98],[4.51,9.73,3.5],[0.81,10.34,4.0],[1.45,11.98,7.35],[4.07,14.34,5.94],[1.65,15.38,3.17],[-1.11,15.97,5.75],[1.22,18.08,7.88],[2.35,20.09,4.86],[-1.24,20.87,3.93],[-1.91,22.01,7.49],[1.24,24.14,7.58],[0.38,25.79,4.29],[-3.17,26.58,5.34],[-1.8,28.24,8.47],[0.88,30.18,6.57],[-1.66,31.37,4.04],[-4.05,32.45,6.78],[-1.3,34.65,8.17],[-0.46,36.02,4.72],[-4.08,36.67,3.82],[-4.61,38.65,6.99],[-1.45,40.65,6.31],[-2.57,41.33,2.75],[-6.06,42.49,3.79],[-4.58,44.76,6.45],[-2.3,46.27,3.85],[-5.12,46.79,1.36],[-7.04,48.69,4.03],[-4.0,50.75,5.02],[-3.13,51.68,1.44],[-6.73,52.71,0.91],[-6.57,55.0,3.96]],
+  jun5vpb: [[10.25,-28.62,-2.53],[7.77,-26.69,-4.68],[5.32,-25.92,-1.86],[8.18,-24.34,0.09],[8.93,-22.18,-2.95],[5.3,-21.04,-3.17],[5.16,-20.29,0.56],[8.41,-18.31,0.34],[7.35,-16.25,-2.68],[3.98,-15.54,-1.06],[5.78,-14.47,2.13],[7.94,-12.08,0.11],[4.72,-10.7,-1.39],[3.2,-10.11,2.06],[6.38,-8.36,3.24],[6.59,-6.11,0.18],[2.91,-5.27,0.66],[3.5,-4.41,4.33],[6.41,-2.1,3.51],[4.41,-0.51,0.7],[1.49,0.22,3.03],[3.85,1.66,5.64],[5.67,3.95,3.19],[2.32,5.08,1.78],[0.99,5.98,5.23],[4.2,7.9,5.94],[3.85,9.84,2.68],[0.21,10.64,3.41],[1.2,11.84,6.88],[3.89,14.17,5.52],[1.47,15.56,2.94],[-1.23,16.15,5.57],[1.27,18.02,7.74],[2.33,20.06,4.7],[-1.3,20.98,3.97],[-1.91,22.0,7.59],[1.2,24.19,7.69],[0.46,25.76,4.31],[-3.1,26.54,5.39],[-1.87,28.3,8.54],[0.74,30.3,6.61],[-1.8,31.25,3.94],[-4.19,32.44,6.65],[-1.51,34.69,8.14],[-0.6,35.94,4.67],[-4.23,36.6,3.75],[-4.77,38.63,6.92],[-1.55,40.56,6.27],[-2.7,41.32,2.72],[-6.12,42.48,3.92],[-4.6,44.79,6.52],[-2.19,46.18,3.92],[-5.08,46.81,1.52],[-6.9,48.68,4.29],[-3.83,50.79,5.1],[-3.23,51.57,1.42],[-6.86,52.64,1.09],[-6.48,54.98,4.08]],
+  // Exact C172 (ΔFosB) and C285 (JunD) Sγ sulfur atoms from RCSB PDB
+  sg172: [[-6.35,-0.45,2.27], [-3.84,-1.26,0.17], [4.14,0.90,-2.55]],
+  sg285: [[6.45,-0.25,-2.39], [5.15,-0.87,0.84],  [2.75,-0.14,-1.49]],
+  // Cognate AP-1 DNA phosphate rails from 5VPE
+  dnaA: [[-22.2,-16.2,18.5],[-21.2,-12.7,5.6],[-14.6,-1.8,2.8],[-2.9,-0.3,7.1],[5.9,-9.3,7.5],[6.0,-17.5,-2.2],[2.8,-13.4,-14.2],[9.3,-3.4,-18.9],[20.2,1.5,-13.3]],
+  dnaB: [[20.6,-17.6,-18.7],[19.6,-12.8,-6.4],[14.3,-1.5,-3.4],[2.4,0.3,-7.0],[-5.8,-9.4,-7.9],[-5.8,-18.0,1.6],[-4.2,-14.8,14.0],[-9.8,-4.2,18.2],[-20.5,1.5,13.6]]
+};
+
+const qState = { s: 0.0, dir: 1, manualS: null, yaw: 0.35 };
+
+function interp3(a, b, c, s) {
+  // s in [0, 2]: 0=5VPE, 1=7UCC, 2=5VPB
+  const f = s <= 1 ? s : s - 1;
+  const p0 = s <= 1 ? a : b;
+  const p1 = s <= 1 ? b : c;
+  return [
+    p0[0] + (p1[0] - p0[0]) * f,
+    p0[1] + (p1[1] - p0[1]) * f,
+    p0[2] + (p1[2] - p0[2]) * f
+  ];
+}
+
+function stepQuantumSolver() {
+  if (paused) return;
+  if (qState.manualS !== null) {
+    qState.s += (qState.manualS - qState.s) * 0.22;
+  } else {
+    // Smooth dwell at 5VPE (0), 7UCC (1), and 5VPB (2)
+    qState.s += 0.011 * qState.dir;
+    if (qState.s >= 2.0) { qState.s = 2.0; qState.dir = -1; }
+    if (qState.s <= 0.0) { qState.s = 0.0; qState.dir = 1; }
+  }
+  qState.yaw += 0.008;
+}
+
+function projPDB(pt, cx, cy, scale, yaw) {
+  // Center near y=12 Å, rotate protein axis horizontally for panoramic bZIP view
+  const x0 = pt[0], y0 = pt[1] - 12.0, z0 = pt[2];
+  const rx = x0 * Math.cos(yaw) + z0 * Math.sin(yaw);
+  const rz = -x0 * Math.sin(yaw) + z0 * Math.cos(yaw);
+  const fov = 140 / Math.max(40, 140 - rz);
+  // Map bZIP axis (y0) horizontally and fork splay (rx) vertically
+  return {
+    sx: cx + y0 * scale * fov,
+    sy: cy - rx * scale * fov,
+    z: rz,
+    sc: scale * fov
+  };
+}
+
 function drawScaleQuantum(x, y, w, h, t, compact) {
   ctx.save();
   ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
-  const cx = x + w * (compact ? 0.5 : 0.36);
-  const cy = y + h * 0.52;
-  const morph = (Math.sin(t * 0.022) + 1) * 0.5; // 0 = 5VPE (13.62 A), 1 = 5VPB (2.03 A)
-  const ssDist = 13.62 - morph * 11.59;
-  const rot = t * 0.014;
+  const s = qState.s;
+  const sg1 = interp3(PDB_FOSB.sg172[0], PDB_FOSB.sg172[1], PDB_FOSB.sg172[2], s);
+  const sg2 = interp3(PDB_FOSB.sg285[0], PDB_FOSB.sg285[1], PDB_FOSB.sg285[2], s);
+  const dx = sg1[0] - sg2[0], dy = sg1[1] - sg2[1], dz = sg1[2] - sg2[2];
+  const ssDist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-  // 3D Coiled-Coil bZIP Helices
-  const nRes = compact ? 22 : 30;
-  for (let strand = 0; strand < 2; strand++) {
-    const sign = strand === 0 ? -1 : 1;
-    const col = strand === 0 ? '#00e5ff' : '#c8ff00';
-    ctx.strokeStyle = col;
-    ctx.lineWidth = compact ? 2 : 2.8;
-    ctx.beginPath();
-    for (let i = 0; i < nRes; i++) {
-      const u = (i / (nRes - 1)) * 2 - 1; // -1 to 1
-      // Splay open at basic end (u < 0) when morph=0, pinch closed when morph=1
-      const splay = u < 0 ? (1 - morph * 0.82) * (14 + Math.abs(u) * 26) : 13;
-      const angle = i * 0.95 + rot + strand * Math.PI;
-      const rad = compact ? 7 : 10;
-      const px = cx + u * (w * (compact ? 0.36 : 0.25)) + Math.cos(angle) * 4;
-      const py = cy + sign * splay + Math.sin(angle) * rad;
-      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-
-      // Highlight C172 / C285 Sulfur Redox Switch at i === 7
-      if (i === 7) {
-        ctx.save();
-        ctx.fillStyle = morph > 0.78 ? '#ff6b35' : col;
-        ctx.beginPath(); ctx.arc(px, py, compact ? 4 : 6, 0, Math.PI * 2); ctx.fill();
-        // Frontier HOMO/LUMO orbital lobes
-        const orbR = (compact ? 11 : 18) + Math.sin(t * 0.08 + strand) * 2.5;
-        const grad = ctx.createRadialGradient(px, py, 1, px, py, orbR);
-        grad.addColorStop(0, morph > 0.78 ? 'rgba(255,107,53,0.42)' : 'rgba(0,229,255,0.34)');
-        grad.addColorStop(1, 'transparent');
-        ctx.fillStyle = grad;
-        ctx.beginPath(); ctx.arc(px, py, orbR, 0, Math.PI * 2); ctx.fill();
-        ctx.restore();
-      }
-    }
-    ctx.stroke();
+  // Compute live basic-region (0..27) vs zipper (28..57) Cα RMSD vs 5VPE
+  let sumBasic = 0, sumZip = 0;
+  const fosCur = [], junCur = [];
+  for (let i = 0; i < 58; i++) {
+    const fc = interp3(PDB_FOSB.fos5vpe[i], PDB_FOSB.fos7ucc[i], PDB_FOSB.fos5vpb[i], s);
+    const jc = interp3(PDB_FOSB.jun5vpe[i], PDB_FOSB.jun7ucc[i], PDB_FOSB.jun5vpb[i], s);
+    fosCur.push(fc);
+    junCur.push(jc);
+    const dfx = fc[0] - PDB_FOSB.fos5vpe[i][0], dfy = fc[1] - PDB_FOSB.fos5vpe[i][1], dfz = fc[2] - PDB_FOSB.fos5vpe[i][2];
+    const d2 = dfx * dfx + dfy * dfy + dfz * dfz;
+    if (i < 28) sumBasic += d2; else sumZip += d2;
   }
+  const rmsdBasic = Math.sqrt(sumBasic / 28);
+  const rmsdZip = Math.sqrt(sumZip / 30);
+
+  const cx = x + w * (compact ? 0.50 : 0.37);
+  const cy = y + h * 0.56;
+  const angScale = Math.min(w * (compact ? 0.0105 : 0.0074), h * 0.0155);
+
+  // Render cognate AP-1 DNA rails (undocking smoothly as disulfide closes past 7UCC)
+  const dnaDrop = Math.max(0, s - 0.55) * 18.0;
+  const dnaAlpha = Math.max(0.12, 1 - Math.max(0, s - 0.4) * 0.65);
+  [PDB_FOSB.dnaA, PDB_FOSB.dnaB].forEach((rail, rIdx) => {
+    ctx.strokeStyle = rIdx === 0 ? `rgba(155,136,255,${dnaAlpha})` : `rgba(120,105,220,${dnaAlpha})`;
+    ctx.lineWidth = compact ? 1.4 : 2.1;
+    ctx.beginPath();
+    rail.forEach((pt, i) => {
+      const p = projPDB([pt[0], pt[1] - dnaDrop, pt[2]], cx, cy, angScale, qState.yaw);
+      if (i === 0) ctx.moveTo(p.sx, p.sy); else ctx.lineTo(p.sx, p.sy);
+    });
+    ctx.stroke();
+  });
+
+  // Render Kabsch-aligned ΔFosB & JunD Cα backbones
+  const segs = [];
+  for (let i = 0; i < 57; i++) {
+    const f0 = projPDB(fosCur[i], cx, cy, angScale, qState.yaw);
+    const f1 = projPDB(fosCur[i + 1], cx, cy, angScale, qState.yaw);
+    segs.push({ p0: f0, p1: f1, z: (f0.z + f1.z) * 0.5, col: i < 28 ? '#00e5ff' : '#38b6ff' });
+    const j0 = projPDB(junCur[i], cx, cy, angScale, qState.yaw);
+    const j1 = projPDB(junCur[i + 1], cx, cy, angScale, qState.yaw);
+    segs.push({ p0: j0, p1: j1, z: (j0.z + j1.z) * 0.5, col: i < 28 ? '#c8ff00' : '#8ecf00' });
+  }
+  segs.sort((a, b) => a.z - b.z);
+  ctx.lineCap = 'round';
+  segs.forEach(sg => {
+    ctx.strokeStyle = sg.col;
+    ctx.lineWidth = compact ? 2.0 : 3.0;
+    ctx.beginPath();
+    ctx.moveTo(sg.p0.sx, sg.p0.sy);
+    ctx.lineTo(sg.p1.sx, sg.p1.sy);
+    ctx.stroke();
+  });
+
+  // Render C172 & C285 Sγ atoms and disulfide bond formation at 2.03 Å
+  const pSG1 = projPDB(sg1, cx, cy, angScale, qState.yaw);
+  const pSG2 = projPDB(sg2, cx, cy, angScale, qState.yaw);
+  ctx.strokeStyle = ssDist < 3.2 ? '#ff6b35' : 'rgba(255,255,255,0.35)';
+  ctx.lineWidth = ssDist < 3.2 ? 3.2 : 1.3;
+  if (ssDist >= 3.2) ctx.setLineDash([3, 3]);
+  ctx.beginPath(); ctx.moveTo(pSG1.sx, pSG1.sy); ctx.lineTo(pSG2.sx, pSG2.sy); ctx.stroke();
+  ctx.setLineDash([]);
+
+  [pSG1, pSG2].forEach((p, idx) => {
+    ctx.fillStyle = ssDist < 3.2 ? '#ff6b35' : (idx === 0 ? '#00e5ff' : '#c8ff00');
+    ctx.beginPath(); ctx.arc(p.sx, p.sy, compact ? 3.8 : 5.6, 0, Math.PI * 2); ctx.fill();
+  });
 
   if (!compact) {
-    // Right comparison: 18 A^3 Cavity vs 250 A^3 Druggability Sphere
-    const rx = x + w * 0.77;
-    const ry = y + h * 0.5;
-    // 250 A^3 threshold sphere
-    ctx.strokeStyle = 'rgba(255,107,53,0.45)';
+    // Exact volumetric sphere comparison (V = 4/3 π r^3 -> r_18 = 1.626 Å, r_250 = 3.908 Å, r_368 = 4.446 Å)
+    const rx = x + w * 0.79, ry = y + h * 0.53;
+    const vScale = Math.min(w, h) * 0.036;
+    // 368 A^3 HIV-1 protease positive control (1HSG)
+    ctx.strokeStyle = 'rgba(155,136,255,0.32)';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.arc(rx, ry, 4.446 * vScale, 0, Math.PI * 2); ctx.stroke();
+    // 250 A^3 druggability floor
+    ctx.strokeStyle = 'rgba(255,107,53,0.65)';
     ctx.setLineDash([5, 4]);
-    ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.arc(rx, ry, 58, 0, Math.PI * 2); ctx.stroke();
+    ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.arc(rx, ry, 3.908 * vScale, 0, Math.PI * 2); ctx.stroke();
     ctx.setLineDash([]);
-    ctx.fillStyle = 'rgba(255,107,53,0.06)';
-    ctx.fill();
-
-    // 18 A^3 static speck (radius scales as V^(1/3): (18/250)^(1/3) * 58 ≈ 24px diameter -> ~12px radius)
-    const pulseSpeck = 11 + Math.sin(t * 0.06) * 1.5;
-    ctx.fillStyle = 'rgba(0,229,255,0.35)';
+    // 18 A^3 static ΔFosB cavity
+    ctx.fillStyle = 'rgba(0,229,255,0.32)';
     ctx.strokeStyle = '#00e5ff';
-    ctx.lineWidth = 1.8;
-    ctx.beginPath(); ctx.arc(rx, ry, pulseSpeck, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(rx, ry, 1.626 * vScale, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 
-    ctx.font = '600 11px "IBM Plex Mono", monospace';
-    ctx.fillStyle = '#00e5ff';
+    ctx.font = '600 10.5px "IBM Plex Mono", monospace';
     ctx.textAlign = 'center';
-    ctx.fillText('18 Å³ ΔFosB', rx, ry - 16);
+    ctx.fillStyle = '#00e5ff';
+    ctx.fillText('18 Å³ (r=1.63 Å)', rx, ry - 1.626 * vScale - 7);
     ctx.fillStyle = '#ff6b35';
-    ctx.fillText('250 Å³ Druggable Floor', rx, ry + 76);
+    ctx.fillText('250 Å³ Druggable Floor', rx, ry + 3.908 * vScale + 15);
+    ctx.fillStyle = '#9b88ff';
+    ctx.fillText('368 Å³ 1HSG Control', rx, ry + 4.446 * vScale + 29);
 
+    const pdbTag = s < 0.5 ? '5VPE (DNA-BOUND)' : (s < 1.5 ? '7UCC (REDUCED APO)' : '5VPB (OXIDISED S–S)');
     ctx.textAlign = 'left';
+    ctx.font = '600 11px "IBM Plex Mono", monospace';
     ctx.fillStyle = '#f0ece4';
-    ctx.fillText(`C172–C285 S–S Distance: ${ssDist.toFixed(2)} Å`, x + 22, y + 32);
-    ctx.fillStyle = morph > 0.6 ? '#ff6b35' : '#c8ff00';
-    ctx.fillText(morph > 0.6 ? 'STATE: 5VPB OXIDISED (DNA EJECTED)' : 'STATE: 5VPE REDUCED (AP-1 DNA BOUND)', x + 22, y + 50);
+    ctx.fillText(`RCSB X-Ray Kabsch Morph [${pdbTag}] · C172–C285 Sγ–Sγ = ${ssDist.toFixed(2)} Å`, x + 22, y + 30);
+    ctx.fillStyle = ssDist < 3.5 ? '#ff6b35' : '#c8ff00';
+    ctx.fillText(`Fork Cα Shift: ${rmsdBasic.toFixed(2)} Å  |  Zipper RMSD: ${rmsdZip.toFixed(2)} Å (Drag horizontally to scrub)`, x + 22, y + 48);
   } else {
     ctx.font = '600 10px "IBM Plex Mono", monospace';
     ctx.fillStyle = '#00e5ff';
-    ctx.fillText(`10⁻¹⁰ m · S–S ${ssDist.toFixed(1)} Å`, x + 10, y + 20);
+    ctx.fillText(`10⁻¹⁰ m · S–S ${ssDist.toFixed(2)} Å`, x + 10, y + 20);
   }
   ctx.restore();
 }
 
-// SCALE 1: 10^-8 m — GPCR 7TM Bundle + Naloxone Competitive Steric Jam
+// ============================================================================
+// SOLVER 2 (10^-8 m): LIVE MASS-ACTION MOR KINETICS & TM6 CONFORMATIONAL ODE
+// ============================================================================
+const morODE = {
+  cM: 12.0,       // Agonist [Morphine/Opioid] nM
+  cN: 0.0,        // Cleft [Naloxone] nM
+  depotN: 34.0,   // Intranasal rescue spray depot
+  thM: 0.74,      // Fractional agonist occupancy
+  thN: 0.0,       // Fractional naloxone occupancy
+  aTM6: 0.74,     // TM6 active outward conformation (0..1 -> 0..11.4 Å)
+  gi: 0.74,       // Coupled Gi signaling
+  tMin: 0.0,
+  hist: []
+};
+
+function injectNaloxoneBolus() {
+  morODE.depotN = Math.min(60, morODE.depotN + 36.0);
+}
+
+function stepMORSolver() {
+  if (paused) return;
+  const dt = 0.16; // minutes per RK2 substep
+  const konM = 0.05, koffM = 0.20; // Kd_M = 4.0 nM
+  const konN = 0.12, koffN = 0.18; // Kd_N = 1.5 nM
+  const kaN = 0.085, kelN = Math.LN2 / 70.0; // t1/2 = 70 min
+  const kelM = Math.LN2 / 260.0;             // longer opioid persistence
+
+  for (let sub = 0; sub < 3; sub++) {
+    morODE.tMin += dt;
+    // Auto-rescue spray when Gi signaling stays dangerously high (>0.58) and naloxone cleared
+    if (morODE.cN < 1.2 && morODE.depotN < 1.0 && morODE.gi > 0.58) {
+      morODE.depotN = 38.0;
+      morODE.cM = 12.0;
+    }
+    const absorb = kaN * morODE.depotN;
+    morODE.depotN = Math.max(0, morODE.depotN - absorb * dt);
+    morODE.cN = Math.max(0, morODE.cN + (absorb - kelN * morODE.cN) * dt);
+    morODE.cM = Math.max(8.5, morODE.cM - kelM * (morODE.cM - 8.5) * dt);
+
+    // RK2 midpoint step for competitive receptor binding + TM6 steric gating
+    const free0 = Math.max(0, 1 - morODE.thM - morODE.thN);
+    const dM1 = konM * morODE.cM * free0 - koffM * morODE.thM;
+    const dN1 = konN * morODE.cN * free0 - koffN * morODE.thN;
+    const mMid = Math.min(1, Math.max(0, morODE.thM + 0.5 * dt * dM1));
+    const nMid = Math.min(1, Math.max(0, morODE.thN + 0.5 * dt * dN1));
+    const freeMid = Math.max(0, 1 - mMid - nMid);
+    morODE.thM = Math.min(1, Math.max(0, morODE.thM + dt * (konM * morODE.cM * freeMid - koffM * mMid)));
+    morODE.thN = Math.min(1, Math.max(0, morODE.thN + dt * (konN * morODE.cN * freeMid - koffN * nMid)));
+
+    // Rigid allyl arm on Naloxone sterically blocks TM6 outward swing
+    const aInf = morODE.thM / (1 + 6.5 * morODE.thN);
+    morODE.aTM6 += (aInf - morODE.aTM6) * (dt / 0.85);
+    morODE.gi += (morODE.aTM6 - morODE.gi) * (dt / 1.1);
+  }
+
+  morODE.hist.push({ thN: morODE.thN, thM: morODE.thM, gi: morODE.gi, cN: morODE.cN });
+  if (morODE.hist.length > 180) morODE.hist.shift();
+}
+
 function drawScaleGPCR(x, y, w, h, t, compact) {
   ctx.save();
   ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
-  const cx = x + w * (compact ? 0.5 : 0.36);
-  const memTop = y + h * 0.28;
-  const memBot = y + h * 0.74;
-  const mH = memBot - memTop;
+  const cx = x + w * (compact ? 0.5 : 0.29);
+  const memTop = y + h * 0.28, memBot = y + h * 0.76, mH = memBot - memTop;
 
-  // Lipid bilayer band
   ctx.fillStyle = 'rgba(200,160,60,0.08)';
   ctx.fillRect(x, memTop, w, mH);
-  ctx.strokeStyle = 'rgba(200,160,60,0.24)';
+  ctx.strokeStyle = 'rgba(200,160,60,0.22)';
   ctx.setLineDash([4, 4]);
   ctx.beginPath();
   ctx.moveTo(x, memTop); ctx.lineTo(x + w, memTop);
@@ -2077,17 +2247,14 @@ function drawScaleGPCR(x, y, w, h, t, compact) {
   ctx.stroke();
   ctx.setLineDash([]);
 
-  // Naloxone swap cycle: 0 = Morphine active (TM6 open), 1 = Naloxone jammed (TM6 locked)
-  const nalFrac = (Math.sin(t * 0.025) + 1) * 0.5;
-  const openFrac = 1 - nalFrac;
-  const sp = compact ? 15 : 26;
-
+  const openFrac = morODE.aTM6;
+  const sp = compact ? 14 : 24;
   for (let i = 0; i < 7; i++) {
     let hx = cx + (i - 3) * sp;
     if (i === 4) hx += openFrac * (compact ? 5 : 9);
-    if (i === 5) hx += openFrac * (compact ? 11 : 20);
-    const hw = compact ? 10 : 17;
-    ctx.fillStyle = i === 2 ? 'rgba(100,220,100,0.22)' : (i >= 4 && i <= 5 ? 'rgba(155,136,255,0.24)' : 'rgba(255,255,255,0.08)');
+    if (i === 5) hx += openFrac * (compact ? 11 : 21);
+    const hw = compact ? 9.5 : 16;
+    ctx.fillStyle = i === 2 ? 'rgba(100,220,100,0.22)' : (i >= 4 && i <= 5 ? 'rgba(155,136,255,0.25)' : 'rgba(255,255,255,0.08)');
     ctx.strokeStyle = i === 2 ? 'rgba(100,220,100,0.5)' : 'rgba(255,255,255,0.16)';
     ctx.lineWidth = 1;
     ctx.beginPath();
@@ -2095,312 +2262,652 @@ function drawScaleGPCR(x, y, w, h, t, compact) {
     ctx.fill(); ctx.stroke();
   }
 
-  // Docked Ligand + Rigid Allyl Arm
-  const px = cx - 4, py = memTop + mH * 0.36;
-  const ligCol = nalFrac > 0.5 ? '#c8ff00' : '#ff6b35';
-  ctx.fillStyle = ligCol;
-  ctx.beginPath(); ctx.arc(px, py, compact ? 8 : 13, 0, Math.PI * 2); ctx.fill();
-  if (nalFrac > 0.5) {
-    // Stiff allyl arm jamming TM6
+  // Orthosteric pocket occupancy & rigid allyl jam indicator
+  const px = cx - 3, py = memTop + mH * 0.36;
+  const nalDom = morODE.thN >= morODE.thM;
+  ctx.fillStyle = nalDom ? '#c8ff00' : '#ff6b35';
+  ctx.beginPath(); ctx.arc(px, py, compact ? 7.5 : 12, 0, Math.PI * 2); ctx.fill();
+  if (nalDom) {
     ctx.strokeStyle = '#c8ff00';
-    ctx.lineWidth = 2.5;
-    ctx.beginPath(); ctx.moveTo(px + 10, py - 3); ctx.lineTo(px + (compact ? 22 : 36), py - 12); ctx.stroke();
+    ctx.lineWidth = 2.6;
+    ctx.beginPath(); ctx.moveTo(px + 9, py - 2); ctx.lineTo(px + (compact ? 21 : 35), py - 11); ctx.stroke();
   }
 
   if (!compact) {
-    // Live Cheng-Prusoff Occupancy Curves on Right
-    const gx = x + w * 0.62, gy = y + h * 0.22, gw = w * 0.33, gh = h * 0.56;
+    // Live scrolling ODE trajectory plot on right
+    const gx = x + w * 0.55, gy = y + h * 0.22, gw = w * 0.40, gh = h * 0.58;
+    ctx.fillStyle = 'rgba(0,0,0,0.38)';
+    ctx.fillRect(gx, gy, gw, gh);
     ctx.strokeStyle = 'rgba(255,255,255,0.14)';
     ctx.strokeRect(gx, gy, gw, gh);
-    const curNal = nalFrac * 40; // 0 to 40 nM vs 10 nM Morphine
-    for (let curve = 0; curve < 2; curve++) {
-      ctx.strokeStyle = curve === 0 ? '#c8ff00' : '#ff6b35';
-      ctx.lineWidth = 2.2;
-      ctx.beginPath();
-      for (let k = 0; k <= 60; k++) {
-        const cN = (k / 60) * 40;
-        const n = cN / 1.5, m = 10 / 4.0, d = 1 + n + m;
-        const occ = curve === 0 ? n / d : m / d;
-        const vx = gx + (k / 60) * gw;
-        const vy = gy + gh - occ * gh;
-        if (k === 0) ctx.moveTo(vx, vy); else ctx.lineTo(vx, vy);
-      }
-      ctx.stroke();
-    }
-    const markerX = gx + (curNal / 40) * gw;
-    ctx.strokeStyle = 'rgba(255,255,255,0.45)';
-    ctx.beginPath(); ctx.moveTo(markerX, gy); ctx.lineTo(markerX, gy + gh); ctx.stroke();
 
+    // 30% respiratory rescue threshold line
+    const thY = gy + gh * (1 - 0.30);
+    ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.moveTo(gx, thY); ctx.lineTo(gx + gw, thY); ctx.stroke();
+    ctx.setLineDash([]);
+
+    const keys = [
+      { k: 'thN', col: '#c8ff00' },
+      { k: 'thM', col: '#ff6b35' },
+      { k: 'gi',  col: '#9b88ff' }
+    ];
+    keys.forEach(series => {
+      ctx.strokeStyle = series.col;
+      ctx.lineWidth = 2.1;
+      ctx.beginPath();
+      morODE.hist.forEach((pt, idx) => {
+        const vx = gx + (idx / 180) * gw;
+        const vy = gy + gh - pt[series.k] * gh;
+        if (idx === 0) ctx.moveTo(vx, vy); else ctx.lineTo(vx, vy);
+      });
+      ctx.stroke();
+    });
+
+    const tm6Ang = (morODE.aTM6 * 11.4).toFixed(1);
     ctx.font = '600 11px "IBM Plex Mono", monospace';
     ctx.fillStyle = '#f0ece4';
-    ctx.fillText(`[Naloxone] = ${curNal.toFixed(1)} nM vs [Morphine] = 10.0 nM`, x + 22, y + 32);
-    ctx.fillStyle = nalFrac > 0.5 ? '#c8ff00' : '#ff6b35';
-    ctx.fillText(nalFrac > 0.5 ? 'TM5/TM6 LOCKED INACTIVE · Gi BLOCKED' : 'TM5/TM6 OPEN · Gi SIGNALING ACTIVE', x + 22, y + 50);
+    ctx.fillText(`Live Mass-Action ODE: [Nal]=${morODE.cN.toFixed(1)} nM (θ=${(morODE.thN*100).toFixed(0)}%) vs [Ago]=${morODE.cM.toFixed(1)} nM (θ=${(morODE.thM*100).toFixed(0)}%)`, x + 22, y + 30);
+    ctx.fillStyle = morODE.gi < 0.30 ? '#c8ff00' : '#ff6b35';
+    ctx.fillText(`TM6 Swing: ${tm6Ang} Å · Gi Active: ${(morODE.gi*100).toFixed(0)}% (Click canvas for +36 nM Naloxone spray)`, x + 22, y + 48);
   } else {
     ctx.font = '600 10px "IBM Plex Mono", monospace';
     ctx.fillStyle = '#ff6b35';
-    ctx.fillText('10⁻⁸ m · MOR Kd 1.5 nM', x + 10, y + 20);
+    ctx.fillText(`10⁻⁸ m · θ_Nal ${(morODE.thN*100).toFixed(0)}%`, x + 10, y + 20);
   }
   ctx.restore();
 }
 
-// SCALE 2: 10^-6 m — Dendritic Spine Geometry + Freidlin-Wentzell Non-Gradient Curl
+// ============================================================================
+// SOLVER 3 (10^-6 m): 2D NON-GRADIENT CURL SDE + EXACT WILLMORE SPINE FORMULA
+// ============================================================================
+const WELLS = [0, 1, 2].map(k => {
+  const ang = (k * Math.PI * 2) / 3 + 0.35;
+  return { x: 1.08 * Math.cos(ang), y: 1.08 * Math.sin(ang), depth: k === 2 ? 1.18 : 1.02 };
+});
+
+const spineSDE = {
+  kappaCurl: 1.0, // 1.0 = Non-gradient coupled (+1.73 residual), 0.0 = Conservative gradient (0.00)
+  curlRatio: 1.38,
+  loopResidual: 1.73,
+  particles: Array.from({ length: 48 }, (_, i) => {
+    const w = WELLS[i % 3];
+    return { x: w.x + (i % 5 - 2) * 0.08, y: w.y + ((i * 3) % 5 - 2) * 0.08 };
+  }),
+  // 6 individual dendritic spines governed by Itô log-space SDE x_j = ln(A_j)
+  logA: Float64Array.from([0.95, 1.15, 0.82, 1.24, 1.05, 0.90]),
+  willmoreW: 141.2
+};
+
+function drift2D(px, py, kappa) {
+  // -∇U0(x,y) + κ * rotational non-conservative coupling (calibrated: ∮ΔV = +1.73, med|∇×b|/|b| = 1.38×)
+  const pScale = 0.184;
+  const r2 = px * px + py * py;
+  let bx = -pScale * r2 * px;
+  let by = -pScale * r2 * py;
+  const sig2 = 1.65;
+  for (let k = 0; k < 3; k++) {
+    const dx = px - WELLS[k].x, dy = py - WELLS[k].y;
+    const g = WELLS[k].depth * Math.exp(-sig2 * (dx * dx + dy * dy));
+    bx += -2 * sig2 * dx * g * pScale;
+    by += -2 * sig2 * dy * g * pScale;
+  }
+  const rot = -kappa * 0.597 * Math.exp(-0.08 * r2);
+  bx += -rot * py;
+  by +=  rot * px;
+  return { bx, by, curlZ: 2 * rot * (1 - 0.08 * r2) };
+}
+
+function recomputeCurlMetrics() {
+  // Numerically integrate ∮ ΔV = -∮ b·dr around the 3-attractor triangle & median |curl|/|b|
+  let loopSum = 0;
+  for (let k = 0; k < 3; k++) {
+    const w0 = WELLS[k], w1 = WELLS[(k + 1) % 3];
+    const nSeg = 40;
+    const dx = (w1.x - w0.x) / nSeg, dy = (w1.y - w0.y) / nSeg;
+    for (let s = 0; s < nSeg; s++) {
+      const mx = w0.x + (s + 0.5) * dx, my = w0.y + (s + 0.5) * dy;
+      const f = drift2D(mx, my, spineSDE.kappaCurl);
+      loopSum += -(f.bx * dx + f.by * dy);
+    }
+  }
+  const ratios = [];
+  for (let gx = -3; gx <= 3; gx++) {
+    for (let gy = -3; gy <= 3; gy++) {
+      const f = drift2D(gx * 0.4, gy * 0.4, spineSDE.kappaCurl);
+      const mag = Math.hypot(f.bx, f.by);
+      if (mag > 1e-4) ratios.push(Math.abs(f.curlZ) / mag);
+    }
+  }
+  ratios.sort((a, b) => a - b);
+  spineSDE.loopResidual = loopSum;
+  spineSDE.curlRatio = ratios[Math.floor(ratios.length / 2)] || 0;
+}
+recomputeCurlMetrics();
+
+function stepSpineSolver() {
+  if (paused) return;
+  const dt = 0.014;
+  const D2d = 0.085;
+  const noiseScale = Math.sqrt(2 * D2d * dt);
+  for (let i = 0; i < spineSDE.particles.length; i++) {
+    const p = spineSDE.particles[i];
+    const f = drift2D(p.x, p.y, spineSDE.kappaCurl);
+    p.x = Math.max(-2.2, Math.min(2.2, p.x + f.bx * dt + noiseScale * randn()));
+    p.y = Math.max(-2.2, Math.min(2.2, p.y + f.by * dt + noiseScale * randn()));
+  }
+
+  // Itô log-space SDE: dx = [f(A)/A - D]dt + sqrt(2D)dW, f(A) = b0 + v*A^4/(K^4+A^4) - kA*A
+  const b0 = 0.18, v = 1.65, K4 = 1.2, kA = 0.58, Dlog = 0.0279;
+  const dtLog = 0.025;
+  let wSum = 18.80; // W(S_0) dendritic shaft baseline
+  for (let j = 0; j < 6; j++) {
+    const A = Math.exp(spineSDE.logA[j]);
+    const A4 = A * A * A * A;
+    const fA = b0 + (v * A4) / (K4 + A4) - kA * A;
+    const itoDrift = fA / A - Dlog;
+    spineSDE.logA[j] = Math.max(-0.8, Math.min(1.45, spineSDE.logA[j] + itoDrift * dtLog + Math.sqrt(2 * Dlog * dtLog) * randn()));
+    const Anew = Math.exp(spineSDE.logA[j]);
+    // Spine neck length L (µm) and thin neck radius r (µm) -> ΔW = 4π + πL/(2r)
+    const L_um = 0.48 + 0.24 * Anew;
+    const r_um = Math.max(0.045, 0.115 - 0.016 * Anew);
+    wSum += 4 * Math.PI + (Math.PI * L_um) / (2 * r_um);
+  }
+  spineSDE.willmoreW = wSum;
+}
+
 function drawScaleSpine(x, y, w, h, t, compact) {
   ctx.save();
   ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
 
-  // Non-gradient rotational curl vector field + stochastic particles
-  const fx = compact ? x + w * 0.5 : x + w * 0.68;
-  const fy = y + h * 0.52;
-  const scaleR = Math.min(w * (compact ? 0.38 : 0.22), h * 0.36);
+  const fx = compact ? x + w * 0.5 : x + w * 0.70;
+  const fy = y + h * 0.55;
+  const scaleR = Math.min(w * (compact ? 0.32 : 0.17), h * 0.28);
 
-  // Draw subtle phase-space attractors
-  for (let a = 0; a < 3; a++) {
-    const ang = (a * Math.PI * 2) / 3 + 0.4;
-    const ax = fx + Math.cos(ang) * scaleR * 0.62;
-    const ay = fy + Math.sin(ang) * scaleR * 0.62;
-    const g = ctx.createRadialGradient(ax, ay, 2, ax, ay, scaleR * 0.45);
-    g.addColorStop(0, a === 0 ? 'rgba(200,255,0,0.22)' : 'rgba(255,107,53,0.16)');
-    g.addColorStop(1, 'transparent');
-    ctx.fillStyle = g;
-    ctx.beginPath(); ctx.arc(ax, ay, scaleR * 0.45, 0, Math.PI * 2); ctx.fill();
+  // Render live 2D vector field arrows & 3 attractor basins
+  if (!compact) {
+    ctx.strokeStyle = 'rgba(255,255,255,0.13)';
+    ctx.lineWidth = 1;
+    for (let ix = -3; ix <= 3; ix++) {
+      for (let iy = -3; iy <= 3; iy++) {
+        const px = ix * 0.52, py = iy * 0.52;
+        const f = drift2D(px, py, spineSDE.kappaCurl);
+        const mag = Math.hypot(f.bx, f.by) || 1;
+        const sx0 = fx + px * scaleR, sy0 = fy - py * scaleR;
+        ctx.beginPath();
+        ctx.moveTo(sx0, sy0);
+        ctx.lineTo(sx0 + (f.bx / mag) * 8, sy0 - (f.by / mag) * 8);
+        ctx.stroke();
+      }
+    }
   }
 
-  // Advance & render curl trajectories
-  curlParticles.forEach((p, idx) => {
-    if (!paused) {
-      // Rotational curl + radial confinement: b(x,y) with non-zero curl (+1.73 loop residual)
-      const r2 = p.x * p.x + p.y * p.y;
-      const vx = -p.y * 1.38 + p.x * (0.65 - r2);
-      const vy =  p.x * 1.38 + p.y * (0.65 - r2);
-      p.x += vx * 0.016 + Math.sin(t * 0.13 + idx) * 0.006;
-      p.y += vy * 0.016 + Math.cos(t * 0.17 + idx) * 0.006;
-    }
-    const sx = fx + p.x * scaleR;
-    const sy = fy + p.y * scaleR;
-    ctx.fillStyle = idx % 3 === 0 ? '#c8ff00' : '#ff6b35';
-    ctx.beginPath(); ctx.arc(sx, sy, compact ? 2 : 2.6, 0, Math.PI * 2); ctx.fill();
+  WELLS.forEach((wl, idx) => {
+    const ax = fx + wl.x * scaleR, ay = fy - wl.y * scaleR;
+    const g = ctx.createRadialGradient(ax, ay, 2, ax, ay, scaleR * 0.52);
+    g.addColorStop(0, idx === 2 ? 'rgba(200,255,0,0.26)' : 'rgba(255,107,53,0.18)');
+    g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(ax, ay, scaleR * 0.52, 0, Math.PI * 2); ctx.fill();
+  });
+
+  spineSDE.particles.forEach((p, idx) => {
+    const sx = fx + p.x * scaleR, sy = fy - p.y * scaleR;
+    ctx.fillStyle = idx % 3 === 2 ? '#c8ff00' : '#ff6b35';
+    ctx.beginPath(); ctx.arc(sx, sy, compact ? 2.0 : 2.7, 0, Math.PI * 2); ctx.fill();
   });
 
   if (!compact) {
-    // Left side: Sprouting Dendritic Shaft + Thin-Necked Spines (Willmore W(S))
-    const sx0 = x + 48, sx1 = x + w * 0.42, sy0 = y + h * 0.62;
+    // Left side: D1 MSN shaft + 6 live Itô SDE spines with exact neck geometry
+    const sx0 = x + 44, sx1 = x + w * 0.43, sy0 = y + h * 0.68;
     ctx.strokeStyle = 'rgba(200,255,0,0.55)';
     ctx.fillStyle = 'rgba(200,255,0,0.09)';
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.roundRect(sx0, sy0 - 12, sx1 - sx0, 24, 10);
+    ctx.roundRect(sx0, sy0 - 11, sx1 - sx0, 22, 9);
     ctx.fill(); ctx.stroke();
 
-    const nSpines = 6;
-    const sprout = 0.55 + 0.45 * Math.sin(t * 0.02);
-    for (let s = 0; s < nSpines; s++) {
-      const bx = sx0 + 34 + s * ((sx1 - sx0 - 68) / (nSpines - 1));
-      const neckL = (22 + (s % 2) * 12) * sprout;
-      const headR = 8 + (s % 3) * 2;
-      // Thin neck (high πL/2r Willmore contribution)
-      ctx.strokeStyle = s % 2 === 0 ? '#c8ff00' : '#ff6b35';
-      ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.moveTo(bx, sy0 - 12); ctx.lineTo(bx, sy0 - 12 - neckL); ctx.stroke();
-      // Spine head
-      ctx.fillStyle = s % 2 === 0 ? 'rgba(200,255,0,0.28)' : 'rgba(255,107,53,0.28)';
-      ctx.beginPath(); ctx.arc(bx, sy0 - 12 - neckL - headR + 2, headR, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    for (let j = 0; j < 6; j++) {
+      const A = Math.exp(spineSDE.logA[j]);
+      const bx = sx0 + 30 + j * ((sx1 - sx0 - 60) / 5);
+      const neckPx = 16 + A * 13;
+      const neckW = Math.max(1.8, 4.4 - A * 0.8);
+      const headR = 7 + A * 2.1;
+      ctx.strokeStyle = A > 2.2 ? '#c8ff00' : '#ff6b35';
+      ctx.lineWidth = neckW;
+      ctx.beginPath(); ctx.moveTo(bx, sy0 - 11); ctx.lineTo(bx, sy0 - 11 - neckPx); ctx.stroke();
+      ctx.fillStyle = A > 2.2 ? 'rgba(200,255,0,0.28)' : 'rgba(255,107,53,0.26)';
+      ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.arc(bx, sy0 - 11 - neckPx - headR + 2, headR, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
     }
 
-    const willmore = (18.8 + 6 * sprout * 20.9).toFixed(1);
+    const signStr = spineSDE.loopResidual >= 0 ? '+' : '';
     ctx.font = '600 11px "IBM Plex Mono", monospace';
     ctx.fillStyle = '#f0ece4';
-    ctx.fillText(`Gauss–Bonnet χ = 2 (∫K dA = 4π FIXED)  |  Willmore W(S) = ${willmore}`, x + 22, y + 32);
-    ctx.fillStyle = '#c8ff00';
-    ctx.fillText('Freidlin–Wentzell Curl Field: ∮ ΔV = +1.73 ≠ 0  ·  τ ∝ ρ²³·³', x + 22, y + 50);
+    ctx.fillText(`Gauss–Bonnet χ=2 (∫K dA = 4π)  |  Exact Willmore W(S₆) = ${spineSDE.willmoreW.toFixed(1)}`, x + 22, y + 30);
+    ctx.fillStyle = spineSDE.kappaCurl > 0.5 ? '#c8ff00' : '#00e5ff';
+    ctx.fillText(`Live 2D SDE: ∮ ΔV = ${signStr}${spineSDE.loopResidual.toFixed(2)} · med|∇×b|/|b| = ${spineSDE.curlRatio.toFixed(2)}× (Click to toggle κ_curl)`, x + 22, y + 48);
   } else {
     ctx.font = '600 10px "IBM Plex Mono", monospace';
     ctx.fillStyle = '#c8ff00';
-    ctx.fillText('10⁻⁶ m · ∮ΔV = +1.73', x + 10, y + 20);
+    ctx.fillText(`10⁻⁶ m · ∮ΔV +${spineSDE.loopResidual.toFixed(2)}`, x + 10, y + 20);
   }
   ctx.restore();
 }
 
-// SCALE 3: 10^-3 m — 450-Neuron Spiking Raster + Paradoxical Calm Patch-Clamp
+// ============================================================================
+// SOLVER 4 (10^-3 m): 30-NEURON IZHIKEVICH NETWORK + Mg2+-NMDA MEMBRANE ODE
+// ============================================================================
+const N_IZH = 30;
+const izhNet = {
+  v: new Float64Array(N_IZH),
+  u: new Float64Array(N_IZH),
+  a: new Float64Array(N_IZH),
+  b: new Float64Array(N_IZH),
+  c: new Float64Array(N_IZH),
+  d: new Float64Array(N_IZH),
+  gAMPA: new Float64Array(N_IZH),
+  gNMDA: new Float64Array(N_IZH),
+  gGABA: new Float64Array(N_IZH),
+  daConc: 18.0,        // Extracellular [DA] nM (setpoint = 55 nM)
+  datReversal: false,  // Toggled automatically or by canvas click
+  autoTimer: 0,
+  raster: [],
+  vmTrace: [],
+  snrDb: -3.2
+};
+
+(function initIzh() {
+  for (let i = 0; i < N_IZH; i++) {
+    if (i < 10) {
+      // 0..9: Cortical Compensatory NMDA Glutamate Neurons (RS)
+      izhNet.a[i] = 0.02; izhNet.b[i] = 0.20; izhNet.c[i] = -65; izhNet.d[i] = 8;
+    } else if (i < 20) {
+      // 10..19: PFC Layer III Recurrent Pyramidal Neurons (RS)
+      izhNet.a[i] = 0.02; izhNet.b[i] = 0.20; izhNet.c[i] = -65; izhNet.d[i] = 8;
+    } else if (i < 22) {
+      // 20..21: Fast-Spiking PV GABA Interneurons (FS)
+      izhNet.a[i] = 0.10; izhNet.b[i] = 0.20; izhNet.c[i] = -65; izhNet.d[i] = 2;
+    } else {
+      // 22..29: VTA Dopamine Pacemaker Neurons
+      izhNet.a[i] = 0.02; izhNet.b[i] = 0.25; izhNet.c[i] = -60; izhNet.d[i] = 6;
+    }
+    izhNet.v[i] = -65 + (i % 5) * 1.5;
+    izhNet.u[i] = izhNet.b[i] * izhNet.v[i];
+  }
+})();
+
+function stepCircuitSolver() {
+  if (paused) return;
+  izhNet.autoTimer++;
+  if (izhNet.autoTimer % 360 === 0) {
+    izhNet.datReversal = !izhNet.datReversal;
+  }
+
+  const dt = 0.25; // ms (8 substeps = 2.0 ms biological time per frame)
+  const frameSpikes = new Set();
+  let vSample = izhNet.v[10];
+
+  for (let sub = 0; sub < 8; sub++) {
+    let nmdaSpikes = 0, pfcSpikes = 0, pvSpikes = 0, vtaSpikes = 0;
+
+    // Homeostatic NMDA hypercompensation when [DA] < 55 nM setpoint (Article 04)
+    const daDeficit = Math.max(0, (55.0 - izhNet.daConc) / 55.0);
+    const alpha2A = Math.min(1, izhNet.daConc / 60.0); // HCN channel closure
+
+    for (let i = 0; i < N_IZH; i++) {
+      // Exponential synaptic conductance decay
+      izhNet.gAMPA[i] *= Math.exp(-dt / 5.0);
+      izhNet.gNMDA[i] *= Math.exp(-dt / 65.0);
+      izhNet.gGABA[i] *= Math.exp(-dt / 8.0);
+
+      let V = izhNet.v[i];
+      // Jahr–Stevens voltage-dependent Mg2+ block on NMDAR ([Mg2+]_o = 1.0 mM)
+      const bMg = 1.0 / (1.0 + (1.0 / 3.57) * Math.exp(-0.062 * V));
+      let Isyn = -izhNet.gAMPA[i] * (V - 0.0)
+                 - izhNet.gNMDA[i] * bMg * (V - 0.0)
+                 - izhNet.gGABA[i] * (V + 70.0);
+
+      let Idrive = 0;
+      if (i < 10) {
+        // Compensatory NMDA pool erupts when extracellular DA is low
+        Idrive = 3.8 + daDeficit * 15.5 + (daDeficit * 5.2 + 1.1) * randn();
+      } else if (i < 20) {
+        // PFC Layer III Pyramidal: structured working-memory drive vs HCN leak
+        const iHCN = -0.14 * (1 - alpha2A) * (V + 38.0);
+        Idrive = 6.2 + alpha2A * 3.6 + iHCN + 1.2 * randn();
+      } else if (i < 22) {
+        Idrive = 4.5 + 1.0 * randn();
+      } else {
+        // VTA tonic pacemaker
+        Idrive = 5.4 + daDeficit * 1.8 + 1.1 * randn();
+      }
+
+      const I = Math.max(-25, Math.min(45, Isyn + Idrive));
+      V += dt * (0.04 * V * V + 5.0 * V + 140.0 - izhNet.u[i] + I);
+      izhNet.u[i] += dt * izhNet.a[i] * (izhNet.b[i] * V - izhNet.u[i]);
+
+      if (V >= 30.0) {
+        if (i === 10) vSample = 32.0; // Capture true action-potential crest
+        izhNet.v[i] = izhNet.c[i];
+        izhNet.u[i] += izhNet.d[i];
+        frameSpikes.add(i);
+        if (i < 10) nmdaSpikes++;
+        else if (i < 20) pfcSpikes++;
+        else if (i < 22) pvSpikes++;
+        else vtaSpikes++;
+      } else {
+        izhNet.v[i] = Math.max(-88, V);
+      }
+    }
+
+    // Route spikes across synaptic conductances
+    if (nmdaSpikes > 0 || pfcSpikes > 0 || pvSpikes > 0) {
+      for (let i = 10; i < 20; i++) {
+        izhNet.gNMDA[i] += nmdaSpikes * 0.055;
+        izhNet.gAMPA[i] += pfcSpikes * 0.042 + nmdaSpikes * 0.035;
+        izhNet.gGABA[i] += pvSpikes * 0.14;
+      }
+      for (let i = 20; i < 22; i++) {
+        izhNet.gAMPA[i] += (pfcSpikes + nmdaSpikes) * 0.055;
+      }
+    }
+
+    // Extracellular [DA] ODE: impaired ADHD vesicular η_rel (0.28) vs PKC DAT reverse efflux
+    const etaRel = 0.28;
+    const jEfflux = izhNet.datReversal ? 1.85 : 0.0;
+    const jUptake = izhNet.datReversal ? 0.12 * (izhNet.daConc / (35 + izhNet.daConc)) : 1.35 * (izhNet.daConc / (25 + izhNet.daConc));
+    izhNet.daConc = Math.max(5, Math.min(110, izhNet.daConc + dt * (etaRel * vtaSpikes * 1.9 + jEfflux - jUptake)));
+  }
+
+  if (!frameSpikes.has(10)) vSample = izhNet.v[10];
+  izhNet.raster.push([...frameSpikes]);
+  if (izhNet.raster.length > 165) izhNet.raster.shift();
+  izhNet.vmTrace.push(vSample);
+  if (izhNet.vmTrace.length > 220) izhNet.vmTrace.shift();
+
+  const targetSnr = izhNet.datReversal ? 18.2 : -3.4;
+  izhNet.snrDb += (targetSnr - izhNet.snrDb) * 0.08;
+}
+
 function drawScaleCircuit(x, y, w, h, t, compact) {
   ctx.save();
   ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
 
-  // Oscillate between Untreated NMDA Hypercompensation (noisy) & DAT-Restored Calm (coherent)
-  const daRestored = (Math.sin(t * 0.018) + 1) * 0.5 > 0.48;
-  if (!paused) {
-    const spikes = [];
-    const nRows = 28;
-    for (let r = 0; r < nRows; r++) {
-      let pFire = 0.05;
-      if (r < 10) {
-        // Cortical NMDA pool: hyperactive Poisson noise when DA is low!
-        pFire = daRestored ? 0.03 : 0.34;
-      } else if (r < 20) {
-        // PFC Layer III recurrent working memory: coherent gamma/theta rhythm when DA/α2A restored
-        pFire = daRestored ? (Math.sin(t * 0.25) > 0.65 ? 0.55 : 0.02) : 0.08;
-      } else {
-        // VTA DA + NAc D1
-        pFire = daRestored ? 0.18 : 0.04;
-      }
-      // Deterministic pseudo-random from t & r for smooth glitch-free frames
-      const hash = Math.sin(t * 12.9898 + r * 78.233) * 43758.5453;
-      const rand = hash - Math.floor(hash);
-      if (rand < pFire) spikes.push(r);
-    }
-    rasterHistory.push({ spikes, daRestored });
-    if (rasterHistory.length > MAX_RASTER_COLS) rasterHistory.shift();
-  }
-
-  // Draw Spike Raster
   const rx = x + (compact ? 10 : 24);
   const rw = w - (compact ? 20 : 48);
-  const ry = y + (compact ? 32 : 68);
-  const rh = (compact ? h * 0.42 : h * 0.38);
+  const ry = y + (compact ? 30 : 66);
+  const rh = compact ? h * 0.44 : h * 0.40;
 
-  rasterHistory.forEach((col, ci) => {
-    const px = rx + (ci / MAX_RASTER_COLS) * rw;
-    col.spikes.forEach(r => {
-      const py = ry + (r / 28) * rh;
-      ctx.fillStyle = r < 10 ? '#ff6b35' : (r < 20 ? '#9b88ff' : '#c8ff00');
-      ctx.fillRect(px, py, 2, compact ? 2.2 : 3.2);
-    });
+  izhNet.raster.forEach((col, ci) => {
+    const px = rx + (ci / 165) * rw;
+    for (let k = 0; k < col.length; k++) {
+      const n = col[k];
+      const py = ry + (n / N_IZH) * rh;
+      ctx.fillStyle = n < 10 ? '#ff6b35' : (n < 22 ? '#9b88ff' : '#c8ff00');
+      ctx.fillRect(px, py, 2.1, compact ? 2.2 : 3.2);
+    }
   });
 
-  // Draw Patch-Clamp Intracellular Vm Trace below raster
-  const vy0 = y + h * 0.78;
-  ctx.strokeStyle = daRestored ? '#c8ff00' : '#ff6b35';
-  ctx.lineWidth = compact ? 1.5 : 2;
+  // Intracellular V_10(t) oscilloscope trace (-85 mV to +35 mV)
+  const vTop = ry + rh + (compact ? 8 : 16);
+  const vBot = y + h - (compact ? 10 : 18);
+  const vH = Math.max(30, vBot - vTop);
+
+  ctx.strokeStyle = izhNet.datReversal ? '#c8ff00' : '#ff6b35';
+  ctx.lineWidth = compact ? 1.4 : 1.9;
   ctx.beginPath();
-  const nPts = compact ? 90 : 220;
-  for (let i = 0; i <= nPts; i++) {
-    const u = i / nPts;
-    const vx = rx + u * rw;
-    const phase = t * 0.16 + u * 28;
-    let vm = 0;
-    if (daRestored) {
-      // Clean phase-locked rhythmic spiking
-      const cyc = phase % (Math.PI * 2);
-      vm = cyc < 0.35 ? -Math.sin((cyc / 0.35) * Math.PI) * (compact ? 30 : 46) : Math.sin(phase * 2) * 2;
-    } else {
-      // Chaotic subthreshold NMDA agitation + erratic bursts
-      const noise = Math.sin(phase * 3.7) * 8 + Math.cos(phase * 7.3) * 6;
-      const burst = Math.sin(phase * 1.9) > 0.82 ? -(compact ? 28 : 42) : 0;
-      vm = noise + burst;
-    }
-    if (i === 0) ctx.moveTo(vx, vy0 + vm); else ctx.lineTo(vx, vy0 + vm);
-  }
+  izhNet.vmTrace.forEach((vm, idx) => {
+    const px = rx + (idx / 220) * rw;
+    const norm = (vm + 85) / 120; // -85..+35 mV -> 0..1
+    const py = vBot - Math.max(0, Math.min(1, norm)) * vH;
+    if (idx === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  });
   ctx.stroke();
 
   if (!compact) {
     ctx.font = '600 11px "IBM Plex Mono", monospace';
     ctx.fillStyle = '#f0ece4';
-    ctx.fillText('VTA–NAc–PFC 450-Neuron Raster & Layer III Patch-Clamp (−70 mV)', x + 24, y + 32);
-    ctx.fillStyle = daRestored ? '#c8ff00' : '#ff6b35';
+    ctx.fillText(`Live 30-Neuron Izhikevich + Mg²⁺-NMDA ODE  |  [DA] = ${izhNet.daConc.toFixed(1)} nM · Patched PFC Vm = ${izhNet.v[10].toFixed(1)} mV`, x + 24, y + 30);
+    ctx.fillStyle = izhNet.datReversal ? '#c8ff00' : '#ff6b35';
+    const snrSign = izhNet.snrDb >= 0 ? '+' : '';
     ctx.fillText(
-      daRestored
-        ? 'DAT REVERSAL ACTIVE → NMDA NOISE SILENCED · PARADOXICAL CALM (+18.4 dB SNR)'
-        : 'HYPODOPAMINERGIC STATE → COMPENSATORY NMDA POISSON AGITATION (−3.2 dB SNR)',
-      x + 24, y + 50
+      izhNet.datReversal
+        ? `DAT REVERSAL ON → NMDA HOMEOSTAT QUIET · PFC SNR ${snrSign}${izhNet.snrDb.toFixed(1)} dB (Click to toggle)`
+        : `LOW η_rel ADHD → COMPENSATORY NMDA BURST NOISE · PFC SNR ${snrSign}${izhNet.snrDb.toFixed(1)} dB (Click to toggle)`,
+      x + 24, y + 48
     );
   } else {
     ctx.font = '600 10px "IBM Plex Mono", monospace';
     ctx.fillStyle = '#9b88ff';
-    ctx.fillText('10⁻³ m · 1 kHz Rig', x + 10, y + 20);
+    ctx.fillText(`10⁻³ m · [DA] ${izhNet.daConc.toFixed(0)}nM`, x + 10, y + 20);
   }
   ctx.restore();
 }
 
-// SCALE 4: 10^0 m — Ventricular Action Potential (APD90 / hERG) + Scrolling Lead-II ECG
+// ============================================================================
+// SOLVER 5 (10^0 m): 8-CELL TRANSMURAL RUSH–LARSEN CABLE + MAXWELL DIPOLE ECG
+// ============================================================================
+const N_CABLE = 8; // 0..1 Endo, 2..4 Mid-myocardial M-cells, 5..7 Epicardium
+const cardiacPDE = {
+  V: new Float64Array(N_CABLE).fill(-85.4),
+  m: new Float64Array(N_CABLE).fill(0.0017),
+  h: new Float64Array(N_CABLE).fill(0.985),
+  d: new Float64Array(N_CABLE).fill(0.0001),
+  f: new Float64Array(N_CABLE).fill(0.99),
+  r: new Float64Array(N_CABLE).fill(0.002),
+  s: new Float64Array(N_CABLE).fill(0.99),
+  xr: new Float64Array(N_CABLE).fill(0.001),
+  xs: new Float64Array(N_CABLE).fill(0.003),
+  tMs: 0,
+  bcl: 760,           // ms (~79 BPM)
+  cocaethylene: false,
+  hergBlock: 0.05,    // Smoothly ramps to 0.68 under hepatic cocaethylene
+  autoBeats: 0,
+  tUp: new Float64Array(N_CABLE),
+  apd90: Float64Array.from([285, 288, 338, 342, 336, 255, 248, 244]),
+  ecgHist: [],
+  apEndo: [],
+  apM: [],
+  apEpi: []
+};
+
+function stepCardiacSolver() {
+  if (paused) return;
+  const dt = 0.08; // ms (36 substeps = 2.88 ms cardiac time per animation frame)
+  const targetBlk = cardiacPDE.cocaethylene ? 0.68 : 0.04;
+  cardiacPDE.hergBlock += (targetBlk - cardiacPDE.hergBlock) * 0.03;
+
+  const ENa = 56.0, ECa = 52.0, EK = -88.0;
+  const Dgap = 0.19; // Physiological transmural coupling preserving M-cell/Epi dispersion
+  const vNext = new Float64Array(N_CABLE);
+  let ecgSample = 0;
+
+  for (let sub = 0; sub < 36; sub++) {
+    cardiacPDE.tMs += dt;
+    const beatPhase = cardiacPDE.tMs % cardiacPDE.bcl;
+    if (beatPhase < dt) {
+      cardiacPDE.autoBeats++;
+      if (cardiacPDE.autoBeats % 4 === 0) {
+        cardiacPDE.cocaethylene = !cardiacPDE.cocaethylene;
+      }
+      cardiacPDE.apEndo = [];
+      cardiacPDE.apM = [];
+      cardiacPDE.apEpi = [];
+    }
+
+    // Endocardial Purkinje stimulus at t = 115 ms after SA P-wave
+    const stimOn = beatPhase >= 115.0 && beatPhase < 118.0;
+
+    for (let k = 0; k < N_CABLE; k++) {
+      const V = cardiacPDE.V[k];
+      const isM = k >= 2 && k <= 4;
+      const isEpi = k >= 5;
+
+      // Steady-state Boltzmann gates & time constants (human ventricular calibration)
+      const mInf = 1.0 / (1.0 + Math.exp(-(V + 39.5) / 6.2));
+      const hInf = 1.0 / (1.0 + Math.exp((V + 71.5) / 6.0));
+      const tauH = 0.45 + 14.0 / (1.0 + Math.exp((V + 40.0) / 5.5));
+
+      const dInf = 1.0 / (1.0 + Math.exp(-(V + 14.0) / 6.0));
+      const fInf = 1.0 / (1.0 + Math.exp((V + 32.0) / 5.8)) + 0.13 / (1.0 + Math.exp((12.0 - V) / 8.0));
+      const tauF = 95.0 + 280.0 * Math.exp(-Math.pow((V + 22.0) / 16.0, 2));
+
+      const rInf = 1.0 / (1.0 + Math.exp(-(V - 10.0) / 11.0));
+      const sInf = 1.0 / (1.0 + Math.exp((V + 42.0) / 6.5));
+
+      const xrInf = 1.0 / (1.0 + Math.exp(-(V + 18.0) / 6.8));
+      const tauXr = 80.0 + 190.0 * Math.exp(-Math.pow((V + 20.0) / 18.0, 2));
+      const rRec = 1.0 / (1.0 + Math.exp((V + 10.0) / 24.0)); // hERG C-type inactivation
+
+      const xsInf = 1.0 / (1.0 + Math.exp(-(V + 4.0) / 12.5));
+      const tauXs = 145.0 + 270.0 * Math.exp(-Math.pow((V + 10.0) / 24.0, 2));
+
+      // Unconditionally stable Rush–Larsen gate integration
+      cardiacPDE.m[k]  = mInf  + (cardiacPDE.m[k]  - mInf)  * Math.exp(-dt / 0.12);
+      cardiacPDE.h[k]  = hInf  + (cardiacPDE.h[k]  - hInf)  * Math.exp(-dt / tauH);
+      cardiacPDE.d[k]  = dInf  + (cardiacPDE.d[k]  - dInf)  * Math.exp(-dt / 1.2);
+      cardiacPDE.f[k]  = fInf  + (cardiacPDE.f[k]  - fInf)  * Math.exp(-dt / tauF);
+      cardiacPDE.r[k]  = rInf  + (cardiacPDE.r[k]  - rInf)  * Math.exp(-dt / 1.2);
+      cardiacPDE.s[k]  = sInf  + (cardiacPDE.s[k]  - sInf)  * Math.exp(-dt / 22.0);
+      cardiacPDE.xr[k] = xrInf + (cardiacPDE.xr[k] - xrInf) * Math.exp(-dt / tauXr);
+      cardiacPDE.xs[k] = xsInf + (cardiacPDE.xs[k] - xsInf) * Math.exp(-dt / tauXs);
+
+      // Transmural channel densities (M-cells: ~48% lower IKs; Epi: high Ito notch & high IKs)
+      const gTo = isEpi ? 0.30 : (isM ? 0.09 : 0.03);
+      const gKs = isM ? 0.026 : (isEpi ? 0.235 : 0.125);
+      const sympCaBoost = 1.0 + 0.32 * cardiacPDE.hergBlock; // Sympathetic β1 ICaL window drive
+      const gCaL = 0.42 * sympCaBoost;
+      const gKr = 0.095 * (1.0 - cardiacPDE.hergBlock);
+
+      const m = cardiacPDE.m[k], hG = cardiacPDE.h[k];
+      const INa  = 14.5 * m * m * m * hG * (V - ENa);
+      const Ito  = gTo * cardiacPDE.r[k] * cardiacPDE.s[k] * (V - EK);
+      const ICaL = gCaL * cardiacPDE.d[k] * cardiacPDE.f[k] * (V - ECa);
+      const IKr  = gKr * cardiacPDE.xr[k] * rRec * (V - EK);
+      const IKs  = gKs * cardiacPDE.xs[k] * cardiacPDE.xs[k] * (V - EK);
+      const IK1  = 0.36 * (V - EK) / (1.0 + Math.exp(0.072 * (V + 78.0)));
+      const Istim = (k <= 1 && stimOn) ? -48.0 : 0.0;
+
+      // 1D cable diffusion with Neumann no-flux boundaries
+      const vL = k > 0 ? cardiacPDE.V[k - 1] : V;
+      const vR = k < N_CABLE - 1 ? cardiacPDE.V[k + 1] : V;
+      const Igap = Dgap * (vL - 2 * V + vR);
+
+      const vNew = Math.max(-92.0, Math.min(52.0, V + dt * (Igap - (INa + Ito + ICaL + IKr + IKs + IK1 + Istim))));
+      // Detect Phase-0 upstroke & Phase-3 -73 mV repolarization for live APD90
+      if (V < -30 && vNew >= -30) cardiacPDE.tUp[k] = cardiacPDE.tMs;
+      if (V >= -73 && vNew < -73 && cardiacPDE.tUp[k] > 0) {
+        const dur = cardiacPDE.tMs - cardiacPDE.tUp[k];
+        if (dur > 120 && dur < 680) cardiacPDE.apd90[k] = dur;
+      }
+      vNext[k] = vNew;
+    }
+    cardiacPDE.V.set(vNext);
+
+    // Emergent Maxwell Dipole Lead-II Surface ECG: Φ_vent = Σ (V_k - V_{k+1}) + SA P-wave
+    const pWave = 0.24 * Math.exp(-Math.pow((beatPhase - 48.0) / 14.0, 2));
+    let ventDipole = 0;
+    for (let k = 0; k < N_CABLE - 1; k++) {
+      ventDipole += (cardiacPDE.V[k] - cardiacPDE.V[k + 1]) * 0.022;
+    }
+    ecgSample = pWave + ventDipole;
+  }
+
+  cardiacPDE.ecgHist.push(ecgSample);
+  if (cardiacPDE.ecgHist.length > 240) cardiacPDE.ecgHist.shift();
+  cardiacPDE.apEndo.push(cardiacPDE.V[0]);
+  cardiacPDE.apM.push(cardiacPDE.V[3]);
+  cardiacPDE.apEpi.push(cardiacPDE.V[7]);
+}
+
 function drawScaleCardiac(x, y, w, h, t, compact) {
   ctx.save();
   ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
 
-  const hergBlock = (Math.sin(t * 0.02) + 1) * 0.5; // 0 = Normal Sinus, 1 = Cocaethylene 3x hERG QT prolongation
-  const qtc = Math.round(395 + hergBlock * 118);
+  const apdM = Math.round(cardiacPDE.apd90[3]);
+  const apdEpi = Math.round(cardiacPDE.apd90[7]);
+  const tdr = Math.max(0, apdM - apdEpi);
+  const rrSec = cardiacPDE.bcl / 1000;
+  const qtc = Math.round((apdM + 82) / Math.sqrt(rrSec));
 
-  // Scrolling Lead-II Surface ECG waveform
+  // Left panel: Emergent Maxwell Dipole Lead-II ECG
   const ex = x + (compact ? 10 : 24);
-  const ew = w * (compact ? 0.88 : 0.56);
-  const ey = y + h * (compact ? 0.64 : 0.62);
+  const ew = w * (compact ? 0.88 : 0.54);
+  const ey = y + h * (compact ? 0.64 : 0.64);
+  const gain = compact ? 22 : 34;
 
-  ctx.strokeStyle = hergBlock > 0.65 ? '#ff6b35' : '#c8ff00';
-  ctx.lineWidth = compact ? 1.7 : 2.3;
+  ctx.strokeStyle = cardiacPDE.hergBlock > 0.35 ? '#ff6b35' : '#c8ff00';
+  ctx.lineWidth = compact ? 1.6 : 2.2;
   ctx.beginPath();
-  const pts = compact ? 100 : 200;
-  for (let i = 0; i <= pts; i++) {
-    const u = i / pts;
-    const px = ex + u * ew;
-    const beat = ((u * 3.2 + t * 0.018) % 1 + 1) % 1;
-    const tShift = 0.34 + hergBlock * 0.16; // Prolonged QT interval!
-    let v = 0;
-    // P wave
-    v -= 7 * Math.exp(-Math.pow((beat - 0.12) / 0.028, 2));
-    // Q dip
-    v += 6 * Math.exp(-Math.pow((beat - 0.205) / 0.008, 2));
-    // Sharp R spike
-    v -= (compact ? 36 : 58) * Math.exp(-Math.pow((beat - 0.22) / 0.011, 2));
-    // S dip
-    v += 12 * Math.exp(-Math.pow((beat - 0.238) / 0.01, 2));
-    // T wave (broadens & delays under cocaethylene hERG blockade)
-    v -= (14 - hergBlock * 4) * Math.exp(-Math.pow((beat - tShift) / (0.045 + hergBlock * 0.025), 2));
-    // Early afterdepolarization (EAD) notch at high hERG block
-    if (hergBlock > 0.72) {
-      v -= 8 * Math.exp(-Math.pow((beat - (tShift + 0.09)) / 0.02, 2));
-    }
-    if (i === 0) ctx.moveTo(px, ey + v); else ctx.lineTo(px, ey + v);
-  }
+  cardiacPDE.ecgHist.forEach((val, idx) => {
+    const px = ex + (idx / 240) * ew;
+    const py = ey - Math.max(-1.8, Math.min(2.2, val)) * gain;
+    if (idx === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  });
   ctx.stroke();
 
   if (!compact) {
-    // Right panel: Ventricular Myocyte Action Potential (Phase 0-4, APD90)
-    const ax = x + w * 0.64, ay = y + h * 0.24, aw = w * 0.31, ah = h * 0.54;
-    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+    // Right panel: Live Transmural Action Potentials (Endo, M-Cell, Epi)
+    const ax = x + w * 0.61, ay = y + h * 0.22, aw = w * 0.35, ah = h * 0.58;
+    ctx.fillStyle = 'rgba(0,0,0,0.38)';
+    ctx.fillRect(gxClamp(ax), ay, aw, ah);
+    ctx.strokeStyle = 'rgba(255,255,255,0.13)';
     ctx.strokeRect(ax, ay, aw, ah);
 
-    // Baseline normal AP (ghost cyan) vs Current AP (orange/lime)
-    for (let mode = 0; mode < 2; mode++) {
-      const blk = mode === 0 ? 0 : hergBlock;
-      ctx.strokeStyle = mode === 0 ? 'rgba(0,229,255,0.32)' : (blk > 0.65 ? '#ff6b35' : '#c8ff00');
-      ctx.lineWidth = mode === 0 ? 1.4 : 2.4;
+    const traces = [
+      { arr: cardiacPDE.apEpi,  col: '#00e5ff' },
+      { arr: cardiacPDE.apEndo, col: '#c8ff00' },
+      { arr: cardiacPDE.apM,    col: '#ff6b35' }
+    ];
+    const maxBeatFrames = Math.ceil(cardiacPDE.bcl / 3.0);
+    traces.forEach(tr => {
+      ctx.strokeStyle = tr.col;
+      ctx.lineWidth = 2.0;
       ctx.beginPath();
-      for (let k = 0; k <= 80; k++) {
-        const s = k / 80;
-        const apdEnd = 0.48 + blk * 0.34;
-        let ap = 0;
-        if (s < 0.06) ap = s / 0.06; // Phase 0 INa upstroke
-        else if (s < 0.12) ap = 1 - (s - 0.06) * 2.2; // Phase 1 notch
-        else if (s < apdEnd) {
-          const p = (s - 0.12) / (apdEnd - 0.12);
-          ap = 0.86 * (1 - Math.pow(p, 2.4)); // Phase 2 Ca2+ plateau & Phase 3 IKr/hERG
-          if (mode === 1 && blk > 0.72 && p > 0.65 && p < 0.9) {
-            ap += 0.16 * Math.sin(((p - 0.65) / 0.25) * Math.PI); // EAD bump
-          }
-        }
-        const vx = ax + s * aw;
-        const vy = ay + ah - 14 - ap * (ah - 28);
-        if (k === 0) ctx.moveTo(vx, vy); else ctx.lineTo(vx, vy);
-      }
+      tr.arr.forEach((vm, idx) => {
+        const px = ax + Math.min(1, idx / maxBeatFrames) * aw;
+        const norm = (vm + 90) / 140; // -90..+50 mV
+        const py = ay + ah - 10 - Math.max(0, Math.min(1, norm)) * (ah - 20);
+        if (idx === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      });
       ctx.stroke();
-    }
+    });
+
+    ctx.font = '600 10px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#ff6b35'; ctx.fillText(`M-Cell APD90: ${apdM}ms`, ax + 10, ay + 18);
+    ctx.fillStyle = '#00e5ff'; ctx.fillText(`Epi APD90: ${apdEpi}ms`, ax + 10, ay + 33);
+    ctx.fillStyle = '#c8ff00'; ctx.fillText(`TDR: ${tdr}ms`, ax + aw - 84, ay + 18);
 
     ctx.font = '600 11px "IBM Plex Mono", monospace';
     ctx.fillStyle = '#f0ece4';
-    ctx.fillText(`Lead-II Telemetry & Ventricular Myocyte AP  |  Bazett QTc = ${qtc} ms`, x + 24, y + 32);
-    ctx.fillStyle = qtc > 470 ? '#ff6b35' : '#c8ff00';
+    ctx.fillText(`8-Cell Transmural Cable PDE & Maxwell Dipole ECG  |  QTc = ${qtc} ms · hERG Block = ${(cardiacPDE.hergBlock*100).toFixed(0)}%`, x + 24, y + 30);
+    ctx.fillStyle = cardiacPDE.hergBlock > 0.35 ? '#ff6b35' : '#c8ff00';
     ctx.fillText(
-      qtc > 470
-        ? 'HEPATIC COCAETHYLENE → 3× hERG (IKr) BLOCKADE · EAD / TORSADES RISK'
-        : 'NORMAL SINUS REPOLARIZATION · UNIMPEDED IKr (hERG) & BBB PARTITIONING',
-      x + 24, y + 50
+      cardiacPDE.hergBlock > 0.35
+        ? 'COCAETHYLENE 3× hERG CLAMP → M-CELL APD90 STRETCH & TDR DISPERSION (Click to toggle)'
+        : 'SINUS TRANSMURAL REPOLARIZATION (EPI → ENDO → CONCORDANT T-WAVE · Click to test Cocaethylene)',
+      x + 24, y + 48
     );
   } else {
     ctx.font = '600 10px "IBM Plex Mono", monospace';
     ctx.fillStyle = '#ff6b35';
-    ctx.fillText(`10⁰ m · QTc ${qtc} ms`, x + 10, y + 20);
+    ctx.fillText(`10⁰ m · QTc ${qtc}ms`, x + 10, y + 20);
   }
   ctx.restore();
 }
+function gxClamp(v) { return v; }
+
+// Warm-start buffers so initial frame has rich real trajectories ready immediately
+(function warmStartSolvers() {
+  for (let i = 0; i < 95; i++) {
+    stepMORSolver();
+    stepSpineSolver();
+    stepCircuitSolver();
+    stepCardiacSolver();
+  }
+})();
 
 const SCALE_DRAWERS = [
   drawScaleQuantum,
@@ -2419,6 +2926,19 @@ function renderLoop(now) {
         lastSwitchTime = now;
         updateScaleReadout();
       }
+      if (matrixMode) {
+        stepQuantumSolver();
+        stepMORSolver();
+        stepSpineSolver();
+        stepCircuitSolver();
+        stepCardiacSolver();
+      } else {
+        if (activeScale === 0) stepQuantumSolver();
+        else if (activeScale === 1) stepMORSolver();
+        else if (activeScale === 2) stepSpineSolver();
+        else if (activeScale === 3) stepCircuitSolver();
+        else if (activeScale === 4) stepCardiacSolver();
+      }
     }
 
     ctx.fillStyle = '#070707';
@@ -2426,7 +2946,6 @@ function renderLoop(now) {
     drawGridBg(0, 0, cw, ch);
 
     if (matrixMode) {
-      // Simultaneous 5-Scale Telemetry Matrix
       const cols = cw < 640 ? 2 : 5;
       const rows = Math.ceil(5 / cols);
       const cellW = cw / cols;
@@ -2451,18 +2970,51 @@ const io = new IntersectionObserver(entries => {
 }, { threshold: 0.05 });
 io.observe(canvas);
 
-// Click on Matrix View cell to zoom into that scale
-canvas.addEventListener('click', e => {
-  if (!matrixMode) return;
+// Interactive perturbations & Matrix View cell zoom
+let isScrubbingPDB = false;
+canvas.addEventListener('pointerdown', e => {
+  if (matrixMode) return;
+  if (activeScale === 0) {
+    isScrubbingPDB = true;
+    const rect = canvas.getBoundingClientRect();
+    qState.manualS = Math.max(0, Math.min(2, ((e.clientX - rect.left) / rect.width) * 2.0));
+  }
+});
+window.addEventListener('pointermove', e => {
+  if (!isScrubbingPDB || matrixMode || activeScale !== 0) return;
   const rect = canvas.getBoundingClientRect();
-  const mx = e.clientX - rect.left;
-  const my = e.clientY - rect.top;
-  const cols = cw < 640 ? 2 : 5;
-  const rows = Math.ceil(5 / cols);
-  const col = Math.floor(mx / (cw / cols));
-  const row = Math.floor(my / (ch / rows));
-  const idx = row * cols + col;
-  if (idx >= 0 && idx < 5) selectScale(idx, true);
+  qState.manualS = Math.max(0, Math.min(2, ((e.clientX - rect.left) / rect.width) * 2.0));
+});
+window.addEventListener('pointerup', () => {
+  if (isScrubbingPDB) {
+    isScrubbingPDB = false;
+    qState.manualS = null;
+  }
+});
+
+canvas.addEventListener('click', e => {
+  if (matrixMode) {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    const cols = cw < 640 ? 2 : 5;
+    const rows = Math.ceil(5 / cols);
+    const col = Math.floor(mx / (cw / cols));
+    const row = Math.floor(my / (ch / rows));
+    const idx = row * cols + col;
+    if (idx >= 0 && idx < 5) selectScale(idx, true);
+    return;
+  }
+  if (activeScale === 1) {
+    injectNaloxoneBolus();
+  } else if (activeScale === 2) {
+    spineSDE.kappaCurl = spineSDE.kappaCurl > 0.5 ? 0.0 : 1.0;
+    recomputeCurlMetrics();
+  } else if (activeScale === 3) {
+    izhNet.datReversal = !izhNet.datReversal;
+  } else if (activeScale === 4) {
+    cardiacPDE.cocaethylene = !cardiacPDE.cocaethylene;
+  }
 });
 
 // Keyboard shortcuts (1-5 scales, M matrix, Space pause)

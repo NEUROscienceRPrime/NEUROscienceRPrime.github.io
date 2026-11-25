@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BRAIN–HEART DIGITAL TWIN — BBB Pharmacokinetics, Cocaethylene &amp; Ventricular hERG Lab — Neuroscience with RPrime</title>
+<link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1042,37 +1043,37 @@
   <section class="panel-box">
     <div class="panel-header">
       <div class="panel-title-group">
-        <span class="organ-badge">ICU TELEMETRY</span>
-        <span class="panel-title">Live Lead-II Surface Electrocardiogram (25 mm/s) &amp; Pre-Bötzinger Respiratory Pleth</span>
+        <span class="organ-badge">MAXWELL DIPOLE ECG</span>
+        <span class="panel-title">Emergent 18-Cell Transmural Lead-II ECG (\(\Phi_{\text{vent}} = \sum w_k \Delta V_k\)) &amp; Pre-Bötzinger Pleth</span>
       </div>
       <div class="panel-legend">
-        <span><i class="leg-dot" style="background:var(--lime);"></i>Lead-II ECG (P–QRS–T)</span>
-        <span><i class="leg-dot" style="background:var(--crimson);"></i>EAD / Torsades Trigger</span>
+        <span><i class="leg-dot" style="background:var(--lime);"></i>Maxwell Lead-II (\(\Phi_{\text{vent}}\))</span>
+        <span><i class="leg-dot" style="background:var(--crimson);"></i>R-on-T Reentry / TdP</span>
         <span><i class="leg-dot" style="background:var(--violet);"></i>Brainstem Resp Wave</span>
         <button class="hud-btn" id="btnPause" style="padding:3px 9px;font-size:10px;" onclick="togglePause()">⏸ Pause Sweep</button>
       </div>
     </div>
-    <canvas id="ecgCanvas" class="sim-canvas" height="185"></canvas>
+    <canvas id="ecgCanvas" class="sim-canvas" height="190"></canvas>
   </section>
 
-  <!-- SPLIT ROW: Left = Biophysical Ventricular Myocyte (Vm + Ionic Currents), Right = 3-Organ Flux Schematic -->
+  <!-- SPLIT ROW: Left = 18-Cell Transmural Wedge (Endo / M-Cell / Epi APs + Currents), Right = 3-Organ Flux Schematic -->
   <section class="split-grid">
-    <!-- Left: Human Ventricular Myocyte Patch-Clamp -->
+    <!-- Left: Human Ventricular Transmural Wedge -->
     <div class="panel-box">
       <div class="panel-header">
         <div class="panel-title-group">
-          <span class="organ-badge cyan">ORGAN 03 // MYOCYTE</span>
-          <span class="panel-title">Human Ventricular Action Potential (\(V_m\)) &amp; Live Ionic Currents</span>
+          <span class="organ-badge cyan">ORGAN 03 // 18-CELL WEDGE</span>
+          <span class="panel-title">1D Coupled Transmural Cable: Endo · M-Cell · Epi \(V_k(t)\) &amp; Ionic Currents</span>
         </div>
         <div class="panel-legend">
-          <span><i class="leg-dot" style="background:var(--lime);"></i>\(V_m\) (mV)</span>
+          <span><i class="leg-dot" style="background:var(--violet);"></i>Endo</span>
+          <span><i class="leg-dot" style="background:var(--lime);"></i>M-Cell</span>
+          <span><i class="leg-dot" style="background:var(--cyan);"></i>Epi</span>
+          <span><i class="leg-dot" style="background:var(--orange);"></i>\(I_{\text{CaL}}\)</span>
           <span><i class="leg-dot" style="background:#555;"></i>Sinus Ghost</span>
-          <span><i class="leg-dot" style="background:var(--orange);"></i>\(I_{\text{CaL}}\) (β1)</span>
-          <span><i class="leg-dot" style="background:var(--cyan);"></i>\(I_{\text{Kr}}\) (hERG)</span>
-          <span><i class="leg-dot" style="background:var(--violet);"></i>\(I_{\text{Ks}}\)</span>
         </div>
       </div>
-      <canvas id="apCanvas" class="sim-canvas" height="335"></canvas>
+      <canvas id="apCanvas" class="sim-canvas" height="350"></canvas>
     </div>
 
     <!-- Right: Coupled 3-Organ PBPK + Striatal vs Sympathetic Split -->
@@ -1088,7 +1089,7 @@
           <span><i class="leg-dot" style="background:var(--orange);"></i>Periph NET</span>
         </div>
       </div>
-      <canvas id="organCanvas" class="sim-canvas" height="335"></canvas>
+      <canvas id="organCanvas" class="sim-canvas" height="350"></canvas>
     </div>
   </section>
 
@@ -1258,14 +1259,14 @@
     </div>
 
     <div class="ode-block cyan">
-      <div class="ode-block-title">Organ 03 // Conductance-Based Human Ventricular Myocyte &amp; Hopf EAD Bifurcation</div>
+      <div class="ode-block-title">Organ 03 // 1D Coupled Transmural Ventricular Wedge (\(N = 18\)) &amp; Emergent Maxwell Dipole ECG</div>
       <div>
-        $$C_m \frac{dV_m}{dt} = -\Big(I_{\text{Na}} + I_{\text{to}} + I_{\text{CaL}}(\beta_1, \text{Mg}^{2+}) + I_{\text{Kr}}(\text{hERG}) + I_{\text{Ks}} + I_{\text{K1}} + I_b - I_{\text{stim}}\Big)$$
-        $$I_{\text{Kr}} = G_{\text{Kr}}\big(1 - B_{\text{hERG}}\big)\,x_r\,r_\infty(V_m)(V_m - E_K), \qquad B_{\text{hERG}} = \frac{[\text{Coc}]/3.8\,\mu\text{M} + [\text{CE}]/1.2\,\mu\text{M}}{1 + [\text{Coc}]/3.8\,\mu\text{M} + [\text{CE}]/1.2\,\mu\text{M}}$$
-        $$I_{\text{CaL}} = G_{\text{CaL}}(0.82 + 0.18\beta_{\text{PKA}})(1 - 0.36 B_{\text{Mg}})\,d(V_m, \beta_{\text{PKA}})\,f(V_m)(V_m - E_{\text{Ca}}), \qquad QT_c = \frac{QT}{\sqrt{RR}}$$
+        $$C_m \frac{\partial V_k}{\partial t} = g_{k-\frac{1}{2}}\big(V_{k-1} - V_k\big) + g_{k+\frac{1}{2}}\big(V_{k+1} - V_k\big) - I_{\text{ion},k}(V_k, \mathbf{w}_k), \qquad k \in \{1,\dots,18\}$$
+        $$\Phi_{\text{vent}}(t) = \alpha \sum_{k=1}^{17} \frac{V_k(t) - V_{k+1}(t)}{r_k^2}, \qquad \text{TDR} = \text{APD}_{90,\text{M}} - \text{APD}_{90,\text{Epi}}$$
+        $$I_{\text{Kr},k} = G_{\text{Kr},k}\big(1 - B_{\text{hERG}}\big)\,x_{r,k}\,r_\infty(V_k)(V_k - E_K), \qquad B_{\text{hERG}} = \frac{[\text{Coc}]/3.8\,\mu\text{M} + [\text{CE}]/1.2\,\mu\text{M}}{1 + [\text{Coc}]/3.8\,\mu\text{M} + [\text{CE}]/1.2\,\mu\text{M}}$$
       </div>
       <p class="ode-note">
-        Integrated at \(\Delta t = 0.05\text{ ms}\) via unconditionally stable Rush–Larsen exponential-Euler gating updates. When sympathetic \(\beta_1\)-PKA shifts \(d_\infty(V_m)\) hyperpolarizing into the \([-28, -14]\text{ mV}\) window while cocaethylene starves \(I_{\text{Kr}}\) repolarization reserve, the plateau trajectory enters a supercritical Hopf oscillation generating real <strong>Phase-2/3 Early Afterdepolarizations (EADs)</strong> and polymorphic <strong>Torsades de Pointes</strong>.
+        <strong>Emergent Concordant T-Waves &amp; R-on-T Reentry (Gima &amp; Rudy 2002 / Antzelevitch Wedge):</strong> Cells \(1\text{–}6\) (Endo), \(7\text{–}12\) (Mid-myocardial M-cells with \(\sim 45\text{–}60\%\) lower \(I_{\text{Ks}}\)), and \(13\text{–}18\) (Epi, high \(I_{\text{to}}\) notch &amp; rapid repolarization) are coupled by gap junctions at \(\Delta t = 0.05\text{ ms}\). Upright concordant T-waves emerge purely because Epicardium repolarizes before M-cells/Endocardium (\(V_{\text{Endo/M}} - V_{\text{Epi}} > 0\)); Cocaine/Cocaethylene \(\text{Na}_V1.5\) blockade physically slows wavefront transit widening QRS; and M-cell Phase-2/3 EADs electrotonically re-excite recovered Epicardium to trigger genuine transmural <strong>R-on-T Torsades de Pointes</strong>.
       </p>
     </div>
   </div>
@@ -1314,65 +1315,73 @@ const state = {
   paradoxCompareMode: 'adderall', // 'adderall' | 'desoxyn'
   cocaineCompareMode: 'combo',    // 'combo' | 'alone'
 
-  // Organ 3 Live Electrophysiology readout
+  // Organ 3 Live 18-Cell Transmural Wedge Electrophysiology readout
   hrBPM: 66,
   bclMs: 909,
   sysBP: 118,
   diaBP: 76,
-  apd90Ms: 274,
-  qtMs: 374,
-  qtcMs: 396,
+  apdEndoMs: 256,
+  apdMMs: 279,
+  apdEpiMs: 223,
+  apd90Ms: 279,
+  tdrMs: 56,
+  tpeMs: 60,
+  transitMs: 18.5,
+  qtMs: 365,
+  qtcMs: 386,
   bHERG: 0.0,
   bNa: 0.0,
   betaPKA: 0.10,
   eadCount: 0,
+  reExciteCount: 0,
   inTorsades: false,
   respDrive: 100,
   spo2: 99
 };
 
-// ---- Precompute Baseline Sinus Reference Action Potential ("Ghost Curve") ----
+// ---- Precompute Baseline Sinus Reference M-Cell Action Potential ("Ghost Curve") ----
 const baselineAPWave = [];
 (function computeBaselineReference() {
-  let V = -86.8, m = 0.001, h = 0.75, j = 0.75, d = 0.0001, f = 1.0, xr = 0.005, xs = 0.01, r = 0.002, s = 0.99;
+  let V = -87.2, m = 0.001, h = 0.78, j = 0.78, d = 0.0001, f = 1.0, xr = 0.005, xs = 0.01, r = 0.002, s = 0.99;
   const dt = 0.05, E_Na = 58.0, E_K = -88.0, E_Ca = 82.0;
-  for (let beat = 0; beat < 4; beat++) {
-    if (beat === 3) baselineAPWave.length = 0;
+  for (let beat = 0; beat < 3; beat++) {
+    if (beat === 2) baselineAPWave.length = 0;
     for (let step = 0; step < Math.floor(750 / dt); step++) {
       const t = step * dt;
-      const Istim = (t >= 15 && t < 17.0) ? 40.0 : 0.0;
+      const Istim = (t >= 23 && t < 25.0) ? 48.0 : 0.0;
       const m_inf = 1.0 / Math.pow(1.0 + Math.exp((-56.86 - V) / 9.03), 2);
       const h_inf = 1.0 / Math.pow(1.0 + Math.exp((V + 71.55) / 7.43), 2);
-      const tau_h = (V >= -40) ? (0.17 + 0.77 / (0.13 * (1 + Math.exp(-(V + 10.66) / 11.1)))) : (0.5 + 2.7 * Math.exp(0.079 * V));
+      const tau_h = 0.32 + 11.5 * Math.exp(-Math.pow((V + 64.0) / 13.0, 2));
       m = m_inf - (m_inf - m) * Math.exp(-dt / 0.12);
       h = h_inf - (h_inf - h) * Math.exp(-dt / tau_h);
-      j = h_inf - (h_inf - j) * Math.exp(-dt / (tau_h * 1.8));
-      const INa = 14.0 * m * m * m * h * j * (V - E_Na);
+      j = h_inf - (h_inf - j) * Math.exp(-dt / (tau_h * 2.2));
+      const INa = 42.0 * m * m * m * h * j * (V - E_Na);
       const r_inf = 1.0 / (1.0 + Math.exp((18.0 - V) / 6.0));
       const s_inf = 1.0 / (1.0 + Math.exp((V + 22.0) / 5.0));
       r = r_inf - (r_inf - r) * Math.exp(-dt / 1.8);
       s = s_inf - (s_inf - s) * Math.exp(-dt / 55.0);
-      const Ito = 0.12 * r * s * (V - E_K);
-      const d_inf = 1.0 / (1.0 + Math.exp(-(V + 15.0 + 1.1) / 3.3));
+      const Ito = 0.12 * 0.75 * r * s * (V - E_K);
+      const d_gate_foot = 1.0 / (1.0 + Math.exp(-(V + 34.0) / 2.2));
+      const d_inf = d_gate_foot / (1.0 + Math.exp(-(V + 14.5 + 1.25) / 3.2));
       const f_inf = 1.0 / (1.0 + Math.exp((V + 24.0) / 3.3));
       const tau_f = (V > -8) ? 145.0 : 46.0;
       d = d_inf - (d_inf - d) * Math.exp(-dt / 1.6);
       f = f_inf - (f_inf - f) * Math.exp(-dt / tau_f);
-      const ICaL = 0.22 * 0.838 * d * f * (V - E_Ca);
+      const ICaL = 0.22 * 0.821 * 1.12 * d * f * (V - E_Ca);
       const xr_inf = 1.0 / (1.0 + Math.exp((-21.5 - V) / 7.5));
       const tau_xr = 135.0 + 170.0 * Math.exp(-Math.pow((V + 20.0) / 20.0, 2));
       xr = xr_inf - (xr_inf - xr) * Math.exp(-dt / tau_xr);
       const r_kr = 1.0 / (1.0 + Math.exp((V + 9.0) / 22.4));
-      const IKr = 0.082 * xr * r_kr * (V - E_K);
+      const IKr = 0.082 * 0.85 * xr * r_kr * (V - E_K);
       const xs_inf = 1.0 / (1.0 + Math.exp(-(V + 30.0) / 7.5));
       xs = xs_inf - (xs_inf - xs) * Math.exp(-dt / 620.0);
-      const IKs = 0.086 * xs * xs * (V - E_K);
+      const IKs = 0.088 * 0.52 * xs * xs * (V - E_K);
       const ak1 = 0.1 / (1.0 + Math.exp(0.06 * (V - E_K - 200.0)));
       const bk1 = (3.0 * Math.exp(0.0002 * (V - E_K + 100.0)) + Math.exp(0.1 * (V - E_K - 10.0))) / (1.0 + Math.exp(-0.5 * (V - E_K)));
       const IK1 = 1.35 * (ak1 / (ak1 + bk1)) * (V - E_K);
       const Ib = 0.0010 * (V + 50.0);
       V += -(INa + Ito + ICaL + IKr + IKs + IK1 + Ib - Istim) * dt;
-      if (beat === 3 && step % 20 === 0) {
+      if (beat === 2 && step % 20 === 0) {
         baselineAPWave.push({ t, V });
       }
     }
@@ -1537,9 +1546,9 @@ function solvePBPKTrajectory() {
       const drugHERG = hergTerm / (1.0 + hergTerm);
       const totalHERG = Math.min(0.92, 1.0 - (1.0 - drugHERG) * (1.0 - state.hergExtra));
 
-      // Cardiac Nav1.5 (INa) Blockade: Cocaethylene blocks cardiac Na+ channels harder than cocaine (Article 08)
-      const naTerm = (cPlasmaCoc / 320.0) + (cPlasmaCE / 175.0);
-      const bNa = Math.min(0.45, naTerm / (1.0 + naTerm));
+      // Cardiac Nav1.5 (INa) Blockade: Cocaethylene blocks cardiac Na+ channels >2x harder than cocaine (Article 08)
+      const naTerm = (cPlasmaCoc / 165.0) + (cPlasmaCE / 68.0);
+      const bNa = Math.min(0.62, naTerm / (1.0 + naTerm));
 
       // Brainstem MOR Cheng-Prusoff Competitive Occupancy (Kd_Fent = 1.2 nM, Kd_Nal = 1.5 nM)
       const fRatio = cBrainFent / 1.2;
@@ -1616,196 +1625,288 @@ function syncPKAtCurrentTime() {
 }
 
 // ============================================================================
-// ORGAN 3: Real-Time Conductance-Based Human Ventricular Myocyte + Lead-II ECG
+// ORGAN 3: True 1D Coupled Transmural Ventricular Wedge Cable PDE (N = 18 Cells)
+// Endo [0..5] -> Mid-Myocardial M-Cells [6..11] -> Epicardium [12..17]
+// Emergent Maxwell Dipole Lead-II Surface ECG: Phi_vent(t) = sum w_k (V_k - V_{k+1})
 // ============================================================================
-const cell = {
-  V: -86.8,
-  m: 0.001, h: 0.75, j: 0.75,
-  d: 0.0001, f: 1.0,
-  xr: 0.005, xs: 0.01,
-  r: 0.002, s: 0.99,
+const N_WEDGE = 18;
+const wedgeLeadWeights = new Float64Array(N_WEDGE - 1);
+for (let k = 0; k < N_WEDGE - 1; k++) {
+  // Unipolar/Lead-II sensitivity 2.2 cm outside epicardium (Gima & Rudy 2002 Eq. 2)
+  const dist = 2.2 - (k / (N_WEDGE - 1)) * 1.15;
+  wedgeLeadWeights[k] = 1.0 / (dist * dist);
+}
+
+function createWedgeCells() {
+  const arr = [];
+  for (let k = 0; k < N_WEDGE; k++) {
+    const region = k < 6 ? 'endo' : (k < 12 ? 'm' : 'epi');
+    // Authentic transmural channel expression gradients:
+    // Endo: low Ito, intermediate IKs | M-cell: ~55% lower IKs -> intrinsic longer APD90 & extreme hERG vulnerability | Epi: high Ito notch & rapid IKs/IKr repolarization
+    const itoMult  = region === 'endo' ? 0.20 : (region === 'm' ? 0.75 : 2.30);
+    const iksMult  = region === 'endo' ? 1.35 : (region === 'm' ? 0.36 : 1.85);
+    const ikrMult  = region === 'endo' ? 1.15 : (region === 'm' ? 0.72 : 1.32);
+    const icalMult = region === 'endo' ? 0.78 : (region === 'm' ? 1.22 : 0.74);
+    arr.push({
+      k, region, itoMult, iksMult, ikrMult, icalMult,
+      V: -87.3,
+      m: 0.001, h: 0.78, j: 0.78,
+      d: 0.0001, f: 1.0,
+      xr: 0.005, xs: 0.01,
+      r: 0.002, s: 0.99,
+      tUp: 15.0, t90: region === 'm' ? 279 : (region === 'endo' ? 256 : 223),
+      upFound: false,
+      prevDV: 0,
+      eadCount: 0
+    });
+  }
+  return arr;
+}
+
+const wedge = {
+  cells: createWedgeCells(),
+  lap: new Float64Array(N_WEDGE),
   beatClockMs: 0,
-  tUpMs: 15,
-  upFound: false,
-  prevDV: 0,
-  curBeatEADs: 0,
-  curBeatAPD90: 274,
-  lastCompletedWave: [], // stores { t, V, INa, ICaL, IKr, IKs } for the AP oscilloscope
+  curReExcite: 0,
+  tWavePeakVal: 0,
+  tWavePeakMs: 220,
+  tWaveEndMs: 280,
+  lastCompletedWave: [], // stores { t, vEndo, vM, vEpi, INa, ICaL, IKr, IKs, ItoEpi }
   liveWave: [],
-  torsadesPhase: 0,
   respPhase: 0
 };
 
-// Scrolling ECG & Resp circular history buffer (~5.5 seconds at 200 Hz => 1100 samples)
+// Scrolling ECG & Resp circular history buffer
 const ECG_BUF_LEN = 760;
 const ecgBuffer = new Float32Array(ECG_BUF_LEN);
 const respBuffer = new Float32Array(ECG_BUF_LEN);
 let ecgWriteIdx = 0;
 let ecgSubSampleAccum = 0;
 
+function resetWedgeCellsToRest() {
+  wedge.cells = createWedgeCells();
+  wedge.beatClockMs = 0;
+  wedge.liveWave = [];
+  wedge.lastCompletedWave = [];
+  wedge.curReExcite = 0;
+}
+
 function stepMyocyteMs(totalMs) {
-  const dt = 0.05; // 50 microsecond Rush-Larsen biophysical step!
+  const dt = 0.05; // 50-microsecond reaction-diffusion cable PDE substep!
   const nSteps = Math.floor(totalMs / dt);
   const E_Na = 58.0, E_K = -88.0, E_Ca = 82.0;
+  const gGap = 0.62;
 
   const bcl = Math.max(420, state.bclMs);
   const bHERG = state.bHERG;
   const betaPKA = state.betaPKA;
   const bNa = state.bNa;
   const bMg = state.mgso4;
+  const cells = wedge.cells;
+  const lap = wedge.lap;
 
   for (let sIdx = 0; sIdx < nSteps; sIdx++) {
-    cell.beatClockMs += dt;
+    wedge.beatClockMs += dt;
 
-    // Trigger next sinoatrial beat once beatClockMs >= bcl AND cell has repolarized (or refractory escape)
-    if (cell.beatClockMs >= bcl && (cell.V < -68.0 || cell.beatClockMs >= bcl + 380)) {
-      // Finalize completed beat waveform & metrics
-      if (cell.liveWave.length > 20) {
-        cell.lastCompletedWave = cell.liveWave;
+    // Trigger next sinoatrial Purkinje beat once beatClockMs >= bcl AND Endo/M have repolarized (or refractory escape)
+    if (wedge.beatClockMs >= bcl && ((cells[0].V < -68.0 && cells[8].V < -68.0) || wedge.beatClockMs >= bcl + 420)) {
+      if (wedge.liveWave.length > 25) {
+        wedge.lastCompletedWave = wedge.liveWave;
       }
-      state.eadCount = cell.curBeatEADs;
-      state.inTorsades = (cell.curBeatEADs >= 1 && bHERG > 0.55);
-      state.apd90Ms = Math.max(195, Math.round(cell.curBeatAPD90));
-      const qrsWidth = Math.round(78 * (1.0 + 0.55 * bNa));
-      state.qtMs = state.apd90Ms + qrsWidth;
-      const rrSec = Math.max(0.38, (60.0 / Math.max(40, state.hrBPM)));
-      state.qtcMs = Math.round(state.qtMs / Math.pow(rrSec, 0.38)); // Fridericia/Bazett rate-corrected clinical telemetry
 
-      // Trigger ICU QRS audio beep on R-wave!
+      const apdEndo = Math.max(185, Math.round(cells[2].t90));
+      const apdM    = Math.max(195, Math.round(cells[8].t90));
+      const apdEpi  = Math.max(165, Math.round(cells[15].t90));
+      state.apdEndoMs = apdEndo;
+      state.apdMMs    = apdM;
+      state.apdEpiMs  = apdEpi;
+      state.apd90Ms   = apdM;
+      state.tdrMs     = Math.max(0, apdM - apdEpi);
+      state.tpeMs     = Math.max(28, Math.min(320, Math.round(Math.max(0, wedge.tWaveEndMs - wedge.tWavePeakMs))));
+      state.transitMs = Number((cells[17].tUp - cells[0].tUp).toFixed(1));
+
+      // Aggregate M-cell EADs & epicardial electrotonic R-on-T re-excitations
+      const mEADs = Math.max(cells[7].eadCount, cells[8].eadCount, cells[9].eadCount);
+      state.eadCount = mEADs;
+      state.reExciteCount = wedge.curReExcite;
+      state.inTorsades = ((mEADs >= 1 || wedge.curReExcite >= 1) && bHERG > 0.55);
+
+      const qrsDur = Math.round(62 + Math.abs(state.transitMs) * 1.15);
+      state.qtMs = apdM + qrsDur;
+      const rrSec = Math.max(0.38, (60.0 / Math.max(40, state.hrBPM)));
+      state.qtcMs = Math.round(state.qtMs / Math.pow(rrSec, 0.38));
+
       triggerQRSBeep();
 
-      cell.beatClockMs = 0;
-      cell.liveWave = [];
-      cell.upFound = false;
-      cell.curBeatEADs = 0;
-    }
-
-    const t = cell.beatClockMs;
-    const V = cell.V;
-    const Istim = (t >= 15.0 && t < 17.0) ? 40.0 : 0.0;
-
-    // 1. Fast Na+ current (INa — Nav1.5)
-    const m_inf = 1.0 / Math.pow(1.0 + Math.exp((-56.86 - V) / 9.03), 2);
-    const h_inf = 1.0 / Math.pow(1.0 + Math.exp((V + 71.55) / 7.43), 2);
-    const tau_h = (V >= -40) ? (0.17 + 0.77 / (0.13 * (1.0 + Math.exp(-(V + 10.66) / 11.1)))) : (0.5 + 2.7 * Math.exp(0.079 * V));
-    cell.m = m_inf - (m_inf - cell.m) * Math.exp(-dt / 0.12);
-    cell.h = h_inf - (h_inf - cell.h) * Math.exp(-dt / tau_h);
-    cell.j = h_inf - (h_inf - cell.j) * Math.exp(-dt / (tau_h * 1.8));
-    const INa = 14.0 * (1.0 - bNa) * cell.m * cell.m * cell.m * cell.h * cell.j * (V - E_Na);
-
-    // 2. Transient outward K+ current (Ito — Phase 1 spike-and-dome notch)
-    const r_inf = 1.0 / (1.0 + Math.exp((18.0 - V) / 6.0));
-    const s_inf = 1.0 / (1.0 + Math.exp((V + 22.0) / 5.0));
-    cell.r = r_inf - (r_inf - cell.r) * Math.exp(-dt / 1.8);
-    cell.s = s_inf - (s_inf - cell.s) * Math.exp(-dt / 55.0);
-    const Ito = 0.12 * cell.r * cell.s * (V - E_K);
-
-    // 3. L-type Ca2+ current (ICaL — Cav1.2, Sympathetic beta1-PKA window shift + MgSO4 rescue)
-    const d_inf = 1.0 / (1.0 + Math.exp(-(V + 15.0 + 12.4 * betaPKA) / 3.3));
-    const f_inf = 1.0 / (1.0 + Math.exp((V + 24.0) / 3.3));
-    const tau_f = (V > -8.0) ? 145.0 : 46.0;
-    cell.d = d_inf - (d_inf - cell.d) * Math.exp(-dt / 1.6);
-    cell.f = f_inf - (f_inf - cell.f) * Math.exp(-dt / tau_f);
-    const gCaScale = (0.80 + 0.20 * betaPKA) * (1.0 - 0.34 * bMg);
-    const ICaL = 0.22 * gCaScale * cell.d * cell.f * (V - E_Ca);
-
-    // 4. Rapid Delayed Rectifier K+ current (IKr — hERG / Kv11.1)
-    const xr_inf = 1.0 / (1.0 + Math.exp((-21.5 - V) / 7.5));
-    const tau_xr = 135.0 + 170.0 * Math.exp(-Math.pow((V + 20.0) / 20.0, 2));
-    cell.xr = xr_inf - (xr_inf - cell.xr) * Math.exp(-dt / tau_xr);
-    const r_kr = 1.0 / (1.0 + Math.exp((V + 9.0) / 22.4));
-    const IKr = 0.082 * (1.0 - bHERG) * cell.xr * r_kr * (V - E_K);
-
-    // 5. Slow Delayed Rectifier K+ current (IKs — Kv7.1 / KCNE1)
-    const xs_inf = 1.0 / (1.0 + Math.exp(-(V + 30.0) / 7.5));
-    cell.xs = xs_inf - (xs_inf - cell.xs) * Math.exp(-dt / 620.0);
-    const IKs = 0.086 * cell.xs * cell.xs * (V - E_K);
-
-    // 6. Inward Rectifier K+ current (IK1 — Kir2.1 resting potential clamp) + background
-    const ak1 = 0.1 / (1.0 + Math.exp(0.06 * (V - E_K - 200.0)));
-    const bk1 = (3.0 * Math.exp(0.0002 * (V - E_K + 100.0)) + Math.exp(0.1 * (V - E_K - 10.0))) / (1.0 + Math.exp(-0.5 * (V - E_K)));
-    const IK1 = 1.35 * (ak1 / (ak1 + bk1)) * (V - E_K);
-    const Ib = 0.0010 * (V + 50.0);
-
-    const dV = -(INa + Ito + ICaL + IKr + IKs + IK1 + Ib - Istim);
-    cell.V = Math.max(-94.0, Math.min(62.0, V + dV * dt));
-
-    if (!cell.upFound && cell.V > -20.0) {
-      cell.upFound = true;
-      cell.tUpMs = t;
-    }
-    if (cell.upFound && t > cell.tUpMs + 110.0 && cell.V > -52.0 && cell.V < 25.0) {
-      if (cell.prevDV < -0.0002 && dV > 0.0005) {
-        cell.curBeatEADs++;
+      wedge.beatClockMs = 0;
+      wedge.liveWave = [];
+      wedge.curReExcite = 0;
+      wedge.tWavePeakVal = 0;
+      wedge.tWavePeakMs = 200;
+      wedge.tWaveEndMs = 260;
+      for (let k = 0; k < N_WEDGE; k++) {
+        cells[k].upFound = false;
+        cells[k].eadCount = 0;
       }
     }
-    if (cell.upFound && t > cell.tUpMs + 30.0 && cell.V > -75.0) {
-      cell.curBeatAPD90 = t - cell.tUpMs;
-    }
-    cell.prevDV = dV;
 
-    // Store AP oscilloscope sample every 1.0 ms (up to 750 ms window)
-    if (sIdx % 20 === 0 && t <= 750.0) {
-      cell.liveWave.push({
+    const t = wedge.beatClockMs;
+
+    // 1. Spatial Gap-Junction Laplacian across N=18 coupled transmural cells (Neumann boundary conditions)
+    for (let k = 0; k < N_WEDGE; k++) {
+      const vL = k > 0 ? cells[k - 1].V : cells[k].V;
+      const vR = k < N_WEDGE - 1 ? cells[k + 1].V : cells[k].V;
+      // Physiological resistive transition at Endo-M (5|6) and M-Epi deep subepicardial border (11|12)
+      let gL = gGap, gR = gGap;
+      if (k === 6) gL = gGap * 0.22;
+      else if (k === 12) gL = gGap * 0.18;
+      if (k === 5) gR = gGap * 0.22;
+      else if (k === 11) gR = gGap * 0.18;
+      lap[k] = gL * (vL - cells[k].V) + gR * (vR - cells[k].V);
+    }
+
+    let sampleINa = 0, sampleICaL = 0, sampleIKr = 0, sampleIKs = 0, sampleItoEpi = 0;
+    let dVEndo0 = 0;
+
+    // 2. Rush-Larsen Ionic Current & Voltage Update for each cell k = 0..17
+    for (let k = 0; k < N_WEDGE; k++) {
+      const c = cells[k];
+      const V = c.V;
+      // Endocardial Purkinje fiber activation delivered strictly to Endo cells k = 0, 1
+      const Istim = (k <= 1 && t >= 15.0 && t < 16.5) ? 55.0 : 0.0;
+
+      // Fast Na+ current (INa — Nav1.5, governs orthograde conduction velocity & R-on-T capture)
+      const m_inf = 1.0 / Math.pow(1.0 + Math.exp((-56.86 - V) / 9.03), 2);
+      const h_inf = 1.0 / Math.pow(1.0 + Math.exp((V + 71.55) / 7.43), 2);
+      const tau_h = 0.32 + 11.5 * Math.exp(-Math.pow((V + 64.0) / 13.0, 2));
+      c.m = m_inf - (m_inf - c.m) * Math.exp(-dt / 0.12);
+      c.h = h_inf - (h_inf - c.h) * Math.exp(-dt / tau_h);
+      c.j = h_inf - (h_inf - c.j) * Math.exp(-dt / (tau_h * 2.2));
+      const INa = 42.0 * (1.0 - bNa) * c.m * c.m * c.m * c.h * c.j * (V - E_Na);
+
+      // Transient outward K+ current (Ito — prominent Epicardial Phase-1 spike-and-dome notch)
+      const r_inf = 1.0 / (1.0 + Math.exp((18.0 - V) / 6.0));
+      const s_inf = 1.0 / (1.0 + Math.exp((V + 22.0) / 5.0));
+      c.r = r_inf - (r_inf - c.r) * Math.exp(-dt / 1.8);
+      c.s = s_inf - (s_inf - c.s) * Math.exp(-dt / 55.0);
+      const Ito = 0.12 * c.itoMult * c.r * c.s * (V - E_K);
+
+      // L-type Ca2+ current (ICaL — Cav1.2, Sympathetic beta1-PKA window shift + MgSO4 rescue)
+      const d_gate_foot = 1.0 / (1.0 + Math.exp(-(V + 34.0) / 2.2));
+      const d_inf = d_gate_foot / (1.0 + Math.exp(-(V + 14.5 + 12.5 * betaPKA) / 3.2));
+      const f_inf = 1.0 / (1.0 + Math.exp((V + 24.0) / 3.3));
+      const tau_f = (V > -8.0) ? 145.0 : 46.0;
+      c.d = d_inf - (d_inf - c.d) * Math.exp(-dt / 1.6);
+      c.f = f_inf - (f_inf - c.f) * Math.exp(-dt / tau_f);
+      const gCaScale = (0.80 + 0.21 * betaPKA) * (1.0 - 0.36 * bMg) * c.icalMult;
+      const ICaL = 0.22 * gCaScale * c.d * c.f * (V - E_Ca);
+
+      // Rapid Delayed Rectifier K+ current (IKr — hERG / Kv11.1)
+      const xr_inf = 1.0 / (1.0 + Math.exp((-21.5 - V) / 7.5));
+      const tau_xr = 135.0 + 170.0 * Math.exp(-Math.pow((V + 20.0) / 20.0, 2));
+      c.xr = xr_inf - (xr_inf - c.xr) * Math.exp(-dt / tau_xr);
+      const r_kr = 1.0 / (1.0 + Math.exp((V + 9.0) / 22.4));
+      const IKr = 0.082 * c.ikrMult * (1.0 - bHERG) * c.xr * r_kr * (V - E_K);
+
+      // Slow Delayed Rectifier K+ current (IKs — 64% lower in M-cells than Epi!)
+      const xs_inf = 1.0 / (1.0 + Math.exp(-(V + 30.0) / 7.5));
+      c.xs = xs_inf - (xs_inf - c.xs) * Math.exp(-dt / 620.0);
+      const IKs = 0.088 * c.iksMult * c.xs * c.xs * (V - E_K);
+
+      // Inward Rectifier K+ current (IK1 — Kir2.1 resting clamp) + background leak
+      const ak1 = 0.1 / (1.0 + Math.exp(0.06 * (V - E_K - 200.0)));
+      const bk1 = (3.0 * Math.exp(0.0002 * (V - E_K + 100.0)) + Math.exp(0.1 * (V - E_K - 10.0))) / (1.0 + Math.exp(-0.5 * (V - E_K)));
+      const IK1 = 1.35 * (ak1 / (ak1 + bk1)) * (V - E_K);
+      const Ib = 0.0010 * (V + 50.0);
+
+      const dV = lap[k] - (INa + Ito + ICaL + IKr + IKs + IK1 + Ib - Istim);
+      c.V = Math.max(-94.0, Math.min(62.0, V + dV * dt));
+
+      if (k === 0) dVEndo0 = dV;
+      if (k === 8) {
+        sampleINa = Math.max(-14, INa * 0.07);
+        sampleICaL = ICaL;
+        sampleIKr = IKr;
+        sampleIKs = IKs;
+      }
+      if (k === 15) {
+        sampleItoEpi = Ito;
+      }
+
+      if (!c.upFound && c.V > -20.0) {
+        c.upFound = true;
+        c.tUp = t;
+      }
+      if (c.upFound && t > c.tUp + 115.0 && c.V > -55.0 && c.V < 25.0) {
+        if (c.prevDV < -0.0002 && dV > 0.0005) {
+          c.eadCount++;
+        }
+      }
+      // Detect genuine electrotonic R-on-T re-excitation of recovered Epicardium (k=15)!
+      if (k === 15 && t > 210.0 && V <= -45.0 && c.V > -45.0) {
+        wedge.curReExcite++;
+      }
+      if (c.upFound && t > c.tUp + 30.0 && c.V > -75.0) {
+        c.t90 = t - c.tUp;
+      }
+      c.prevDV = dV;
+    }
+
+    // 3. Emergent Maxwell Dipole Ventricular Potential: Phi_vent(t) = alpha * sum_{k=0}^{16} w_k (V_k - V_{k+1})
+    let phiVent = 0.0;
+    for (let k = 0; k < N_WEDGE - 1; k++) {
+      phiVent += wedgeLeadWeights[k] * (cells[k].V - cells[k + 1].V);
+    }
+    phiVent *= 0.0115; // mV calibration (~1.0 mV R-wave, ~0.32 mV concordant upright T-wave!)
+
+    // Track emergent T-peak and T-end directly on Phi_vent(t) for live Tp-e dispersion!
+    if (t > 135.0 && t < 680.0) {
+      if (phiVent > wedge.tWavePeakVal) {
+        wedge.tWavePeakVal = phiVent;
+        wedge.tWavePeakMs = t;
+      }
+      if (phiVent > 0.032) {
+        wedge.tWaveEndMs = t;
+      }
+    }
+
+    // Record simultaneous Endo / M-Cell / Epi APs & ionic currents every 1.0 ms (up to 760 ms window)
+    if (sIdx % 20 === 0 && t <= 760.0) {
+      wedge.liveWave.push({
         t,
-        V: cell.V,
-        INa: Math.max(-14, INa * 0.12),
-        ICaL,
-        IKr,
-        IKs
+        vEndo: cells[2].V,
+        vM: cells[8].V,
+        vEpi: cells[15].V,
+        INa: sampleINa,
+        ICaL: sampleICaL,
+        IKr: sampleIKr,
+        IKs: sampleIKs,
+        ItoEpi: sampleItoEpi
       });
     }
 
-    // Synthesize biophysically coupled Lead-II Surface ECG sample every 6.0 ms (~166 Hz)
+    // Sample emergent Lead-II Surface ECG every 6.0 ms (~166 Hz)
     ecgSubSampleAccum += dt;
     if (ecgSubSampleAccum >= 6.0) {
       ecgSubSampleAccum -= 6.0;
-      let ecgMv = 0.0;
+      let ecgMv = phiVent;
 
-      // Atrial P-wave precedes ventricular stimulus (at bcl - 125 ms, or wrapped at t < 5 ms)
+      // Subtle physiological septal Purkinje Q-deflection at initial endocardial activation
+      if (t >= 14.5 && t <= 19.5 && dVEndo0 > 0.5) {
+        ecgMv -= 0.09;
+      }
+
+      // Sinoatrial P-wave trigger 95 ms prior to Purkinje stimulus (dissociated during spontaneous Torsades reentry)
       const timeToNextBeat = bcl - t;
-      if (timeToNextBeat > 45 && timeToNextBeat < 145) {
-        const pCenter = 95;
-        ecgMv += 0.14 * Math.exp(-Math.pow((timeToNextBeat - pCenter) / 18.0, 2));
-      }
-
-      // QRS complex coupled directly to ventricular Phase 0 activation + Nav1.5 QRS widening
-      const qrsSigma = 8.5 * (1.0 + 0.72 * bNa);
-      const tSinceUp = t - 16.5;
-      if (tSinceUp > -25 && tSinceUp < 80) {
-        // Q-wave, tall R-wave, S-wave
-        ecgMv -= 0.11 * Math.exp(-Math.pow((tSinceUp + 7.0) / 4.5, 2));
-        ecgMv += (1.12 * (1.0 - 0.22 * bNa)) * Math.exp(-Math.pow((tSinceUp - 4.0) / qrsSigma, 2));
-        ecgMv -= 0.22 * Math.exp(-Math.pow((tSinceUp - 16.0 - 9.0 * bNa) / (6.5 + 5.0 * bNa), 2));
-      }
-
-      // Ventricular T-wave coupled to Phase 3 repolarization timing (stretches & notches with hERG block!)
-      const apd = Math.max(210, state.apd90Ms);
-      const tPeak = 16.5 + apd * 0.82;
-      const tWidth = 34.0 + 36.0 * bHERG;
-      const tAmp = 0.30 * (1.0 - 0.35 * bHERG);
-      ecgMv += tAmp * Math.exp(-Math.pow((t - tPeak) / tWidth, 2));
-      // Bifid / notched LQTS2 T-wave morphology when hERG block > 38%
-      if (bHERG > 0.35) {
-        ecgMv += (0.19 * bHERG) * Math.exp(-Math.pow((t - (tPeak + 42.0)) / 26.0, 2));
-      }
-
-      // When EADs fire + severe hERG blockade -> Polymorphic Torsades de Pointes twisting QRS envelope!
-      if (cell.curBeatEADs >= 1 || state.inTorsades) {
-        cell.torsadesPhase += 0.085;
-        const twistEnv = Math.sin(cell.torsadesPhase * 0.23);
-        const tdpWave = 0.78 * twistEnv * Math.sin(cell.torsadesPhase * 1.95) + 0.22 * Math.cos(cell.torsadesPhase * 3.1);
-        // Blend into polymorphic twisting ventricular tachycardia during late plateau / triggered beats
-        if (t > 190 || state.inTorsades) {
-          ecgMv = 0.30 * ecgMv + 0.85 * tdpWave;
-        }
+      if (!state.inTorsades && timeToNextBeat > 45.0 && timeToNextBeat < 145.0) {
+        ecgMv += 0.13 * Math.exp(-Math.pow((timeToNextBeat - 95.0) / 17.5, 2));
       }
 
       // Brainstem pre-Bötzinger Respiratory Plethysmogram wave
-      const respFreqHz = (0.23 * (0.15 + 0.85 * (state.respDrive / 100.0))); // ~14 breaths/min normal -> near-flat in fentanyl apnea
-      cell.respPhase += 2.0 * Math.PI * respFreqHz * 0.006;
+      const respFreqHz = (0.23 * (0.15 + 0.85 * (state.respDrive / 100.0)));
+      wedge.respPhase += 2.0 * Math.PI * respFreqHz * 0.006;
       const respAmp = (state.respDrive / 100.0);
-      const respVal = respAmp * (0.65 * Math.sin(cell.respPhase) - 0.22 * Math.sin(2.0 * cell.respPhase));
+      const respVal = respAmp * (0.65 * Math.sin(wedge.respPhase) - 0.22 * Math.sin(2.0 * wedge.respPhase));
 
       ecgBuffer[ecgWriteIdx] = ecgMv;
       respBuffer[ecgWriteIdx] = respVal;
@@ -1814,9 +1915,10 @@ function stepMyocyteMs(totalMs) {
   }
 }
 
-// Pre-warm 2.5 seconds of ECG & AP so canvases start rich and populated immediately
+// Pre-warm ~2.8 seconds of 18-cell wedge propagation & Maxwell dipole ECG
 function warmUpMyocyte() {
-  for (let i = 0; i < 45; i++) {
+  resetWedgeCellsToRest();
+  for (let i = 0; i < 52; i++) {
     stepMyocyteMs(55);
   }
 }
@@ -2002,13 +2104,13 @@ function renderECGCanvas() {
   ctx.font = '600 11px "IBM Plex Mono", monospace';
   ctx.fillStyle = ecgColor;
   const rhythmText = state.inTorsades
-    ? '⚠ POLYMORPHIC VT / TORSADES DE POINTES (EAD-TRIGGERED)'
-    : (state.qtcMs > 480 ? '⚠ PROLONGED QTc (>480 ms) — REPOLARIZATION RESERVE DEPLETED' : 'LEAD II · NORMAL SINUS CONDUCTION (1 mV/div)');
+    ? `⚠ TRANSMURAL R-ON-T REENTRY / TORSADES (${state.reExciteCount}x Epi Re-Excitation · M-EADs: ${state.eadCount})`
+    : (state.qtcMs > 480 ? '⚠ PROLONGED QTc (>480 ms) — M-CELL REPOLARIZATION RESERVE DEPLETED' : 'MAXWELL DIPOLE LEAD II · CONCORDANT ENDO→M→EPI CONDUCTION');
   ctx.fillText(rhythmText, 14, 18);
 
   ctx.textAlign = 'right';
   ctx.fillStyle = '#a8a49c';
-  ctx.fillText(`RR: ${Math.round(state.bclMs)} ms  |  QT: ${state.qtMs} ms  |  QTc: ${state.qtcMs} ms`, w - 14, 18);
+  ctx.fillText(`Endo→Epi: ${state.transitMs} ms  |  TDR: ${state.tdrMs} ms  |  Tp-e: ${state.tpeMs} ms  |  QTc: ${state.qtcMs} ms`, w - 14, 18);
 
   ctx.textAlign = 'left';
   ctx.fillStyle = respColor;
@@ -2018,7 +2120,28 @@ function renderECGCanvas() {
   ctx.fillText(respStatus, 14, splitY + 15);
 }
 
-// 2. Render Biophysical Ventricular Action Potential + Live Individual Ionic Currents
+// Helper color ramp for 18-cell transmural voltage bar (-88 mV -> +42 mV)
+function voltageToColor(v, isEAD) {
+  const norm = Math.max(0, Math.min(1, (v + 88.0) / 128.0));
+  if (isEAD && norm > 0.35) {
+    return `rgba(255, 42, 95, ${(0.45 + 0.55 * norm).toFixed(2)})`;
+  }
+  if (norm < 0.25) {
+    const u = norm / 0.25;
+    const r = Math.round(16 + 10 * u), g = Math.round(20 + 65 * u), b = Math.round(28 + 110 * u);
+    return `rgb(${r},${g},${b})`;
+  } else if (norm < 0.65) {
+    const u = (norm - 0.25) / 0.40;
+    const r = Math.round(26 + 174 * u), g = Math.round(85 + 170 * u), b = Math.round(138 * (1 - u));
+    return `rgb(${r},${g},${b})`;
+  } else {
+    const u = (norm - 0.65) / 0.35;
+    const r = Math.round(200 + 55 * u), g = Math.round(255 - 120 * u), b = Math.round(45 * u);
+    return `rgb(${r},${g},${b})`;
+  }
+}
+
+// 2. Render 18-Cell Transmural Voltage Bar + Endo/M-Cell/Epi Action Potentials + Ionic Currents
 function renderAPCanvas() {
   const canvas = document.getElementById('apCanvas');
   const { ctx, w, h } = prepCanvas(canvas);
@@ -2026,13 +2149,40 @@ function renderAPCanvas() {
   ctx.fillStyle = '#07080a';
   ctx.fillRect(0, 0, w, h);
 
-  const padL = 46, padR = 16, padT = 18, padB = 22;
-  const apTop = padT;
-  const apH = Math.floor((h - padT - padB) * 0.54);
-  const curTop = apTop + apH + 22;
-  const curH = h - curTop - padB;
+  const padL = 46, padR = 16, padB = 22;
   const plotW = w - padL - padR;
-  const maxT = 720.0; // ms window
+
+  // ---- Top Sub-Strip: Live 18-Cell Transmural Cable Voltage Map (Endo [1..6] | M [7..12] | Epi [13..18]) ----
+  const barY = 10, barH = 18;
+  const cellW = plotW / N_WEDGE;
+  for (let k = 0; k < N_WEDGE; k++) {
+    const c = wedge.cells[k];
+    ctx.fillStyle = voltageToColor(c.V, state.inTorsades);
+    ctx.fillRect(padL + k * cellW, barY, Math.ceil(cellW - 1.5), barH);
+  }
+  ctx.strokeStyle = 'rgba(255,255,255,0.28)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(padL, barY, plotW, barH);
+  // Zone dividers between Endo (0..5), M-cells (6..11), and Epi (12..17)
+  [6, 12].forEach((idx) => {
+    const zx = padL + idx * cellW;
+    ctx.beginPath(); ctx.moveTo(zx, barY - 2); ctx.lineTo(zx, barY + barH + 2); ctx.stroke();
+  });
+  ctx.font = '600 9.5px "IBM Plex Mono", monospace';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#d8d4cc';
+  ctx.fillText('ENDO [1–6]', padL + 3 * cellW, barY + 12.5);
+  ctx.fillText('M-CELLS [7–12]', padL + 9 * cellW, barY + 12.5);
+  ctx.fillText('EPI [13–18]', padL + 15 * cellW, barY + 12.5);
+  ctx.textAlign = 'right';
+  ctx.fillStyle = '#888';
+  ctx.fillText('1D CABLE', padL - 5, barY + 12.5);
+
+  const apTop = barY + barH + 14;
+  const apH = Math.floor((h - apTop - padB) * 0.56);
+  const curTop = apTop + apH + 20;
+  const curH = h - curTop - padB;
+  const maxT = 740.0; // ms window
 
   const mapX = (t) => padL + (t / maxT) * plotW;
   const mapV = (v) => apTop + ((52.0 - v) / 148.0) * apH; // +52 mV to -96 mV
@@ -2055,17 +2205,17 @@ function renderAPCanvas() {
     const yWinBot = mapV(-28);
     ctx.fillStyle = 'rgba(255,107,53,0.075)';
     ctx.fillRect(padL, yWinTop, plotW, yWinBot - yWinTop);
-    ctx.fillStyle = 'rgba(255,107,53,0.7)';
+    ctx.fillStyle = 'rgba(255,107,53,0.75)';
     ctx.textAlign = 'right';
-    ctx.fillText('ICaL EAD Window (-28 to -12 mV)', w - padR - 4, yWinTop + 11);
+    ctx.fillText('M-Cell ICaL EAD Window (-28 to -12 mV)', w - padR - 4, yWinTop + 11);
   }
 
-  // Draw Healthy Sinus Baseline Ghost AP
+  // Draw Healthy Sinus Baseline M-Cell Ghost AP
   if (baselineAPWave.length > 2) {
     ctx.save();
     ctx.setLineDash([4, 4]);
-    ctx.strokeStyle = 'rgba(255,255,255,0.24)';
-    ctx.lineWidth = 1.4;
+    ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+    ctx.lineWidth = 1.3;
     ctx.beginPath();
     baselineAPWave.forEach((pt, idx) => {
       const x = mapX(pt.t), y = mapV(pt.V);
@@ -2075,46 +2225,70 @@ function renderAPCanvas() {
     ctx.restore();
   }
 
-  // Choose active waveform (completed beat + live overwrite cursor)
-  const wave = (cell.lastCompletedWave.length > 10) ? cell.lastCompletedWave : cell.liveWave;
+  const wave = (wedge.lastCompletedWave.length > 10) ? wedge.lastCompletedWave : wedge.liveWave;
   if (wave.length > 2) {
-    const apStroke = state.eadCount > 0 ? '#ff2a5f' : (state.bHERG > 0.38 ? '#ff6b35' : '#c8ff00');
-    ctx.strokeStyle = apStroke;
-    ctx.shadowColor = apStroke;
-    ctx.shadowBlur = 6;
-    ctx.lineWidth = 2.3;
+    // 1) Epicardial AP (#00e5ff — shows prominent Phase-1 Ito spike-and-dome notch & earliest repolarization!)
+    ctx.strokeStyle = '#00e5ff';
+    ctx.lineWidth = 1.75;
     ctx.beginPath();
     wave.forEach((pt, idx) => {
-      const x = mapX(pt.t), y = mapV(pt.V);
+      const x = mapX(pt.t), y = mapV(pt.vEpi);
+      if (idx === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    // 2) Endocardial AP (#9b88ff — earliest upstroke, intermediate APD90)
+    ctx.strokeStyle = '#9b88ff';
+    ctx.lineWidth = 1.75;
+    ctx.beginPath();
+    wave.forEach((pt, idx) => {
+      const x = mapX(pt.t), y = mapV(pt.vEndo);
+      if (idx === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    // 3) Mid-Myocardial M-Cell AP (#c8ff00 / #ff2a5f — longest APD90 & EAD generator!)
+    const mStroke = (state.eadCount > 0 || state.inTorsades) ? '#ff2a5f' : (state.bHERG > 0.38 ? '#ff6b35' : '#c8ff00');
+    ctx.strokeStyle = mStroke;
+    ctx.shadowColor = mStroke;
+    ctx.shadowBlur = 5;
+    ctx.lineWidth = 2.35;
+    ctx.beginPath();
+    wave.forEach((pt, idx) => {
+      const x = mapX(pt.t), y = mapV(pt.vM);
       if (idx === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     });
     ctx.stroke();
     ctx.shadowBlur = 0;
 
-    // APD90 horizontal caliper bar at -75 mV
+    // Transmural Dispersion of Repolarization (TDR = APD_M - APD_Epi) Caliper at -75 mV
     const yAPD = mapV(-75);
-    const xStart = mapX(16.5);
-    const xEnd = mapX(Math.min(maxT, 16.5 + state.apd90Ms));
-    ctx.strokeStyle = '#00e5ff';
+    const xEpiEnd = mapX(Math.min(maxT, 16.0 + Math.max(0, state.transitMs) + state.apdEpiMs));
+    const xMEnd   = mapX(Math.min(maxT, 22.0 + state.apdMMs));
+    ctx.fillStyle = state.tdrMs > 85 ? 'rgba(255,42,95,0.22)' : 'rgba(200,255,0,0.16)';
+    ctx.fillRect(Math.min(xEpiEnd, xMEnd), yAPD - 5, Math.max(2, Math.abs(xMEnd - xEpiEnd)), 10);
+    ctx.strokeStyle = state.tdrMs > 85 ? '#ff2a5f' : '#c8ff00';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.moveTo(xStart, yAPD);
-    ctx.lineTo(xEnd, yAPD);
-    ctx.moveTo(xStart, yAPD - 4); ctx.lineTo(xStart, yAPD + 4);
-    ctx.moveTo(xEnd, yAPD - 4); ctx.lineTo(xEnd, yAPD + 4);
+    ctx.moveTo(xEpiEnd, yAPD); ctx.lineTo(xMEnd, yAPD);
+    ctx.moveTo(xEpiEnd, yAPD - 4); ctx.lineTo(xEpiEnd, yAPD + 4);
+    ctx.moveTo(xMEnd, yAPD - 4); ctx.lineTo(xMEnd, yAPD + 4);
     ctx.stroke();
-    ctx.fillStyle = '#00e5ff';
-    ctx.textAlign = 'left';
-    ctx.fillText(`APD90 = ${state.apd90Ms} ms`, Math.min(w - padR - 115, xEnd + 6), yAPD + 3);
 
-    if (state.eadCount > 0) {
+    ctx.fillStyle = '#e8e4dc';
+    ctx.textAlign = 'left';
+    ctx.font = '10px "IBM Plex Mono", monospace';
+    const labelX = Math.min(w - padR - 195, Math.max(xEpiEnd, xMEnd) + 6);
+    ctx.fillText(`Epi ${state.apdEpiMs} | M ${state.apdMMs} ms (TDR ${state.tdrMs} ms)`, labelX, yAPD + 3);
+
+    if (state.eadCount > 0 || state.reExciteCount > 0) {
       ctx.fillStyle = '#ff2a5f';
-      ctx.font = '600 11px "IBM Plex Mono", monospace';
-      ctx.fillText(`⚡ ${state.eadCount}x PHASE-2/3 EAD OSCILLATION TRIGGERED!`, padL + 8, apTop + 14);
+      ctx.font = '600 10.5px "IBM Plex Mono", monospace';
+      ctx.fillText(`⚡ M-CELL EAD (${state.eadCount}x) → ELECTROTONIC EPI R-ON-T REENTRY (${state.reExciteCount}x)!`, padL + 6, apTop + 13);
     }
 
-    // ---- Lower Sub-Panel: Individual Ionic Currents (INa, ICaL, IKr/hERG, IKs) ----
-    const curZeroY = curTop + curH * 0.44; // Outward K+ above zero, Inward Na+/Ca2+ below zero!
+    // ---- Lower Sub-Panel: Individual Ionic Currents (INa, ICaL, IKr/hERG, IKs, Epi Ito) ----
+    const curZeroY = curTop + curH * 0.44;
     ctx.strokeStyle = 'rgba(255,255,255,0.12)';
     ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(padL, curZeroY); ctx.lineTo(w - padR, curZeroY); ctx.stroke();
@@ -2127,7 +2301,6 @@ function renderAPCanvas() {
     ctx.fillText('-In', padL - 5, curTop + curH - 2);
 
     const mapCur = (val) => {
-      // Clamp visual scale between -5.5 (inward) and +4.2 (outward)
       const c = Math.max(-5.5, Math.min(4.2, val));
       return curZeroY - (c / 9.7) * curH;
     };
@@ -2144,17 +2317,17 @@ function renderAPCanvas() {
       ctx.stroke();
     };
 
-    // Fast INa (scaled spike), inward ICaL (orange), outward IKr/hERG (cyan), outward IKs (violet)
-    drawCurrentTrace('INa', 'rgba(240,236,228,0.55)', 1.2, 0.45);
-    drawCurrentTrace('IKs', '#9b88ff', 1.6, 1.35);
-    drawCurrentTrace('ICaL', '#ff6b35', 2.0, 0.55);
-    drawCurrentTrace('IKr', '#00e5ff', 2.2, 1.45);
+    drawCurrentTrace('INa', 'rgba(240,236,228,0.52)', 1.15, 0.45);
+    drawCurrentTrace('ItoEpi', 'rgba(0,229,255,0.42)', 1.25, 0.55);
+    drawCurrentTrace('IKs', '#9b88ff', 1.6, 1.55);
+    drawCurrentTrace('ICaL', '#ff6b35', 2.0, 0.52);
+    drawCurrentTrace('IKr', '#00e5ff', 2.2, 1.55);
 
     ctx.textAlign = 'left';
     ctx.fillStyle = '#00e5ff';
-    ctx.fillText(`IKr (hERG) Active: ${Math.round((1 - state.bHERG) * 100)}%`, padL + 6, curTop + 11);
+    ctx.fillText(`IKr (hERG) Open: ${Math.round((1 - state.bHERG) * 100)}%`, padL + 6, curTop + 11);
     ctx.fillStyle = '#ff6b35';
-    ctx.fillText(`ICaL β1 Gain: ${(0.82 + 0.18 * state.betaPKA).toFixed(2)}×${state.mgso4 > 0 ? ' [MgSO4 Clamped]' : ''}`, padL + 165, curTop + 11);
+    ctx.fillText(`M-Cell ICaL β1: ${(0.80 + 0.21 * state.betaPKA).toFixed(2)}×${state.mgso4 > 0 ? ' [MgSO4 Clamped]' : ''}`, padL + 158, curTop + 11);
   }
 
   // Time Axis Ticks
@@ -2296,9 +2469,8 @@ function renderOrganCanvas() {
 
   const rx = bx3 + 24 + subColW;
   drawBar(rx, by3 + 50, subColW, 'Ventricular hERG (IKr) Channel Block', `${Math.round(state.bHERG * 100)}%`, state.bHERG * 100, state.bHERG > 0.5 ? '#ff2a5f' : '#00e5ff');
-  drawBar(rx, by3 + 76, subColW, 'Cardiac Nav1.5 (INa) QRS Block', `${Math.round(state.bNa * 100)}%`, state.bNa * 200, '#9b88ff');
-  const repolReserve = Math.max(0, Math.round(100 * (1.0 - 0.85 * state.bHERG - 0.35 * state.betaPKA + 0.25 * state.mgso4)));
-  drawBar(rx, by3 + 102, subColW, 'Phase-3 Repolarization Safety Reserve', `${repolReserve}%`, repolReserve, repolReserve < 30 ? '#ff2a5f' : '#c8ff00');
+  drawBar(rx, by3 + 76, subColW, 'Nav1.5 Block & Endo→Epi Transit', `${Math.round(state.bNa * 100)}% (${state.transitMs}ms)`, state.bNa * 165, '#9b88ff');
+  drawBar(rx, by3 + 102, subColW, 'Transmural Dispersion (TDR: M−Epi)', `${state.tdrMs} ms (Tp-e ${state.tpeMs}ms)`, Math.min(100, state.tdrMs * 0.9), state.tdrMs > 80 || state.inTorsades ? '#ff2a5f' : '#c8ff00');
 
   // Animated BBB & Vascular Flux Particles
   if (state.drug !== 'none') {
@@ -2517,12 +2689,12 @@ function updateVitalsDOM() {
   document.getElementById('barQTc').style.width = `${Math.min(100, Math.max(15, ((state.qtcMs - 340) / 240) * 100))}%`;
   document.getElementById('barQTc').style.background = state.qtcMs >= 500 ? 'var(--crimson)' : (state.qtcMs >= 465 ? 'var(--orange)' : 'var(--cyan)');
 
-  // 4. APD90 & hERG
+  // 4. APD90 & hERG + Transmural Dispersion TDR
   document.getElementById('valAPD').textContent = String(state.apd90Ms);
-  document.getElementById('subHERG').textContent = `IKr Block: ${Math.round(state.bHERG * 100)}% · ${state.eadCount > 0 ? 'EAD TRIGGERED!' : '1:1 Capture'}`;
+  document.getElementById('subHERG').textContent = `hERG: ${Math.round(state.bHERG * 100)}% · TDR: ${state.tdrMs}ms · ${state.inTorsades ? 'R-on-T!' : '1:1'}`;
   document.getElementById('barHERG').style.width = `${Math.round(state.bHERG * 100)}%`;
   document.getElementById('barHERG').style.background = state.bHERG > 0.5 ? 'var(--crimson)' : 'var(--cyan)';
-  document.getElementById('cardHERG').className = 'vital-card' + (state.eadCount > 0 ? ' alert-crit' : (state.bHERG > 0.45 ? ' alert-warn' : ''));
+  document.getElementById('cardHERG').className = 'vital-card' + ((state.eadCount > 0 || state.inTorsades) ? ' alert-crit' : (state.bHERG > 0.45 ? ' alert-warn' : ''));
 
   // 5. BBB Kp,uu
   const kpuuMap = { none: null, adderall: 0.89, damp: 0.92, desoxyn: 1.85, cocaine: state.etohBAC > 0.01 ? 1.44 : 1.35, fentanyl: 2.40 };
@@ -2602,8 +2774,8 @@ function loadPreset(num, skipHashUpdate = false) {
   if (num === 1) {
     state.drug = 'none';
     state.pkTimeMin = 60;
-    title.textContent = '01 // Physiological Resting Sinus Baseline';
-    desc.innerHTML = 'Drug-free human physiology. Unbound ventricular <span class="cyn">hERG (IKr)</span> channels repolarize Phase 3 cleanly at <strong>APD90 = 274 ms</strong>, holding Bazett <strong>QTc ≈ 396 ms</strong> with 66 BPM sinus rhythm, 118/76 mmHg arterial pressure, and 100% brainstem respiratory drive.';
+    title.textContent = '01 // Physiological Resting Sinus Baseline (18-Cell Endo → M → Epi Wedge)';
+    desc.innerHTML = 'Drug-free 18-cell transmural myocardium. Epicardium repolarizes first (<span class="cyn">APD90 = 223 ms</span>) before Endocardium (<span class="vio">256 ms</span>) and Mid-Myocardial M-cells (<strong>279 ms</strong>, <code>TDR = 56 ms</code>), generating an <strong>emergent upright concordant T-wave</strong> via \(\\Phi_{\\text{vent}} = \\sum w_k (V_k - V_{k+1})\).';
   } else if (num === 2) {
     state.paradoxCompareMode = 'adderall';
     applyParadoxSubMode('adderall');
@@ -2632,8 +2804,8 @@ function loadPreset(num, skipHashUpdate = false) {
     state.hergExtra = 0.58;
     state.pkTimeMin = 125;
     banner.className = 'forensic-banner crit';
-    title.textContent = '05 // Sympathetic β1 Surge + Cocaethylene hERG Block → Phase-2/3 EAD & Torsades de Pointes';
-    desc.innerHTML = '<strong>Lethal Electrophysiological Collision:</strong> Hepatic <span class="org">Cocaethylene</span> clamps repolarizing <span class="cyn">IKr (hERG) &gt;82%</span> while intense sympathetic β1-PKA tone shifts <span class="org">ICaL</span> into the <code>-24 mV</code> reactivation window — triggering spontaneous <strong>Early Afterdepolarizations (EADs)</strong> and polymorphic <strong>Torsades de Pointes</strong>!';
+    title.textContent = '05 // Sympathetic β1 Surge + Cocaethylene hERG Block → M-Cell EAD & Electrotonic R-on-T Torsades';
+    desc.innerHTML = '<strong>Emergent Transmural R-on-T Reentry:</strong> Low-\(I_{\\text{Ks}}\) <strong>M-cells [7–12]</strong> lose <span class="cyn">hERG</span> reserve under <span class="org">Cocaethylene</span> while β1-PKA boosts <span class="org">ICaL</span> window current — firing Phase-2/3 EADs that electrotonically re-excite recovered Epicardium across gap junctions!';
     actions.innerHTML = `
       <button class="hud-btn emergency-cyan" onclick="toggleMgSO4()">⚡ Deliver 2 g IV MgSO4 (Suppress EADs)</button>
     `;

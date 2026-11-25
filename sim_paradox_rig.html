@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>THE PARADOX RIG — VTA–NAc–PFC Spiking Microcircuit &amp; Patch-Clamp Lab — Neuroscience with RPrime</title>
+<link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -540,8 +541,8 @@
     width: 100%;
     height: 100%;
   }
-  #connectomeWrap { height: 320px; cursor: crosshair; }
-  #patchWrap      { height: 320px; }
+  #connectomeWrap { height: 344px; cursor: crosshair; }
+  #patchWrap      { height: 344px; }
   #rasterWrap     { height: 245px; }
   #fscvWrap       { height: 210px; }
 
@@ -1175,13 +1176,15 @@
         <section class="rig-panel">
           <div class="panel-head">
             <div class="panel-title-group">
-              <span class="panel-kicker" style="color:var(--ne);border-color:rgba(0,229,255,0.28);background:rgba(0,229,255,0.08);">V-CLAMP / I-CLAMP</span>
-              <span class="panel-title">Intracellular Patch-Clamp (V<sub>m</sub>)</span>
+              <span class="panel-kicker" style="color:var(--ne);border-color:rgba(0,229,255,0.28);background:rgba(0,229,255,0.08);">50 µs RUSH–LARSEN HH</span>
+              <span class="panel-title">Intracellular Patch-Clamp (V<sub>m</sub> &amp; pA)</span>
             </div>
             <div class="panel-controls">
               <button type="button" class="mini-btn" id="btnSubCell" title="Switch sub-population cell type in current nucleus" style="display:none;">Sub-type</button>
+              <button type="button" class="mini-btn" id="btnCurrentMode" title="Cycle live picoampere (pA) ionic current strip channels (I_NMDA/I_h/I_GIRK vs I_Na/I_Kdr vs All 5)">pA: Mod/Syn ⇄</button>
+              <button type="button" class="mini-btn" id="btnPhasePlane" title="Toggle live dV/dt (V/s) vs Vm (mV) Hodgkin–Huxley Phase Plane">dV/dt Phase</button>
               <button type="button" class="mini-btn" id="btnDepolPulse" title="Inject +150 pA depolarizing current step (220 ms)">+150 pA</button>
-              <button type="button" class="mini-btn" id="btnSagPulse" title="Inject -100 pA hyperpolarizing step to test HCN Ih voltage sag">-100 pA Sag</button>
+              <button type="button" class="mini-btn" id="btnSagPulse" title="Inject -100 pA hyperpolarizing step to test organic HCN q(V) voltage sag">-100 pA Sag</button>
               <button type="button" class="mini-btn" id="btnFreezeScope">Freeze</button>
             </div>
           </div>
@@ -1189,8 +1192,8 @@
             <canvas id="patchCanvas"></canvas>
           </div>
           <div class="panel-foot">
-            <span id="patchCellStats">Vm: -64.2 mV · Rate: 24.0 Hz · Burst CV: 1.18</span>
-            <span>Scale: -85 to +40 mV · 600 ms sweep</span>
+            <span id="patchCellStats">Vm: -64.2 mV · dV/dt: +340 V/s · Rate: 24.0 Hz · CV: 1.18</span>
+            <span id="patchScaleFoot">50 µs HH · I_NMDA / I_h / I_GIRK (pA) · 600 ms</span>
           </div>
         </section>
       </div>
@@ -1421,17 +1424,18 @@
   </div>
   <div class="drawer-body">
     <div class="eq-card">
-      <div class="eq-card-label">01 · Coupled 500-Neuron Spiking Core (1 kHz Integration)</div>
-      <h3>Adaptive Conductance-Based Izhikevich Microcircuit</h3>
+      <div class="eq-card-label">01 · 50 µs Rush–Larsen Hodgkin–Huxley Patched Cell &amp; 500-Neuron Network</div>
+      <h3>Conductance-Based Intracellular Biophysics (pA) Driven by Live Microcircuit Spikes</h3>
       <p>
-        Five coupled populations (\(N = 500\) total: \(80\) VTA DA, \(120\) Cortico-Limbic NMDA, \(120\) PFC Layer III Pyramidal + \(30\) Fast-Spiking PV GABA, \(50\) NAc D1 Go + \(50\) NAc D2 No-Go MSNs, and \(50\) Dorsal Raphe 5-HT neurons) evolve at \(\Delta t = 1\text{ ms}\) (\(0.5\text{ ms}\) voltage sub-steps; \(0.25\text{ ms}\) intracellular waveform shaping):
+        Five coupled populations (\(N = 500\) total: \(80\) VTA DA, \(120\) Cortico-Limbic NMDA, \(120\) PFC Layer III Pyramidal + \(30\) Fast-Spiking PV GABA, \(50\) NAc D1 Go + \(50\) NAc D2 No-Go MSNs, and \(50\) Dorsal Raphe 5-HT neurons) evolve at \(1\text{ kHz}\), feeding real spike-evoked synaptic conductances (\(g_{\text{AMPA}}, g_{\text{NMDA}}, g_{\text{GABA}_A}\) in \(\text{nS}\)) into the currently patched neuron integrated via Rush–Larsen exponential-Euler at \(\Delta t = 0.05\text{ ms}\) (\(50\,\mu\text{s}\), \(20\) substeps/ms) in exact picoamperes (\(\text{pA}\)):
       </p>
       <div class="eq-math">
         \[
-          \frac{dv_i}{dt} = 0.04 v_i^2 + 5 v_i + 140 - u_i + I_{\text{intrinsic},i} + I_{\text{AMPA},i} + B(v_i)\,I_{\text{NMDA},i} - I_{\text{GABA},i} + I_{\text{mod},i}
+          C_m \frac{dV}{dt} = -\Big(I_{\text{Na}}(m^3 h) + I_{\text{Kdr}}(n^4) + I_{\text{M}}(\text{KCNQ } p) + I_h(\text{HCN } q) + I_{\text{GIRK}}(\text{D}_2 / 5\text{-HT}_{1A}) + I_{\text{CaL}}(c^2) + I_L + I_{\text{AMPA}} + B_{\text{Mg}}(V)I_{\text{NMDA}} + I_{\text{GABA}_A} - I_{\text{clamp}}\Big)
         \]
         \[
-          \frac{du_i}{dt} = a_i(b_i v_i - u_i), \qquad B(v) = \frac{1}{1 + \frac{[\text{Mg}^{2+}]_o}{3.57}\exp(-0.062\,v)}
+          q_{\infty}(V) = \frac{1}{1 + \exp\!\big(\frac{V + 82}{6.5}\big)}\;\;(\tau_q \approx 95\text{ ms}), \qquad
+          B_{\text{Mg}}(V) = \frac{1}{1 + \frac{[\text{Mg}^{2+}]_o}{3.57}\exp(-0.062\,V)}
         \]
       </div>
     </div>
@@ -1729,8 +1733,10 @@
   let patchedPop = 1;      // Default on Preset 1: Cortical NMDA Pool
   let patchedSubMode = 0;  // For PFC: 0=WM Pyramidal, 1=PV Fast-Spiking; For NAc: 0=D1 Go, 1=D2 No-Go
   let scopeFrozen = false;
+  let patchCurrentMode = 0; // 0 = Mod/Syn (I_NMDA, I_h, I_GIRK in pA), 1 = Fast AP (I_Na, I_Kdr in pA), 2 = All 5 Dual-Scale
+  let phasePlaneEnabled = false;
 
-  // Current-clamp pulse injector state
+  // Current-clamp pulse injector state (in real picoamperes, pA)
   let clampPulseI = 0;
   let clampPulseRemainingMs = 0;
 
@@ -1742,17 +1748,177 @@
     return 468; // Dorsal Raphe 5-HT pacemaker
   }
 
-  // High-resolution intracellular patch-clamp ring buffer (1200 samples @ 0.5 ms = 600 ms window)
+  // High-resolution intracellular patch-clamp ring buffers (1200 samples @ 0.5 ms = 600 ms window)
+  // Driven by true 50 us (dt = 0.05 ms) Rush-Larsen Hodgkin-Huxley biophysics in real mV, V/s, and pA!
   const PATCH_LEN = 1200;
-  const patchVmBuf = new Float32Array(PATCH_LEN);
-  const patchSynBuf = new Float32Array(PATCH_LEN);
-  const patchClampBuf = new Float32Array(PATCH_LEN);
+  const patchVmBuf    = new Float32Array(PATCH_LEN); // Membrane potential Vm (mV)
+  const patchDvDtBuf  = new Float32Array(PATCH_LEN); // Instantaneous dV/dt (V/s = mV/ms)
+  const patchINaBuf   = new Float32Array(PATCH_LEN); // Fast transient Na+ current I_Na (pA)
+  const patchIKdrBuf  = new Float32Array(PATCH_LEN); // Delayed-rectifier K+ current I_Kdr (pA)
+  const patchINmdaBuf = new Float32Array(PATCH_LEN); // Mg2+-gated synaptic NMDA + AMPA current (pA)
+  const patchIHBuf    = new Float32Array(PATCH_LEN); // HCN hyperpolarization-activated I_h sag current (pA)
+  const patchIGirkBuf = new Float32Array(PATCH_LEN); // Outward GIRK (D2 / 5-HT1A) + KCNQ I_M + GABA_A current (pA)
+  const patchClampBuf = new Float32Array(PATCH_LEN); // Injected current-clamp step I_clamp (pA)
   let patchPtr = 0;
-  // Detailed intracellular display state for the patched cell (gives realistic Na+ spike + HCN sag)
-  let patchSpikePhase = 0; // >0 during AP upstroke/repolarization
-  let patchIhSag = 0;      // HCN hyperpolarization-activated inward cation current state
   let patchIsiList = [];
   let lastPatchedSpikeMs = -500;
+
+  // Singularity-free Hodgkin-Huxley rate helper
+  function vtrap(x, y) {
+    const r = x / y;
+    return Math.abs(r) < 1e-5 ? y * (1.0 - r * 0.5) : x / (Math.exp(r) - 1.0);
+  }
+
+  // True 50 us Conductance-Based Hodgkin-Huxley State for Currently Patched Cell
+  const hhState = {
+    V: -68.0,
+    dvdt: 0.0,
+    m: 0.015,
+    h: 0.88,
+    n: 0.04,
+    p: 0.03,      // KCNQ / M-type slow K+ adaptation gate
+    q: 0.14,      // HCN hyperpolarization-activated cation gate (V_1/2 = -82 mV, tau_q ~ 95 ms)
+    cCa: 0.015,   // Cav1.3 / L-type Ca2+ gate
+    gAMPA: 0.0,   // Spike-driven AMPA conductance (nS)
+    gNMDAr: 0.0,  // NMDA fast rise trace (nS)
+    gNMDA: 0.0,   // NMDA slow decay conductance (nS)
+    gGABA: 0.0,   // Spike-driven GABA_A conductance (nS)
+    ouNoise: 0.0, // Subthreshold quantal/thermal synaptic current fluctuations (pA)
+    // Live instantaneous / window currents for telemetry (pA)
+    lastINa: 0.0,
+    lastIKdr: 0.0,
+    lastINMDA: 0.0,
+    lastIh: 0.0,
+    lastIGIRK: 0.0,
+    peakDvDt: 320.0,
+    rInMOhm: 185
+  };
+
+  function getHHCellProfile() {
+    // Returns real mammalian 37°C conductance profile (Cm in pF, conductances in nS, potentials in mV, currents in pA)
+    if (patchedPop === 0) {
+      // VTA Dopamine Neuron: autonomous Cav1.3/HCN pacemaker (~4.3 Hz) + NMDA burst-capable + D2 GIRK autoreceptor
+      return {
+        Cm: 96.0, VT: -54.0, phiNa: 2.45, phiK: 1.35,
+        gNa: 1280.0, gKdr: 290.0,
+        gM: 11.2,
+        gh: 4.4, // Midbrain HCN2/4 pacemaker/sag conductance
+        gGIRK: 2.65 * state.E_D2,
+        gKir2: 0.0,
+        gCaL: 2.35, vCaHalf: -46.0,
+        gL: 3.8, EL: -63.0,
+        iPace: 67.5
+      };
+    }
+    if (patchedPop === 1) {
+      // Cortico-Limbic Glutamate / NMDA Pool Pyramidal Neuron
+      return {
+        Cm: 100.0, VT: -55.0, phiNa: 2.6, phiK: 1.45,
+        gNa: 1420.0, gKdr: 320.0,
+        gM: 5.8,
+        gh: 1.5,
+        gGIRK: 0.0,
+        gKir2: 0.0,
+        gCaL: 1.1, vCaHalf: -38.0,
+        gL: 4.3, EL: -71.0,
+        iPace: 8.0
+      };
+    }
+    if (patchedPop === 2) {
+      if (patchedSubMode === 0) {
+        // PFC Layer III Working-Memory Pyramidal Neuron: Arnsten alpha2A (closes HCN) vs alpha1A (opens HCN & KCNQ!)
+        const ghEff = 0.42 + 2.6 * (1.0 - 0.88 * state.alpha2A) + 5.8 * state.alpha1A;
+        const gMEff = 2.5 + 6.8 * state.alpha1A;
+        return {
+          Cm: 95.0, VT: -55.0, phiNa: 2.65, phiK: 1.50,
+          gNa: 1480.0, gKdr: 330.0,
+          gM: gMEff,
+          gh: ghEff,
+          gGIRK: 0.0,
+          gKir2: 0.0,
+          gCaL: 1.15, vCaHalf: -38.0,
+          gL: 4.2, EL: -73.0,
+          iPace: 4.0
+        };
+      }
+      // PFC Fast-Spiking Parvalbumin (PV) Kv3.1 Interneuron: narrow spikes (<0.6 ms), zero M-adaptation
+      return {
+        Cm: 72.0, VT: -54.5, phiNa: 3.1, phiK: 2.45,
+        gNa: 1220.0, gKdr: 460.0,
+        gM: 0.4,
+        gh: 1.1,
+        gGIRK: 0.0,
+        gKir2: 0.0,
+        gCaL: 0.4, vCaHalf: -38.0,
+        gL: 5.0, EL: -69.0,
+        iPace: 6.0
+      };
+    }
+    if (patchedPop === 3) {
+      if (patchedSubMode === 0) {
+        // NAc D1 "Go" Direct-Pathway MSN: hyperpolarized -80 mV Kir2 down-state + D1 Gs/PKA facilitation
+        return {
+          Cm: 92.0, VT: -53.0, phiNa: 2.55, phiK: 1.45,
+          gNa: 1360.0, gKdr: 320.0,
+          gM: 3.2,
+          gh: 0.65,
+          gGIRK: 0.2,
+          gKir2: 5.4 * (1.0 - 0.32 * state.thetaD1),
+          gCaL: 1.4 * (1.0 + 0.65 * state.thetaD1), vCaHalf: -39.0,
+          gL: 3.8, EL: -79.0,
+          iPace: 12.0 * state.thetaD1
+        };
+      }
+      // NAc D2 "No-Go" Indirect-Pathway MSN: Kir2 down-state + potent D2 Gi GIRK brake (disinhibited in Akathisia!)
+      return {
+        Cm: 92.0, VT: -53.0, phiNa: 2.55, phiK: 1.45,
+        gNa: 1360.0, gKdr: 320.0,
+        gM: 3.0,
+        gh: 0.65,
+        gGIRK: 4.8 * state.E_D2,
+        gKir2: 4.8,
+        gCaL: 1.4, vCaHalf: -39.0,
+        gL: 3.8, EL: -78.0,
+        iPace: 10.0
+      };
+    }
+    // Dorsal Raphe 5-HT Pacemaker Neuron: slow rhythmic pacemaker + somatodendritic 5-HT1A GIRK autoreceptor brake
+    const sens5HT1A = params.ssriDesens ? 0.20 : 1.00;
+    const auto5HT1A = sens5HT1A * (state.raphe5HT / (26.0 + state.raphe5HT));
+    return {
+      Cm: 98.0, VT: -54.0, phiNa: 2.4, phiK: 1.35,
+      gNa: 1280.0, gKdr: 300.0,
+      gM: 12.6,
+      gh: 1.8,
+      gGIRK: 3.85 * auto5HT1A,
+      gKir2: 0.0,
+      gCaL: 2.05, vCaHalf: -45.0,
+      gL: 3.8, EL: -65.0,
+      iPace: 65.0
+    };
+  }
+
+  function resetPatchedHHForCell() {
+    const prof = getHHCellProfile();
+    const V0 = prof.EL + 2.0;
+    const u0 = V0 - prof.VT;
+    const am = 0.32 * vtrap(13.0 - u0, 4.0), bm = 0.28 * vtrap(u0 - 40.0, 5.0);
+    const ah = 0.128 * Math.exp((17.0 - u0) / 18.0), bh = 4.0 / (1.0 + Math.exp((40.0 - u0) / 5.0));
+    const an = 0.032 * vtrap(15.0 - u0, 5.0), bn = 0.5 * Math.exp((10.0 - u0) / 40.0);
+    hhState.V = V0;
+    hhState.dvdt = 0.0;
+    hhState.m = am / (am + bm);
+    hhState.h = ah / (ah + bh);
+    hhState.n = an / (an + bn);
+    hhState.p = 1.0 / (1.0 + Math.exp(-(V0 + 38.0) / 9.0));
+    hhState.q = 1.0 / (1.0 + Math.exp((V0 + 82.0) / 6.5));
+    hhState.cCa = 1.0 / (1.0 + Math.exp(-(V0 - prof.vCaHalf) / 6.5));
+    hhState.gAMPA = 0.0;
+    hhState.gNMDAr = 0.0;
+    hhState.gNMDA = 0.0;
+    hhState.gGABA = 0.0;
+    hhState.ouNoise = 0.0;
+  }
 
   // Spike Raster Ring Buffer (stores recent spikes as { tMs, neuronIdx })
   const RASTER_WINDOW_MS = 4000;
@@ -2021,27 +2187,14 @@
         noiseAmp = 0.55;
       }
 
-      // Update OU synaptic noise
-      synNoiseState[i] = 0.78 * synNoiseState[i] + 0.62 * noiseAmp * randNorm();
-
-      // Extra current-clamp injection if this is the patched cell
-      let iClamp = 0;
-      if (i === patchedIdx && clampPulseI !== 0) {
-        // Scale pA to Izhikevich current units + HCN Ih depolarizing sag on hyperpolarization
-        iClamp = clampPulseI * 0.085;
-        if (clampPulseI < 0) {
-          const ihStrength = (patchedPop === 2 && patchedSubMode === 0) ? (0.55 * hcnOpen) : (patchedPop === 0 ? 0.32 : 0.08);
-          patchIhSag += 0.018 * (Math.abs(iClamp) * ihStrength - patchIhSag);
-          iClamp += patchIhSag;
-        } else {
-          patchIhSag *= 0.94;
-        }
-      } else if (i === patchedIdx) {
-        patchIhSag *= 0.94;
+      if (i === patchedIdx) {
+        // The patched cell is integrated below via true 50 us Rush-Larsen Hodgkin-Huxley biophysics!
+        continue;
       }
 
+      // Update OU synaptic noise for network neurons
+      synNoiseState[i] = 0.78 * synNoiseState[i] + 0.62 * noiseAmp * randNorm();
       const totalSyn = synDrive + synNoiseState[i];
-      if (i === patchedIdx) patchedSynCurrent = totalSyn;
 
       // Two 0.5 ms sub-steps with voltage-dependent Mg2+ NMDA boost on depolarized dendrites
       let vi = v[i];
@@ -2051,7 +2204,7 @@
       for (let sub = 0; sub < 2; sub++) {
         const mgUnblock = 1.0 / (1.0 + 0.28 * Math.exp(-0.062 * vi));
         const nmdaBoost = (i < 450 && effNMDA > 0.05) ? (2.2 * effNMDA * mgUnblock) : 0.0;
-        const I_tot = baseDrive[i] + totalSyn + nmdaBoost + iClamp;
+        const I_tot = baseDrive[i] + totalSyn + nmdaBoost;
 
         vi += 0.5 * (0.04 * vi * vi + 5.0 * vi + 140.0 - ui + I_tot);
         ui += 0.5 * izA[i] * (izB[i] * vi - ui);
@@ -2063,30 +2216,6 @@
           break;
         }
         if (vi < -90.0) vi = -90.0;
-      }
-
-      // Record intracellular patch-clamp trace at 2 kHz (two samples per 1 ms)
-      if (i === patchedIdx && !isWarmup && !scopeFrozen) {
-        for (let s = 0; s < 2; s++) {
-          let vmDisplay = vi;
-          if (spiked && s === 0) {
-            patchSpikePhase = 3;
-          }
-          if (patchSpikePhase === 3) {
-            vmDisplay = 36.5; // Realistic Na+ action potential peak (+36.5 mV)
-            patchSpikePhase = 2;
-          } else if (patchSpikePhase === 2) {
-            vmDisplay = 4.0;  // Fast K+ repolarization downstroke
-            patchSpikePhase = 1;
-          } else if (patchSpikePhase === 1) {
-            vmDisplay = izC[i] - 3.2; // Crisp AHP trough
-            patchSpikePhase = 0;
-          }
-          patchVmBuf[patchPtr] = vmDisplay;
-          patchSynBuf[patchPtr] = patchedSynCurrent;
-          patchClampBuf[patchPtr] = clampPulseI;
-          patchPtr = (patchPtr + 1) % PATCH_LEN;
-        }
       }
 
       v[i] = vi;
@@ -2106,22 +2235,233 @@
 
         if (!isWarmup) {
           spikeEvents.push(tMs, i);
-          if (i === patchedIdx) {
-            patchedFiredThisMs = true;
-            const isi = tMs - lastPatchedSpikeMs;
-            if (isi > 2 && isi < 2500) {
-              patchIsiList.push(isi);
-              if (patchIsiList.length > 24) patchIsiList.shift();
-            }
-            lastPatchedSpikeMs = tMs;
-            scheduleSpikeAudio(true, frameStepIdx * 0.001);
-          } else if (audioEnabled) {
+          if (audioEnabled) {
             // Neighboring multi-unit cluster within ~50 um of pipette tip
             const dist = Math.abs(i - patchedIdx);
             if (dist > 0 && dist <= 5) {
               scheduleSpikeAudio(false, frameStepIdx * 0.001);
             }
           }
+        }
+      }
+    }
+
+    // --- B2. True 50 us (dt = 0.05 ms) Rush-Larsen Hodgkin-Huxley Patched Neuron (patchedIdx) ---
+    // Driven directly by the real incoming spikes emitted above by the 500-neuron microcircuit!
+    {
+      const prof = getHHCellProfile();
+      const amanAtten = 1.0 - 0.68 * amanBlock;
+      const benzoMult = 1.0 + 1.65 * benzoGABA;
+
+      // Map real incoming microcircuit spikes (this 1 ms) into synaptic conductance quanta (nS)
+      let dAMPA = 0.0, dNMDA = 0.0, dGABA = 0.0;
+      if (patchedPop === 0) {
+        // VTA DA receives real Cortical NMDA spikes + stress cues, and 5-HT2C / local GABA inhibition
+        dAMPA = 0.24 * spkNMDA + (params.stress > 0.05 && fastRand() < 0.25 * params.stress ? 0.55 : 0.0);
+        dNMDA = 0.42 * spkNMDA * amanAtten;
+        dGABA = (0.35 * spkRaphe * clamp5HT2C + 0.12 * spkPV * params.benzo) * benzoMult;
+      } else if (patchedPop === 1) {
+        // Cortical NMDA Pool receives recurrent pool spikes + homeostatic H_NMDA Poisson drive vs PV GABA
+        const poisHomeo = (fastRand() < 0.42 * state.H_NMDA) ? (0.85 * state.H_NMDA) : 0.0;
+        const d2Disinhib = Math.max(0, 0.42 - E_D2) * 0.75;
+        dAMPA = 0.24 * spkNMDA + 1.15 * poisHomeo + d2Disinhib;
+        dNMDA = (0.36 * spkNMDA + 1.35 * poisHomeo) * amanAtten;
+        dGABA = (0.20 * spkPV + (params.benzo > 0.05 ? 0.45 * params.benzo : 0.0)) * benzoMult;
+      } else if (patchedPop === 2) {
+        if (patchedSubMode === 0) {
+          // PFC Layer III WM Pyramidal: recurrent WM bump spikes (gated by alpha2A/D1) + stray NMDA noise vs PV lateral GABA
+          const d1Sup = Math.max(0.18, Math.min(1.05, 1.85 * thetaD1 - 0.12));
+          const wRecEff = (0.30 + 1.15 * alpha2A) * d1Sup / (1.0 + 3.4 * alpha1A + 1.6 * benzoGABA);
+          dAMPA = 0.52 * spkPFC_bump * wRecEff + 0.16 * spkNMDA;
+          dNMDA = (0.58 * spkPFC_bump * wRecEff + 0.28 * spkNMDA) * amanAtten;
+          dGABA = 0.22 * spkPV * benzoMult;
+        } else {
+          // PFC Fast-Spiking PV Interneuron: driven by local pyramidal + cortical NMDA spikes
+          dAMPA = 0.34 * (spkPFC_bump + spkPFC_flank) + 0.24 * spkNMDA;
+          dNMDA = 0.18 * spkNMDA * amanAtten;
+          dGABA = 0.16 * spkPV * benzoMult;
+        }
+      } else if (patchedPop === 3) {
+        if (patchedSubMode === 0) {
+          // NAc D1 "Go" Direct MSN: convergent PFC WM bump spikes + D1 facilitation vs indirect/GABA inhibition
+          dAMPA = 0.56 * spkPFC_bump * (0.55 + 0.85 * thetaD1) + 0.12 * spkNMDA;
+          dNMDA = (0.52 * spkPFC_bump + 0.22 * spkNMDA) * amanAtten;
+          dGABA = (0.16 * spkD2 + 0.12 * spkPV) * benzoMult;
+        } else {
+          // NAc D2 "No-Go" Indirect MSN: Cortical NMDA + alpha1A flanker spikes vs D2 GIRK restraint
+          const poisUrgency = (fastRand() < 0.32 * (effNMDA + alpha1A + Math.max(0, 0.48 - E_D2))) ? 0.95 : 0.0;
+          dAMPA = 0.32 * spkNMDA + 0.36 * spkPFC_flank + poisUrgency;
+          dNMDA = (0.44 * spkNMDA + 0.28 * spkPFC_flank + 0.65 * poisUrgency) * amanAtten;
+          dGABA = 0.14 * spkD1 * benzoMult;
+        }
+      } else {
+        // Dorsal Raphe 5-HT Pacemaker: modulated by cortical excitatory tone & Benzo GABA (5-HT1A GIRK handled in prof.gGIRK)
+        dAMPA = 0.08 * (spkPFC_bump + spkPFC_flank);
+        dNMDA = 0.06 * spkNMDA * amanAtten;
+        dGABA = (params.benzo > 0.05 ? 0.55 * params.benzo : 0.05 * spkPV) * benzoMult;
+      }
+
+      hhState.gAMPA  = Math.min(18.0, hhState.gAMPA + dAMPA);
+      hhState.gNMDAr = Math.min(18.0, hhState.gNMDAr + dNMDA);
+      hhState.gGABA  = Math.min(22.0, hhState.gGABA + dGABA);
+
+      // Subthreshold quantal/thermal current noise (pA)
+      hhState.ouNoise = 0.82 * hhState.ouNoise + 3.2 * randNorm();
+
+      const dtHH = 0.05; // 50 microseconds (20 substeps per 1.0 ms)
+      const decAMPA  = Math.exp(-dtHH / 4.2);
+      const decNMDAr = Math.exp(-dtHH / 2.6);
+      const decNMDA  = Math.exp(-dtHH / 65.0);
+      const decGABA  = Math.exp(-dtHH / 8.5);
+
+      let hhSpikedThisMs = false;
+
+      // Integrate 2 halves of 10 x 50 us substeps (= two 0.5 ms 2-kHz oscilloscope samples)
+      for (let half = 0; half < 2; half++) {
+        let binVm = hhState.V;
+        let binMaxVm = -999.0;
+        let binExtremeDvDt = 0.0;
+        let binPeakINa = 0.0;
+        let binPeakIKdr = 0.0;
+        let binINMDA = 0.0;
+        let binIh = 0.0;
+        let binIGIRK = 0.0;
+
+        for (let sub = 0; sub < 10; sub++) {
+          // Decay synaptic conductances over 50 us
+          hhState.gAMPA *= decAMPA;
+          const prevRise = hhState.gNMDAr;
+          hhState.gNMDAr *= decNMDAr;
+          hhState.gNMDA = Math.min(16.0, hhState.gNMDA * decNMDA + (prevRise - hhState.gNMDAr) * 0.92);
+          hhState.gGABA *= decGABA;
+
+          const Vc = Math.max(-105.0, Math.min(62.0, hhState.V));
+          const u = Vc - prof.VT;
+
+          // Rush-Larsen exponential-Euler gating updates at dt = 0.05 ms
+          const am = 0.32 * vtrap(13.0 - u, 4.0);
+          const bm = 0.28 * vtrap(u - 40.0, 5.0);
+          const ah = 0.128 * Math.exp((17.0 - u) / 18.0);
+          const bh = 4.0 / (1.0 + Math.exp((40.0 - u) / 5.0));
+          const an = 0.032 * vtrap(15.0 - u, 5.0);
+          const bn = 0.5 * Math.exp((10.0 - u) / 40.0);
+
+          const mInf = am / (am + bm), tauM = Math.max(0.015, 1.0 / (prof.phiNa * (am + bm)));
+          const hInf = ah / (ah + bh), tauH = Math.max(0.08,  1.0 / (prof.phiNa * 0.65 * (ah + bh)));
+          const nInf = an / (an + bn), tauN = Math.max(0.10,  1.0 / (prof.phiK * (an + bn)));
+
+          hhState.m = mInf + (hhState.m - mInf) * Math.exp(-dtHH / tauM);
+          hhState.h = hInf + (hhState.h - hInf) * Math.exp(-dtHH / tauH);
+          hhState.n = nInf + (hhState.n - nInf) * Math.exp(-dtHH / tauN);
+
+          // KCNQ / M-current slow adaptation gate p(V)
+          const pInf = 1.0 / (1.0 + Math.exp(-(Vc + 38.0) / 9.0));
+          const tauP = 75.0 / (3.3 * Math.exp((Vc + 38.0) / 20.0) + Math.exp(-(Vc + 38.0) / 20.0));
+          hhState.p = pInf + (hhState.p - pInf) * Math.exp(-dtHH / tauP);
+
+          // HCN hyperpolarization-activated q(V) Boltzmann gate (V_1/2 = -82 mV, tau_q ~ 95 ms)
+          const qInf = 1.0 / (1.0 + Math.exp((Vc + 82.0) / 6.5));
+          const tauQ = 95.0 / (0.65 * Math.exp(-(Vc + 82.0) / 22.0) + 0.35 * Math.exp((Vc + 82.0) / 22.0));
+          hhState.q = qInf + (hhState.q - qInf) * Math.exp(-dtHH / tauQ);
+
+          // Cav1.3 / L-type Ca2+ gate c(V)
+          const cInf = 1.0 / (1.0 + Math.exp(-(Vc - prof.vCaHalf) / 6.5));
+          hhState.cCa = cInf + (hhState.cCa - cInf) * Math.exp(-dtHH / 3.5);
+
+          // Real Ionic Currents in picoamperes (pA = nS * mV)
+          const m3h  = hhState.m * hhState.m * hhState.m * hhState.h;
+          const n4   = hhState.n * hhState.n * hhState.n * hhState.n;
+          const INa  = prof.gNa * m3h * (Vc - 55.0);
+          const IKdr = prof.gKdr * n4 * (Vc + 90.0);
+          const IM   = prof.gM * hhState.p * (Vc + 90.0);
+          const Ih   = prof.gh * hhState.q * (Vc + 32.0);
+
+          const kirRect = 1.0 / (1.0 + Math.exp((Vc + 76.0) / 11.0));
+          const IGIRK_pure = prof.gGIRK * (0.35 + 0.65 * kirRect) * (Vc + 90.0);
+          const IKir2 = prof.gKir2 * kirRect * (Vc + 88.0);
+          const ICaL  = prof.gCaL * hhState.cCa * hhState.cCa * (Vc - 120.0);
+          const IL    = prof.gL * (Vc - prof.EL);
+
+          // Voltage-dependent Mg2+ block B_Mg(V) on NMDAR
+          const BMg   = 1.0 / (1.0 + (1.0 / 3.57) * Math.exp(-0.062 * Vc));
+          const IAMPA = hhState.gAMPA * (Vc - 0.0);
+          const INMDA = hhState.gNMDA * BMg * (Vc - 0.0);
+          const IGABA = hhState.gGABA * (Vc + 74.0);
+
+          const Itotal = INa + IKdr + IM + Ih + IGIRK_pure + IKir2 + ICaL + IL +
+                         IAMPA + INMDA + IGABA - prof.iPace - hhState.ouNoise - clampPulseI;
+          const dvdt = -Itotal / prof.Cm; // Exact V/s (= mV/ms)
+          const Vnext = Math.max(-105.0, Math.min(60.0, hhState.V + dtHH * dvdt));
+
+          // Detect genuine upward 0 mV Hodgkin-Huxley action potential threshold crossing
+          if (hhState.V < 0.0 && Vnext >= 0.0 && (tMs - lastPatchedSpikeMs) > 2.2) {
+            hhSpikedThisMs = true;
+            const isi = tMs - lastPatchedSpikeMs;
+            if (isi > 2.2 && isi < 2500.0) {
+              patchIsiList.push(isi);
+              if (patchIsiList.length > 24) patchIsiList.shift();
+            }
+            lastPatchedSpikeMs = tMs;
+          }
+
+          hhState.V = Vnext;
+          hhState.dvdt = dvdt;
+
+          // Peak-preserving capture across the 10 x 50 us substeps
+          if (Vnext > binMaxVm) binMaxVm = Vnext;
+          binVm = Vnext;
+          if (Math.abs(dvdt) > Math.abs(binExtremeDvDt)) binExtremeDvDt = dvdt;
+          if (INa < binPeakINa) binPeakINa = INa;
+          if (IKdr > binPeakIKdr) binPeakIKdr = IKdr;
+          binINMDA = INMDA + 0.45 * IAMPA;
+          binIh = Ih;
+          binIGIRK = IGIRK_pure + IM + 0.5 * IGABA;
+        }
+
+        const recordedVm = (binMaxVm > 5.0) ? binMaxVm : binVm;
+        hhState.lastINa = binPeakINa;
+        hhState.lastIKdr = binPeakIKdr;
+        hhState.lastINMDA = binINMDA;
+        hhState.lastIh = binIh;
+        hhState.lastIGIRK = binIGIRK;
+        if (binExtremeDvDt > 120.0) {
+          hhState.peakDvDt = 0.85 * hhState.peakDvDt + 0.15 * binExtremeDvDt;
+        }
+
+        if (!isWarmup && !scopeFrozen) {
+          patchVmBuf[patchPtr]    = recordedVm;
+          patchDvDtBuf[patchPtr]  = binExtremeDvDt;
+          patchINaBuf[patchPtr]   = binPeakINa;
+          patchIKdrBuf[patchPtr]  = binPeakIKdr;
+          patchINmdaBuf[patchPtr] = binINMDA;
+          patchIHBuf[patchPtr]    = binIh;
+          patchIGirkBuf[patchPtr] = binIGIRK;
+          patchClampBuf[patchPtr] = clampPulseI;
+          patchPtr = (patchPtr + 1) % PATCH_LEN;
+        }
+      }
+
+      // Compute exact instantaneous input resistance R_in (MOhm = 1000 / G_subthreshold_nS)
+      const gSubTot = prof.gL + prof.gh * hhState.q + prof.gGIRK * 0.65 + prof.gKir2 * 0.5 + prof.gM * hhState.p + 0.35 * hhState.gGABA;
+      hhState.rInMOhm = Math.round(1000.0 / Math.max(1.5, gSubTot));
+
+      // Sync patched HH neuron state back into the 500-neuron array & raster/audio
+      v[patchedIdx] = hhState.V;
+      if (hhSpikedThisMs) {
+        lastSpikeMs[patchedIdx] = tMs;
+        if (patchedIdx < 80) spkVTA++;
+        else if (patchedIdx < 200) spkNMDA++;
+        else if (patchedIdx < 320) {
+          if (patchedIdx >= 235 && patchedIdx <= 280) spkPFC_bump++;
+          else spkPFC_flank++;
+        } else if (patchedIdx < 350) spkPV++;
+        else if (patchedIdx < 400) spkD1++;
+        else if (patchedIdx < 450) spkD2++;
+        else spkRaphe++;
+
+        if (!isWarmup) {
+          spikeEvents.push(tMs, patchedIdx);
+          scheduleSpikeAudio(true, frameStepIdx * 0.001);
         }
       }
     }
@@ -2498,121 +2838,277 @@
     const { w, h } = dims.patch;
     ctx.clearRect(0, 0, w, h);
 
-    const padL = 38, padR = 10, padT = 16, padB = 46;
-    const plotW = Math.max(40, w - padL - padR);
-    const plotH = Math.max(40, h - padT - padB);
-
-    const vmMin = -88, vmMax = 44;
-    const vmToY = (vm) => padT + plotH * (1 - (vm - vmMin) / (vmMax - vmMin));
-
-    // Phosphor oscilloscope graticule
-    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
-    ctx.lineWidth = 1;
-    const vTicks = [-80, -60, -40, -20, 0, 20, 40];
-    ctx.font = '400 9px "IBM Plex Mono", monospace';
-    ctx.fillStyle = '#6f6f7a';
-    vTicks.forEach((mv) => {
-      const y = vmToY(mv);
-      ctx.beginPath();
-      ctx.moveTo(padL, y);
-      ctx.lineTo(w - padR, y);
-      ctx.stroke();
-      ctx.fillText(`${mv > 0 ? '+' : ''}${mv}`, 6, y + 3);
-    });
-
-    for (let gx = padL; gx <= w - padR; gx += plotW / 6) {
-      ctx.beginPath();
-      ctx.moveTo(gx, padT);
-      ctx.lineTo(gx, padT + plotH);
-      ctx.stroke();
-    }
-
-    // Dashed 0 mV & -55 mV spike threshold reference lines
-    ctx.save();
-    ctx.setLineDash([4, 4]);
-    ctx.strokeStyle = 'rgba(255,255,255,0.14)';
-    ctx.beginPath();
-    ctx.moveTo(padL, vmToY(0)); ctx.lineTo(w - padR, vmToY(0));
-    ctx.stroke();
-    ctx.strokeStyle = 'rgba(255,107,53,0.22)';
-    ctx.beginPath();
-    ctx.moveTo(padL, vmToY(-52)); ctx.lineTo(w - padR, vmToY(-52));
-    ctx.stroke();
-    ctx.restore();
-
     // Determine trace color from active nucleus/sub-mode
     let traceColor = POPS[patchedPop].color;
     if (patchedPop === 3 && patchedSubMode === 0) traceColor = '#d9ff4d';
 
-    // Draw live intracellular Vm trace (1200 points = 600 ms)
-    ctx.save();
-    ctx.strokeStyle = traceColor;
-    ctx.lineWidth = 1.65;
-    ctx.shadowColor = traceColor;
-    ctx.shadowBlur = 6;
-    ctx.beginPath();
-    for (let k = 0; k < PATCH_LEN; k++) {
-      const idx = (patchPtr + k) % PATCH_LEN;
-      const x = padL + (k / (PATCH_LEN - 1)) * plotW;
-      const y = vmToY(patchVmBuf[idx]);
-      if (k === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
+    const compactPhaseOnly = phasePlaneEnabled && (w < 380);
+    const splitPhase = phasePlaneEnabled && !compactPhaseOnly;
+
+    const stripTotalH = Math.max(54, Math.min(84, Math.floor(h * 0.28)));
+    const padL = 40;
+    const padT = 16;
+    const padB = stripTotalH + 6;
+    const timeRightEdge = splitPhase ? Math.floor(w * 0.54) : (w - 10);
+    const plotW = Math.max(40, timeRightEdge - padL);
+    const plotH = Math.max(40, h - padT - padB);
+
+    const vmMin = -94, vmMax = 46;
+    const vmToY = (vm) => padT + plotH * (1 - (Math.max(vmMin, Math.min(vmMax, vm)) - vmMin) / (vmMax - vmMin));
+
+    // --- A. Draw Time-Domain Vm(t) Sweep (unless narrow mobile full-frame phase mode) ---
+    if (!compactPhaseOnly) {
+      ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+      ctx.lineWidth = 1;
+      const vTicks = [-80, -60, -40, -20, 0, 20, 40];
+      ctx.font = '400 8.5px "IBM Plex Mono", monospace';
+      ctx.fillStyle = '#6f6f7a';
+      vTicks.forEach((mv) => {
+        const y = vmToY(mv);
+        ctx.beginPath();
+        ctx.moveTo(padL, y);
+        ctx.lineTo(timeRightEdge, y);
+        ctx.stroke();
+        ctx.fillText(`${mv > 0 ? '+' : ''}${mv}`, 5, y + 3);
+      });
+
+      const nGridX = splitPhase ? 4 : 6;
+      for (let gx = 0; gx <= nGridX; gx++) {
+        const x = padL + (gx / nGridX) * plotW;
+        ctx.beginPath();
+        ctx.moveTo(x, padT);
+        ctx.lineTo(x, padT + plotH);
+        ctx.stroke();
+      }
+
+      // Dashed 0 mV, -54 mV threshold & -82 mV HCN V_1/2 reference lines
+      ctx.save();
+      ctx.setLineDash([4, 4]);
+      ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+      ctx.beginPath(); ctx.moveTo(padL, vmToY(0)); ctx.lineTo(timeRightEdge, vmToY(0)); ctx.stroke();
+      ctx.strokeStyle = 'rgba(255,107,53,0.22)';
+      ctx.beginPath(); ctx.moveTo(padL, vmToY(-54)); ctx.lineTo(timeRightEdge, vmToY(-54)); ctx.stroke();
+      ctx.strokeStyle = 'rgba(0,229,255,0.16)';
+      ctx.beginPath(); ctx.moveTo(padL, vmToY(-82)); ctx.lineTo(timeRightEdge, vmToY(-82)); ctx.stroke();
+      ctx.restore();
+
+      // Live 50 us Rush-Larsen Hodgkin-Huxley Vm(t) waveform
+      ctx.save();
+      ctx.strokeStyle = traceColor;
+      ctx.lineWidth = 1.6;
+      ctx.shadowColor = traceColor;
+      ctx.shadowBlur = 5;
+      ctx.beginPath();
+      for (let k = 0; k < PATCH_LEN; k++) {
+        const idx = (patchPtr + k) % PATCH_LEN;
+        const x = padL + (k / (PATCH_LEN - 1)) * plotW;
+        const y = vmToY(patchVmBuf[idx]);
+        if (k === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.restore();
+
+      // Cell label & live HCN q(V) open badge
+      let cellLabel = POPS[patchedPop].name;
+      if (patchedPop === 2) cellLabel = patchedSubMode === 0 ? 'PFC L-III WM Pyr (#255)' : 'PFC Fast PV (#330)';
+      else if (patchedPop === 3) cellLabel = patchedSubMode === 0 ? 'NAc D1 Go MSN (#370)' : 'NAc D2 No-Go MSN (#422)';
+      else cellLabel = `${POPS[patchedPop].short} (#${getPatchedNeuronIndex()})`;
+
+      ctx.fillStyle = traceColor;
+      ctx.font = '600 9.5px "IBM Plex Mono", monospace';
+      ctx.fillText(cellLabel + (scopeFrozen ? ' [FROZEN]' : ''), padL + 5, padT + 10);
+
+      ctx.fillStyle = '#00e5ff';
+      ctx.font = '400 8.5px "IBM Plex Mono", monospace';
+      ctx.textAlign = 'right';
+      ctx.fillText(`HCN q=${(hhState.q * 100).toFixed(0)}%`, timeRightEdge - 4, padT + 10);
+      ctx.textAlign = 'left';
     }
-    ctx.stroke();
-    ctx.restore();
 
-    // Bottom strip: Synaptic Drive + Current-Clamp Step Injector trace
-    const stripTop = h - padB + 8;
-    const stripH = padB - 14;
-    const stripMid = stripTop + stripH * 0.55;
+    // --- B. Optional Live dV/dt (V/s) vs Vm (mV) Phase-Plane Portrait ---
+    if (phasePlaneEnabled) {
+      const ppLeft = compactPhaseOnly ? 42 : (timeRightEdge + 28);
+      const ppRight = w - 10;
+      const ppTop = padT;
+      const ppBot = padT + plotH;
+      const ppW = Math.max(50, ppRight - ppLeft);
+      const ppH = Math.max(50, ppBot - ppTop);
 
-    ctx.strokeStyle = 'rgba(255,255,255,0.07)';
-    ctx.beginPath();
-    ctx.moveTo(padL, stripMid);
-    ctx.lineTo(w - padR, stripMid);
-    ctx.stroke();
+      // Phase-plane backdrop box
+      ctx.fillStyle = 'rgba(10, 11, 16, 0.85)';
+      ctx.strokeStyle = 'rgba(0, 229, 255, 0.20)';
+      ctx.lineWidth = 1;
+      ctx.fillRect(ppLeft, ppTop, ppW, ppH);
+      ctx.strokeRect(ppLeft, ppTop, ppW, ppH);
 
-    ctx.fillStyle = '#6f6f7a';
-    ctx.font = '400 8.5px "IBM Plex Mono", monospace';
-    ctx.fillText('I_syn', 6, stripMid + 3);
+      const dvMin = -180.0, dvMax = 450.0;
+      const ppX = (vm) => ppLeft + ((Math.max(vmMin, Math.min(vmMax, vm)) - vmMin) / (vmMax - vmMin)) * ppW;
+      const ppY = (dv) => ppTop + (1.0 - (Math.max(dvMin, Math.min(dvMax, dv)) - dvMin) / (dvMax - dvMin)) * ppH;
 
-    // Synaptic current trace (#ff6b35 excitatory / #9b88ff inhibitory)
-    ctx.beginPath();
-    ctx.strokeStyle = 'rgba(255,107,53,0.72)';
-    ctx.lineWidth = 1.1;
-    for (let k = 0; k < PATCH_LEN; k += 2) {
-      const idx = (patchPtr + k) % PATCH_LEN;
-      const x = padL + (k / (PATCH_LEN - 1)) * plotW;
-      const synVal = Math.max(-18, Math.min(24, patchSynBuf[idx]));
-      const y = stripMid - (synVal / 24) * (stripH * 0.48);
-      if (k === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
+      // Zero axes (dV/dt = 0 V/s & Vm = 0 mV) + AIS spike threshold (dV/dt = +20 V/s)
+      ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+      ctx.beginPath();
+      ctx.moveTo(ppLeft, ppY(0)); ctx.lineTo(ppRight, ppY(0));
+      ctx.moveTo(ppX(0), ppTop); ctx.lineTo(ppX(0), ppBot);
+      ctx.stroke();
+
+      ctx.save();
+      ctx.setLineDash([3, 3]);
+      ctx.strokeStyle = 'rgba(255, 107, 53, 0.30)';
+      ctx.beginPath();
+      ctx.moveTo(ppLeft, ppY(20)); ctx.lineTo(ppRight, ppY(20));
+      ctx.stroke();
+      ctx.restore();
+
+      // Axis labels
+      ctx.fillStyle = '#757582';
+      ctx.font = '400 8px "IBM Plex Mono", monospace';
+      ctx.fillText('+400', ppLeft - 24, ppY(400) + 3);
+      ctx.fillText('0', ppLeft - 9, ppY(0) + 3);
+      ctx.fillText('-150', ppLeft - 24, ppY(-150) + 3);
+      ctx.fillText('-80mV', ppX(-80) - 10, ppBot - 3);
+      ctx.fillText('+35mV', ppX(35) - 16, ppBot - 3);
+
+      // Draw older 450 ms orbit faint + most recent 150 ms orbit bright
+      const splitIdx = PATCH_LEN - 300;
+      ctx.save();
+      ctx.strokeStyle = traceColor + '44';
+      ctx.lineWidth = 1.1;
+      ctx.beginPath();
+      for (let k = 0; k <= splitIdx; k++) {
+        const idx = (patchPtr + k) % PATCH_LEN;
+        const x = ppX(patchVmBuf[idx]);
+        const y = ppY(patchDvDtBuf[idx]);
+        if (k === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      ctx.strokeStyle = traceColor;
+      ctx.lineWidth = 1.65;
+      ctx.shadowColor = traceColor;
+      ctx.shadowBlur = 5;
+      ctx.beginPath();
+      for (let k = splitIdx; k < PATCH_LEN; k++) {
+        const idx = (patchPtr + k) % PATCH_LEN;
+        const x = ppX(patchVmBuf[idx]);
+        const y = ppY(patchDvDtBuf[idx]);
+        if (k === splitIdx) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Live instantaneous state point (Vm, dV/dt)
+      const lastIdx = (patchPtr + PATCH_LEN - 1) % PATCH_LEN;
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(ppX(patchVmBuf[lastIdx]), ppY(patchDvDtBuf[lastIdx]), 2.6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      ctx.fillStyle = '#00e5ff';
+      ctx.font = '600 8.5px "IBM Plex Mono", monospace';
+      ctx.fillText('dV/dt vs Vm (V/s)', ppLeft + 5, ppTop + 10);
+      ctx.fillStyle = '#c8ff00';
+      ctx.font = '400 8px "IBM Plex Mono", monospace';
+      ctx.fillText(`Max +${Math.round(hhState.peakDvDt)} V/s`, ppLeft + 5, ppTop + 20);
     }
-    ctx.stroke();
 
-    // Current-clamp step overlay (#00e5ff)
+    // --- C. Bottom Multi-Channel Picoampere (pA) Ionic Current Strip ---
+    const stripTop = h - stripTotalH + 4;
+    const stripBot = h - 6;
+    const stripH = Math.max(36, stripBot - stripTop);
+    const stripRight = w - 10;
+    const stripW = Math.max(40, stripRight - padL);
+    const stripZeroY = stripTop + stripH * 0.46;
+
+    ctx.fillStyle = 'rgba(12, 12, 18, 0.72)';
+    ctx.fillRect(padL, stripTop, stripW, stripH);
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    ctx.strokeRect(padL, stripTop, stripW, stripH);
+
+    // 0 pA baseline
+    ctx.strokeStyle = 'rgba(255,255,255,0.13)';
     ctx.beginPath();
-    ctx.strokeStyle = '#00e5ff';
-    ctx.lineWidth = 1.25;
-    for (let k = 0; k < PATCH_LEN; k += 2) {
-      const idx = (patchPtr + k) % PATCH_LEN;
-      const x = padL + (k / (PATCH_LEN - 1)) * plotW;
-      const cVal = patchClampBuf[idx];
-      const y = stripMid - (cVal / 180) * (stripH * 0.45);
-      if (k === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    }
+    ctx.moveTo(padL, stripZeroY);
+    ctx.lineTo(stripRight, stripZeroY);
     ctx.stroke();
 
-    // Top-left HUD badge inside oscilloscope
-    let cellLabel = POPS[patchedPop].name;
-    if (patchedPop === 2) cellLabel = patchedSubMode === 0 ? 'PFC L-III WM Pyramidal (#255)' : 'PFC Fast-Spiking PV GABA (#330)';
-    else if (patchedPop === 3) cellLabel = patchedSubMode === 0 ? 'NAc D1 "Go" Direct MSN (#370)' : 'NAc D2 "No-Go" Indirect MSN (#422)';
-    else cellLabel = `${POPS[patchedPop].name} (#${getPatchedNeuronIndex()})`;
+    function plotCurrentTrace(buf, scalePA, color, lineWidth) {
+      ctx.beginPath();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = lineWidth;
+      for (let k = 0; k < PATCH_LEN; k++) {
+        const idx = (patchPtr + k) % PATCH_LEN;
+        const x = padL + (k / (PATCH_LEN - 1)) * stripW;
+        const norm = Math.max(-1.05, Math.min(1.05, buf[idx] / scalePA));
+        const y = stripZeroY - norm * (stripH * 0.44);
+        if (k === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
 
-    ctx.fillStyle = traceColor;
-    ctx.font = '600 10px "IBM Plex Mono", monospace';
-    ctx.fillText(cellLabel + (scopeFrozen ? ' [FROZEN]' : ''), padL + 6, padT + 11);
+    ctx.font = '400 8px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#757582';
+    ctx.fillText('0pA', 12, stripZeroY + 3);
+
+    if (patchCurrentMode === 0) {
+      // Mode 0: Modulatory & Synaptic Currents in pA (Scale: ±150 pA)
+      const pAScale = 150.0;
+      ctx.fillText('+150', 8, stripTop + 8);
+      ctx.fillText('-150', 8, stripBot - 2);
+
+      plotCurrentTrace(patchClampBuf, pAScale, 'rgba(255,255,255,0.38)', 1.0);
+      plotCurrentTrace(patchIGirkBuf, pAScale, '#9b88ff', 1.25); // Outward D2/5-HT1A GIRK + KCNQ
+      plotCurrentTrace(patchINmdaBuf, pAScale, '#ff6b35', 1.35); // Inward Mg2+-gated NMDA/AMPA
+      plotCurrentTrace(patchIHBuf,    pAScale, '#00e5ff', 1.45); // Inward HCN q-gate sag current!
+
+      ctx.font = '500 8px "IBM Plex Mono", monospace';
+      ctx.fillStyle = '#ff6b35';
+      ctx.fillText(`I_NMDA ${hhState.lastINMDA.toFixed(0)}pA`, padL + 5, stripTop + 10);
+      ctx.fillStyle = '#00e5ff';
+      ctx.fillText(`I_h ${hhState.lastIh.toFixed(0)}pA`, padL + 96, stripTop + 10);
+      ctx.fillStyle = '#9b88ff';
+      ctx.fillText(`I_GIRK/M +${Math.max(0, hhState.lastIGIRK).toFixed(0)}pA`, padL + 168, stripTop + 10);
+    } else if (patchCurrentMode === 1) {
+      // Mode 1: Fast Action Potential Currents I_Na & I_Kdr (Scale: ±2600 pA)
+      const pAScale = 2600.0;
+      ctx.fillText('+2.6nA', 3, stripTop + 8);
+      ctx.fillText('-2.6nA', 3, stripBot - 2);
+
+      plotCurrentTrace(patchIKdrBuf, pAScale, '#c8ff00', 1.35); // Outward Kdr (n^4)
+      plotCurrentTrace(patchINaBuf,  pAScale, '#00e5ff', 1.35); // Inward Na (m^3h)
+
+      ctx.font = '500 8px "IBM Plex Mono", monospace';
+      ctx.fillStyle = '#00e5ff';
+      ctx.fillText(`I_Na ${hhState.lastINa.toFixed(0)}pA`, padL + 5, stripTop + 10);
+      ctx.fillStyle = '#c8ff00';
+      ctx.fillText(`I_Kdr +${hhState.lastIKdr.toFixed(0)}pA`, padL + 98, stripTop + 10);
+    } else {
+      // Mode 2: All 5 Currents Dual-Scale Overlay (I_Na/I_Kdr at ±2600 pA; I_NMDA/I_h/I_GIRK at ±150 pA)
+      ctx.fillText('Dual', 8, stripTop + 8);
+      ctx.fillText('pA', 14, stripBot - 2);
+
+      plotCurrentTrace(patchINaBuf,   2600.0, 'rgba(0,229,255,0.55)', 1.1);
+      plotCurrentTrace(patchIKdrBuf,  2600.0, 'rgba(200,255,0,0.55)', 1.1);
+      plotCurrentTrace(patchIGirkBuf, 150.0,  '#9b88ff', 1.25);
+      plotCurrentTrace(patchINmdaBuf, 150.0,  '#ff6b35', 1.3);
+      plotCurrentTrace(patchIHBuf,    150.0,  '#38bdf8', 1.35);
+
+      ctx.font = '500 8px "IBM Plex Mono", monospace';
+      ctx.fillStyle = '#00e5ff';
+      ctx.fillText(`Na:${(hhState.lastINa / 1000).toFixed(1)}nA`, padL + 5, stripTop + 10);
+      ctx.fillStyle = '#c8ff00';
+      ctx.fillText(`K:+${(hhState.lastIKdr / 1000).toFixed(1)}nA`, padL + 66, stripTop + 10);
+      ctx.fillStyle = '#ff6b35';
+      ctx.fillText(`NMDA:${hhState.lastINMDA.toFixed(0)}pA`, padL + 126, stripTop + 10);
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText(`Ih:${hhState.lastIh.toFixed(0)}pA`, padL + 202, stripTop + 10);
+      ctx.fillStyle = '#9b88ff';
+      ctx.fillText(`GIRK:+${Math.max(0, hhState.lastIGIRK).toFixed(0)}pA`, padL + 258, stripTop + 10);
+    }
   }
 
   function drawSpikeRaster() {
@@ -2970,9 +3466,8 @@
       `<span style="color:var(--nmda)">H_NMDA ${Math.round(state.H_NMDA * 100)}%</span> &nbsp;·&nbsp; ` +
       `<span style="color:var(--ser)">[5-HT] ${state.SER.toFixed(0)} nM</span>`;
 
-    // Patch-clamp stats (Vm, ISI CV, Rin)
-    const pIdx = getPatchedNeuronIndex();
-    const vmNow = v[pIdx];
+    // Patch-clamp stats (real 50 us HH Vm, dV/dt max, ISI CV, exact Rin)
+    const vmNow = hhState.V;
     let cvIsi = 0.15;
     if (patchIsiList.length >= 4) {
       const mean = patchIsiList.reduce((a, b) => a + b, 0) / patchIsiList.length;
@@ -2986,9 +3481,8 @@
       patchedSubMode === 0 ? state.rateD1 : state.rateD2,
       state.rateRaphe
     ];
-    const rIn = patchedPop === 2 ? Math.round(210 / (0.65 + 0.75 * state.hcnOpen)) : 185;
     dom.patchStats.textContent =
-      `Vm: ${vmNow.toFixed(1)} mV · Rate: ${popRates[patchedPop].toFixed(1)} Hz · CV_ISI: ${cvIsi.toFixed(2)} · R_in: ${rIn} MΩ`;
+      `Vm: ${vmNow.toFixed(1)} mV · +dV/dt: ${Math.round(hhState.peakDvDt)} V/s · Rate: ${popRates[patchedPop].toFixed(1)} Hz · CV: ${cvIsi.toFixed(2)} · R_in: ${hhState.rInMOhm} MΩ`;
 
     dom.diagReceptor.textContent =
       `α2A: ${Math.round(state.alpha2A * 100)}% | α1A: ${Math.round(state.alpha1A * 100)}% | E_D2: ${state.E_D2.toFixed(2)}`;
@@ -3047,6 +3541,7 @@
       dom.btnSubCell.style.display = 'none';
     }
     patchIsiList = [];
+    resetPatchedHHForCell();
   }
 
   function syncSlidersFromParams() {
@@ -3209,14 +3704,30 @@
     }
   });
 
-  // Patch-clamp current step injectors & Freeze
+  // Patch-clamp current-strip mode, dV/dt Phase-Plane toggle, step injectors & Freeze
+  document.getElementById('btnCurrentMode').addEventListener('click', function () {
+    patchCurrentMode = (patchCurrentMode + 1) % 3;
+    const labels = ['pA: Mod/Syn ⇄', 'pA: Na/Kdr ⇄', 'pA: All 5 ⇄'];
+    const footNotes = [
+      '50 µs HH · I_NMDA / I_h / I_GIRK (±150 pA) · 600 ms',
+      '50 µs HH · Fast AP I_Na / I_Kdr (±2.6 nA) · 600 ms',
+      '50 µs HH · Dual-Scale 5-Channel Overlay · 600 ms'
+    ];
+    this.textContent = labels[patchCurrentMode];
+    const footEl = document.getElementById('patchScaleFoot');
+    if (footEl) footEl.textContent = footNotes[patchCurrentMode];
+  });
+  document.getElementById('btnPhasePlane').addEventListener('click', function () {
+    phasePlaneEnabled = !phasePlaneEnabled;
+    this.classList.toggle('active', phasePlaneEnabled);
+  });
   document.getElementById('btnDepolPulse').addEventListener('click', () => {
     clampPulseI = 150;
     clampPulseRemainingMs = 220;
   });
   document.getElementById('btnSagPulse').addEventListener('click', () => {
     clampPulseI = -100;
-    clampPulseRemainingMs = 260;
+    clampPulseRemainingMs = 360;
   });
   document.getElementById('btnFreezeScope').addEventListener('click', function () {
     scopeFrozen = !scopeFrozen;
