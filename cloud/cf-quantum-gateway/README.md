@@ -27,6 +27,15 @@ Browser (sim_discovery.html)
 | `POST` | `/api/v1/dft` | True Kohn–Sham `df-wB97X-D/def2-SVP + ddCOSMO` pipeline with federation & failover |
 | `POST` | `/api/v1/dft/stream` | Live SSE SCF convergence proxy (serves instant R2 SSE hit if cached) |
 | `POST` | `/api/v1/dock` | Any-PDB `AutoDock Vina 1.2` + `LIGSITE` cavity pipeline with failover |
+| `POST` | `/api/v1/si/chat` | Tier-2 Loyal RPrime SI (`Workers AI` free `10k` Neurons/day + fail-closed telemetry/anti-platitude verifier) |
+
+## Tier-2 Loyal RPrime SI (`POST /api/v1/si/chat` — `$0.00/mo`)
+
+- Uses Cloudflare Workers AI binding `"ai": { "binding": "AI" }` (`@cf/meta/llama-3.1-8b-instruct-fast`, `10,000` free Neurons/day, zero extra API keys).
+- Server-locked loyalty system prompt grounded in **Neuroscience with RPrime** Articles 01–08 + prompt-injection XML quarantine (`<user_query>`).
+- Pre-LLM `LOCK_PREDICTION` gate forbids point forecasts whenever `n_logs < 3` or `prediction_locked === true`.
+- Post-LLM Fail-Closed Verifier requires `>= 2` exact `StatePacket` numeric citations, `0` banned self-help platitude or anti-RPrime disloyalty hits, and an explicit `[?]` uncertainty bound—failing closed seamlessly to deterministic telemetry-bound Tier-1 (`tier: "tier1_fallback"`) on any violation or AI quota cap.
+- Rate-limited via `caches.default` (`15` chats/hr/IP; `GET /health` reports `si_available: true`).
 
 ## Quick Deploy (`$0.00/mo` Cloudflare Free Tier)
 

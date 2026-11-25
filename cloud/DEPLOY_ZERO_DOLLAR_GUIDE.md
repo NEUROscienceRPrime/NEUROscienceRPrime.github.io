@@ -7,15 +7,16 @@ This guide walks through deploying the complete **Option B True Kohn–Sham DFT 
 ## Architecture at a Glance (`$0.00` Stack)
 
 ```text
-Visitor Browser (GitHub Pages: sim_discovery.html — $0)
+Visitor Browser (GitHub Pages: sim_discovery.html, sim_tracker.html + rprime_si.js — $0)
  ├── Direct CORS PDB/AlphaFold Stream ──► files.rcsb.org (230k+ PDBs) & alphafold.ebi.ac.uk
- ├── Local <150 ms 3D Engine ───────────► Hendlich LIGSITE Pocket Volume + Cys SASA + <2 ms CNS Gate
- └── Live DFT / Docking API Call ───────► Cloudflare Worker Gateway (cloud/cf-quantum-gateway — $0)
+ ├── Local <150 ms 3D + Tier-1 SI ──────► LIGSITE + Cys SASA + <2 ms CNS Gate + On-Device rprime_kb.json
+ └── Live DFT / Docking / SI API Call ──► Cloudflare Worker Gateway (cloud/cf-quantum-gateway — $0)
                                            ├── 1. Edge Cache + R2 Vault (10 GB free, $0 egress, <30 ms)
                                            ├── 2. Single-Flight InChIKey Lock (1,000 clicks = 1 solve)
                                            ├── 3. PubChem + MolSSI QCArchive Federation (<50 ms)
-                                           ├── 4. [Optional] Modal GPU Turbo ($30/mo free credit, ~3s)
-                                           └── 5. [24/7 Auto-Failover] Hugging Face Free Docker (2 vCPU / 16 GB RAM, $0 forever)
+                                           ├── 4. Workers AI Loyal RPrime SI (10k free neurons/day, $0)
+                                           ├── 5. [Optional] Modal GPU Turbo ($30/mo free credit, ~3s)
+                                           └── 6. [24/7 Auto-Failover] Hugging Face Free Docker (2 vCPU / 16 GB RAM, $0 forever)
 ```
 
 ---
@@ -167,6 +168,24 @@ Save this string temporarily — you will paste it as a secret in Hugging Face, 
 
 ---
 
+## Step 5 — Activate Tier-2 Loyal RPrime SI (`$0.00/mo` Cloudflare Workers AI)
+
+Good news: **there is no separate service to deploy or pay for.** Because `cloud/cf-quantum-gateway/wrangler.jsonc` already declares `"ai": { "binding": "AI" }`, your `npx wrangler deploy` in **Step 2** automatically activates **`POST /api/v1/si/chat`** on the exact same Cloudflare Worker!
+
+1. **Zero Keys, Zero Credit Card, `10,000` Free Neurons/Day:**
+   - Cloudflare Workers AI includes **`10,000` free neurons every day** (`@cf/meta/llama-3.1-8b-instruct-fast`) out of the box — no OpenAI/Anthropic API keys and no surprise billing.
+   - Confirm it is live on your gateway `/health` endpoint (`"si_available": true`):
+     ```powershell
+     curl.exe https://rprime-quantum-gateway.<YOUR_SUBDOMAIN>.workers.dev/health
+     ```
+2. **Automatic Connection Across All Pages (`⌘J` / `Ctrl+J`):**
+   - `assets/rprime_si.js` automatically reads the exact same `localStorage['rprime_dft_gateway_url']` saved in `sim_discovery.html` (or can be set directly via **`[⚙ SI Gateway]`** inside the `⌘J` SI drawer).
+3. **Server-Locked Loyalty + Anti-Platitude Firewall + Fail-Closed Tier-1 Fallback:**
+   - **Hardened Server Prompt & Verifier:** Every Tier-2 reply is enforced against RPrime's corpus (Articles 01–08 + Penrose), isolated inside `<user_query>` prompt-injection tags, gated on `n_logs >= 3` before `sim_tracker.html` predictions, and post-checked for: (a) `>= 2` exact `StatePacket` telemetry numbers when present, (b) **zero** banned pop-science platitudes (`dopamine detox`, `willpower`, `cold plunge`, `mindfulness`, etc.) or disloyal framing, and (c) an explicit `[?]` epistemic bound.
+   - **Unbreakable Quota Cap Resilience:** Per-IP edge rate-limiting (`15` chats/hr) prevents single-user abuse. Whenever the `10,000` daily free neurons cap is reached — or if no gateway is configured or a reply trips the verifier — both the Worker (`tier: "tier1_fallback"`) and `assets/rprime_si.js` **instantly fail-closed to the deterministic on-device Tier-1 BM25 + telemetry engine (`assets/rprime_kb.json`)** with `0` errors and `$0.00` cost.
+
+---
+
 ## Why Viral Spikes (`100,000+` Visits) Cost `$0.00` & Never Burn Out Quota
 
 | Protection Layer | What Happens During a Viral Traffic Surge | Compute Cost | Egress / Storage Cost |
@@ -176,3 +195,4 @@ Save this string temporarily — you will paste it as a secret in Hugging Face, 
 | **3. Immutable `InChIKey` R2 + CDN Vault** | Every `InChIKey × PDB_ID` solve (`~35 KB` `.cube.gz` + JSON) is cached with `Cache-Control: immutable`. `10 GB` Free R2 holds **`~285,000` unique DFT solutions** forever. | `0` CPU s on every repeat view | **`$0.00` R2 egress** |
 | **4. Single-Flight `InChIKey` Coalescing** | If 2,000 Reel viewers click a brand-new molecule at the exact same second, Worker + FastAPI locks coalesce all 2,000 requests onto **1** SCF run. | `1` solve total | `$0.00` |
 | **5. `PubChem` / `QCArchive` + IP Token Bucket** | Known molecules hit open-science DFT archives in `<50 ms`; abusive IPs spamming random uncached SMILES get `HTTP 429` while cached Atlas reads remain **100% unlimited**. | Bounded & fair-queued | `$0.00` |
+| **6. Workers AI `10k` Neurons/Day → Tier-1 Fallback** | `POST /api/v1/si/chat` caps at `15` chats/hr/IP inside Cloudflare's free `10,000` neurons/day; overflow seamlessly drops to on-device Tier-1 (`rprime_kb.json` + `StatePacket`). | Capped at `$0.00` free tier | `$0.00` |

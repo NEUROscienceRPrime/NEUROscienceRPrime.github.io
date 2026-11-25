@@ -28,12 +28,19 @@
       "database_id": "REPLACE_WITH_D1_DATABASE_ID"
     }
   ],
+  // Cloudflare Free Tier Workers AI (10,000 Neurons/day = $0.00/mo, zero extra keys)
+  // Powers Tier-2 Loyal RPrime SI (`POST /api/v1/si/chat`) with server-locked
+  // anti-platitude & telemetry-binding verification and instant Tier-1 fallback.
+  "ai": {
+    "binding": "AI"
+  },
   // Non-secret runtime configuration (safe to commit)
   "vars": {
     "ALLOWED_ORIGINS": "https://neurosciencerprime.github.io,http://localhost:8000",
     "DEFAULT_METHOD": "df-wB97X-D/def2-SVP+ddCOSMO",
     "RATE_LIMIT_MAX_TOKENS": "8",
     "RATE_LIMIT_REFILL_SECONDS": "120",
+    "SI_RATE_LIMIT_PER_HOUR": "15",
     "MODAL_TIMEOUT_MS": "12000",
     "HF_TIMEOUT_MS": "55000",
     "FEDERATION_TIMEOUT_MS": "2500"

@@ -9,6 +9,7 @@
  *   POST /api/v1/dft           — Gatekeeper -> R2 -> Coalesce -> PubChem/QCArchive -> Modal (12s) -> HF Spaces
  *   POST /api/v1/dft/stream    — Gatekeeper -> R2 instant SSE or Modal/HF live SCF SSE stream
  *   POST /api/v1/dock          — Gatekeeper -> R2 -> Coalesce -> PubChem -> Modal (12s) -> HF Spaces (Vina 1.2)
+ *   POST /api/v1/si/chat       — Tier-2 Loyal RPrime SI (Workers AI + Fail-Closed Anti-Platitude/Telemetry Verifier)
  */
 
 import {
@@ -34,6 +35,7 @@ import {
   type QCArchiveRecord,
   runOpenScienceFederation,
 } from "./federation";
+import { handleSiChat } from "./rprime_si";
 
 type SourceTier = "r2_cache" | "qcarchive" | "modal_gpu" | "hf_space_cpu";
 
@@ -824,9 +826,11 @@ function handleHealth(env: Env, corsHeaders: Record<string, string>, requestId: 
       service: "rprime-quantum-gateway",
       compatibility_date: "2026-11-24",
       default_method: env.DEFAULT_METHOD || "df-wB97X-D/def2-SVP+ddCOSMO",
+      si_available: Boolean(env.AI),
       bindings: {
         r2_vault: Boolean(env.QUANTUM_VAULT),
         d1_atlas: Boolean(env.ATLAS_DB),
+        workers_ai: Boolean(env.AI),
         modal_gpu_configured: isValidHttpUrl(env.MODAL_URL),
         hf_space_configured: isValidHttpUrl(env.HF_SPACE_URL),
         shared_secret_configured: Boolean(env.GATEWAY_SHARED_SECRET?.trim()),
@@ -2097,6 +2101,10 @@ const worker: ExportedHandler<Env> = {
       return handleDockSubmit(request, env, ctx, cors.headers, requestId);
     }
 
+    if (request.method === "POST" && pathname === "/api/v1/si/chat") {
+      return handleSiChat(request, env, cors.headers, requestId);
+    }
+
     return jsonResponse(
       {
         status: "not_found",
@@ -2109,6 +2117,7 @@ const worker: ExportedHandler<Env> = {
           "POST /api/v1/dft",
           "POST /api/v1/dft/stream",
           "POST /api/v1/dock",
+          "POST /api/v1/si/chat",
         ],
         request_id: requestId,
       },

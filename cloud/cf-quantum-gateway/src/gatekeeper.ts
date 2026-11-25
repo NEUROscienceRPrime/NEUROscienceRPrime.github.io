@@ -10,10 +10,12 @@
 export interface Env {
   readonly QUANTUM_VAULT: R2Bucket;
   readonly ATLAS_DB: D1Database;
+  readonly AI?: Ai;
   readonly ALLOWED_ORIGINS: string;
   readonly DEFAULT_METHOD: string;
   readonly RATE_LIMIT_MAX_TOKENS?: string;
   readonly RATE_LIMIT_REFILL_SECONDS?: string;
+  readonly SI_RATE_LIMIT_PER_HOUR?: string;
   readonly MODAL_TIMEOUT_MS?: string;
   readonly HF_TIMEOUT_MS?: string;
   readonly FEDERATION_TIMEOUT_MS?: string;

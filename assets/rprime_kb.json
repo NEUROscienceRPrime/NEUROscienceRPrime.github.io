@@ -1,0 +1,317 @@
+{
+  "schema_version": "1.0.0",
+  "project": {
+    "name": "Neuroscience with RPrime",
+    "author": "Rishik Pannala",
+    "tagline": "Your brain doesn't care about your prime. Real receptor-level neuroscience, quantum neuropharmacology, and original computational research.",
+    "hub_url": "./neurolab.html",
+    "home_url": "./index.html",
+    "tracker_url": "./sim_tracker.html"
+  },
+  "articles": [
+    {
+      "id": "article1",
+      "number": "01",
+      "title": "Methamphetamine: Mechanism, History, Clinical Use, and Tolerance",
+      "date": "2026-03-14",
+      "url": "./article1.html",
+      "keywords": ["methamphetamine", "desoxyn", "dat reversal", "pkc", "vmat2", "ros", "neurotoxicity", "adderall", "levoamphetamine", "dexedrine", "vyvanse", "mydayis", "nagai", "ogata", "ephedrine", "methedrine", "deltafosb", "cdk5", "darpp-32", "thr75", "thr34", "grk2", "beta-arrestin", "smoking", "crystal"],
+      "core_mechanism": "N-methyl addition on the phenylethylamine backbone markedly elevates lipophilicity and BBB penetration, yielding ~5x greater central dopamine release than amphetamine with greater DAT selectivity at therapeutic oral doses (Desoxyn). PKC-driven DAT phosphorylation reverses transporter flux while blocking reuptake. Rapid high-dose smoking/injection collapses the VMAT2 vesicular H+ gradient, dumping cytosolic DA and generating neurotoxic ROS—a regime absent at low oral clinical doses.",
+      "tolerance_chain": "Repeated D1 Gs/PKA -> phospho-CREB -> DeltaFosB accumulation -> CDK5/p35 transcription -> DARPP-32 Thr75 phosphorylation (turns DARPP-32 into a PKA inhibitor, starving Thr34-P and unleashing PP1), alongside fast GRK2/beta-arrestin2 clathrin endocytosis.",
+      "epistemic_notes": "Therapeutic oral Desoxyn vs smoked crystal methamphetamine differ fundamentally in pharmacokinetics (dC/dt) and VMAT2 alkalization; last dedicated Desoxyn ADHD trial dates to ~1972.",
+      "actions": [
+        { "label": "▶ Prove DAT vs VMAT2 Live in Sim 01", "href": "./sim_synapse.html#preset=vmat2" },
+        { "label": "▶ Compare Atoms (-NHCH3) in Sim 05", "href": "./sim_drug_compiler.html#preset=amphetamine-vs-desoxyn" },
+        { "label": "Read Article 01", "href": "./article1.html" }
+      ]
+    },
+    {
+      "id": "article2",
+      "number": "02",
+      "title": "Why Methamphetamine Is Safer Than Amphetamine — Cardiovascularly",
+      "date": "2026-03-15",
+      "url": "./article2.html",
+      "keywords": ["cardiovascular", "heart", "blood pressure", "tachycardia", "vasoconstriction", "peripheral", "central", "lipophilicity", "bbb", "norepinephrine", "adderall", "amphetamine", "metabolite", "cyp2d6", "paradoxical calm"],
+      "core_mechanism": "Lower-lipophilicity amphetamine (especially Adderall's 25% levoamphetamine fraction) distributes more heavily into peripheral sympathetic tissue, driving alpha1 vasoconstriction and beta1 tachycardia. Methamphetamine's N-methyl group partitions centrally across the BBB with higher DAT-over-NET selectivity. Approximately 15-30% of methamphetamine is metabolized via CYP2D6 into amphetamine, explaining why cardiovascular stimulation often rises hours later as the parent peak clears into its noradrenergic metabolite.",
+      "epistemic_notes": "Applies strictly to supervised therapeutic oral dosing in severe treatment-resistant ADHD—methamphetamine carries far higher central addiction potential due to its >5x dopamine differential.",
+      "actions": [
+        { "label": "▶ Prove BBB & Cardiac Split in Sim 04", "href": "./sim_brain_heart.html#preset=cv-paradox" },
+        { "label": "▶ Inspect Hour-6 CYP2D6 Tail in Sim 04", "href": "./sim_brain_heart.html#preset=metabolite" },
+        { "label": "Read Article 02", "href": "./article2.html" }
+      ]
+    },
+    {
+      "id": "article3",
+      "number": "03",
+      "title": "Dopamine: Synthesis, Regional Gating, D.A.R.E. Failure & Permanent Tolerance",
+      "date": "2026-03-22",
+      "url": "./article3.html",
+      "keywords": ["dopamine", "tyrosine", "tyrosine hydroxylase", "levodopa", "l-dopa", "aadc", "vitamin b6", "akathisia", "parkinson", "dyskinesia", "mucuna", "dorsal striatum", "habit", "dare", "health teacher", "2600%", "ssri", "zoloft", "5-ht1a", "autoreceptor"],
+      "core_mechanism": "Synthesis runs Tyrosine -> (TH) -> L-DOPA -> (AADC + Vitamin B6 cofactor) -> Dopamine, explaining why B6 has clinical utility in antipsychotic D2-blockade akathisia. Dopamine's function is anatomical: PFC (working memory/planning), NAc (salience/reward), dorsal striatum (habit/compulsion). Generic 'drugs are bad' education fails because it hides the irreversible circuit shift from VTA->NAc reward to dorsal-striatal habit lock driven by DeltaFosB -> CDK5 -> DARPP-32 Thr75-P. Conversely, SSRIs (e.g., sertraline/Zoloft) harness the same GRK2/beta-arrestin adaptation in reverse: acute SERT block activates somatodendritic 5-HT1A autoreceptors that brake raphe firing until multi-week 5-HT1A downregulation unlocks full serotonergic output.",
+      "epistemic_notes": "Animal microdialysis benchmarks (~200% orgasm, 300-500% cocaine, up to 2,600% high-dose methamphetamine) reflect acute rodent NAc dialysate peaks.",
+      "actions": [
+        { "label": "▶ Test Dual-Clock Thr75 Tolerance in Sim 01", "href": "./sim_synapse.html#preset=holiday" },
+        { "label": "▶ Test Week-1 SSRI 5-HT1A Brake in Sim 02", "href": "./sim_paradox_rig.html#preset=ssri-week1" },
+        { "label": "Read Article 03", "href": "./article3.html" }
+      ]
+    },
+    {
+      "id": "article4",
+      "number": "04",
+      "title": "The Standard ADHD Model Is Incomplete (Maladaptive NMDA Homeostat)",
+      "date": "2026-03-25",
+      "url": "./article4.html",
+      "keywords": ["adhd", "nmda", "glutamate", "compensatory", "homeostat", "paradoxical", "calm", "sleep", "methylphenidate", "ritalin", "ndri", "amphetamine", "desoxyn", "benzodiazepine", "gaba", "hypotension", "hypersomnia", "amantadine", "mdd", "bupropion", "agitation", "misdiagnosis"],
+      "core_mechanism": "Low DA/NE alone causes lethargy, apathy, and low blood pressure (as in anhedonic MDD), NOT hyperactivity. In true severe neurochemical ADHD, impaired presynaptic catecholamine release triggers maladaptive compensatory NMDA receptor hyperexcitability (H_NMDA) attempting to force DA release. Because vesicular exocytosis is impaired, release still fails while downstream PFC/NAc circuits flood with high-frequency glutamate noise and psychomotor agitation. Amphetamine/Desoxyn triggers PKC-mediated DAT reverse efflux (~4x methylphenidate's DA lift), resolving hypodopaminergia so H_NMDA shuts off—producing paradoxical physical calm, sleepiness, and high cortical SNR. Pure NDRIs (methylphenidate, NET > DAT) fail release-deficit brains, splitting noradrenergic tension from unresolved glutamate agitation. Benzodiazepines crush protective NMDA drive globally, unmasking severe hypotension and hypersomnia ('calm and nonfunctional'), whereas mild open-channel NMDA antagonism (amantadine) trims excess noise without GABA sedation when paired with a stimulant.",
+      "epistemic_notes": "Rishik Pannala's testable mechanistic hypothesis separating release-deficit NMDA-compensated ADHD (calmed across stimulant classes) from misdiagnosed typical stimulation or non-compensated MDD.",
+      "actions": [
+        { "label": "▶ Prove NMDA ADHD vs Desoxyn Live in Sim 02", "href": "./sim_paradox_rig.html#preset=adhd-untreated" },
+        { "label": "▶ Prove MPH vs Amphetamine Split in Sim 02", "href": "./sim_paradox_rig.html#preset=mph-vs-amp" },
+        { "label": "▶ Run RCT Misdiagnosis Trial in Sim 06", "href": "./sim_cohort_trial.html#preset=adhd-rct-illusion" },
+        { "label": "Read Article 04", "href": "./article4.html" }
+      ]
+    },
+    {
+      "id": "article5",
+      "number": "05",
+      "title": "An Analysis of Four Good Days: Opioid Adaptation, KOR & rACC Anosognosia",
+      "date": "2026-03-31",
+      "url": "./article5.html",
+      "keywords": ["four good days", "molly", "heroin", "oxycontin", "opioid", "mor", "kor", "dor", "dynorphin", "lateral habenula", "girk", "substance p", "locus coeruleus", "camp overshoot", "withdrawal", "methadone", "naltrexone", "precipitated withdrawal", "racc", "anosognosia", "relapse"],
+      "core_mechanism": "MOR activation (Gi -> inhibits adenylyl cyclase/cAMP/PKA, opens GIRK K+ channels, suppresses LC-NE and Substance P, and disinhibits VTA DA by hyperpolarizing GABA interneurons) triggers fierce counter-adaptation: GRK2/beta-arrestin2 receptor internalization, compensatory adenylyl cyclase/cAMP superactivation (unmasked violently in detox), CDK5/DARPP-32 Thr75-P dopamine dampening, and CREB-driven prodynorphin -> kappa-opioid receptor (KOR / lateral habenula) anti-reward dysphoria. Striatal DAT drops 31-35%, vmPFC/NAc shrink, and rostral anterior cingulate cortex (rACC) gray-matter loss produces anosognosia—unbreakable overconfidence caused by a broken error-detection alarm rather than genuine resilience. Naltrexone competitively locks MOR out for 30 days (stronger affinity than fentanyl) but precipitates severe withdrawal if MOR agonists remain bound.",
+      "epistemic_notes": "Long-term 10-30 year opioid abstinence maintenance <30% and 6-20x standardized mortality ratio highlight structural persistence beyond acute 4-day detox.",
+      "actions": [
+        { "label": "▶ Prove Competitive MOR Lockout in Sim 09", "href": "./naloxone_sim.html" },
+        { "label": "▶ Test Fentanyl + Naloxone Renarcotization in Sim 04", "href": "./sim_brain_heart.html#preset=fentanyl" },
+        { "label": "Read Article 05", "href": "./article5.html" }
+      ]
+    },
+    {
+      "id": "article6",
+      "number": "06",
+      "title": "Why We Need Quantum Neuropharmacology — Not Classical Neuropharmacology",
+      "date": "2026-07-03",
+      "url": "./article6.html",
+      "keywords": ["quantum", "classical", "bohr", "octet rule", "10^-11", "london dispersion", "van der waals", "phospholipid", "bilayer", "homo", "lumo", "frontier orbital", "lock and key", "pkmzeta", "unlearning", "backwards bike", "ltp"],
+      "core_mechanism": "Classical planetary electrons would radiate and spiral into the nucleus in ~10^-11 seconds. Synaptic membranes and vesicles exist only through quantum London dispersion fluctuations in electron density clouds, and receptor selectivity is governed by frontier molecular orbital (HOMO/LUMO) electrostatics rather than rigid geometric lock-and-key cartoons. Unlearning entrenched classical heuristics is neurologically resisted because LTP-consolidated circuits are actively maintained by PKMzeta.",
+      "epistemic_notes": "Motivates explicit Kohn-Sham DFT (wB97X-D) frontier orbital, Fukui f+, and electrostatic potential analysis in rational CNS ligand design.",
+      "actions": [
+        { "label": "▶ Inspect MOR Frontier Orbitals in Sim 03", "href": "./sim_quantum_pocket.html#preset=mor-sterics" },
+        { "label": "▶ Run True Kohn-Sham PySCF DFT in Sim 07", "href": "./sim_discovery.html" },
+        { "label": "Read Article 06", "href": "./article6.html" }
+      ]
+    },
+    {
+      "id": "article7",
+      "number": "07",
+      "title": "ΔFosB Does Not Save Your Brain Energy. It Charges Rent.",
+      "date": "2026-11-15",
+      "url": "./article7.html",
+      "keywords": ["deltafosb", "fosb", "jund", "rent", "metabolic", "atp", "c172", "cys172", "5vpe", "7ucc", "5vpb", "7ucd", "9oc3", "ligsite", "18 a3", "250 a3", "368 a3", "1hsg", "pka", "phenacyl", "maleimide", "epoxide", "cns mpo", "willmore", "gauss-bonnet", "helfrich", "freidlin-wentzell", "curl", "+1.73", "ito", "kramers", "separatrix", "rho", "23.3", "elasticity", "abstinence", "glua1", "ser845", "glua2", "cp-ampar"],
+      "core_mechanism": "Original computational structural & mathematical research by Rishik Pannala: (1) Cascade: DeltaFosB -> CDK5/p35 -> DARPP-32 Thr75-P inhibits PKA -> Thr34-P drops -> PP1 strips GluA1 Ser845-P while new D1 MSN spines receive cortical GLUTAMATE, not dopamine (amplified urge to act + dismantled value conversion). (2) Undruggability: Full-length DeltaFosB (P53539-11, 237 aa) has 0 non-covalent druggable pockets—Hendlich LIGSITE finds 18 A^3 static (42.7 A^3 mean, 173 A^3 max across 10 ns) vs 250 A^3 druggability floor and 368 A^3 HIV-1 protease (1HSG) control. Only the open C172/JunD-C285 redox switch (13.62 A in 5VPE -> 2.03 A unstrained 1.44 kcal/mol disulfide in 5VPB; 47.6 A^2 SASA) is touchable. Mild neutral benzofuranone phenacyl warheads (-9.9 to -11.4 kcal/mol, 5/5 CNS MPO) beat promiscuous maleimides (-34.2 kcal/mol) and BBB-excluded anionic 9OC3 sulfonates (3/5 CNS, TPSA 105-122 A^2). (3) Geometry & Metabolic Rent: Gauss-Bonnet pins integral(K dA) = 4*pi (chi=2), carrying zero spine info and canceling saddle-splay kappa-bar; Willmore W(S_N) = W_0 + N(4*pi + pi*L/2r) rises 18.80 -> 143.87 (neck-dominated, head-radius invariant). Installation (1.46e9 ATP) is repaid in 2-9 seconds against +2.3% to +9.9% continuous metabolic rent. (4) Non-Gradient Persistence Law: 3-attractor Freidlin-Wentzell loop residual is +1.73 != 0 (median |curl|/|b| = 1.38x, 960x asymmetry -> no scalar energy well exists). In Ito log-space dx = [f(A)/A - D]dt + sqrt(2D)dW with static-heterogeneity correction D = (1-phi)Var(x)k (phi ~ 0.70 prevents 3.3x D inflation), persistence obeys tau ~ rho^(alpha/D) = rho^23.3 (alpha = 0.649 d^-1, D = 0.0279 d^-1; ln(rho) R^2 = 0.845 vs cross-sectional fold-change R = A_hi/A_lo R^2 = 0.322). During abstinence d === 0 => E_d === 0 (driver/receptor blockade has identically ZERO leverage on established persistence), whereas self-reinforcement loop gain E_v = +21.8 (-10.6% v cuts 80d -> 7d) and noise E_D = -6.99 (+41.7% D cuts 80d -> 7d) dominate.",
+      "epistemic_notes": "[?] Explicit boundaries stated in Article 07: C172 pKa shift spans 8.1 units (-4.09 bare DFT vs +4.00 with 5 Cl- at GFN2) so no pKa sign/magnitude is claimed; 7UCD deposited MV0 lacks its reactive leaving group; GFN2 underestimates epoxide ring-opening by ~13 kcal/mol (-23.9 vs -37.1 kcal/mol DFT); DeltaE_rxn != k_inact/K_I; GluA2 upregulation vs late CP-AMPAR accumulation remains an unclosed timescale/compartment gap; metabolic rent linearity assumes adapted spines are not individually quieter; MD runs (1.06 ns explicit, 10 ns implicit) sample local fluctuations, and 12 designed candidates are unsynthesized computational hypotheses.",
+      "actions": [
+        { "label": "▶ Inspect 3D PDB 5VPE/5VPB & LIGSITE in Sim 03", "href": "./sim_quantum_pocket.html#preset=ligsite" },
+        { "label": "▶ Prove Curl +1.73 & E_d=0 Live in Sim 01", "href": "./sim_synapse.html#preset=futility" },
+        { "label": "▶ Run Separatrix Perturbation Assay in Sim 06", "href": "./sim_cohort_trial.html#preset=separatrix-assay" },
+        { "label": "Read Article 07", "href": "./article7.html" }
+      ]
+    },
+    {
+      "id": "article8",
+      "number": "08",
+      "title": "An Analysis of Marshall and Kim: Two Runaways, the Songs, and What the Pills Left Behind",
+      "date": "2026-11-22",
+      "url": "./article8.html",
+      "keywords": ["marshall", "kim", "eminem", "cocaethylene", "cocaine", "alcohol", "herg", "torsades", "qtc", "sudden cardiac death", "crf", "substance p", "nk1", "social pain", "dacc", "anterior insula", "acetaminophen", "uncertainty", "50/50", "variable ratio", "wanting", "liking", "hedonic hotspot", "ambien", "zolpidem", "valium", "diazepam", "memory", "encoding", "methadone", "vicodin", "hydrocodone", "running", "17 miles", "g9a", "hdac5", "pol ii", "cocked"],
+      "core_mechanism": "Dissects six interlocking human mechanisms: (1) Developmental CRF/HPA set-point sensitization wired into VTA/amygdala/NAc + social injury processed in physical-pain dACC/anterior insula tissue (blunted by acetaminophen; amygdala Substance P -> NK1 drives stress-craving). (2) Midbrain dopamine uncertainty signal peaking at 50/50 intermittent probability (4p(1-p) coin-flip schedules lock persistence harder than guaranteed reward). (3) Wanting vs Liking split: 99% NAc DA depletion spares sweet liking while abolishing wanting; pleasure lives in a 1 mm^3 rostrodorsal medial NAc shell MOR hotspot, and social separation cries run on the exact same endogenous MOR system that alcohol dumps (why naltrexone cuts drinking). (4) Hepatic transesterification of cocaine + ethanol forms cocaethylene—holding DAT while sparing the SERT brake, extending t_1/2 (~2h vs 1h), blocking cardiac hERG K+ channels ~3x harder, and raising sudden death risk 18-25x. (5) Ambien/Valium GABA-A (alpha1) potentiation causes hippocampal encoding failure (nothing written to retrieve, e.g., 2001 Lose Yourself scratch tape). (6) Methadone's lethal mismatch: 4-8h analgesia vs 8-59h elimination half-life causes Day 2-4 plasma accumulation + QTc Torsades + 3.86x overdose hazard with benzodiazepines (74% of methadone deaths). Seventeen-mile/day running swapped the input route while feeding the exact same D1/dynorphin DeltaFosB pool, alongside G9a repression, HDAC5 loss, and stalled ('cocked') RNA Pol II on the Fosb promoter.",
+      "epistemic_notes": "[?] Flags Porter-Stransky's D2 beta-arrestin2 knockout paradox (deleting D2 arrestin reduced rather than increased cocaine reward in mice) and notes human striatal arrestin/DeltaFosB measurements in polysubstance cases are inferred from rodent models.",
+      "actions": [
+        { "label": "▶ Prove Cocaethylene 3x hERG & Torsades in Sim 04", "href": "./sim_brain_heart.html#preset=cocaethylene" },
+        { "label": "▶ Run Marshall & Kim Tail Dynamics in Sim 06", "href": "./sim_cohort_trial.html#preset=marshall-kim-tail" },
+        { "label": "▶ Track Your Own Loop in Sim 08", "href": "./sim_tracker.html" },
+        { "label": "Read Article 08", "href": "./article8.html" }
+      ]
+    },
+    {
+      "id": "penrose",
+      "number": "Essay",
+      "title": "I Documented a Nobel Laureate's Narcissism While Reading His Book — And Got Addicted Anyway",
+      "date": "2026-04-30",
+      "url": "./penrose_article.html",
+      "keywords": ["penrose", "road to reality", "narcissism", "intimidation", "humiliation", "pedagogy", "alpha1a", "alpha2a", "norepinephrine", "pfc", "hcn", "working memory", "fourier", "barss", "impossible man", "metacognition", "racc", "compulsion"],
+      "core_mechanism": "Documents how grandiose status-framing followed by opaque, intimidating exercises hijacks reward/stress circuitry: initial awe triggers dopamine + MOR hedonic euphoria, while sudden failure/status-threat floods locus coeruleus norepinephrine onto lower-affinity prefrontal alpha1A adrenoceptors (PKC/cAMP -> opens Layer III HCN leak channels), shutting down PFC cognitive flexibility and weakening rACC metacognitive control. Pure non-hedonic dopamine compulsion ('wanting without liking' agony) traps the reader in repetitive failure. Stripping status reverence ('no-BS perspective') drops NE back into the high-affinity alpha2A window, closing HCN leaks and revealing that dense philosophical prose was burying elementary periodic/Fourier concepts.",
+      "epistemic_notes": "Biographical documentation cites Patchen Barss, The Impossible Man (2024); circuit mechanism connects Arnsten's prefrontal alpha2A/alpha1A switch to status-threat pedagogy.",
+      "actions": [
+        { "label": "▶ Trigger Penrose α1A Collapse & HCN Sag in Sim 02", "href": "./sim_paradox_rig.html#preset=penrose-stress" },
+        { "label": "Read Penrose Essay", "href": "./penrose_article.html" }
+      ]
+    }
+  ],
+  "simulations": [
+    {
+      "id": "sim01",
+      "code": "Sim 01",
+      "title": "RPrime SYNAPSE — Multi-Timescale Cortico-Striatal D1 MSN Twin",
+      "url": "./sim_synapse.html",
+      "scale": "10^-6 m (Synapse -> Genome, 0.1 ms to 90 Days)",
+      "proves": "DAT PKC reverse efflux vs VMAT2 H+ collapse, quantitative DARPP-32 Thr34/Thr75 Morrison tight-binding PP1 switch, Willmore spine neck geometry & ATP/s metabolic rent, 2D Freidlin-Wentzell curl (+1.73), and Ito log-SDE persistence (E_d=0 vs E_v=+21.8, E_D=-6.99)."
+    },
+    {
+      "id": "sim02",
+      "code": "Sim 02",
+      "title": "THE PARADOX RIG — 500-Neuron VTA–NAc–PFC Spiking & 50 µs HH Patch-Clamp Lab",
+      "url": "./sim_paradox_rig.html",
+      "scale": "10^-3 m (Microcircuit & Whole-Cell Patch-Clamp)",
+      "proves": "Article 04 maladaptive NMDA homeostat, Desoxyn DAT-reversal paradoxical calm vs Methylphenidate NE/DA split, Benzodiazepine hypotensive GABA trap, Amantadine synergy, Haloperidol/Aripiprazole (28% ceiling) D2 akathisia, Week-1 vs Week-3 SSRI 5-HT1A/5-HT2C dynamics, Penrose alpha1A/alpha2A HCN q(V) voltage sag, and Web Audio spike sonification."
+    },
+    {
+      "id": "sim03",
+      "code": "Sim 03",
+      "title": "QUANTUM & COVALENT POCKET LAB — Real PDB ΔFosB/JunD & 3D LIGSITE",
+      "url": "./sim_quantum_pocket.html",
+      "scale": "10^-10 m (Angstrom / Quantum Electrostatics)",
+      "proves": "RCSB X-ray 5VPE (13.62 A) -> 7UCC (9.03 A) -> 5VPB (2.03 A) C172/C285 redox closure, 3D Hendlich LIGSITE (18 A^3 static vs 250 A^3 floor vs 368 A^3 1HSG), 8.1-unit C172 pKa counter-ion artifact, phenacyl vs maleimide/epoxide/9OC3 warhead tradeoffs, and MOR frontier orbitals."
+    },
+    {
+      "id": "sim04",
+      "code": "Sim 04",
+      "title": "BRAIN–HEART DIGITAL TWIN — BBB PBPK, Cocaethylene & 18-Cell Transmural ECG",
+      "url": "./sim_brain_heart.html",
+      "scale": "10^0 m (Multi-Organ Brain–Liver–Heart)",
+      "proves": "Desoxyn vs Adderall BBB/peripheral CV paradox, CYP2D6 Hour-6 amphetamine tail, hepatic CES1 cocaethylene formation + 3x hERG block + transmural M-cell EAD/Torsades R-on-T reentry, and fentanyl + naloxone 90-min renarcotization."
+    },
+    {
+      "id": "sim05",
+      "code": "Sim 05",
+      "title": "ATOM-TO-ACTION-POTENTIAL COMPILER — De Novo Chemical Graph to Brain & Heart",
+      "url": "./sim_drug_compiler.html",
+      "scale": "Cross-Scale (2D/3D Chemical Graph -> PBPK -> Spiking & ECG)",
+      "proves": "Live atomic functional-group edits (-NHCH3, catechol OH, LAT1 amino acid, N-allyl, ethyl ester, phenacyl vs sulfonate) compiled directly into CNS MPO, Kp,uu BBB flux, target occupancy, and cardiac/neural waveforms."
+    },
+    {
+      "id": "sim06",
+      "code": "Sim 06",
+      "title": "1,000-BRAIN VIRTUAL TRIAL & SEPARATRIX LAB — Population Perturbation Assay",
+      "url": "./sim_cohort_trial.html",
+      "scale": "Population (N = 1,000 Heterogeneous Brains)",
+      "proves": "Why cross-sectional fold-change R fails (R^2=0.322) while graded perturbation uncovers hidden separatrix rho = A_hi/A_mid (R^2=0.845), phi=0.70 static heterogeneity deconfounding, ADHD heterogeneous RCT dilution, and abstinence E_d=0 vs loop-gain E_v=+21.8 survival curves."
+    },
+    {
+      "id": "sim07",
+      "code": "Sim 07",
+      "title": "RPRIME DISCOVERY OS — 230k+ RCSB PDB, AlphaFold & True Kohn–Sham PySCF DFT",
+      "url": "./sim_discovery.html",
+      "scale": "Proteome-Wide Quantum & Structural Discovery",
+      "proves": "Streams any live RCSB PDB / mmCIF / AlphaFold target, runs 7-axis LIGSITE anti-hallucination pocket gating (<180 A^3 blocks blind non-covalent Vina), federates PubChem/QCArchive, and executes cloud df-wB97X-D/def2-SVP + ddCOSMO PySCF orbitals, Fukui f+, and covalent warhead DeltaE."
+    },
+    {
+      "id": "sim08",
+      "code": "Sim 08",
+      "title": "PERSONAL BEHAVIORAL STATE FORECASTER & TRAJECTORY ENGINE",
+      "url": "./sim_tracker.html",
+      "scale": "Longitudinal Personal Behavioral Dynamics (Days -> Months)",
+      "proves": "Fits an individual's Ito log-SDE (v, k, D, phi, rho) via a 1,024-particle Liu-West filter, multi-lag variogram, censored break-rebound likelihoods, 5-circuit phenotype posterior, locked 24h slip bets, and rolling Brier Skill self-scoring."
+    },
+    {
+      "id": "sim09",
+      "code": "Sim 09",
+      "title": "NALOXONE vs MOR — Competitive Displacement & Steric Lockout",
+      "url": "./naloxone_sim.html",
+      "scale": "10^-8 m (Orthosteric GPCR Binding Pocket)",
+      "proves": "Cheng-Prusoff competitive occupancy (Naloxone Kd ~1.5 nM vs Morphine ~4 nM), N-allyl steric lockout of TM6 activation, and why repeat EMS dosing is required when naloxone's 60-90 min t_1/2 wears off before fentanyl."
+    }
+  ],
+  "circuits": {
+    "d1_wanting_liking": {
+      "id": "d1_wanting_liking",
+      "label": "D1 / ΔFosB Wanting-Without-Liking Loop",
+      "articles": ["article7", "article8", "article3"],
+      "signature": "Pre-act Wanting far exceeds post-act Liking (W - L >= 3), sub-5s automatic cue-to-entry latency, and blunted DARPP-32 Thr75-P value conversion where newly built D1 MSN spines receive fast cortical glutamate rather than hedonic reward.",
+      "lever": "Target self-reinforcing loop gain v (E_v = +21.8), NOT white-knuckle driver suppression during abstinence (E_d === 0). Break physical cue-to-action adjacency (+20-30s structural relocation of device/trigger during your empirical peak-lift cue) to drop effective cortico-striatal AMPAR drive v past the >10.6% bifurcation cliff.",
+      "sim_action": { "label": "▶ Prove E_v vs E_d=0 in Sim 01", "href": "./sim_synapse.html#preset=futility" }
+    },
+    "alpha1a_shunt": {
+      "id": "alpha1a_shunt",
+      "label": "Prefrontal α1A Intimidation / Stress Shunt",
+      "articles": ["penrose", "article4"],
+      "signature": "Episodes cluster within <15 min of high cognitive friction, evaluation, or status-threat (ego_threat lift > 2x) with working-memory blanking: locus coeruleus NE surges past ~155 nM onto alpha1A/beta1 receptors, opening Layer III HCN (I_h) & KCNQ leak channels.",
+      "lever": "Restore high-affinity alpha2A gating (closes HCN leak) BEFORE starting: strip status/ego framing and decompose the task entry unit below the LC-NE threat threshold during your peak hazard window. Never 'try harder' under intimidation—raising arousal pushes [NE] deeper into alpha1A collapse.",
+      "sim_action": { "label": "▶ Watch α1A HCN Shunt Live in Sim 02", "href": "./sim_paradox_rig.html#preset=penrose-stress" }
+    },
+    "nmda_static": {
+      "id": "nmda_static",
+      "label": "Hypo-DA / Maladaptive NMDA Restlessness Static",
+      "articles": ["article4", "article2"],
+      "signature": "High baseline somatic/mental restlessness in unstimulated states accompanied by PARADOXICAL CALM (post_calm > 0, reduced agitation) upon high-salience engagement—indicating compensatory glutamatergic H_NMDA noise driven by tonic catecholamine deficit rather than thrill-seeking.",
+      "lever": "Never force sensory-deprived blank boredom (which drives [DA] further below D_set and ramps H_NMDA noise). Substitute chaotic multi-source scrolling with high-SNR single-channel motor or structured cognitive load (cf. Article 08's wheel/running input swap), and discuss paradoxical stimulant response patterns clinically if persistent.",
+      "sim_action": { "label": "▶ Hear & Silence NMDA Static in Sim 02", "href": "./sim_paradox_rig.html#preset=adhd-untreated" }
+    },
+    "variable_ratio": {
+      "id": "variable_ratio",
+      "label": "50/50 Variable-Ratio Uncertainty Ramp",
+      "articles": ["article8"],
+      "signature": "Rapid re-check bursts and high premature-tap rate driven by ~50% reward unpredictability (hit_prob in [0.30, 0.70]), where tonic VTA dopamine variance 4*p*(1-p) peaks at coin-flip odds.",
+      "lever": "Collapse reward-probability variance 4*p*(1-p) -> 0: convert continuous live feeds/notifications into deterministic fixed-clock batch windows (where checking outside the scheduled batch has p = 0 and scheduled delivery has p = 1).",
+      "sim_action": { "label": "▶ Inspect Uncertainty & Tail Risk in Sim 06", "href": "./sim_cohort_trial.html#preset=marshall-kim-tail" }
+    },
+    "social_pain_mor": {
+      "id": "social_pain_mor",
+      "label": "dACC / Endogenous MOR Social-Pain Substitution",
+      "articles": ["article8", "article5"],
+      "signature": "Hazard spikes sharply during isolation, relational conflict, or late-night solitude (isolation lift > 2x) with negative-reinforcement relief entry—recruiting dACC/anterior insula social-pain tissue, amygdala Substance P/NK1, and endogenous mu-opioid attachment substitution.",
+      "lever": "Do not white-knuckle alone inside your peak isolation window (which leaves endogenous MOR in withdrawal and CRF/NK1 elevated). Pre-schedule synchronous live human voice or physical co-presence directly across your highest-probability isolation window.",
+      "sim_action": { "label": "▶ Explore MOR Pharmacology in Sim 09", "href": "./naloxone_sim.html" }
+    }
+  },
+  "equations": [
+    {
+      "id": "ito_log_sde",
+      "name": "Itô Log-Space Synaptic Maintenance SDE (Article 07 §10.4)",
+      "formula": "dx = [f(e^x)/e^x - D] dt + sqrt(2D) dW, where x = ln(A), D = sigma_m^2 / 2, and f(A) = b_0 + d(t) + v*A^n/(K^n + A^n) - k_A*A",
+      "meaning": "Multiplicative spine fluctuations require logarithmic coordinates; the -D Itô drift term shifts effective fixed points to f(A)/A = D."
+    },
+    {
+      "id": "phi_variance_split",
+      "name": "Static Heterogeneity vs Dynamic Fluctuation Deconfounding (Article 07 §10.4)",
+      "formula": "D = (1 - phi) * Var(x) * k, where phi = Var(s) / (Var(s) + Var(d)) ~ 0.70",
+      "meaning": "Autocorrelation plateau phi ~ 0.70 reflects static between-synapse/person differences; omitting (1 - phi) inflates D by 3.3x and severely understates persistence."
+    },
+    {
+      "id": "persistence_law",
+      "name": "Separatrix Power-Law Persistence & Elasticities (Article 07 §10.4)",
+      "formula": "tau ~ rho^(alpha / D) = rho^23.3 (alpha = 0.649 d^-1, D = 0.0279 d^-1, rho = A_hi / A_mid); E_v = +21.8, E_D = -6.99, E_d === 0",
+      "meaning": "Cross-sectional severity R = A_hi/A_lo fails to predict persistence (R^2 = 0.322 vs 0.845 for ln rho). During abstinence d === 0, so receptor/driver blockade has identically zero leverage on established state duration; cutting loop gain v by 10.6% or raising fluctuation D by 41.7% cuts 80d persistence to ~7d."
+    },
+    {
+      "id": "fw_curl_obstruction",
+      "name": "Freidlin–Wentzell Non-Gradient Curl Obstruction (Article 07 §10.3)",
+      "formula": "DeltaV(x0->x1) + DeltaV(x1->x2) + DeltaV(x2->x0) = +1.73 != 0 (median |curl|/|b| = 1.38x, 960x transition asymmetry)",
+      "meaning": "Proves no single-valued scalar 'energy well' U(x) exists for the coupled adapted circuit; persistence is a large-deviation path-action probability, not an energy minimum."
+    },
+    {
+      "id": "willmore_rent",
+      "name": "Gauss–Bonnet Obstruction, Willmore Spine Energy & Metabolic Rent (Article 07 §10.1–10.2)",
+      "formula": "integral(K dA) = 2*pi*chi = 4*pi (constant); W(S_N) = W_0 + N*(4*pi + pi*L/(2r)); t_rep = 1.46e9 ATP / (1.7e8..7.2e8 ATP/s) = 2–9 s; DeltaP/P = psi*(R_NA - 1) = +2.3%..+9.9%",
+      "meaning": "Gaussian curvature cannot detect spine count; spine necks (pi*L/2r), not head size, dominate bending energy; installation is repaid in 2-9s while ongoing occupancy charges +2.3% to +9.9% continuous ATP rent."
+    },
+    {
+      "id": "jahr_stevens_nmda",
+      "name": "Jahr–Stevens Mg2+ Block & Maladaptive NMDA Homeostat (Article 04 & Sim 02)",
+      "formula": "B_Mg(V) = 1 / (1 + ([Mg2+]_o / 3.57) * exp(-0.062 * V)); tau_H * dH_NMDA/dt = G_homeo * max(0, (D_set - [DA])/D_set) - H_NMDA",
+      "meaning": "Low tonic [DA] (<65 nM) under impaired vesicular release ramps H_NMDA, flooding circuits with voltage-unblocked NMDA noise until PKC-mediated DAT reversal restores [DA]."
+    },
+    {
+      "id": "ligsite_pocket",
+      "name": "Hendlich LIGSITE ΔFosB Cavity Bound & Covalent Window (Article 07 §5–9)",
+      "formula": "V_static(DeltaFosB) = 18 A^3, V_mean = 42.7 A^3, V_max = 173 A^3 < 250 A^3 druggability floor (1HSG control = 368 A^3); phenacyl DeltaE = -9.9..-11.4 kcal/mol (CNS MPO 5/5)",
+      "meaning": "Apo/DNA-bound DeltaFosB has zero druggable non-covalent pockets; rational design requires a mild neutral covalent warhead targeting open C172 rather than promiscuous maleimides (-34.2 kcal/mol) or BBB-excluded anionic sulfonates."
+    },
+    {
+      "id": "cocaethylene_methadone_tox",
+      "name": "Cocaethylene Cardiac hERG Block & Methadone PK Mismatch (Article 08 & Sim 04)",
+      "formula": "Cocaethylene: ~3x hERG IKr block, t_1/2 ~2h vs 1h, 18–25x sudden cardiac death risk; Methadone: 8–59h elimination t_1/2 vs 4–8h analgesia (+3.86x overdose HR with benzodiazepines)",
+      "meaning": "Hepatic cocaine+ethanol transesterification spares SERT while blocking ventricular hERG repolarization (M-cell EADs/Torsades); redosing methadone by 4-8h pain relief stacks plasma levels fatally across Days 2-4."
+    }
+  ]
+}

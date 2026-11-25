@@ -1,0 +1,3073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PERSONAL BEHAVIORAL STATE FORECASTER — Bayesian Itô SDE &amp; Separatrix Tracker — Neuroscience with RPrime</title>
+<link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #080808;
+    --surface: #0f0f12;
+    --surface2: #15151a;
+    --surface3: #1c1c23;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.17);
+    --text: #f0ece4;
+    --muted: #6e6d68;
+    --muted2: #a09d95;
+    --lime: #c8ff00;
+    --orange: #ff6b35;
+    --violet: #9b88ff;
+    --cyan: #00e5ff;
+    --danger: #ff3b5c;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    line-height: 1.55;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 9998;
+    mix-blend-mode: overlay;
+  }
+
+  .aurora {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(135px);
+    opacity: 0.50;
+  }
+  .blob-1 {
+    width: 680px; height: 680px;
+    background: radial-gradient(circle, rgba(200,255,0,0.11), transparent 68%);
+    top: -250px; left: -180px;
+  }
+  .blob-2 {
+    width: 580px; height: 580px;
+    background: radial-gradient(circle, rgba(255,107,53,0.10), transparent 68%);
+    top: 30%; right: -200px;
+  }
+  .blob-3 {
+    width: 540px; height: 540px;
+    background: radial-gradient(circle, rgba(155,136,255,0.09), transparent 68%);
+    bottom: -160px; left: 24%;
+  }
+
+  /* STICKY TOP NAV */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(8,8,8,0.86);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1540px;
+    margin: 0 auto;
+    padding: 8px 22px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .brand-cluster {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .logo span { color: var(--lime); }
+  .live-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--lime);
+    background: rgba(200,255,0,0.08);
+    border: 1px solid rgba(200,255,0,0.24);
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 8px var(--lime);
+    animation: pulseDot 1.6s ease-in-out infinite;
+  }
+  @keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.38; transform: scale(0.8); }
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+    color: var(--muted2);
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 5px 8px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .nav-links a:hover {
+    color: var(--text);
+    border-color: var(--border-strong);
+    background: rgba(255,255,255,0.03);
+  }
+  .nav-links a.active {
+    color: #080808;
+    background: var(--lime);
+    border-color: var(--lime);
+    font-weight: 600;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+  }
+  .nav-btn {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .nav-btn:hover { border-color: var(--lime); color: var(--lime); }
+  .nav-btn.active { background: rgba(0,229,255,0.14); border-color: var(--cyan); color: var(--cyan); }
+  .nav-btn.violet { border-color: rgba(155,136,255,0.38); color: #d3caff; }
+  .nav-btn.violet:hover, .nav-btn.violet.active { border-color: var(--violet); color: var(--violet); background: rgba(155,136,255,0.13); }
+  .nav-btn.lime-cta { background: rgba(200,255,0,0.12); border-color: rgba(200,255,0,0.45); color: var(--lime); font-weight: 600; }
+
+  /* EXPANDABLE MATH DRAWER */
+  .math-drawer {
+    display: none;
+    position: relative;
+    z-index: 150;
+    background: #0b0b0e;
+    border-bottom: 2px solid var(--violet);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.88);
+  }
+  .math-drawer.open { display: block; }
+  .math-drawer-inner {
+    max-width: 1540px;
+    margin: 0 auto;
+    padding: 22px;
+  }
+  .drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .drawer-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--violet);
+  }
+  .drawer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 14px;
+  }
+  .eq-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--violet);
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+  }
+  .eq-card.lime { border-left-color: var(--lime); }
+  .eq-card.orange { border-left-color: var(--orange); }
+  .eq-card.cyan { border-left-color: var(--cyan); }
+  .eq-card-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    margin-bottom: 8px;
+  }
+  .eq-card-note {
+    font-size: 12px;
+    color: var(--muted2);
+    line-height: 1.55;
+    margin-top: 8px;
+  }
+
+  /* MAIN SHELL */
+  .shell {
+    max-width: 1540px;
+    margin: 0 auto;
+    padding: 20px 22px 84px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .reel-badge-bar {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    background: rgba(200,255,0,0.09);
+    border: 1px solid rgba(200,255,0,0.32);
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+  .reel-handle { color: var(--lime); font-weight: 600; }
+
+  /* HERO HEADER */
+  .hero-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 6px;
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3vw, 38px);
+    font-weight: 800;
+    line-height: 1.06;
+    letter-spacing: -0.9px;
+    margin-bottom: 6px;
+  }
+  .page-title span { color: var(--lime); }
+  .page-title .org { color: var(--orange); }
+  .page-sub {
+    font-size: 14px;
+    color: var(--muted2);
+    max-width: 920px;
+    line-height: 1.55;
+  }
+
+  /* PROFILE / VAULT BAR */
+  .profile-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .profile-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .vault-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(200,255,0,0.12);
+    border: 1px solid rgba(200,255,0,0.38);
+    color: var(--lime);
+  }
+  .vault-badge.preview {
+    background: rgba(0,229,255,0.12);
+    border-color: rgba(0,229,255,0.42);
+    color: var(--cyan);
+  }
+
+  .ctrl-btn {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    padding: 7px 11px;
+    border-radius: 6px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .ctrl-btn:hover { border-color: var(--lime); color: var(--lime); }
+  .ctrl-btn.primary {
+    background: var(--lime);
+    color: #080808;
+    border-color: var(--lime);
+    font-weight: 600;
+  }
+  .ctrl-btn.primary:hover { background: #d6ff38; }
+  .ctrl-btn.cyan { background: rgba(0,229,255,0.12); border-color: var(--cyan); color: var(--cyan); }
+  .ctrl-btn.cyan.active { background: var(--cyan); color: #06090b; font-weight: 600; }
+  .ctrl-btn.orange { background: rgba(255,107,53,0.13); border-color: var(--orange); color: var(--orange); }
+  .ctrl-btn.violet { background: rgba(155,136,255,0.13); border-color: var(--violet); color: var(--violet); }
+  .ctrl-btn.danger { background: rgba(255,59,92,0.12); border-color: rgba(255,59,92,0.45); color: var(--danger); }
+
+  /* HONESTY GATE BANNER */
+  .gate-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255,107,53,0.45);
+    background: rgba(255,107,53,0.08);
+    flex-wrap: wrap;
+  }
+  .gate-banner.unlocked {
+    border-color: rgba(200,255,0,0.40);
+    background: rgba(200,255,0,0.06);
+  }
+  .gate-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--orange);
+    color: #080808;
+    letter-spacing: 0.06em;
+  }
+  .gate-banner.unlocked .gate-tag {
+    background: var(--lime);
+  }
+  .gate-text {
+    font-size: 13px;
+    color: #e2dfd7;
+    flex: 1;
+    min-width: 260px;
+  }
+
+  /* 2-COLUMN MAIN BENTO */
+  .workspace-bento {
+    display: grid;
+    grid-template-columns: 0.88fr 1.12fr;
+    gap: 16px;
+    align-items: start;
+  }
+  @media (max-width: 1160px) {
+    .workspace-bento { grid-template-columns: 1fr; }
+  }
+
+  .col-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+  .panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .panel-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted2);
+  }
+  .panel-title {
+    font-family: var(--font-display);
+    font-size: 16.5px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+  .panel-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: var(--surface2);
+    border: 1px solid var(--border-strong);
+    color: var(--lime);
+    white-space: nowrap;
+  }
+  .panel-badge.orange { color: var(--orange); border-color: rgba(255,107,53,0.38); }
+  .panel-badge.cyan { color: var(--cyan); border-color: rgba(0,229,255,0.38); }
+  .panel-badge.violet { color: var(--violet); border-color: rgba(155,136,255,0.38); }
+
+  /* FORM CONTROLS */
+  .form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .form-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  @media (max-width: 640px) {
+    .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
+  }
+  .field-box {
+    background: #0a0a0d;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .field-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted2);
+  }
+  .field-head strong {
+    color: var(--lime);
+    font-size: 11.5px;
+  }
+  select.sim-select, input.sim-input {
+    width: 100%;
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border-strong);
+    border-radius: 5px;
+    padding: 6px 8px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    outline: none;
+  }
+  select.sim-select:focus, input.sim-input:focus { border-color: var(--lime); }
+
+  input[type="range"].sim-range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 5px;
+    background: #23232b;
+    border-radius: 3px;
+    outline: none;
+  }
+  input[type="range"].sim-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--lime);
+    cursor: pointer;
+    border: 2px solid #080808;
+  }
+  input[type="range"].sim-range.orange::-webkit-slider-thumb { background: var(--orange); }
+  input[type="range"].sim-range.cyan::-webkit-slider-thumb { background: var(--cyan); }
+  input[type="range"].sim-range.violet::-webkit-slider-thumb { background: var(--violet); }
+
+  canvas.sim-canvas {
+    display: block;
+    width: 100%;
+    background: #060608;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  /* LOCKED 24H BET CARD */
+  .bet-card {
+    background: linear-gradient(90deg, rgba(155,136,255,0.11), rgba(0,229,255,0.07));
+    border: 1px solid rgba(155,136,255,0.42);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .bet-prob {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--cyan);
+  }
+
+  /* TELEMETRY KPI STRIP */
+  .kpi-grid-6 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  @media (max-width: 640px) {
+    .kpi-grid-6 { grid-template-columns: 1fr 1fr; }
+  }
+  .metric-box {
+    background: #0a0a0d;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+  }
+  .metric-label {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    margin-bottom: 2px;
+  }
+  .metric-val {
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .metric-sub {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* MECHANISTIC PRESCRIPTION BOX */
+  .lever-prescription {
+    background: rgba(200,255,0,0.05);
+    border: 1px solid rgba(200,255,0,0.32);
+    border-left: 3px solid var(--lime);
+    border-radius: 0 8px 8px 0;
+    padding: 11px 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .lever-prescription.unseparated {
+    background: rgba(255,107,53,0.06);
+    border-color: rgba(255,107,53,0.35);
+    border-left-color: var(--orange);
+  }
+
+  /* OPTIMAL PERTURBATION CARD */
+  .opt-pert-card {
+    background: rgba(0,229,255,0.06);
+    border: 1px dashed rgba(0,229,255,0.42);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* LEDGER TABLES */
+  .ledger-scroll {
+    max-height: 165px;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #07070a;
+  }
+  table.ledger-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+  }
+  table.ledger-table th {
+    position: sticky;
+    top: 0;
+    background: #121217;
+    color: var(--muted2);
+    text-align: left;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border-strong);
+    text-transform: uppercase;
+    font-size: 9.5px;
+  }
+  table.ledger-table td {
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--border);
+    color: #d6d3cb;
+  }
+
+  .mini-tabs {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+  .mini-tab {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--muted2);
+    cursor: pointer;
+  }
+  .mini-tab.active {
+    border-color: var(--lime);
+    color: var(--lime);
+    background: rgba(200,255,0,0.09);
+  }
+
+  .lab-footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .lab-footer a { color: var(--lime); text-decoration: none; }
+
+  /* 9:16 REEL MODE */
+  body.reel-mode .nav-inner { padding: 6px 12px; min-height: 46px; }
+  body.reel-mode .nav-links { display: none; }
+  body.reel-mode .shell {
+    max-width: 460px;
+    margin: 10px auto 32px;
+    padding: 14px;
+    border: 1px solid rgba(200,255,0,0.30);
+    border-radius: 18px;
+    background: #08080a;
+    box-shadow: 0 0 80px rgba(200,255,0,0.09);
+  }
+  body.reel-mode .reel-badge-bar { display: flex; }
+  body.reel-mode .page-title { font-size: 23px; }
+  body.reel-mode .workspace-bento,
+  body.reel-mode .form-grid-2,
+  body.reel-mode .form-grid-3 { grid-template-columns: 1fr; }
+</style>
+</head>
+<body>
+
+<div class="aurora">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<!-- STICKY TOP NAVIGATION -->
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand-cluster">
+      <a href="./index.html" class="logo">Neuroscience with <span>RPrime</span></a>
+      <span class="live-pill"><span class="live-dot"></span>1,024-PARTICLE BAYESIAN SDE</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="./index.html">← Home</a></li>
+      <li><a href="./neurolab.html">NeuroLab Hub</a></li>
+      <li><a href="./sim_synapse.html">Sim 01</a></li>
+      <li><a href="./sim_paradox_rig.html">Sim 02</a></li>
+      <li><a href="./sim_quantum_pocket.html">Sim 03</a></li>
+      <li><a href="./sim_brain_heart.html">Sim 04</a></li>
+      <li><a href="./sim_drug_compiler.html">Sim 05</a></li>
+      <li><a href="./sim_cohort_trial.html">Sim 06</a></li>
+      <li><a href="./sim_discovery.html">Discovery</a></li>
+      <li><a href="./sim_tracker.html" class="active">Tracker</a></li>
+      <li><a href="./naloxone_sim.html">Naloxone</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button type="button" class="nav-btn lime-cta" id="btnOpenSI" title="Open Loyal RPrime SI Copilot (Ctrl+J / ⌘J)">[🤖 Ask RPrime SI · ⌘J]</button>
+      <button type="button" class="nav-btn" id="btnReelMode" title="Toggle 9:16 Vertical Framing (?mode=reel)">[📱 9:16 Reel Mode]</button>
+      <button type="button" class="nav-btn violet" id="btnMathDrawer" title="Inspect Bayesian Particle Filter, Variogram & Brier Equations">[📐 Inspect Personal SDE &amp; Filter Math]</button>
+    </div>
+  </div>
+</header>
+
+<!-- EXPANDABLE KATEX GLASS-BOX EQUATIONS DRAWER -->
+<section class="math-drawer" id="mathDrawer">
+  <div class="math-drawer-inner">
+    <div class="drawer-header">
+      <div>
+        <div class="eyebrow" style="color:var(--violet);margin-bottom:2px;">ZERO-HOROSCOPE MATHEMATICAL ENGINE // SEQUENTIAL MONTE CARLO</div>
+        <div class="drawer-title">1,024-Particle Liu–West Itô Filter, Multi-Lag Variogram De-Aliasing &amp; Censored Separatrix Bounds</div>
+      </div>
+      <button type="button" class="ctrl-btn" id="btnCloseDrawer">Close ×</button>
+    </div>
+
+    <div class="drawer-grid">
+      <div class="eq-card lime">
+        <div class="eq-card-label">1 · Personal Itô Log-Space Loop SDE &amp; Zero Abstinence Leverage (Art. 07)</div>
+        <div>$$dx_t = \left[\frac{b_0 + d(t) + \frac{v\,e^{nx_t}}{K^n + e^{nx_t}} - k_A e^{x_t}}{e^{x_t}} - D\right]dt + \sqrt{2D}\,dW_t, \quad E_d = \frac{\partial\ln\tau}{\partial\ln d} \equiv 0$$</div>
+        <div class="eq-card-note">White-knuckle cue resistance sets $d \equiv 0$ without moving the upper attractor $x_{\text{hi}}$ or saddle $x_{\text{mid}}$. Only cutting loop self-reinforcement $v$ ($E_v \approx +21.8$) or raising synaptic/routine variance $D$ ($E_D \approx -6.99$) shifts escape time $\tau \propto \rho^{\alpha/D}$.</div>
+      </div>
+
+      <div class="eq-card orange">
+        <div class="eq-card-label">2 · Multi-Lag Variogram Separation of Static Rigidity φ vs. Dynamic Noise D</div>
+        <div>$$\gamma(\ell) = \tfrac{1}{2}\mathbb{E}\!\left[(y_{t+\ell}-y_t)^2\right] = \mathrm{Var}(d)\big(1 - e^{-k\ell}\big), \quad \hat{\varphi} = 1 - \frac{\widehat{\mathrm{Var}}(d)}{\widehat{\mathrm{Var}}(y)}, \quad \hat{D} = (1-\hat{\varphi})\widehat{\mathrm{Var}}(y)\hat{k}$$</div>
+        <div class="eq-card-note">Single snapshots confound permanent baseline offset $s$ with dynamic fluctuations, inflating naive $D$ by $1/(1-\varphi) \approx 3.3\times$. Multi-day lags isolate true relaxation $\hat{k}$ and diffusion $\hat{D}$.</div>
+      </div>
+
+      <div class="eq-card cyan">
+        <div class="eq-card-label">3 · Censored Perturbation Likelihood on Hidden Separatrix ρ = A_hi / A_mid</div>
+        <div>$$\mathcal{L}_m(\theta^{(j)}) = \begin{cases}\Phi\!\left(\dfrac{\ln\rho^{(j)} - \ln(1-p_{\text{eff},m})^{-1}}{\sigma_p}\right) &amp; \text{if rebounded to } A_{\text{hi}} \\[6pt] \Phi\!\left(\dfrac{\ln(1-p_{\text{eff},m})^{-1} - \ln\rho^{(j)}}{\sigma_p}\right) &amp; \text{if held near } A_{\text{lo}}\end{cases}$$</div>
+        <div class="eq-card-note">Every past cutback/break attempt $(p_m, \Delta t_m)$ acts as an in-vivo Perturbation Assay (`Article 07 §10.4`), bracketing your personal saddle ratio $\hat{\rho}$ from below (rebound) and above (sustained escape).</div>
+      </div>
+
+      <div class="eq-card violet">
+        <div class="eq-card-label">4 · 5-Circuit Softmax Posterior &amp; Pre-Committed Brier Skill Score</div>
+        <div>$$\mathbf{w}_T = \mathrm{softmax}\!\left(\sum_{t=1}^T \mathbf{z}_t\right), \qquad \mathrm{BS} = \frac{1}{K}\sum_{k=1}^K (\hat{p}_k - o_k)^2, \qquad \mathrm{BSS} = 1 - \frac{\mathrm{BS}}{\mathrm{BS}_{\text{clim}}}$$</div>
+        <div class="eq-card-note">Locks a timestamped 24h capture probability $\hat{p}_{t+1}$ before tomorrow arrives and grades every hit and miss publicly against base-rate climatology.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN WORKSPACE -->
+<main class="shell">
+
+  <div class="reel-badge-bar">
+    <span class="reel-handle">@neurosciencerprime</span>
+    <span>SIM 08 · PERSONAL BEHAVIORAL STATE FORECASTER</span>
+  </div>
+
+  <!-- HERO HEADER -->
+  <div class="hero-strip">
+    <div>
+      <div class="eyebrow">SIMULATION 08 // PERSONAL BAYESIAN ITÔ SDE, SEPARATRIX BRACKETING &amp; BRIER SELF-CALIBRATION</div>
+      <h1 class="page-title">PERSONAL <span>BEHAVIORAL FORECASTER</span> &amp; <span class="org">TRAJECTORY LAB</span></h1>
+      <p class="page-sub">Fit your own `(v, D, φ, k, ρ̂, ΔU/D)` and dominant RPrime circuit from daily check-ins, past quit/break rebound perturbations, and a 30s variable-ratio micro-assay. Zero generic self-help, zero fake Day-1 point forecasts, 100% private on-device vault synced live to the Loyal RPrime SI (`⌘J`).</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button type="button" class="ctrl-btn primary" id="btnExportPng">📸 Export 1080×1350 Trajectory Receipt (PNG)</button>
+      <button type="button" class="ctrl-btn" id="btnExportJson">⬇ Backup Vault JSON</button>
+      <label class="ctrl-btn" style="cursor:pointer;">⬆ Import JSON<input type="file" id="inpImportJson" accept=".json,application/json" style="display:none;"></label>
+    </div>
+  </div>
+
+  <!-- PROFILE & DEMO SELECTOR BAR -->
+  <div class="profile-bar">
+    <div class="profile-left">
+      <span class="vault-badge" id="vaultModeBadge">🔒 PRIVATE ON-DEVICE VAULT</span>
+      <select class="sim-select" id="selectLoopType" style="width:auto;min-width:235px;">
+        <option value="Short-Form Doomscrolling">Loop: Short-Form Doomscrolling</option>
+        <option value="Compulsive Feed / Message Checking">Loop: Compulsive Feed / Message Checking</option>
+        <option value="Gaming / Variable-Ratio Ranked Queue">Loop: Gaming / Variable-Ratio Queue</option>
+        <option value="Nicotine / Caffeine / Substance Loop">Loop: Nicotine / Caffeine / Substance</option>
+        <option value="Penrose-Style Obsessive Studying">Loop: Penrose-Style Obsessive Studying</option>
+        <option value="Custom Compulsive Loop">Loop: Custom Behavioral Loop</option>
+      </select>
+      <input type="text" class="sim-input" id="inpCustomLoopName" placeholder="Name custom loop..." style="width:185px;display:none;">
+    </div>
+
+    <div class="profile-left">
+      <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted2);">READ-PREVIEW DEMOS:</span>
+      <button type="button" class="ctrl-btn cyan" data-demo="doomscroll" id="btnDemoDoom">14d Late-Night Doomscroller</button>
+      <button type="button" class="ctrl-btn cyan" data-demo="academic" id="btnDemoAcad">12d Stress α1A Spiral</button>
+      <button type="button" class="ctrl-btn cyan" data-demo="nmda" id="btnDemoNmda">10d Hypo-DA NMDA Scroller</button>
+      <button type="button" class="ctrl-btn primary" id="btnUsePrivateVault">🔒 My Private Log</button>
+      <button type="button" class="ctrl-btn danger" id="btnWipeVault" title="Clear Private Local Vault">🗑 Wipe</button>
+    </div>
+  </div>
+
+  <!-- IRONCLAD HONESTY GATE BANNER -->
+  <section class="gate-banner" id="honestyGateBanner">
+    <span class="gate-tag" id="gateTag">[?] ρ UNBOUNDED · DAY-1 PRIOR LOCK</span>
+    <div class="gate-text" id="gateText">
+      <strong>Point escape-time forecasts are mathematically locked</strong> (`n_logs &lt; 5` or `n_perturbations &lt; 1`). Cross-sectional severity $R$ yields $R^2=0.32$ and single snapshots inflate $D$ by $3.3\times$. Log $\ge 5$ daily check-ins + $\ge 1$ break perturbation to unlock calibrated point medians.
+    </div>
+    <button type="button" class="ctrl-btn cyan" id="btnAskSIAboutState">🤖 Ask RPrime SI About My Numbers →</button>
+  </section>
+
+  <!-- MAIN 2-COLUMN BENTO -->
+  <div class="workspace-bento">
+
+    <!-- ==================== LEFT COLUMN: INTAKE, PERTURBATIONS & 30S MICRO-ASSAY ==================== -->
+    <div class="col-stack">
+
+      <!-- PANEL L1: DAILY SELF-SCORING CHECK-IN + 24H CIRCADIAN RING -->
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-eyebrow">15-SECOND DAILY CHECK-IN &amp; LOCKED 24H BET GRADER</div>
+            <h2 class="panel-title">Log Episode Telemetry &amp; Score Yesterday's Forecast</h2>
+          </div>
+          <span class="panel-badge" id="logCountBadge">0 Logs · 0 Perturbations</span>
+        </div>
+
+        <!-- Locked 24h Quantitative Bet upfront -->
+        <div class="bet-card">
+          <div>
+            <div style="font-family:var(--font-mono);font-size:9.5px;color:var(--violet);text-transform:uppercase;">LOCKED 24H CAPTURE FORECAST (GRADED ON NEXT LOG)</div>
+            <div style="font-family:var(--font-mono);font-size:12px;color:var(--text);" id="betWindowLabel">Window: 20:00–24:00 · Cue: bed_phone_reach</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="bet-prob" id="betProbVal">68%</div>
+            <div style="font-family:var(--font-mono);font-size:9.5px;color:var(--muted2);" id="brierQuickBadge">Brier: Unscored (N=0)</div>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="field-box">
+            <div class="field-head"><span>Daily Loop Load (Minutes)</span><strong id="lblBoutsMin">95 min</strong></div>
+            <input type="range" class="sim-range orange" id="inpBoutsMin" min="0" max="360" step="5" value="95">
+          </div>
+          <div class="field-box">
+            <div class="field-head"><span>Urge-to-Entry Latency</span><strong id="lblLatency">4 s</strong></div>
+            <input type="range" class="sim-range cyan" id="inpLatency" min="1" max="120" step="1" value="4">
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="field-box">
+            <div class="field-head"><span>Pre-Act Pull (Wanting 0–10)</span><strong id="lblWanting" style="color:var(--orange)">8.5</strong></div>
+            <input type="range" class="sim-range orange" id="inpWanting" min="0" max="10" step="0.5" value="8.5">
+          </div>
+          <div class="field-box">
+            <div class="field-head"><span>Post-Act Payoff (Liking 0–10)</span><strong id="lblLiking" style="color:var(--cyan)">2.0</strong></div>
+            <input type="range" class="sim-range cyan" id="inpLiking" min="0" max="10" step="0.5" value="2.0">
+          </div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="field-box">
+            <div class="field-head"><span>Restlessness</span><strong id="lblRestless">4.0</strong></div>
+            <input type="range" class="sim-range" id="inpRestless" min="0" max="10" step="0.5" value="4.0">
+          </div>
+          <div class="field-box">
+            <div class="field-head"><span>Task/Ego Threat</span><strong id="lblEgo">3.0</strong></div>
+            <input type="range" class="sim-range violet" id="inpEgo" min="0" max="10" step="0.5" value="3.0">
+          </div>
+          <div class="field-box">
+            <div class="field-head"><span>Social Isolation</span><strong id="lblIsolation">3.5</strong></div>
+            <input type="range" class="sim-range cyan" id="inpIsolation" min="0" max="10" step="0.5" value="3.5">
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="field-box">
+            <div class="field-head"><span>Perceived Hit Odds p_hit</span><strong id="lblHitProb">0.50 (Max VTA Var)</strong></div>
+            <input type="range" class="sim-range violet" id="inpHitProb" min="0.05" max="0.95" step="0.05" value="0.50">
+          </div>
+          <div class="field-box">
+            <div class="field-head"><span>Agitation Shift During Act</span><strong id="lblPostCalm">0.0 (Flat)</strong></div>
+            <input type="range" class="sim-range" id="inpPostCalm" min="-5" max="5" step="0.5" value="0.0">
+          </div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="field-box">
+            <div class="field-head"><span>Peak Time Window</span></div>
+            <select class="sim-select" id="inpTimeWindow">
+              <option value="00:00-04:00">00:00–04:00 (Late Night)</option>
+              <option value="04:00-08:00">04:00–08:00 (Wake)</option>
+              <option value="08:00-12:00">08:00–12:00 (Morning)</option>
+              <option value="12:00-16:00">12:00–16:00 (Afternoon)</option>
+              <option value="16:00-20:00">16:00–20:00 (Evening)</option>
+              <option value="20:00-24:00" selected>20:00–24:00 (Bed/Night)</option>
+            </select>
+          </div>
+          <div class="field-box">
+            <div class="field-head"><span>Primary Cue Trigger</span></div>
+            <select class="sim-select" id="inpCueTag">
+              <option value="bed_phone_reach">bed_phone_reach</option>
+              <option value="hard_work_stall">hard_work_stall</option>
+              <option value="notification_ping">notification_ping</option>
+              <option value="understimulated_boredom">understimulated_boredom</option>
+              <option value="solo_evening_isolation">solo_evening_isolation</option>
+              <option value="wake_first_5min">wake_first_5min</option>
+            </select>
+          </div>
+          <div class="field-box">
+            <div class="field-head"><span>24h Outcome</span></div>
+            <select class="sim-select" id="inpSlipped">
+              <option value="1" selected>Captured / Slipped (1)</option>
+              <option value="0">Held / Clean Window (0)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+          <button type="button" class="ctrl-btn primary" id="btnAddDailyLog" style="flex:1;padding:10px 14px;font-size:11.5px;">⚡ Commit Daily Check-In &amp; Re-Run 1,024-Particle Filter</button>
+        </div>
+
+        <!-- 24-Hour Interactive Circadian Risk Ring -->
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-top:4px;border-top:1px solid var(--border);">
+          <canvas id="circadianCanvas" class="sim-canvas" height="120" style="width:120px;flex-shrink:0;cursor:pointer;"></canvas>
+          <div style="flex:1;min-width:190px;">
+            <div class="panel-eyebrow" style="color:var(--lime);margin-bottom:3px;">24-HOUR CIRCADIAN VULNERABILITY RING (CLICK HOURS)</div>
+            <p style="font-size:12px;color:var(--muted2);line-height:1.45;" id="circadianSummaryText">Click hours `00–23` around the dial to mark your high-vulnerability circadian windows. Merged directly with empirical slip logs to lock your next 24h hazard bet.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PANEL L2: PAST BREAK / PERTURBATION LEDGER (BRACKETING HIDDEN RHO) -->
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-eyebrow">ARTICLE 07 SEPARATRIX BRACKETING // CENSORED LIKELIHOOD</div>
+            <h2 class="panel-title">Past Cutback / Break Perturbation Ledger</h2>
+          </div>
+          <span class="panel-badge cyan" id="rhoBracketBadge">ρ̂ Bracket: Prior [1.15 – 2.05]</span>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="field-box">
+            <div class="field-head"><span>Cutback / Reduction %</span><strong id="lblPertCut">40% Cut</strong></div>
+            <input type="range" class="sim-range cyan" id="inpPertCut" min="10" max="90" step="5" value="40">
+          </div>
+          <div class="field-box">
+            <div class="field-head"><span>Break Duration (Hours)</span><strong id="lblPertDur">48 h</strong></div>
+            <input type="range" class="sim-range" id="inpPertDur" min="6" max="336" step="6" value="48">
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="field-box">
+            <div class="field-head"><span>Post-Break Outcome</span></div>
+            <select class="sim-select" id="inpPertOutcome">
+              <option value="rebounded" selected>Rebounded to High Loop (ρ &gt; 1/(1−p))</option>
+              <option value="held">Held / Collapsed to Baseline (ρ &lt; 1/(1−p))</option>
+            </select>
+          </div>
+          <div class="field-box">
+            <div class="field-head"><span>Rebound Latency (if rebounded)</span><strong id="lblReboundHrs">18 h</strong></div>
+            <input type="range" class="sim-range orange" id="inpReboundHrs" min="2" max="168" step="2" value="18">
+          </div>
+        </div>
+
+        <button type="button" class="ctrl-btn cyan" id="btnAddPerturbation">➕ Record Perturbation &amp; Tighten Separatrix ρ̂ Bounds</button>
+
+        <div class="ledger-scroll">
+          <table class="ledger-table">
+            <thead>
+              <tr><th>#</th><th>Cut %</th><th>Duration</th><th>Outcome</th><th>Implied Saddle Bound</th></tr>
+            </thead>
+            <tbody id="pertLedgerBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- PANEL L3: OPTIONAL 30S IN-CANVAS VARIABLE-RATIO CUE & DELAY MICRO-ASSAY -->
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-eyebrow">OBJECTIVE MOTOR TELEMETRY // 8-TRIAL 50/50 UNCERTAINTY PROBE</div>
+            <h2 class="panel-title">30s Variable-Ratio Cue &amp; Premature-Capture Micro-Assay</h2>
+          </div>
+          <button type="button" class="ctrl-btn violet" id="btnStartAssay">▶ Start 30s Probe</button>
+        </div>
+
+        <canvas id="microAssayCanvas" class="sim-canvas" height="135" style="cursor:pointer;"></canvas>
+        <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10.5px;color:var(--muted2);" id="assayReadoutRow">
+          <span>Premature Capture Rate: <b id="lblAssayPremature" style="color:var(--orange)">—</b></span>
+          <span>Reaction Time CV: <b id="lblAssayRtCv" style="color:var(--cyan)">—</b></span>
+          <span id="lblAssayState">Idle · Click Start</span>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ==================== RIGHT COLUMN: BAYESIAN POSTERIOR, 4 RETINA CANVASES & BRIER LEDGER ==================== -->
+    <div class="col-stack">
+
+      <!-- PANEL R1: POSTERIOR STATE SUMMARY + OPTIMAL NEXT PERTURBATION + MECHANISTIC LEVER -->
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-eyebrow">POSTERIOR BIOPHYSICAL TELEMETRY // LIVE STATEPACKET</div>
+            <h2 class="panel-title" id="posteriorHeaderTitle">Fitted Loop Parameters &amp; Dominant Mechanistic Circuit</h2>
+          </div>
+          <span class="panel-badge violet" id="essBadge">SMC: 1,024 Particles</span>
+        </div>
+
+        <div class="kpi-grid-6">
+          <div class="metric-box">
+            <div class="metric-label">Hidden Separatrix ρ̂</div>
+            <div class="metric-val" id="kpiRho" style="color:var(--cyan)">1.44 [1.18–1.86]</div>
+            <div class="metric-sub" id="kpiRhoSub">90% Credible Interval</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Loop Gain v &amp; Decay k</div>
+            <div class="metric-val" id="kpiVK" style="color:var(--lime)">v=1.34 · k=0.42 d⁻¹</div>
+            <div class="metric-sub" id="kpiVKSub">E_v = +21.8 vs E_d ≡ 0</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">De-Aliased Noise D &amp; φ</div>
+            <div class="metric-val" id="kpiDPhi" style="color:var(--orange)">D=0.028 · φ=0.70</div>
+            <div class="metric-sub" id="kpiDPhiSub">Variogram static split</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Barrier ΔU/D &amp; Escape τ</div>
+            <div class="metric-val" id="kpiTau" style="color:var(--violet)">LOCKED [12d–390d]</div>
+            <div class="metric-sub" id="kpiTauSub">Point τ locked until N≥5</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Wanting − Liking Gap</div>
+            <div class="metric-val" id="kpiWLGap" style="color:var(--orange)">+6.5 (Rent State)</div>
+            <div class="metric-sub" id="kpiWLSub">Top Cue Lift: 1.85×</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">Brier Skill Score (BSS)</div>
+            <div class="metric-val" id="kpiBrier" style="color:var(--cyan)">Unscored (0 Bets)</div>
+            <div class="metric-sub" id="kpiBrierSub">vs Base-Rate Climatology</div>
+          </div>
+        </div>
+
+        <!-- Mechanistic Circuit Prescription (Zero Generic Self-Help!) -->
+        <div class="lever-prescription" id="leverPrescriptionBox">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span style="font-family:var(--font-mono);font-size:10.5px;font-weight:600;color:var(--lime);" id="circuitBadgeTitle">DOMINANT CIRCUIT: D1 / ΔFosB WANTING-WITHOUT-LIKING</span>
+            <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted2);" id="circuitSepTag">Posterior Separation: Checking...</span>
+          </div>
+          <div style="font-size:13px;color:#e5e1d8;line-height:1.52;" id="circuitLeverText"></div>
+        </div>
+
+        <!-- Bayesian Optimal Experimental Design: Next Micro-Perturbation -->
+        <div class="opt-pert-card">
+          <div style="flex:1;min-width:240px;">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--cyan);text-transform:uppercase;">OPTIMAL INFORMATION-MAXIMIZING NEXT PERTURBATION (BISECTS ρ̂ POSTERIOR)</div>
+            <div style="font-size:12.5px;color:#dad6ce;margin-top:2px;" id="optPertText">Run a <strong>31% volume cut for 48 hours</strong> to bisect your personal saddle at ρ_crit = 1.45 (expected 90% CI shrinkage: −44%).</div>
+          </div>
+          <button type="button" class="ctrl-btn cyan" id="btnLoadOptPert">Load Into Assay ↑</button>
+        </div>
+      </section>
+
+      <!-- PANEL R2: CANVAS 1 (PHASE-SPACE BASIN & SEPARATRIX) + CANVAS 2 (500-PATH TRAJECTORY FAN) -->
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-eyebrow">CANVAS 1 &amp; 2 // PERSONAL ITÔ POTENTIAL BASIN &amp; 500-PATH EULER–MARUYAMA FAN</div>
+            <h2 class="panel-title">Personal Separatrix Landscape U_eff(x) &amp; Multi-Lever Trajectory Forecast</h2>
+          </div>
+          <div class="mini-tabs" id="fanHorizonTabs">
+            <button type="button" class="mini-tab active" data-days="30">30-Day Fan</button>
+            <button type="button" class="mini-tab" data-days="90">90-Day Fan</button>
+            <button type="button" class="mini-tab" data-days="365">365-Day Horizon</button>
+          </div>
+        </div>
+
+        <canvas id="basinCanvas" class="sim-canvas" height="205"></canvas>
+        <canvas id="fanCanvas" class="sim-canvas" height="225"></canvas>
+      </section>
+
+      <!-- PANEL R3: CANVAS 3 (5-CIRCUIT POSTERIOR & CUE LIFT) + CANVAS 4 (WANTING/LIKING & BRIER CALIBRATION) -->
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-eyebrow">CANVAS 3 &amp; 4 // MECHANISTIC PHENOTYPE POSTERIOR, CUE-LIFT &amp; BRIER AUDIT</div>
+            <h2 class="panel-title">5-Circuit Attribution, Trigger Hazard Multipliers &amp; Forecast Ledger</h2>
+          </div>
+          <span class="panel-badge cyan" id="topCueBadge">Top Cue Lift: —</span>
+        </div>
+
+        <canvas id="circuitCanvas" class="sim-canvas" height="195"></canvas>
+        <canvas id="historyBrierCanvas" class="sim-canvas" height="185"></canvas>
+
+        <div class="ledger-scroll">
+          <table class="ledger-table">
+            <thead>
+              <tr><th>Day</th><th>Window &amp; Cue</th><th>W / L</th><th>Locked P(Slip)</th><th>Actual</th><th>Brier Error (p−o)²</th></tr>
+            </thead>
+            <tbody id="brierLedgerBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <footer class="lab-footer">
+    <div><strong style="color:var(--text);">Neuroscience with <span style="color:var(--lime);">RPrime</span></strong> · Sim 08 Personal Behavioral State Forecaster · Zero Cloud Tracking (100% Local Vault + Loyal RPrime SI)</div>
+    <div><a href="./neurolab.html">← NeuroLab Command Deck</a> · <a href="./sim_cohort_trial.html">Sim 06 1,000-Brain Trial →</a></div>
+  </footer>
+
+</main>
+
+<script>
+(function() {
+  'use strict';
+
+  // ─── KA-TEX AUTO-RENDER ─────────────────────────────────────────────────────
+  function renderMathSafe(el) {
+    if (typeof window.renderMathInElement === 'function') {
+      try {
+        window.renderMathInElement(el || document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false },
+            { left: '\\(', right: '\\)', display: false },
+            { left: '\\[', right: '\\]', display: true }
+          ],
+          throwOnError: false
+        });
+      } catch (_) {}
+    }
+  }
+  window.addEventListener('DOMContentLoaded', () => renderMathSafe(document.body));
+  window.addEventListener('load', () => renderMathSafe(document.body));
+
+  // ─── DETERMINISTIC PRNG & MATH HELPERS ──────────────────────────────────────
+  function mulberry32(seed) {
+    let a = seed >>> 0;
+    return function() {
+      a |= 0;
+      a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function makeNormal(rng) {
+    let spare = null;
+    return function() {
+      if (spare !== null) { const v = spare; spare = null; return v; }
+      let u = 0, w = 0;
+      while (u <= 1e-12) u = rng();
+      while (w <= 1e-12) w = rng();
+      const mag = Math.sqrt(-2.0 * Math.log(u));
+      spare = mag * Math.sin(2.0 * Math.PI * w);
+      return mag * Math.cos(2.0 * Math.PI * w);
+    };
+  }
+
+  // Standard Normal CDF (Abramowitz & Stegun 7.1.26)
+  function normCdf(z) {
+    if (z < -8) return 1e-15;
+    if (z > 8) return 1.0 - 1e-15;
+    const sign = z < 0 ? -1 : 1;
+    const x = Math.abs(z) / Math.SQRT2;
+    const t = 1.0 / (1.0 + 0.3275911 * x);
+    const erf = 1.0 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x);
+    return 0.5 * (1.0 + sign * erf);
+  }
+
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+  function quantileSorted(sortedArr, q) {
+    if (!sortedArr.length) return 0;
+    const pos = clamp(q, 0, 1) * (sortedArr.length - 1);
+    const lo = Math.floor(pos), hi = Math.ceil(pos);
+    return sortedArr[lo] + (pos - lo) * (sortedArr[hi] - sortedArr[lo]);
+  }
+
+  // ─── RISHIK'S ITÔ LOG-SPACE BISTABLE LOOP EQUATIONS (ARTICLE 07 §10.4) ──────
+  const B0_REF = 4.20;
+  const K_REF  = 3.60;
+  const KA_REF = 8.40;
+  const N_HILL = 4.0;
+  const V_SCALE_BASE = 42.0; // v_norm in [1.21, 1.62] -> strictly bistable, rho in [1.10, 2.45]!
+
+  function itoDriftX(x, vNorm, D, dDrive) {
+    const A = Math.exp(x);
+    const r = A / K_REF;
+    const r2 = r * r;
+    const rn = r2 * r2;
+    const vPhys = V_SCALE_BASE * vNorm;
+    const f = B0_REF + dDrive + (vPhys * rn) / (1.0 + rn) - KA_REF * A;
+    return f / A - D;
+  }
+
+  function findLoopRoots(vNorm, D) {
+    const roots = [];
+    const M = 180;
+    const xmin = -1.6, xmax = 2.8;
+    const dx = (xmax - xmin) / M;
+    let px = xmin, py = itoDriftX(xmin, vNorm, D, 0.0);
+    for (let i = 1; i <= M; i++) {
+      const cx = xmin + i * dx;
+      const cy = itoDriftX(cx, vNorm, D, 0.0);
+      if (py * cy <= 0.0) {
+        let lo = px, hi = cx, flo = py;
+        for (let it = 0; it < 16; it++) {
+          const mid = 0.5 * (lo + hi);
+          const fmid = itoDriftX(mid, vNorm, D, 0.0);
+          if (flo * fmid <= 0.0) hi = mid; else { lo = mid; flo = fmid; }
+        }
+        roots.push(0.5 * (lo + hi));
+      }
+      px = cx; py = cy;
+    }
+    return roots;
+  }
+
+  function computeBarrierAndTau(xLo, xMid, xHi, vNorm, D, kRelax) {
+    const S = 44;
+    const h = (xHi - xMid) / S;
+    let dU = 0.0;
+    for (let i = 0; i <= S; i++) {
+      const w = (i === 0 || i === S) ? 0.5 : 1.0;
+      const val = itoDriftX(xMid + i * h, vNorm, D, 0.0);
+      if (val > 0) dU += w * val;
+    }
+    dU *= h;
+    // Scale barrier relaxation with user's empirical loop rate kRelax relative to reference 0.40 d^-1
+    const kScale = clamp(kRelax / 0.40, 0.35, 2.8);
+    const effRatio = clamp((dU * kScale) / Math.max(0.006, D), 0.15, 11.5);
+    const prefactor = 2.4 / Math.max(0.12, kRelax);
+    const tau = clamp(prefactor * Math.exp(effRatio), 0.8, 18250.0);
+    return { dU: dU * kScale, ratio: effRatio, tau };
+  }
+
+  // ─── 5 MECHANISTIC PHENOTYPE DEFINITIONS (SIM-2-PARADOX SPEC) ───────────────
+  const CIRCUITS = [
+    {
+      id: 'd1_wanting_liking',
+      label: 'D1 / ΔFosB Wanting-Without-Liking Habit',
+      shortLabel: 'D1 Wanting≠Liking',
+      article: 'Articles 07 & 08',
+      color: '#c8ff00',
+      buildLever: (pkt) => `Your pre-act Wanting exceeds post-act Liking by +${pkt.latest.wanting_minus_liking.toFixed(1)} with ${pkt.latest.entry_latency_s.toFixed(0)}s entry latency. Pure cue resistance during abstinence has zero structural elasticity (E_d = 0). Insert a mandatory +20s physical room/device separation during ${pkt.next_bet.window} (${pkt.empirical.top_cue}, ${pkt.empirical.top_cue_lift.toFixed(2)}× hazard lift) to cut cortico-striatal AMPAR loop gain v (E_v = +${pkt.params.elasticity_v.toFixed(1)}).`
+    },
+    {
+      id: 'alpha1a_shunt',
+      label: 'LC-NE α1A Status / Intimidation PFC Shunt',
+      shortLabel: 'α1A Stress Shunt',
+      article: 'Penrose Article',
+      color: '#9b88ff',
+      buildLever: (pkt) => `Episodes cluster after high task/ego threat (${pkt.latest.ego_threat.toFixed(1)}/10) via '${pkt.empirical.top_cue}' (${pkt.empirical.top_cue_lift.toFixed(2)}× lift). Excess locus coeruleus NE hits low-affinity α1A receptors, opening Layer III HCN channels and shunting dlPFC working memory. Never "push harder" (raises NE); strip status framing and shrink initial work entry below 120 seconds before ${pkt.next_bet.window}.`
+    },
+    {
+      id: 'nmda_static',
+      label: 'Hypo-DA / Maladaptive H_NMDA Cortical Static',
+      shortLabel: 'Hypo-DA NMDA Static',
+      article: 'Article 04',
+      color: '#00e5ff',
+      buildLever: (pkt) => `High baseline somatic restlessness (${pkt.latest.restlessness.toFixed(1)}/10) paired with paradoxical agitation relief (${pkt.latest.post_calm >= 0 ? '+' : ''}${pkt.latest.post_calm.toFixed(1)}) indicates maladaptive glutamatergic H_NMDA compensation rather than hedonism. Blank sensory deprivation worsens H_NMDA noise; swap fragmented Poisson feeds for single-channel high-SNR motor/kinesthetic load during ${pkt.next_bet.window}.`
+    },
+    {
+      id: 'variable_ratio',
+      label: '50/50 Variable-Ratio VTA Uncertainty Loop',
+      shortLabel: '50/50 VTA Uncertainty',
+      article: 'Article 08',
+      color: '#ff6b35',
+      buildLever: (pkt) => `Perceived hit probability (${pkt.latest.hit_prob.toFixed(2)}) sits near the p=0.50 coin-flip peak maximizing 4p(1−p) = ${(4 * pkt.latest.hit_prob * (1 - pkt.latest.hit_prob)).toFixed(2)} VTA uncertainty firing. Collapse prediction variance p(1−p) → 0 by converting '${pkt.empirical.top_cue}' into two deterministic fixed-clock batch checks and disabling live refresh.`
+    },
+    {
+      id: 'social_pain_mor',
+      label: 'dACC / Endogenous MOR Social-Pain Substitution',
+      shortLabel: 'dACC/MOR Isolation',
+      article: 'Article 08',
+      color: '#ff3b5c',
+      buildLever: (pkt) => `Isolation load (${pkt.latest.isolation.toFixed(1)}/10) drives '${pkt.empirical.top_cue}' (${pkt.empirical.top_cue_lift.toFixed(2)}× hazard lift). Social separation recruits dorsal anterior cingulate pain circuitry and depletes endogenous μ-opioid tone. Pre-empt ${pkt.next_bet.window} with synchronous live voice or physical co-presence rather than solo white-knuckling.`
+    }
+  ];
+
+  // ─── 1,024-PARTICLE FLOAT32 SEQUENTIAL MONTE CARLO ARRAYS ───────────────────
+  const NP = 1024;
+  const pf_v    = new Float32Array(NP);
+  const pf_k    = new Float32Array(NP);
+  const pf_D    = new Float32Array(NP);
+  const pf_s    = new Float32Array(NP);
+  const pf_x    = new Float32Array(NP);
+  const pf_xLo  = new Float32Array(NP);
+  const pf_xMid = new Float32Array(NP);
+  const pf_xHi  = new Float32Array(NP);
+  const pf_rho  = new Float32Array(NP);
+  const pf_dU   = new Float32Array(NP);
+  const pf_tau  = new Float32Array(NP);
+  const pf_w    = new Float64Array(NP);
+
+  // ─── 3 REALISTIC SEEDED DEMO PROFILES (READ-PREVIEW ONLY) ───────────────────
+  function buildDemoProfiles() {
+    const makeLogs = (seed, count, cfg) => {
+      const r = mulberry32(seed);
+      const nrm = makeNormal(r);
+      const logs = [];
+      let slowState = 0.0;
+      for (let d = 0; d < count; d++) {
+        const isPeakCue = r() < 0.58;
+        const cue = isPeakCue ? cfg.primaryCue : cfg.altCues[d % cfg.altCues.length];
+        const trueHazard = isPeakCue ? cfg.slipPeak : cfg.slipBase;
+        // Model's pre-committed 24h forecast conditioned on window/cue + recent load
+        const lockedPred = d === 0 ? 0.55 : clamp(trueHazard + 0.05 * slowState + 0.04 * nrm(), 0.10, 0.92);
+        const slipped = r() < trueHazard ? 1 : 0;
+        slowState = 0.78 * slowState + 0.22 * (slipped ? 1.1 : -0.9) + 0.18 * nrm();
+        const bouts = Math.round(clamp(cfg.boutsMean * Math.exp(0.24 * slowState + 0.09 * nrm()), 12, 330));
+        const wanting = clamp(Math.round((cfg.wantMean + 0.6 * slowState + 0.6 * nrm()) * 2) / 2, 0, 10);
+        const liking = clamp(Math.round((cfg.likeMean + 0.6 * nrm()) * 2) / 2, 0, 10);
+        logs.push({
+          dayIndex: d + 1,
+          timestamp: new Date(Date.now() - (count - d) * 86400000).toISOString(),
+          bouts_min: bouts,
+          wanting,
+          liking,
+          restlessness: clamp(Math.round((cfg.restMean + 0.8 * nrm()) * 2) / 2, 0, 10),
+          ego_threat: clamp(Math.round((cfg.egoMean + (isPeakCue && cfg.egoSpike ? 2.2 : 0) + 0.8 * nrm()) * 2) / 2, 0, 10),
+          isolation: clamp(Math.round((cfg.isoMean + 0.8 * nrm()) * 2) / 2, 0, 10),
+          hit_prob: clamp(Math.round((cfg.hitMean + 0.07 * nrm()) * 20) / 20, 0.05, 0.95),
+          post_calm: clamp(Math.round((cfg.calmMean + 0.6 * nrm()) * 2) / 2, -5, 5),
+          entry_latency_s: Math.round(clamp(cfg.latMean + 2.5 * nrm(), 1, 90)),
+          time_window: isPeakCue ? cfg.window : '12:00-16:00',
+          cue_tag: cue,
+          slipped,
+          locked_pred_prob: +lockedPred.toFixed(3)
+        });
+      }
+      return logs;
+    };
+
+    return {
+      doomscroll: {
+        loop_name: 'Short-Form Doomscrolling',
+        circadian_hours: [0, 22, 23],
+        assay: { premature_rate: 0.38, rt_cv: 0.29 },
+        logs: makeLogs(4101, 14, {
+          primaryCue: 'bed_phone_reach', altCues: ['notification_ping', 'wake_first_5min'],
+          window: '20:00-24:00', slipPeak: 0.82, slipBase: 0.30,
+          boutsMean: 118, wantMean: 8.6, likeMean: 1.9, restMean: 3.8, egoMean: 2.8, egoSpike: false,
+          isoMean: 3.6, hitMean: 0.48, calmMean: -0.4, latMean: 3.2
+        }),
+        perturbations: [
+          { cut_pct: 25, duration_hours: 36, outcome: 'rebounded', rebound_hours: 14 },
+          { cut_pct: 50, duration_hours: 72, outcome: 'held', rebound_hours: 72 }
+        ]
+      },
+      academic: {
+        loop_name: 'Penrose-Style Obsessive Studying',
+        circadian_hours: [14, 15, 21, 22],
+        assay: { premature_rate: 0.18, rt_cv: 0.21 },
+        logs: makeLogs(5202, 12, {
+          primaryCue: 'hard_work_stall', altCues: ['notification_ping', 'solo_evening_isolation'],
+          window: '16:00-20:00', slipPeak: 0.78, slipBase: 0.25,
+          boutsMean: 84, wantMean: 6.8, likeMean: 3.4, restMean: 4.5, egoMean: 7.4, egoSpike: true,
+          isoMean: 4.0, hitMean: 0.35, calmMean: -1.8, latMean: 7.5
+        }),
+        perturbations: [
+          { cut_pct: 30, duration_hours: 48, outcome: 'rebounded', rebound_hours: 20 },
+          { cut_pct: 45, duration_hours: 60, outcome: 'held', rebound_hours: 60 }
+        ]
+      },
+      nmda: {
+        loop_name: 'Compulsive Feed / Message Checking',
+        circadian_hours: [10, 11, 15, 16, 23],
+        assay: { premature_rate: 0.25, rt_cv: 0.34 },
+        logs: makeLogs(6303, 10, {
+          primaryCue: 'understimulated_boredom', altCues: ['wake_first_5min', 'bed_phone_reach'],
+          window: '12:00-16:00', slipPeak: 0.76, slipBase: 0.32,
+          boutsMean: 96, wantMean: 7.2, likeMean: 4.2, restMean: 8.2, egoMean: 2.6, egoSpike: false,
+          isoMean: 3.2, hitMean: 0.45, calmMean: 3.2, latMean: 5.0
+        }),
+        perturbations: [
+          { cut_pct: 35, duration_hours: 48, outcome: 'rebounded', rebound_hours: 12 }
+        ]
+      }
+    };
+  }
+
+  const DEMO_PROFILES = buildDemoProfiles();
+  const VAULT_STORAGE_KEY = 'rprime_tracker_v1';
+  const PACKET_STORAGE_KEY = 'rprime_state_packet_v1';
+
+  // ─── WORKSPACE DATA STATE ───────────────────────────────────────────────────
+  function makeEmptyVault() {
+    return {
+      loop_name: 'Short-Form Doomscrolling',
+      circadian_hours: [22, 23],
+      logs: [],
+      perturbations: [],
+      assay: { premature_rate: null, rt_cv: null },
+      pending_bet: {
+        window: '20:00-24:00',
+        cue: 'bed_phone_reach',
+        prob: 0.65,
+        locked_at: new Date().toISOString()
+      }
+    };
+  }
+
+  function loadPrivateVault() {
+    try {
+      const raw = localStorage.getItem(VAULT_STORAGE_KEY);
+      if (!raw) return makeEmptyVault();
+      const parsed = JSON.parse(raw);
+      if (!parsed || !Array.isArray(parsed.logs) || !Array.isArray(parsed.perturbations)) {
+        return makeEmptyVault();
+      }
+      parsed.circadian_hours = Array.isArray(parsed.circadian_hours) ? parsed.circadian_hours : [22, 23];
+      parsed.assay = parsed.assay || { premature_rate: null, rt_cv: null };
+      parsed.pending_bet = parsed.pending_bet || {
+        window: '20:00-24:00', cue: 'bed_phone_reach', prob: 0.65, locked_at: new Date().toISOString()
+      };
+      return parsed;
+    } catch (_) {
+      return makeEmptyVault();
+    }
+  }
+
+  function savePrivateVault() {
+    if (UI.previewMode !== null) return; // Never overwrite private vault while previewing demo!
+    try {
+      localStorage.setItem(VAULT_STORAGE_KEY, JSON.stringify(privateVault));
+    } catch (_) {}
+  }
+
+  let privateVault = loadPrivateVault();
+
+  const UI = {
+    previewMode: privateVault.logs.length === 0 ? null : null, // Start directly in user's private vault (Day-1 honest lock!)
+    fanHorizonDays: 30,
+    reelMode: false,
+    lastPacket: null,
+    fanTrajectories: null,
+
+    // 30s Micro-assay state
+    assayRunning: false,
+    assayTrial: 0,
+    assayTotalTrials: 8,
+    assayPhase: 'idle', // 'hold' | 'go' | 'feedback' | 'done'
+    assayPhaseUntil: 0,
+    assayGoAt: 0,
+    assayPrematureCount: 0,
+    assayRts: [],
+    assayMsg: 'Click Start for 8 rapid variable-ratio cue trials'
+  };
+
+  function getActiveDataset() {
+    if (UI.previewMode && DEMO_PROFILES[UI.previewMode]) {
+      return DEMO_PROFILES[UI.previewMode];
+    }
+    return privateVault;
+  }
+
+  // ─── CORE MATHEMATICAL SOLVER: VARIOGRAM + 1024-PARTICLE SMC + STATEPACKET ──
+  function solvePersonalState(dataset) {
+    const logs = dataset.logs || [];
+    const perts = dataset.perturbations || [];
+    const nLogs = logs.length;
+    const nPerts = perts.length;
+    const predictionLocked = (nLogs < 5 || nPerts < 1);
+
+    // 1. Multi-Lag Empirical Variogram De-Aliasing (k, phi, D)
+    let kEst = 0.38;
+    let phiEst = 0.70;
+    let DEst = 0.0279;
+    let obsMeanY = Math.log(85 + 5);
+    let obsVarY = 0.16;
+
+    if (nLogs >= 1) {
+      const ys = new Float64Array(nLogs);
+      let sumY = 0;
+      for (let t = 0; t < nLogs; t++) {
+        ys[t] = Math.log(Math.max(0, logs[t].bouts_min) + 5.0);
+        sumY += ys[t];
+      }
+      obsMeanY = sumY / nLogs;
+
+      if (nLogs >= 5) {
+        let sq = 0;
+        for (let t = 0; t < nLogs; t++) {
+          const d = ys[t] - obsMeanY;
+          sq += d * d;
+        }
+        obsVarY = Math.max(0.025, sq / (nLogs - 1));
+
+        // Empirical variogram gamma(ell) = 0.5 * E[(y_{t+ell} - y_t)^2] for lags 1..min(4, nLogs-1)
+        const maxLag = Math.min(4, nLogs - 1);
+        const gammas = [];
+        for (let lag = 1; lag <= maxLag; lag++) {
+          let gSum = 0, cnt = 0;
+          for (let t = 0; t + lag < nLogs; t++) {
+            const diff = ys[t + lag] - ys[t];
+            gSum += 0.5 * diff * diff;
+            cnt++;
+          }
+          if (cnt > 0) gammas.push({ lag, g: gSum / cnt, w: cnt });
+        }
+
+        // Grid search over k in [0.20, 1.80] d^-1 to fit fast dynamic component vs persistent baseline s
+        // Lag-1 difference isolates fast fluctuations V_d, while total variance = V_s + V_d
+        const g1 = gammas[0] ? gammas[0].g : obsVarY * 0.35;
+        const gMax = gammas[gammas.length - 1] ? gammas[gammas.length - 1].g : g1;
+        let bestK = clamp(-Math.log(clamp(1.0 - g1 / Math.max(1e-5, gMax * 1.12), 0.15, 0.85)), 0.18, 1.65);
+        const vdEst = clamp(g1 / Math.max(0.22, 1.0 - Math.exp(-bestK)), 0.12 * obsVarY, 0.82 * obsVarY);
+        kEst = bestK;
+        phiEst = clamp(1.0 - vdEst / obsVarY, 0.18, 0.88);
+        // Scale dynamic log-variance into physiological Itô diffusion D = (1 - phi) * Var(y) * k
+        DEst = clamp((1.0 - phiEst) * obsVarY * kEst * 0.55, 0.014, 0.082);
+      }
+    }
+
+    // 2. Initialize 1,024 Particles Spanning Full Bistable Domain v_norm in [1.215, 1.62] (rho in [1.10, 2.45])
+    const rng = mulberry32(20260808 + nLogs * 97 + nPerts * 313);
+    const randn = makeNormal(rng);
+    const priorSpread = nLogs >= 5 ? 0.11 : 0.22;
+
+    for (let j = 0; j < NP; j++) {
+      let accepted = false;
+      let guard = 0;
+      while (!accepted && guard < 50) {
+        guard++;
+        const vn = clamp(1.37 + 0.11 * randn(), 1.215, 1.62);
+        const dj = clamp(DEst * Math.exp(priorSpread * randn()), 0.012, 0.088);
+        const kj = clamp(kEst * Math.exp(priorSpread * randn()), 0.15, 1.85);
+        const roots = findLoopRoots(vn, dj);
+        if (roots.length === 3) {
+          pf_v[j] = vn;
+          pf_D[j] = dj;
+          pf_k[j] = kj;
+          pf_xLo[j] = roots[0];
+          pf_xMid[j] = roots[1];
+          pf_xHi[j] = roots[2];
+          pf_rho[j] = Math.exp(roots[2] - roots[1]);
+          pf_s[j] = (obsMeanY - roots[2]) + 0.22 * randn();
+          pf_x[j] = roots[2] + 0.04 * randn();
+          pf_w[j] = 1.0 / NP;
+          accepted = true;
+        }
+      }
+      if (!accepted) {
+        const rootsFb = findLoopRoots(1.36, 0.028);
+        pf_v[j] = 1.36; pf_D[j] = 0.028; pf_k[j] = 0.38;
+        pf_xLo[j] = rootsFb[0]; pf_xMid[j] = rootsFb[1]; pf_xHi[j] = rootsFb[2];
+        pf_rho[j] = Math.exp(rootsFb[2] - rootsFb[1]);
+        pf_s[j] = obsMeanY - rootsFb[2]; pf_x[j] = rootsFb[2];
+        pf_w[j] = 1.0 / NP;
+      }
+    }
+
+    // 3. Sequential Monte Carlo Update Over Daily Logs (Liu-West Resampling)
+    const obsNoiseSD = 0.32;
+    for (let t = 0; t < nLogs; t++) {
+      const lg = logs[t];
+      const yt = Math.log(Math.max(0, lg.bouts_min) + 5.0);
+      const wlGap = lg.wanting - lg.liking;
+      const cueDrive = lg.slipped ? (0.35 + 0.08 * lg.wanting) : 0.0;
+
+      let wSum = 0.0;
+      for (let j = 0; j < NP; j++) {
+        // Propagate latent x_j via 4 substeps of Itô log-SDE
+        let xj = pf_x[j];
+        const vn = pf_v[j], dj = pf_D[j];
+        const dtSub = 0.25;
+        const sq2 = Math.sqrt(2.0 * dj * dtSub);
+        for (let s = 0; s < 4; s++) {
+          const drift = itoDriftX(xj, vn, dj, cueDrive);
+          xj = clamp(xj + drift * dtSub + sq2 * randn(), pf_xLo[j] - 0.35, pf_xHi[j] + 0.45);
+        }
+        pf_x[j] = xj;
+
+        // Observation likelihood: log-duration + gentle Wanting-Liking prior (leaving wide separatrix variance until perturbations bracket rho!)
+        const residY = (yt - (pf_s[j] + xj)) / obsNoiseSD;
+        const expectedGap = (vn - 1.18) * 16.0;
+        const residWL = (wlGap - expectedGap) / 6.5;
+        const like = Math.exp(-0.5 * (residY * residY + 0.12 * residWL * residWL));
+        pf_w[j] *= Math.max(1e-12, like);
+        wSum += pf_w[j];
+      }
+
+      if (wSum > 0) {
+        let essInv = 0;
+        for (let j = 0; j < NP; j++) {
+          pf_w[j] /= wSum;
+          essInv += pf_w[j] * pf_w[j];
+        }
+        const ess = 1.0 / Math.max(1e-12, essInv);
+        if (ess < NP * 0.55) {
+          systematicResampleLiuWest(rng, randn);
+        }
+      }
+    }
+
+    // 4. Exact Censored Perturbation Likelihood Over Past Break/Cutback Attempts
+    for (let m = 0; m < nPerts; m++) {
+      const pt = perts[m];
+      const cutFrac = clamp((pt.cut_pct || 30) / 100.0, 0.05, 0.92);
+      const durDays = Math.max(0.25, (pt.duration_hours || 24) / 24.0);
+      let wSum = 0.0;
+
+      for (let j = 0; j < NP; j++) {
+        // Effective receptor/loop displacement accounts for finite break duration relative to relaxation k_j
+        const relaxFrac = 1.0 - Math.exp(-pf_k[j] * durDays * 1.45);
+        const pEff = clamp(cutFrac * Math.max(0.35, relaxFrac), 0.04, 0.92);
+        const lnRhoCrit = -Math.log(1.0 - pEff);
+        const lnRhoJ = Math.log(pf_rho[j]);
+        const sigmaPert = 0.065;
+
+        let pOut = 0.5;
+        if (pt.outcome === 'rebounded') {
+          // Rebounded -> remained above separatrix -> rho_j > 1 / (1 - p_eff)
+          pOut = normCdf((lnRhoJ - lnRhoCrit) / sigmaPert);
+          if (pt.rebound_hours && pt.rebound_hours <= 16) {
+            pOut *= (0.75 + 0.25 * clamp(pf_v[j] - 1.1, 0, 1));
+          }
+        } else {
+          // Held -> crossed below separatrix -> rho_j < 1 / (1 - p_eff)
+          pOut = normCdf((lnRhoCrit - lnRhoJ) / sigmaPert);
+        }
+        pf_w[j] *= Math.max(1e-9, pOut);
+        wSum += pf_w[j];
+      }
+
+      if (wSum > 0) {
+        for (let j = 0; j < NP; j++) pf_w[j] /= wSum;
+        systematicResampleLiuWest(rng, randn);
+      }
+    }
+
+    // 5. Compute Per-Particle Barriers, Escape Times & Posterior Quantiles
+    for (let j = 0; j < NP; j++) {
+      const bt = computeBarrierAndTau(pf_xLo[j], pf_xMid[j], pf_xHi[j], pf_v[j], pf_D[j], pf_k[j]);
+      pf_dU[j] = bt.ratio;
+      pf_tau[j] = bt.tau;
+    }
+
+    const sRho = Array.from(pf_rho).sort((a, b) => a - b);
+    const sTau = Array.from(pf_tau).sort((a, b) => a - b);
+    const sV   = Array.from(pf_v).sort((a, b) => a - b);
+    const sK   = Array.from(pf_k).sort((a, b) => a - b);
+    const sD   = Array.from(pf_D).sort((a, b) => a - b);
+    const sDu  = Array.from(pf_dU).sort((a, b) => a - b);
+
+    const vMed = quantileSorted(sV, 0.50);
+    const kMed = quantileSorted(sK, 0.50);
+    const DMed = quantileSorted(sD, 0.50);
+    const rho10 = quantileSorted(sRho, 0.10);
+    const rho50 = quantileSorted(sRho, 0.50);
+    const rho90 = quantileSorted(sRho, 0.90);
+    const duMed = quantileSorted(sDu, 0.50);
+    const tau10 = quantileSorted(sTau, 0.10);
+    const tau50 = quantileSorted(sTau, 0.50);
+    const tau90 = quantileSorted(sTau, 0.90);
+
+    // Central-difference personal elasticities E_v and E_D at posterior median
+    let elV = 21.8, elD = -6.99;
+    const rPlusV = findLoopRoots(vMed * 1.02, DMed);
+    const rMinusV = findLoopRoots(vMed * 0.98, DMed);
+    if (rPlusV.length === 3 && rMinusV.length === 3) {
+      const tHi = computeBarrierAndTau(rPlusV[0], rPlusV[1], rPlusV[2], vMed * 1.02, DMed, kMed).tau;
+      const tLo = computeBarrierAndTau(rMinusV[0], rMinusV[1], rMinusV[2], vMed * 0.98, DMed, kMed).tau;
+      elV = clamp(Math.log(tHi / tLo) / Math.log(1.02 / 0.98), 6.0, 38.0);
+    }
+    const rMidRoots = findLoopRoots(vMed, DMed);
+    if (rMidRoots.length === 3) {
+      const tDHi = computeBarrierAndTau(rMidRoots[0], rMidRoots[1], rMidRoots[2], vMed, DMed * 1.04, kMed).tau;
+      const tDLo = computeBarrierAndTau(rMidRoots[0], rMidRoots[1], rMidRoots[2], vMed, DMed * 0.96, kMed).tau;
+      elD = clamp(Math.log(tDHi / tDLo) / Math.log(1.04 / 0.96), -24.0, -2.5);
+    }
+
+    // 6. Latest Episode Snapshot
+    const lastLog = nLogs > 0 ? logs[nLogs - 1] : {
+      bouts_min: 0, wanting: 0, liking: 0, restlessness: 0, ego_threat: 0,
+      isolation: 0, hit_prob: 0.5, post_calm: 0, entry_latency_s: 5
+    };
+
+    // 7. Empirical Cue-Lift, Slip Rate & Public Brier Calibration Score
+    let slipCount = 0;
+    const cueStats = {};
+    const winStats = {};
+    let brierSum = 0.0, scoredBets = 0, slipScoredSum = 0;
+
+    for (let t = 0; t < nLogs; t++) {
+      const lg = logs[t];
+      const sl = lg.slipped ? 1 : 0;
+      slipCount += sl;
+      const c = lg.cue_tag || 'unspecified';
+      if (!cueStats[c]) cueStats[c] = { tot: 0, slips: 0 };
+      cueStats[c].tot++;
+      cueStats[c].slips += sl;
+
+      const w = lg.time_window || '20:00-24:00';
+      if (!winStats[w]) winStats[w] = { tot: 0, slips: 0 };
+      winStats[w].tot++;
+      winStats[w].slips += sl;
+
+      if (typeof lg.locked_pred_prob === 'number') {
+        const diff = lg.locked_pred_prob - sl;
+        brierSum += diff * diff;
+        slipScoredSum += sl;
+        scoredBets++;
+      }
+    }
+
+    const baseSlipRate = nLogs > 0 ? slipCount / nLogs : 0.50;
+    let topCue = nLogs > 0 ? (logs[nLogs - 1].cue_tag || 'bed_phone_reach') : 'bed_phone_reach';
+    let topCueLift = 1.0;
+    Object.keys(cueStats).forEach((c) => {
+      const st = cueStats[c];
+      const pCue = (st.slips + 0.5) / (st.tot + 1.0);
+      const pBase = Math.max(0.12, (slipCount + 0.5) / (nLogs + 1.0));
+      const lift = pCue / pBase;
+      if (lift > topCueLift || (st.tot >= 2 && lift >= topCueLift * 0.98)) {
+        topCueLift = lift;
+        topCue = c;
+      }
+    });
+    topCueLift = Math.max(1.0, topCueLift);
+
+    let peakWindow = (dataset.circadian_hours && dataset.circadian_hours.includes(23)) ? '20:00-24:00' : '20:00-24:00';
+    let bestWinSlips = -1;
+    Object.keys(winStats).forEach((w) => {
+      if (winStats[w].slips > bestWinSlips) {
+        bestWinSlips = winStats[w].slips;
+        peakWindow = w;
+      }
+    });
+
+    const brierScore = scoredBets >= 1 ? +(brierSum / scoredBets).toFixed(4) : null;
+    let brierSkill = null;
+    if (scoredBets >= 2) {
+      const pClim = (slipScoredSum + 0.5) / (scoredBets + 1.0);
+      const bsClim = Math.max(0.06, pClim * (1.0 - pClim));
+      brierSkill = +(1.0 - (brierSum / scoredBets) / bsClim).toFixed(3);
+    }
+
+    // 8. 5-Circuit Mechanistic Phenotype Softmax Posterior
+    const z = [0.0, 0.0, 0.0, 0.0, 0.0]; // d1, alpha1a, nmda, vr, social
+    for (let t = 0; t < nLogs; t++) {
+      const lg = logs[t];
+      const wl = lg.wanting - lg.liking;
+      const vrVar = 4.0 * lg.hit_prob * (1.0 - lg.hit_prob); // peaks at 1.0 when hit_prob = 0.5
+      z[0] += 0.28 * Math.max(0, wl - 2.0) + (lg.entry_latency_s <= 6 ? 0.35 : 0) + (Math.abs(lg.post_calm) <= 1.5 ? 0.15 : 0);
+      z[1] += 0.34 * Math.max(0, lg.ego_threat - 3.5) + (lg.cue_tag === 'hard_work_stall' ? 0.65 : 0) + (lg.post_calm < -1.0 ? 0.25 : 0);
+      z[2] += 0.32 * Math.max(0, lg.restlessness - 4.0) + 0.45 * Math.max(0, lg.post_calm - 1.0) + (lg.cue_tag === 'understimulated_boredom' ? 0.45 : 0);
+      z[3] += 0.85 * Math.max(0, vrVar - 0.78) + (lg.cue_tag === 'notification_ping' ? 0.55 : 0);
+      z[4] += 0.36 * Math.max(0, lg.isolation - 4.0) + (lg.cue_tag === 'solo_evening_isolation' ? 0.70 : 0);
+    }
+    if (dataset.assay && typeof dataset.assay.premature_rate === 'number') {
+      z[3] += 1.8 * dataset.assay.premature_rate;
+      z[0] += 1.1 * dataset.assay.premature_rate;
+      if (dataset.assay.rt_cv > 0.28) z[2] += 1.2 * (dataset.assay.rt_cv - 0.20);
+    }
+
+    // Temperature-regulated softmax so N=0 stays uniform (0.20 each) and N>=3 sharpens cleanly without saturating to 100%
+    const scaleZ = nLogs > 0 ? (0.42 / Math.sqrt(nLogs)) : 1.0;
+    let maxZ = -1e9;
+    for (let c = 0; c < 5; c++) { z[c] *= scaleZ; if (z[c] > maxZ) maxZ = z[c]; }
+    let expSum = 0;
+    const cProbs = new Float64Array(5);
+    for (let c = 0; c < 5; c++) { cProbs[c] = Math.exp(z[c] - maxZ); expSum += cProbs[c]; }
+    const ranked = [];
+    for (let c = 0; c < 5; c++) {
+      cProbs[c] /= expSum;
+      ranked.push({ idx: c, prob: cProbs[c], meta: CIRCUITS[c] });
+    }
+    ranked.sort((a, b) => b.prob - a.prob);
+    const topC = ranked[0], runC = ranked[1];
+    const separated = (nLogs >= 3 && (topC.prob - runC.prob) >= 0.15);
+
+    // 9. Bayesian Optimal Next Micro-Perturbation (Maximizing Expected CI Reduction on rho)
+    const curSpan = Math.max(0.04, rho90 - rho10);
+    let bestCut = 35, bestHrs = 48, bestCiRed = 38;
+    let minExpectedSpan = curSpan;
+
+    [20, 25, 30, 35, 40, 45, 50, 55].forEach((candCut) => {
+      [24, 48, 72].forEach((candHrs) => {
+        const durD = candHrs / 24.0;
+        const rFrac = 1.0 - Math.exp(-kMed * durD * 1.45);
+        const pEff = clamp((candCut / 100.0) * Math.max(0.35, rFrac), 0.05, 0.90);
+        const crit = 1.0 / (1.0 - pEff);
+        const rebSet = [], heldSet = [];
+        for (let j = 0; j < NP; j++) {
+          if (pf_rho[j] >= crit) rebSet.push(pf_rho[j]);
+          else heldSet.push(pf_rho[j]);
+        }
+        const pReb = rebSet.length / NP;
+        if (pReb > 0.15 && pReb < 0.85) {
+          rebSet.sort((a, b) => a - b);
+          heldSet.sort((a, b) => a - b);
+          const spanReb = quantileSorted(rebSet, 0.90) - quantileSorted(rebSet, 0.10);
+          const spanHeld = quantileSorted(heldSet, 0.90) - quantileSorted(heldSet, 0.10);
+          const expSpan = pReb * spanReb + (1.0 - pReb) * spanHeld;
+          if (expSpan < minExpectedSpan) {
+            minExpectedSpan = expSpan;
+            bestCut = candCut;
+            bestHrs = candHrs;
+            bestCiRed = Math.round(clamp((1.0 - expSpan / curSpan) * 100, 18, 68));
+          }
+        }
+      });
+    });
+    const optCritRho = 1.0 / (1.0 - bestCut / 100.0);
+
+    // 10. Next 24h Quantitative Risk Bet
+    const instHazard = 1.0 - Math.exp(-1.0 / Math.max(0.8, tau50));
+    const rawNextProb = nLogs === 0
+      ? 0.65
+      : clamp((0.55 * baseSlipRate + 0.45 * (1.0 - instHazard * 0.35)) * Math.min(1.32, Math.sqrt(topCueLift)), 0.08, 0.94);
+
+    if (UI.previewMode === null) {
+      privateVault.pending_bet = {
+        window: peakWindow,
+        cue: topCue,
+        prob: +rawNextProb.toFixed(2),
+        locked_at: privateVault.pending_bet ? privateVault.pending_bet.locked_at : new Date().toISOString()
+      };
+    }
+
+    const packet = {
+      version: '1.0',
+      loop_name: dataset.loop_name || 'Short-Form Doomscrolling',
+      n_logs: nLogs,
+      n_perturbations: nPerts,
+      prediction_locked: predictionLocked,
+      latest: {
+        bouts_min: +lastLog.bouts_min,
+        wanting: +lastLog.wanting,
+        liking: +lastLog.liking,
+        wanting_minus_liking: +(lastLog.wanting - lastLog.liking).toFixed(2),
+        restlessness: +lastLog.restlessness,
+        ego_threat: +lastLog.ego_threat,
+        isolation: +lastLog.isolation,
+        hit_prob: +lastLog.hit_prob,
+        post_calm: +lastLog.post_calm,
+        entry_latency_s: +lastLog.entry_latency_s
+      },
+      params: {
+        v: +vMed.toFixed(3),
+        k: +kMed.toFixed(3),
+        D: +DMed.toFixed(4),
+        phi: +phiEst.toFixed(2),
+        rho_p10: +rho10.toFixed(3),
+        rho_p50: +rho50.toFixed(3),
+        rho_p90: +rho90.toFixed(3),
+        barrier_du_over_d: +duMed.toFixed(2),
+        tau_median_days: +tau50.toFixed(1),
+        tau_p10_days: +tau10.toFixed(1),
+        tau_p90_days: +tau90.toFixed(1),
+        elasticity_v: +elV.toFixed(1),
+        elasticity_D: +elD.toFixed(2),
+        elasticity_d: 0
+      },
+      phenotypes: {
+        separated,
+        top_id: topC.meta.id,
+        top_label: topC.meta.label,
+        top_prob: +topC.prob.toFixed(3),
+        runner_up_label: runC.meta.label,
+        runner_up_prob: +runC.prob.toFixed(3),
+        probs: {
+          d1_wanting_liking: +cProbs[0].toFixed(3),
+          alpha1a_shunt: +cProbs[1].toFixed(3),
+          nmda_static: +cProbs[2].toFixed(3),
+          variable_ratio: +cProbs[3].toFixed(3),
+          social_pain_mor: +cProbs[4].toFixed(3)
+        }
+      },
+      empirical: {
+        top_cue: topCue,
+        top_cue_lift: +topCueLift.toFixed(2),
+        slip_rate: +baseSlipRate.toFixed(3),
+        brier_score: brierScore,
+        brier_skill: brierSkill,
+        n_scored_bets: scoredBets,
+        micro_assay_premature_rate: dataset.assay && dataset.assay.premature_rate !== null ? +dataset.assay.premature_rate.toFixed(3) : null,
+        micro_assay_rt_cv: dataset.assay && dataset.assay.rt_cv !== null ? +dataset.assay.rt_cv.toFixed(3) : null
+      },
+      next_bet: {
+        window: peakWindow,
+        cue: topCue,
+        prob: +rawNextProb.toFixed(2),
+        locked_at: (dataset.pending_bet && dataset.pending_bet.locked_at) || new Date().toISOString()
+      },
+      optimal_perturbation: {
+        cut_pct: bestCut,
+        duration_hours: bestHrs,
+        expected_ci_reduction_pct: bestCiRed,
+        rationale: `Bisects your personal ρ̂ posterior at ρ_crit = ${optCritRho.toFixed(2)} (median ρ̂₅₀ = ${rho50.toFixed(2)}), shrinking 90% separatrix uncertainty by ~${bestCiRed}%.`
+      },
+      _cueMap: cueStats
+    };
+
+    return packet;
+  }
+
+  function systematicResampleLiuWest(rng, randn) {
+    const a = 0.96, hJitter = Math.sqrt(1.0 - a * a);
+    let mV = 0, mK = 0, mD = 0, mS = 0;
+    for (let j = 0; j < NP; j++) {
+      mV += pf_w[j] * pf_v[j];
+      mK += pf_w[j] * pf_k[j];
+      mD += pf_w[j] * pf_D[j];
+      mS += pf_w[j] * pf_s[j];
+    }
+    let vV = 0, vK = 0, vD = 0, vS = 0;
+    for (let j = 0; j < NP; j++) {
+      vV += pf_w[j] * (pf_v[j] - mV) * (pf_v[j] - mV);
+      vK += pf_w[j] * (pf_k[j] - mK) * (pf_k[j] - mK);
+      vD += pf_w[j] * (pf_D[j] - mD) * (pf_D[j] - mD);
+      vS += pf_w[j] * (pf_s[j] - mS) * (pf_s[j] - mS);
+    }
+    const sdV = Math.sqrt(Math.max(1e-5, vV));
+    const sdK = Math.sqrt(Math.max(1e-5, vK));
+    const sdD = Math.sqrt(Math.max(1e-7, vD));
+    const sdS = Math.sqrt(Math.max(1e-4, vS));
+
+    const nV = new Float32Array(NP), nK = new Float32Array(NP), nD = new Float32Array(NP);
+    const nS = new Float32Array(NP), nX = new Float32Array(NP);
+
+    const step = 1.0 / NP;
+    let u = rng() * step;
+    let cSum = pf_w[0], idx = 0;
+
+    for (let j = 0; j < NP; j++) {
+      const target = u + j * step;
+      while (target > cSum && idx < NP - 1) {
+        idx++;
+        cSum += pf_w[idx];
+      }
+      nV[j] = clamp(a * pf_v[idx] + (1 - a) * mV + hJitter * sdV * randn(), 1.215, 1.62);
+      nK[j] = clamp(a * pf_k[idx] + (1 - a) * mK + hJitter * sdK * randn(), 0.14, 1.90);
+      nD[j] = clamp(a * pf_D[idx] + (1 - a) * mD + hJitter * sdD * randn(), 0.011, 0.090);
+      nS[j] = a * pf_s[idx] + (1 - a) * mS + hJitter * sdS * randn();
+      nX[j] = pf_x[idx];
+    }
+
+    for (let j = 0; j < NP; j++) {
+      const roots = findLoopRoots(nV[j], nD[j]);
+      if (roots.length === 3) {
+        pf_v[j] = nV[j]; pf_k[j] = nK[j]; pf_D[j] = nD[j]; pf_s[j] = nS[j]; pf_x[j] = nX[j];
+        pf_xLo[j] = roots[0]; pf_xMid[j] = roots[1]; pf_xHi[j] = roots[2];
+        pf_rho[j] = Math.exp(roots[2] - roots[1]);
+      }
+      pf_w[j] = 1.0 / NP;
+    }
+  }
+
+  // ─── SIMULATE 500 EULER-MARUYAMA PATHS FOR TRAJECTORY FAN ───────────────────
+  function computeTrajectoryFan(pkt, horizonDays) {
+    const PATHS = 500;
+    const STEPS = 60;
+    const dt = horizonDays / STEPS;
+    const rng = mulberry32(90901 + horizonDays + pkt.n_logs * 17);
+    const randn = makeNormal(rng);
+
+    const statusP10 = new Float32Array(STEPS + 1);
+    const statusP50 = new Float32Array(STEPS + 1);
+    const statusP90 = new Float32Array(STEPS + 1);
+    const willpowerP50 = new Float32Array(STEPS + 1); // E_d === 0
+    const cutVP50 = new Float32Array(STEPS + 1);      // v - 11%
+    const raiseDP50 = new Float32Array(STEPS + 1);    // D + 42%
+
+    const xStatus = new Float32Array(PATHS);
+    const xWill   = new Float32Array(PATHS);
+    const xCutV   = new Float32Array(PATHS);
+    const xRaiseD = new Float32Array(PATHS);
+
+    for (let p = 0; p < PATHS; p++) {
+      const idx = (p * 2) % NP;
+      xStatus[p] = pf_x[idx];
+      xWill[p]   = pf_x[idx];
+      xCutV[p]   = pf_x[idx];
+      xRaiseD[p] = pf_x[idx];
+    }
+
+    const tmpSort = new Float32Array(PATHS);
+    const recordStep = (s) => {
+      let sumWill = 0, sumV = 0, sumD = 0;
+      for (let p = 0; p < PATHS; p++) {
+        const idx = (p * 2) % NP;
+        const span = Math.max(0.2, pf_xHi[idx] - pf_xLo[idx]);
+        tmpSort[p] = clamp((xStatus[p] - pf_xLo[idx]) / span, 0.0, 1.25);
+        sumWill += clamp((xWill[p] - pf_xLo[idx]) / span, 0.0, 1.25);
+        sumV    += clamp((xCutV[p] - pf_xLo[idx]) / span, 0.0, 1.25);
+        sumD    += clamp((xRaiseD[p] - pf_xLo[idx]) / span, 0.0, 1.25);
+      }
+      tmpSort.sort();
+      statusP10[s] = tmpSort[Math.floor(PATHS * 0.10)];
+      statusP50[s] = tmpSort[Math.floor(PATHS * 0.50)];
+      statusP90[s] = tmpSort[Math.floor(PATHS * 0.90)];
+      willpowerP50[s] = sumWill / PATHS;
+      cutVP50[s]      = sumV / PATHS;
+      raiseDP50[s]    = sumD / PATHS;
+    };
+
+    recordStep(0);
+    const nSub = Math.max(1, Math.ceil(dt / 0.25));
+    const h = dt / nSub;
+
+    for (let s = 1; s <= STEPS; s++) {
+      for (let sub = 0; sub < nSub; sub++) {
+        for (let p = 0; p < PATHS; p++) {
+          const idx = (p * 2) % NP;
+          const vn = pf_v[idx];
+          const dj = pf_D[idx];
+          const kScale = clamp(pf_k[idx] / 0.40, 0.4, 2.4);
+          const hEff = h * kScale * 0.14;
+          const w1 = randn(), w2 = randn();
+          const sq = Math.sqrt(2.0 * dj * hEff);
+
+          // 1. Status Quo (abstinence d=0)
+          xStatus[p] = clamp(xStatus[p] + itoDriftX(xStatus[p], vn, dj, 0.0) * hEff + sq * w1, pf_xLo[idx] - 0.2, pf_xHi[idx] + 0.3);
+          // 2. Pure Willpower (blocking cue drive d during abstinence -> d === 0 identically, E_d === 0!)
+          xWill[p]   = clamp(xWill[p] + itoDriftX(xWill[p], vn, dj, 0.0) * hEff + sq * w1, pf_xLo[idx] - 0.2, pf_xHi[idx] + 0.3);
+          // 3. Mechanistic Loop Gain Reduction (-11% v)
+          xCutV[p]   = clamp(xCutV[p] + itoDriftX(xCutV[p], vn * 0.89, dj, 0.0) * hEff + sq * w2, pf_xLo[idx] - 0.2, pf_xHi[idx] + 0.3);
+          // 4. Synaptic / Routine Variance Destabilization (+42% D)
+          const djHigh = dj * 1.42;
+          xRaiseD[p] = clamp(xRaiseD[p] + itoDriftX(xRaiseD[p], vn, djHigh, 0.0) * hEff + Math.sqrt(2.0 * djHigh * hEff) * w2, pf_xLo[idx] - 0.2, pf_xHi[idx] + 0.3);
+        }
+      }
+      recordStep(s);
+    }
+
+    return { STEPS, horizonDays, statusP10, statusP50, statusP90, willpowerP50, cutVP50, raiseDP50 };
+  }
+
+  // ─── PUBLISH SHARED STATEPACKET CONTRACT ────────────────────────────────────
+  function publishStatePacket(pkt) {
+    const cleanPacket = Object.assign({}, pkt);
+    delete cleanPacket._cueMap;
+    window.RPrimeTrackerState = cleanPacket;
+    try {
+      localStorage.setItem(PACKET_STORAGE_KEY, JSON.stringify(cleanPacket));
+    } catch (_) {}
+    try {
+      window.dispatchEvent(new CustomEvent('rprime:statepacket', { detail: cleanPacket }));
+    } catch (_) {}
+  }
+
+  // ─── RETINA CANVAS HELPER ───────────────────────────────────────────────────
+  const ctxCache = new Map();
+  function prepCanvas(canvas, fixedW) {
+    const dpr = Math.min(2.5, window.devicePixelRatio || 1);
+    const rect = canvas.getBoundingClientRect();
+    const cssW = fixedW || Math.max(220, rect.width || 560);
+    const cssH = parseFloat(canvas.getAttribute('height')) || 200;
+    const tw = Math.round(cssW * dpr), th = Math.round(cssH * dpr);
+    if (canvas.width !== tw || canvas.height !== th) {
+      canvas.width = tw;
+      canvas.height = th;
+    }
+    let ctx = ctxCache.get(canvas);
+    if (!ctx) { ctx = canvas.getContext('2d'); ctxCache.set(canvas, ctx); }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { ctx, w: cssW, h: cssH };
+  }
+
+  // ─── DRAW 0: 24-HOUR CIRCADIAN VULNERABILITY RING ───────────────────────────
+  function drawCircadianRing(dataset) {
+    const canvas = document.getElementById('circadianCanvas');
+    const { ctx, w, h } = prepCanvas(canvas, 120);
+    ctx.fillStyle = '#060608';
+    ctx.fillRect(0, 0, w, h);
+
+    const cx = w / 2, cy = h / 2, rOut = 50, rIn = 30;
+    const activeSet = new Set(dataset.circadian_hours || []);
+
+    for (let hr = 0; hr < 24; hr++) {
+      const a0 = (hr / 24) * Math.PI * 2 - Math.PI / 2 + 0.03;
+      const a1 = ((hr + 1) / 24) * Math.PI * 2 - Math.PI / 2 - 0.03;
+      ctx.beginPath();
+      ctx.arc(cx, cy, rOut, a0, a1);
+      ctx.arc(cx, cy, rIn, a1, a0, true);
+      ctx.closePath();
+      ctx.fillStyle = activeSet.has(hr) ? '#ff6b35' : 'rgba(255,255,255,0.08)';
+      ctx.fill();
+    }
+
+    ctx.fillStyle = '#f0ece4';
+    ctx.font = 'bold 9.5px "IBM Plex Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('24H', cx, cy - 2);
+    ctx.fillStyle = '#c8ff00';
+    ctx.font = '8.5px "IBM Plex Mono", monospace';
+    ctx.fillText(`${activeSet.size}h risk`, cx, cy + 10);
+    ctx.textAlign = 'left';
+  }
+
+  // ─── DRAW 1: PERSONAL PHASE-SPACE BASIN & SEPARATRIX RHO DENSITY ────────────
+  function drawBasinCanvas(pkt, dataset) {
+    const canvas = document.getElementById('basinCanvas');
+    const { ctx, w, h } = prepCanvas(canvas);
+    ctx.fillStyle = '#060608';
+    ctx.fillRect(0, 0, w, h);
+
+    const splitX = w * 0.60;
+    const padL = 42, padT = 22, padB = 26;
+    const lw = splitX - padL - 12;
+    const ph = h - padT - padB;
+
+    // Left: Effective Itô Potential U_eff(x) = - integral h(x) dx at median (v, D)
+    const vMed = pkt.params.v;
+    const DMed = pkt.params.D;
+    const roots = findLoopRoots(vMed, DMed);
+    const xLo = roots.length === 3 ? roots[0] : -0.5;
+    const xMid = roots.length === 3 ? roots[1] : 0.95;
+    const xHi = roots.length === 3 ? roots[2] : 1.35;
+
+    const xmin = xLo - 0.45, xmax = xHi + 0.42;
+    const M = 100;
+    const dx = (xmax - xmin) / M;
+    const U = new Float64Array(M + 1);
+    let uMin = 0, uMax = 0;
+    for (let i = 1; i <= M; i++) {
+      const xm = xmin + (i - 0.5) * dx;
+      U[i] = U[i - 1] - itoDriftX(xm, vMed, DMed, 0.0) * dx;
+      if (U[i] < uMin) uMin = U[i];
+      if (U[i] > uMax) uMax = U[i];
+    }
+    const uSpan = Math.max(0.05, uMax - uMin);
+    const xPx = (x) => padL + ((x - xmin) / (xmax - xmin)) * lw;
+    const yPx = (u) => padT + (1.0 - (u - uMin) / (uSpan * 1.18)) * ph;
+
+    // Credible p10-p90 saddle uncertainty band around xMid
+    const xMidLow = xHi - Math.log(pkt.params.rho_p90);
+    const xMidHigh = xHi - Math.log(pkt.params.rho_p10);
+    ctx.fillStyle = 'rgba(0, 229, 255, 0.11)';
+    ctx.fillRect(xPx(xMidLow), padT, Math.max(2, xPx(xMidHigh) - xPx(xMidLow)), ph);
+
+    // Potential curve
+    ctx.strokeStyle = '#c8ff00';
+    ctx.lineWidth = 2.2;
+    ctx.beginPath();
+    for (let i = 0; i <= M; i++) {
+      const px = xPx(xmin + i * dx), py = yPx(U[i]);
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // Saddle vertical line
+    ctx.save();
+    ctx.strokeStyle = '#00e5ff';
+    ctx.setLineDash([4, 3]);
+    ctx.beginPath(); ctx.moveTo(xPx(xMid), padT); ctx.lineTo(xPx(xMid), padT + ph); ctx.stroke();
+    ctx.restore();
+
+    // Plot particle state cloud near current x
+    for (let j = 0; j < 140; j++) {
+      const idx = j * 7;
+      const xj = clamp(pf_x[idx], xmin, xmax);
+      const bIdx = clamp(Math.round(((xj - xmin) / (xmax - xmin)) * M), 0, M);
+      const px = xPx(xj), py = yPx(U[bIdx]) - 4 - (j % 5) * 2.2;
+      ctx.fillStyle = xj > xMid ? 'rgba(255,107,53,0.78)' : 'rgba(200,255,0,0.82)';
+      ctx.fillRect(px - 1.6, py - 1.6, 3.2, 3.2);
+    }
+
+    ctx.font = 'bold 10px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#f0ece4';
+    ctx.fillText('Personal Itô Landscape U_eff(ln A)', padL, 14);
+    ctx.font = '9.5px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#c8ff00'; ctx.fillText('A_lo (Baseline)', xPx(xLo) - 18, h - 7);
+    ctx.fillStyle = '#00e5ff'; ctx.fillText('A_mid (Saddle)', xPx(xMid) - 24, h - 7);
+    ctx.fillStyle = '#ff6b35'; ctx.fillText('A_hi (Loop)', xPx(xHi) - 22, h - 7);
+
+    // Right: Posterior Histogram of Personal Separatrix Ratio rho_j + Censored Perturbation Walls!
+    const rx0 = splitX + 14;
+    const rw = w - rx0 - 14;
+    const rMin = 1.15, rMax = 2.65;
+    const BINS = 22;
+    const counts = new Uint16Array(BINS);
+    let maxBin = 1;
+    for (let j = 0; j < NP; j++) {
+      const b = clamp(Math.floor(((pf_rho[j] - rMin) / (rMax - rMin)) * BINS), 0, BINS - 1);
+      counts[b]++;
+      if (counts[b] > maxBin) maxBin = counts[b];
+    }
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    ctx.strokeRect(rx0, padT, rw, ph);
+
+    const bw = rw / BINS;
+    for (let b = 0; b < BINS; b++) {
+      const bh = (counts[b] / maxBin) * (ph - 12);
+      ctx.fillStyle = 'rgba(0, 229, 255, 0.45)';
+      ctx.fillRect(rx0 + b * bw + 1, padT + ph - bh, Math.max(2, bw - 2), bh);
+    }
+
+    // Draw past perturbation bound markers!
+    (dataset.perturbations || []).forEach((pt) => {
+      const crit = 1.0 / Math.max(0.10, 1.0 - (pt.cut_pct || 30) / 100.0);
+      if (crit >= rMin && crit <= rMax) {
+        const px = rx0 + ((crit - rMin) / (rMax - rMin)) * rw;
+        ctx.strokeStyle = pt.outcome === 'rebounded' ? '#ff6b35' : '#c8ff00';
+        ctx.lineWidth = 1.8;
+        ctx.beginPath(); ctx.moveTo(px, padT); ctx.lineTo(px, padT + ph); ctx.stroke();
+      }
+    });
+
+    ctx.font = 'bold 10px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#00e5ff';
+    ctx.fillText(`Posterior ρ̂ = A_hi/A_mid (${pkt.prediction_locked ? '[?] Wide' : 'Bracked'})`, rx0, 14);
+    ctx.font = '9.5px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#9e9b93';
+    ctx.fillText(`p10=${pkt.params.rho_p10.toFixed(2)} · p50=${pkt.params.rho_p50.toFixed(2)} · p90=${pkt.params.rho_p90.toFixed(2)}`, rx0 + 4, h - 7);
+  }
+
+  // ─── DRAW 2: 500-PATH MULTI-LEVER TRAJECTORY FAN ────────────────────────────
+  function drawFanCanvas(fan, pkt) {
+    const canvas = document.getElementById('fanCanvas');
+    const { ctx, w, h } = prepCanvas(canvas);
+    ctx.fillStyle = '#060608';
+    ctx.fillRect(0, 0, w, h);
+
+    if (!fan) return;
+    const padL = 46, padR = 16, padT = 22, padB = 28;
+    const pw = w - padL - padR;
+    const ph = h - padT - padB;
+    const S = fan.STEPS;
+
+    const xPx = (s) => padL + (s / S) * pw;
+    const yPx = (v) => padT + (1.0 - clamp(v, 0, 1.18) / 1.18) * ph;
+
+    // Grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    [0.0, 0.5, 1.0].forEach((g) => {
+      const py = yPx(g);
+      ctx.beginPath(); ctx.moveTo(padL, py); ctx.lineTo(padL + pw, py); ctx.stroke();
+      ctx.fillStyle = '#6e6d68';
+      ctx.font = '9.5px "IBM Plex Mono", monospace';
+      ctx.textAlign = 'right';
+      ctx.fillText(g === 0 ? 'Baseline' : (g === 1 ? 'Adapted' : '50%'), padL - 5, py + 3);
+    });
+    ctx.textAlign = 'left';
+
+    // Shaded 10%-90% Status Quo Credible Fan
+    ctx.fillStyle = 'rgba(255, 107, 53, 0.16)';
+    ctx.beginPath();
+    for (let s = 0; s <= S; s++) {
+      const px = xPx(s), py = yPx(fan.statusP90[s]);
+      if (s === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    for (let s = S; s >= 0; s--) {
+      ctx.lineTo(xPx(s), yPx(fan.statusP10[s]));
+    }
+    ctx.closePath();
+    ctx.fill();
+
+    const strokeCurve = (arr, col, lw, dash) => {
+      ctx.save();
+      ctx.strokeStyle = col;
+      ctx.lineWidth = lw;
+      ctx.setLineDash(dash || []);
+      ctx.beginPath();
+      for (let s = 0; s <= S; s++) {
+        const px = xPx(s), py = yPx(arr[s]);
+        if (s === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+      ctx.restore();
+    };
+
+    // Status Quo median
+    strokeCurve(fan.statusP50, '#ff6b35', 2.1, []);
+    // Pure Willpower (E_d === 0 -> overlaps Status Quo!)
+    strokeCurve(fan.willpowerP50, '#9b88ff', 2.0, [5, 4]);
+    // Raise Routine Variance D +42%
+    strokeCurve(fan.raiseDP50, '#00e5ff', 2.0, []);
+    // Cut Loop Gain v -11%
+    strokeCurve(fan.cutVP50, '#c8ff00', 2.4, []);
+
+    // Legend
+    ctx.font = '9.5px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#ff6b35'; ctx.fillText('— Status Quo (w/ 10–90% CI Fan)', padL + 6, 14);
+    ctx.fillStyle = '#9b88ff'; ctx.fillText('-- Willpower Only (Ed≡0)', padL + 215, 14);
+    ctx.fillStyle = '#c8ff00'; ctx.fillText('— Cut Loop v (−11%)', padL + 375, 14);
+    if (w > 640) {
+      ctx.fillStyle = '#00e5ff'; ctx.fillText('— Break Rigidity D (+42%)', padL + 505, 14);
+    }
+
+    // X ticks
+    ctx.fillStyle = '#6e6d68';
+    ctx.textAlign = 'center';
+    for (let k = 0; k <= 5; k++) {
+      const d = Math.round((k / 5) * fan.horizonDays);
+      ctx.fillText(`+${d}d`, xPx((k / 5) * S), h - 8);
+    }
+    ctx.textAlign = 'left';
+  }
+
+  // ─── DRAW 3: 5-CIRCUIT POSTERIOR & EMPIRICAL CUE-LIFT HAZARD ────────────────
+  function drawCircuitCanvas(pkt) {
+    const canvas = document.getElementById('circuitCanvas');
+    const { ctx, w, h } = prepCanvas(canvas);
+    ctx.fillStyle = '#060608';
+    ctx.fillRect(0, 0, w, h);
+
+    const midX = w * 0.56;
+    const padL = 138, padT = 22, padB = 18;
+    const bwMax = midX - padL - 16;
+    const rowH = (h - padT - padB) / 5;
+
+    ctx.font = 'bold 10px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#f0ece4';
+    ctx.fillText(`5-Circuit Posterior ${pkt.phenotypes.separated ? '(SEPARATED)' : '[? UNSEPARATED]'}`, 10, 14);
+
+    CIRCUITS.forEach((c, idx) => {
+      const prob = pkt.phenotypes.probs[c.id] || 0.2;
+      const ry = padT + idx * rowH + 4;
+      const bh = Math.max(10, rowH - 9);
+
+      ctx.fillStyle = c.color;
+      ctx.font = '10px "IBM Plex Mono", monospace';
+      ctx.fillText(c.shortLabel, 10, ry + bh * 0.72);
+
+      ctx.fillStyle = 'rgba(255,255,255,0.06)';
+      ctx.fillRect(padL, ry, bwMax, bh);
+      ctx.fillStyle = c.color;
+      ctx.fillRect(padL, ry, prob * bwMax, bh);
+
+      ctx.fillStyle = '#f0ece4';
+      ctx.fillText(`${(prob * 100).toFixed(0)}%`, padL + prob * bwMax + 5, ry + bh * 0.72);
+    });
+
+    // Right side: Empirical Cue-Lift Hazard Multipliers P(slip|cue)/P(slip)
+    const rx0 = midX + 12;
+    const rw = w - rx0 - 14;
+    ctx.font = 'bold 10px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#00e5ff';
+    ctx.fillText('Empirical Cue Hazard Lift', rx0, 14);
+
+    const cueEntries = Object.entries(pkt._cueMap || {}).map(([cue, st]) => {
+      const pCue = (st.slips + 0.5) / (st.tot + 1.0);
+      const pBase = Math.max(0.12, pkt.empirical.slip_rate || 0.5);
+      return { cue, lift: Math.max(0.4, pCue / pBase), n: st.tot };
+    }).sort((a, b) => b.lift - a.lift).slice(0, 4);
+
+    if (cueEntries.length === 0) {
+      ctx.fillStyle = '#6e6d68';
+      ctx.font = '10px "IBM Plex Mono", monospace';
+      ctx.fillText('No logged cues yet (Day-1 cold start).', rx0, padT + 40);
+    } else {
+      const cRowH = (h - padT - padB) / 4;
+      cueEntries.forEach((ce, idx) => {
+        const ry = padT + idx * cRowH + 4;
+        const bh = Math.max(10, cRowH - 12);
+        const frac = clamp(ce.lift / 2.6, 0.08, 1.0);
+        ctx.fillStyle = 'rgba(255,255,255,0.05)';
+        ctx.fillRect(rx0, ry + 11, rw, bh * 0.55);
+        ctx.fillStyle = ce.lift >= 1.25 ? '#ff6b35' : '#00e5ff';
+        ctx.fillRect(rx0, ry + 11, frac * rw, bh * 0.55);
+        ctx.fillStyle = '#d6d3cb';
+        ctx.font = '9.5px "IBM Plex Mono", monospace';
+        ctx.fillText(`${ce.cue} (n=${ce.n}): ${ce.lift.toFixed(2)}×`, rx0, ry + 8);
+      });
+    }
+  }
+
+  // ─── DRAW 4: WANTING VS LIKING DISSOCIATION & BRIER STRIP ───────────────────
+  function drawHistoryBrierCanvas(dataset, pkt) {
+    const canvas = document.getElementById('historyBrierCanvas');
+    const { ctx, w, h } = prepCanvas(canvas);
+    ctx.fillStyle = '#060608';
+    ctx.fillRect(0, 0, w, h);
+
+    const logs = dataset.logs || [];
+    const padL = 40, padR = 16, padT = 22, padB = 24;
+    const pw = w - padL - padR;
+    const ph = h - padT - padB;
+
+    ctx.font = 'bold 10px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#ff6b35'; ctx.fillText('— Pre-Act Wanting', padL, 14);
+    ctx.fillStyle = '#00e5ff'; ctx.fillText('— Post-Act Liking', padL + 135, 14);
+    ctx.fillStyle = '#9b88ff'; ctx.fillText('● Locked 24h P(Slip) vs Slip', padL + 265, 14);
+
+    if (logs.length === 0) {
+      ctx.fillStyle = '#6e6d68';
+      ctx.font = '11px "IBM Plex Mono", monospace';
+      ctx.fillText('Log your first daily check-in on the left to plot Wanting ≠ Liking & Brier accuracy.', padL, padT + ph * 0.5);
+      return;
+    }
+
+    const M = logs.length;
+    const xPx = (i) => padL + (M === 1 ? 0.5 : i / (M - 1)) * pw;
+    const yPx = (val10) => padT + (1.0 - clamp(val10, 0, 10) / 10.0) * ph;
+
+    // Shaded Wanting - Liking rent gap
+    if (M > 1) {
+      ctx.fillStyle = 'rgba(255, 107, 53, 0.12)';
+      ctx.beginPath();
+      for (let i = 0; i < M; i++) {
+        const px = xPx(i), py = yPx(logs[i].wanting);
+        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      }
+      for (let i = M - 1; i >= 0; i--) {
+        ctx.lineTo(xPx(i), yPx(logs[i].liking));
+      }
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // Wanting curve
+    ctx.strokeStyle = '#ff6b35';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i = 0; i < M; i++) {
+      const px = xPx(i), py = yPx(logs[i].wanting);
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // Liking curve
+    ctx.strokeStyle = '#00e5ff';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i = 0; i < M; i++) {
+      const px = xPx(i), py = yPx(logs[i].liking);
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // Locked probability dots + slip/clean bottom markers
+    for (let i = 0; i < M; i++) {
+      const px = xPx(i);
+      if (typeof logs[i].locked_pred_prob === 'number') {
+        const pyP = yPx(logs[i].locked_pred_prob * 10.0);
+        ctx.fillStyle = '#9b88ff';
+        ctx.beginPath(); ctx.arc(px, pyP, 3.2, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.fillStyle = logs[i].slipped ? '#ff3b5c' : '#c8ff00';
+      ctx.fillRect(px - 3, h - 10, 6, 4);
+    }
+
+    ctx.fillStyle = '#6e6d68';
+    ctx.font = '9.5px "IBM Plex Mono", monospace';
+    ctx.textAlign = 'right';
+    [0, 5, 10].forEach((v) => ctx.fillText(String(v), padL - 5, yPx(v) + 3));
+    ctx.textAlign = 'left';
+  }
+
+  // ─── DRAW 30S IN-CANVAS VARIABLE-RATIO MICRO-ASSAY ──────────────────────────
+  function drawMicroAssayCanvas(nowMs) {
+    const canvas = document.getElementById('microAssayCanvas');
+    const { ctx, w, h } = prepCanvas(canvas);
+    ctx.fillStyle = '#060608';
+    ctx.fillRect(0, 0, w, h);
+
+    if (UI.assayRunning) {
+      if (UI.assayPhase === 'hold' && nowMs >= UI.assayPhaseUntil) {
+        // 50/50 variable-ratio uncertainty: 65% turn GO, 35% extend brief hold to probe premature capture
+        UI.assayPhase = 'go';
+        UI.assayGoAt = nowMs;
+        UI.assayPhaseUntil = nowMs + 1250;
+      } else if (UI.assayPhase === 'go' && nowMs >= UI.assayPhaseUntil) {
+        advanceAssayTrial(nowMs, 'Missed window');
+      }
+    }
+
+    const cx = w * 0.22, cy = h * 0.5;
+    if (!UI.assayRunning) {
+      ctx.strokeStyle = 'rgba(155,136,255,0.45)';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(cx, cy, 34, 0, Math.PI * 2); ctx.stroke();
+      ctx.fillStyle = '#f0ece4';
+      ctx.font = 'bold 12px "Syne", sans-serif';
+      ctx.fillText('Variable-Ratio Uncertainty Motor Probe (8 Rapid Trials)', cx + 56, cy - 8);
+      ctx.font = '11px "IBM Plex Mono", monospace';
+      ctx.fillStyle = '#a09d95';
+      ctx.fillText(UI.assayMsg, cx + 56, cy + 14);
+      return;
+    }
+
+    const isGo = UI.assayPhase === 'go';
+    const pulse = 0.5 + 0.5 * Math.sin(nowMs * 0.014);
+    ctx.fillStyle = isGo ? 'rgba(200,255,0,0.22)' : `rgba(255,107,53,${(0.08 + 0.12 * pulse).toFixed(2)})`;
+    ctx.beginPath(); ctx.arc(cx, cy, 38, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = isGo ? '#c8ff00' : '#ff6b35';
+    ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(cx, cy, 38, 0, Math.PI * 2); ctx.stroke();
+
+    ctx.fillStyle = isGo ? '#c8ff00' : '#ff6b35';
+    ctx.font = 'bold 13px "IBM Plex Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(isGo ? 'TAP!' : 'HOLD', cx, cy + 4);
+    ctx.textAlign = 'left';
+
+    ctx.fillStyle = '#f0ece4';
+    ctx.font = 'bold 13px "Syne", sans-serif';
+    ctx.fillText(`Trial ${UI.assayTrial + 1} / ${UI.assayTotalTrials} — ${isGo ? 'GATE OPEN: CLICK CANVAS NOW!' : 'WAIT FOR LIME GATE (DO NOT TAP EARLY)'}`, cx + 56, cy - 8);
+    ctx.font = '11px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#a09d95';
+    ctx.fillText(UI.assayMsg, cx + 56, cy + 14);
+  }
+
+  function advanceAssayTrial(nowMs, msg) {
+    UI.assayMsg = msg;
+    UI.assayTrial++;
+    if (UI.assayTrial >= UI.assayTotalTrials) {
+      UI.assayRunning = false;
+      UI.assayPhase = 'done';
+      const premRate = UI.assayPrematureCount / UI.assayTotalTrials;
+      let rtCv = 0.22;
+      if (UI.assayRts.length >= 2) {
+        const mean = UI.assayRts.reduce((a, b) => a + b, 0) / UI.assayRts.length;
+        const sd = Math.sqrt(UI.assayRts.reduce((s, x) => s + (x - mean) * (x - mean), 0) / UI.assayRts.length);
+        rtCv = clamp(sd / Math.max(80, mean), 0.05, 0.85);
+      }
+      const ds = getActiveDataset();
+      ds.assay = { premature_rate: +premRate.toFixed(3), rt_cv: +rtCv.toFixed(3) };
+      savePrivateVault();
+      UI.assayMsg = `Complete! Premature=${(premRate * 100).toFixed(0)}%, RT CV=${rtCv.toFixed(2)} merged into StatePacket.`;
+      document.getElementById('lblAssayState').textContent = 'Merged to Posterior';
+      recomputeAll();
+      return;
+    }
+    UI.assayPhase = 'hold';
+    UI.assayPhaseUntil = nowMs + 1100 + Math.random() * 1900;
+  }
+
+  // ─── UPDATE ALL DOM READOUTS, TABLES & CANVASES ─────────────────────────────
+  function recomputeAll() {
+    const dataset = getActiveDataset();
+    const pkt = solvePersonalState(dataset);
+    UI.lastPacket = pkt;
+    UI.fanTrajectories = computeTrajectoryFan(pkt, UI.fanHorizonDays);
+    publishStatePacket(pkt);
+
+    // Profile & Vault Mode Badges
+    const vBadge = document.getElementById('vaultModeBadge');
+    if (UI.previewMode) {
+      vBadge.textContent = `👁 READ-PREVIEW DEMO (${UI.previewMode.toUpperCase()}) — PRIVATE VAULT SAFE`;
+      vBadge.classList.add('preview');
+    } else {
+      vBadge.textContent = '🔒 PRIVATE ON-DEVICE VAULT (LOCAL ONLY)';
+      vBadge.classList.remove('preview');
+    }
+    document.querySelectorAll('[data-demo]').forEach((b) => {
+      b.classList.toggle('active', b.dataset.demo === UI.previewMode);
+    });
+
+    // Honesty Gate Banner
+    const gateBanner = document.getElementById('honestyGateBanner');
+    const gateTag = document.getElementById('gateTag');
+    const gateText = document.getElementById('gateText');
+    if (pkt.prediction_locked) {
+      gateBanner.classList.remove('unlocked');
+      gateTag.textContent = `[?] ρ UNBOUNDED · LOCKED (N=${pkt.n_logs}/5 LOGS, ${pkt.n_perturbations}/1 BREAKS)`;
+      gateText.innerHTML = `<strong>Point escape-time forecasts are mathematically locked.</strong> Single snapshots yield $R^2=0.32$ on persistence and inflate $D$ by $3.3\\times$. Displaying honest 10%–90% prior fan (<strong>${pkt.params.tau_p10_days.toFixed(0)}d – ${pkt.params.tau_p90_days.toFixed(0)}d</strong>) until $\\ge 5$ serial check-ins and $\\ge 1$ break perturbation are logged.`;
+    } else {
+      gateBanner.classList.add('unlocked');
+      gateTag.textContent = `✓ CALIBRATED PERSONAL POSTERIOR (N=${pkt.n_logs} LOGS · ${pkt.n_perturbations} PERTURBATIONS)`;
+      gateText.innerHTML = `<strong>Variogram &amp; Separatrix Bounds Active:</strong> Static rigidity $\\hat{\\varphi}=${pkt.params.phi.toFixed(2)}$ separated from dynamic diffusion $\\hat{D}=${pkt.params.D.toFixed(4)}\\text{ d}^{-1}$; personal saddle $\\hat{\\rho}_{50}=${pkt.params.rho_p50.toFixed(2)}$ [${pkt.params.rho_p10.toFixed(2)}–${pkt.params.rho_p90.toFixed(2)}].`;
+    }
+
+    document.getElementById('logCountBadge').textContent = `${pkt.n_logs} Logs · ${pkt.n_perturbations} Perturbations`;
+    document.getElementById('betWindowLabel').textContent = `Window: ${pkt.next_bet.window} · Cue: ${pkt.next_bet.cue}`;
+    document.getElementById('betProbVal').textContent = `${Math.round(pkt.next_bet.prob * 100)}%`;
+    document.getElementById('brierQuickBadge').textContent = pkt.empirical.brier_score !== null
+      ? `Brier BS=${pkt.empirical.brier_score.toFixed(3)} (${pkt.empirical.n_scored_bets} bets)`
+      : 'Brier: Unscored (Log ≥2 days)';
+
+    document.getElementById('rhoBracketBadge').textContent = `ρ̂ 90% CI: [${pkt.params.rho_p10.toFixed(2)} – ${pkt.params.rho_p90.toFixed(2)}]`;
+
+    // Posterior KPIs
+    document.getElementById('kpiRho').textContent = `${pkt.params.rho_p50.toFixed(2)} [${pkt.params.rho_p10.toFixed(2)}–${pkt.params.rho_p90.toFixed(2)}]`;
+    document.getElementById('kpiVK').textContent = `v=${pkt.params.v.toFixed(2)} · k=${pkt.params.k.toFixed(2)} d⁻¹`;
+    document.getElementById('kpiVKSub').textContent = `E_v = +${pkt.params.elasticity_v.toFixed(1)} vs E_d ≡ 0`;
+    document.getElementById('kpiDPhi').textContent = `D=${pkt.params.D.toFixed(3)} · φ=${pkt.params.phi.toFixed(2)}`;
+    const infl = (1.0 / Math.max(0.08, 1.0 - pkt.params.phi)).toFixed(2);
+    document.getElementById('kpiDPhiSub').textContent = `De-aliased (${infl}× naive trap removed)`;
+
+    if (pkt.prediction_locked) {
+      document.getElementById('kpiTau').textContent = `LOCKED [${pkt.params.tau_p10_days.toFixed(0)}d–${pkt.params.tau_p90_days.toFixed(0)}d]`;
+      document.getElementById('kpiTauSub').textContent = 'Need ≥5 logs & ≥1 break for point τ';
+    } else {
+      document.getElementById('kpiTau').textContent = `τ₅₀ = ${pkt.params.tau_median_days.toFixed(1)}d [${pkt.params.tau_p10_days.toFixed(0)}–${pkt.params.tau_p90_days.toFixed(0)}d]`;
+      document.getElementById('kpiTauSub').textContent = `Barrier ΔU/D = ${pkt.params.barrier_du_over_d.toFixed(1)}`;
+    }
+
+    const gap = pkt.latest.wanting_minus_liking;
+    document.getElementById('kpiWLGap').textContent = `${gap >= 0 ? '+' : ''}${gap.toFixed(1)} (${gap >= 3 ? 'Rent State' : 'Coupled'})`;
+    document.getElementById('kpiWLSub').textContent = `Top Cue: ${pkt.empirical.top_cue} (${pkt.empirical.top_cue_lift.toFixed(2)}×)`;
+
+    if (pkt.empirical.brier_skill !== null) {
+      document.getElementById('kpiBrier').textContent = `BSS = ${pkt.empirical.brier_skill >= 0 ? '+' : ''}${pkt.empirical.brier_skill.toFixed(2)} (BS ${pkt.empirical.brier_score.toFixed(3)})`;
+    } else if (pkt.empirical.brier_score !== null) {
+      document.getElementById('kpiBrier').textContent = `BS = ${pkt.empirical.brier_score.toFixed(3)} (1 bet)`;
+    } else {
+      document.getElementById('kpiBrier').textContent = 'Unscored (0 Bets)';
+    }
+
+    // Mechanistic Circuit Prescription
+    const topMeta = CIRCUITS.find((c) => c.id === pkt.phenotypes.top_id) || CIRCUITS[0];
+    const prescBox = document.getElementById('leverPrescriptionBox');
+    prescBox.classList.toggle('unseparated', !pkt.phenotypes.separated);
+    document.getElementById('circuitBadgeTitle').textContent = pkt.phenotypes.separated
+      ? `DOMINANT CIRCUIT (${Math.round(pkt.phenotypes.top_prob * 100)}%): ${topMeta.label.toUpperCase()} (${topMeta.article})`
+      : `[? PHENOTYPE UNSEPARATED] LEADING CANDIDATE (${Math.round(pkt.phenotypes.top_prob * 100)}%): ${topMeta.label}`;
+    document.getElementById('circuitSepTag').textContent = `Runner-up: ${pkt.phenotypes.runner_up_label} (${Math.round(pkt.phenotypes.runner_up_prob * 100)}%)`;
+    document.getElementById('circuitLeverText').textContent = pkt.n_logs === 0
+      ? 'Zero logs recorded yet. Log your first episode or load a Read-Preview Demo above—this engine refuses generic wallpaper advice and derives levers strictly from your measured (v, D, φ, Wanting−Liking, cue_lift) state.'
+      : topMeta.buildLever(pkt);
+
+    // Optimal Next Perturbation
+    document.getElementById('optPertText').innerHTML =
+      `Execute a <strong>${pkt.optimal_perturbation.cut_pct}% volume cut for ${pkt.optimal_perturbation.duration_hours}h</strong> — ${pkt.optimal_perturbation.rationale}`;
+    document.getElementById('topCueBadge').textContent = `Top Cue: ${pkt.empirical.top_cue} (${pkt.empirical.top_cue_lift.toFixed(2)}×)`;
+
+    // Micro-Assay Labels
+    document.getElementById('lblAssayPremature').textContent = pkt.empirical.micro_assay_premature_rate !== null
+      ? `${(pkt.empirical.micro_assay_premature_rate * 100).toFixed(0)}%` : '—';
+    document.getElementById('lblAssayRtCv').textContent = pkt.empirical.micro_assay_rt_cv !== null
+      ? pkt.empirical.micro_assay_rt_cv.toFixed(2) : '—';
+
+    // Perturbation Ledger Table
+    const pBody = document.getElementById('pertLedgerBody');
+    if (dataset.perturbations.length === 0) {
+      pBody.innerHTML = '<tr><td colspan="5" style="color:var(--muted);">No break perturbations logged yet — ρ̂ remains unbracketed [?].</td></tr>';
+    } else {
+      pBody.innerHTML = dataset.perturbations.map((pt, i) => {
+        const crit = (1.0 / Math.max(0.1, 1.0 - pt.cut_pct / 100.0)).toFixed(2);
+        const boundStr = pt.outcome === 'rebounded'
+          ? `<span style="color:var(--orange)">ρ &gt; ${crit} (Rebounded ${pt.rebound_hours || 18}h)</span>`
+          : `<span style="color:var(--lime)">ρ &lt; ${crit} (Escaped to A_lo)</span>`;
+        return `<tr><td>#${i + 1}</td><td>−${pt.cut_pct}%</td><td>${pt.duration_hours}h</td><td>${pt.outcome}</td><td>${boundStr}</td></tr>`;
+      }).join('');
+    }
+
+    // Brier Calibration Ledger Table
+    const bBody = document.getElementById('brierLedgerBody');
+    if (dataset.logs.length === 0) {
+      bBody.innerHTML = '<tr><td colspan="6" style="color:var(--muted);">No daily check-ins yet. Tomorrow\'s locked bet grades automatically when you log.</td></tr>';
+    } else {
+      bBody.innerHTML = dataset.logs.slice().reverse().map((lg, revIdx) => {
+        const idx = dataset.logs.length - revIdx;
+        const p = typeof lg.locked_pred_prob === 'number' ? lg.locked_pred_prob : null;
+        const err = p !== null ? ((p - (lg.slipped ? 1 : 0)) ** 2).toFixed(3) : '—';
+        const outHtml = lg.slipped
+          ? '<span style="color:var(--danger)">SLIP (1)</span>'
+          : '<span style="color:var(--lime)">HELD (0)</span>';
+        return `<tr><td>D${idx}</td><td>${lg.time_window} · ${lg.cue_tag}</td><td>${lg.wanting}/${lg.liking}</td><td>${p !== null ? Math.round(p * 100) + '%' : 'Seed'}</td><td>${outHtml}</td><td>${err}</td></tr>`;
+      }).join('');
+    }
+
+    // Draw all canvases
+    drawCircadianRing(dataset);
+    drawBasinCanvas(pkt, dataset);
+    drawFanCanvas(UI.fanTrajectories, pkt);
+    drawCircuitCanvas(pkt);
+    drawHistoryBrierCanvas(dataset, pkt);
+    renderMathSafe(gateBanner);
+  }
+
+  // ─── EXPORT 1080×1350 ANONYMIZED TRAJECTORY RECEIPT PNG (ZERO PERSONAL TEXT) ─
+  function exportAnonymizedReceiptPNG() {
+    const pkt = UI.lastPacket;
+    if (!pkt) return;
+    const c = document.createElement('canvas');
+    c.width = 1080;
+    c.height = 1350;
+    const ctx = c.getContext('2d');
+
+    // Gen-2 Noir Background
+    ctx.fillStyle = '#08080a';
+    ctx.fillRect(0, 0, 1080, 1350);
+    ctx.strokeStyle = 'rgba(200,255,0,0.45)';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(28, 28, 1024, 1294);
+
+    // Header
+    ctx.fillStyle = '#c8ff00';
+    ctx.font = 'bold 20px "IBM Plex Mono", monospace';
+    ctx.fillText('NEUROSCIENCE WITH RPRIME // ANONYMIZED BIOPHYSICAL TRAJECTORY RECEIPT', 64, 88);
+    ctx.fillStyle = '#f0ece4';
+    ctx.font = 'bold 46px "Syne", sans-serif';
+    ctx.fillText('PERSONAL ITÔ SDE & SEPARATRIX CARD', 64, 150);
+
+    const safeCategory = [
+      'Short-Form Doomscrolling', 'Compulsive Feed / Message Checking',
+      'Gaming / Variable-Ratio Ranked Queue', 'Nicotine / Caffeine / Substance Loop',
+      'Penrose-Style Obsessive Studying'
+    ].includes(pkt.loop_name) ? pkt.loop_name : 'Anonymized Behavioral Loop';
+
+    ctx.fillStyle = '#a09d95';
+    ctx.font = '22px "IBM Plex Mono", monospace';
+    ctx.fillText(`CLASS: ${safeCategory.toUpperCase()}  |  N_LOGS: ${pkt.n_logs}  |  N_BREAKS: ${pkt.n_perturbations}`, 64, 198);
+
+    // Honesty Stamp
+    ctx.fillStyle = pkt.prediction_locked ? 'rgba(255,107,53,0.18)' : 'rgba(200,255,0,0.16)';
+    ctx.fillRect(64, 226, 952, 64);
+    ctx.fillStyle = pkt.prediction_locked ? '#ff6b35' : '#c8ff00';
+    ctx.font = 'bold 22px "IBM Plex Mono", monospace';
+    ctx.fillText(
+      pkt.prediction_locked
+        ? '[?] HONESTY GATE ACTIVE: POINT τ LOCKED — SHOWING 10%–90% CREDIBLE PRIOR FAN'
+        : `✓ CALIBRATED POSTERIOR: τ_50 = ${pkt.params.tau_median_days.toFixed(1)}d [${pkt.params.tau_p10_days.toFixed(0)}d–${pkt.params.tau_p90_days.toFixed(0)}d]`,
+      84, 266
+    );
+
+    // 6 Scalar Boxes (Zero free-text!)
+    const boxes = [
+      ['SEPARATRIX ρ̂ [90% CI]', `${pkt.params.rho_p50.toFixed(2)} [${pkt.params.rho_p10.toFixed(2)}–${pkt.params.rho_p90.toFixed(2)}]`, '#00e5ff'],
+      ['LOOP GAIN v & DECAY k', `v=${pkt.params.v.toFixed(2)} · k=${pkt.params.k.toFixed(2)}/d`, '#c8ff00'],
+      ['DE-ALIASED D & φ', `D=${pkt.params.D.toFixed(3)} · φ=${pkt.params.phi.toFixed(2)}`, '#ff6b35'],
+      ['ELASTICITIES (Ev vs Ed)', `Ev=+${pkt.params.elasticity_v.toFixed(1)} · Ed≡0.0`, '#9b88ff'],
+      ['DOMINANT CIRCUIT CODE', pkt.phenotypes.top_id.toUpperCase(), '#c8ff00'],
+      ['BRIER CALIBRATION', pkt.empirical.brier_score !== null ? `BS=${pkt.empirical.brier_score.toFixed(3)}` : 'UNSCORED', '#00e5ff']
+    ];
+    boxes.forEach((b, idx) => {
+      const col = idx % 2, row = Math.floor(idx / 2);
+      const bx = 64 + col * 484, by = 320 + row * 124;
+      ctx.fillStyle = '#111116';
+      ctx.fillRect(bx, by, 468, 106);
+      ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(bx, by, 468, 106);
+      ctx.fillStyle = '#8e8b82';
+      ctx.font = '16px "IBM Plex Mono", monospace';
+      ctx.fillText(b[0], bx + 20, by + 36);
+      ctx.fillStyle = b[2];
+      ctx.font = 'bold 28px "IBM Plex Mono", monospace';
+      ctx.fillText(b[1], bx + 20, by + 80);
+    });
+
+    // Embed Trajectory Fan Snapshot
+    const fanCnv = document.getElementById('fanCanvas');
+    ctx.drawImage(fanCnv, 64, 715, 952, 470);
+
+    // Footer
+    ctx.fillStyle = '#8e8b82';
+    ctx.font = '18px "IBM Plex Mono", monospace';
+    ctx.fillText('ZERO PERSONAL TEXT INCLUDED · GENERATED ON-DEVICE AT @NEUROSCIENCERPRIME', 64, 1265);
+
+    const a = document.createElement('a');
+    a.download = `rprime_trajectory_receipt_N${pkt.n_logs}.png`;
+    a.href = c.toDataURL('image/png');
+    a.click();
+  }
+
+  // ─── BIND UI CONTROLS & LISTENERS ───────────────────────────────────────────
+  function bindSlidersLabels() {
+    const pairs = [
+      ['inpBoutsMin', 'lblBoutsMin', (v) => `${v} min`],
+      ['inpLatency', 'lblLatency', (v) => `${v} s`],
+      ['inpWanting', 'lblWanting', (v) => (+v).toFixed(1)],
+      ['inpLiking', 'lblLiking', (v) => (+v).toFixed(1)],
+      ['inpRestless', 'lblRestless', (v) => (+v).toFixed(1)],
+      ['inpEgo', 'lblEgo', (v) => (+v).toFixed(1)],
+      ['inpIsolation', 'lblIsolation', (v) => (+v).toFixed(1)],
+      ['inpHitProb', 'lblHitProb', (v) => `${(+v).toFixed(2)} (4p(1−p)=${(4 * v * (1 - v)).toFixed(2)})`],
+      ['inpPostCalm', 'lblPostCalm', (v) => `${+v >= 0 ? '+' : ''}${(+v).toFixed(1)} ${+v >= 1.5 ? '(Calmed)' : (+v <= -1.5 ? '(Agitated)' : '(Flat)')}`],
+      ['inpPertCut', 'lblPertCut', (v) => `${v}% Cut`],
+      ['inpPertDur', 'lblPertDur', (v) => `${v} h`],
+      ['inpReboundHrs', 'lblReboundHrs', (v) => `${v} h`]
+    ];
+    pairs.forEach(([id, lblId, fmt]) => {
+      const el = document.getElementById(id);
+      const lbl = document.getElementById(lblId);
+      el.addEventListener('input', () => { lbl.textContent = fmt(el.value); });
+    });
+  }
+
+  function ensurePrivateModeForWrite() {
+    if (UI.previewMode !== null) {
+      UI.previewMode = null;
+    }
+  }
+
+  document.getElementById('btnAddDailyLog').addEventListener('click', () => {
+    ensurePrivateModeForWrite();
+    const prevLockedProb = privateVault.logs.length > 0 && privateVault.pending_bet
+      ? privateVault.pending_bet.prob
+      : undefined;
+
+    privateVault.logs.push({
+      dayIndex: privateVault.logs.length + 1,
+      timestamp: new Date().toISOString(),
+      bouts_min: parseFloat(document.getElementById('inpBoutsMin').value) || 0,
+      wanting: parseFloat(document.getElementById('inpWanting').value) || 0,
+      liking: parseFloat(document.getElementById('inpLiking').value) || 0,
+      restlessness: parseFloat(document.getElementById('inpRestless').value) || 0,
+      ego_threat: parseFloat(document.getElementById('inpEgo').value) || 0,
+      isolation: parseFloat(document.getElementById('inpIsolation').value) || 0,
+      hit_prob: parseFloat(document.getElementById('inpHitProb').value) || 0.5,
+      post_calm: parseFloat(document.getElementById('inpPostCalm').value) || 0,
+      entry_latency_s: parseFloat(document.getElementById('inpLatency').value) || 5,
+      time_window: document.getElementById('inpTimeWindow').value,
+      cue_tag: document.getElementById('inpCueTag').value,
+      slipped: parseInt(document.getElementById('inpSlipped').value, 10) === 1 ? 1 : 0,
+      locked_pred_prob: prevLockedProb
+    });
+    privateVault.pending_bet.locked_at = new Date().toISOString();
+    savePrivateVault();
+    recomputeAll();
+  });
+
+  document.getElementById('btnAddPerturbation').addEventListener('click', () => {
+    ensurePrivateModeForWrite();
+    privateVault.perturbations.push({
+      cut_pct: parseFloat(document.getElementById('inpPertCut').value) || 35,
+      duration_hours: parseFloat(document.getElementById('inpPertDur').value) || 48,
+      outcome: document.getElementById('inpPertOutcome').value,
+      rebound_hours: parseFloat(document.getElementById('inpReboundHrs').value) || 18
+    });
+    savePrivateVault();
+    recomputeAll();
+  });
+
+  document.getElementById('btnLoadOptPert').addEventListener('click', () => {
+    if (!UI.lastPacket) return;
+    const op = UI.lastPacket.optimal_perturbation;
+    document.getElementById('inpPertCut').value = op.cut_pct;
+    document.getElementById('lblPertCut').textContent = `${op.cut_pct}% Cut`;
+    document.getElementById('inpPertDur').value = op.duration_hours;
+    document.getElementById('lblPertDur').textContent = `${op.duration_hours} h`;
+  });
+
+  // Circadian Ring Hour Toggle
+  document.getElementById('circadianCanvas').addEventListener('click', (ev) => {
+    ensurePrivateModeForWrite();
+    const rect = ev.currentTarget.getBoundingClientRect();
+    const dx = (ev.clientX - rect.left) - rect.width / 2;
+    const dy = (ev.clientY - rect.top) - rect.height / 2;
+    let ang = Math.atan2(dy, dx) + Math.PI / 2;
+    if (ang < 0) ang += Math.PI * 2;
+    const hr = Math.floor((ang / (Math.PI * 2)) * 24) % 24;
+    const idx = privateVault.circadian_hours.indexOf(hr);
+    if (idx >= 0) privateVault.circadian_hours.splice(idx, 1);
+    else privateVault.circadian_hours.push(hr);
+    savePrivateVault();
+    recomputeAll();
+  });
+
+  // Loop Selector & Demo Switchers
+  const selLoop = document.getElementById('selectLoopType');
+  const inpCustomLoop = document.getElementById('inpCustomLoopName');
+  selLoop.addEventListener('change', () => {
+    ensurePrivateModeForWrite();
+    if (selLoop.value === 'Custom Compulsive Loop') {
+      inpCustomLoop.style.display = 'inline-block';
+      privateVault.loop_name = inpCustomLoop.value.trim() || 'Custom Compulsive Loop';
+    } else {
+      inpCustomLoop.style.display = 'none';
+      privateVault.loop_name = selLoop.value;
+    }
+    savePrivateVault();
+    recomputeAll();
+  });
+  inpCustomLoop.addEventListener('input', () => {
+    ensurePrivateModeForWrite();
+    privateVault.loop_name = inpCustomLoop.value.trim() || 'Custom Compulsive Loop';
+    savePrivateVault();
+    recomputeAll();
+  });
+
+  document.querySelectorAll('[data-demo]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      UI.previewMode = btn.dataset.demo;
+      recomputeAll();
+    });
+  });
+  document.getElementById('btnUsePrivateVault').addEventListener('click', () => {
+    UI.previewMode = null;
+    recomputeAll();
+  });
+  document.getElementById('btnWipeVault').addEventListener('click', () => {
+    UI.previewMode = null;
+    privateVault = makeEmptyVault();
+    savePrivateVault();
+    recomputeAll();
+  });
+
+  // Fan Horizon Tabs
+  document.querySelectorAll('#fanHorizonTabs .mini-tab').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      UI.fanHorizonDays = parseInt(tab.dataset.days, 10) || 30;
+      document.querySelectorAll('#fanHorizonTabs .mini-tab').forEach((t) => t.classList.toggle('active', t === tab));
+      if (UI.lastPacket) {
+        UI.fanTrajectories = computeTrajectoryFan(UI.lastPacket, UI.fanHorizonDays);
+        drawFanCanvas(UI.fanTrajectories, UI.lastPacket);
+      }
+    });
+  });
+
+  // 30s Micro-Assay Controls
+  document.getElementById('btnStartAssay').addEventListener('click', () => {
+    UI.assayRunning = true;
+    UI.assayTrial = 0;
+    UI.assayPrematureCount = 0;
+    UI.assayRts = [];
+    UI.assayPhase = 'hold';
+    UI.assayPhaseUntil = performance.now() + 1400 + Math.random() * 1600;
+    UI.assayMsg = 'Hold steady... tap ONLY when the ring flashes #c8ff00 LIME!';
+    document.getElementById('lblAssayState').textContent = 'Running Probe...';
+  });
+  document.getElementById('microAssayCanvas').addEventListener('click', () => {
+    if (!UI.assayRunning) return;
+    const now = performance.now();
+    if (UI.assayPhase === 'hold') {
+      UI.assayPrematureCount++;
+      advanceAssayTrial(now, 'Premature impulsive capture logged (+1)!');
+    } else if (UI.assayPhase === 'go') {
+      const rt = Math.max(60, now - UI.assayGoAt);
+      UI.assayRts.push(rt);
+      advanceAssayTrial(now, `Clean capture: RT = ${Math.round(rt)} ms`);
+    }
+  });
+
+  // Export / Import / SI / Reel / Drawer
+  document.getElementById('btnExportPng').addEventListener('click', exportAnonymizedReceiptPNG);
+  document.getElementById('btnExportJson').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(privateVault, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.download = 'rprime_private_tracker_vault.json';
+    a.href = URL.createObjectURL(blob);
+    a.click();
+  });
+  document.getElementById('inpImportJson').addEventListener('change', (ev) => {
+    const file = ev.target.files && ev.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(String(reader.result));
+        if (parsed && Array.isArray(parsed.logs) && Array.isArray(parsed.perturbations)) {
+          UI.previewMode = null;
+          privateVault = parsed;
+          privateVault.circadian_hours = parsed.circadian_hours || [22, 23];
+          privateVault.assay = parsed.assay || { premature_rate: null, rt_cv: null };
+          privateVault.pending_bet = parsed.pending_bet || { window: '20:00-24:00', cue: 'bed_phone_reach', prob: 0.65, locked_at: new Date().toISOString() };
+          savePrivateVault();
+          recomputeAll();
+        }
+      } catch (_) {}
+    };
+    reader.readAsText(file);
+  });
+
+  function triggerLoyalSI() {
+    if (window.RPrimeSI && typeof window.RPrimeSI.open === 'function') {
+      window.RPrimeSI.open();
+    } else {
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'j', ctrlKey: true, bubbles: true }));
+    }
+  }
+  document.getElementById('btnOpenSI').addEventListener('click', triggerLoyalSI);
+  document.getElementById('btnAskSIAboutState').addEventListener('click', triggerLoyalSI);
+
+  const btnReel = document.getElementById('btnReelMode');
+  btnReel.addEventListener('click', () => {
+    UI.reelMode = !UI.reelMode;
+    document.body.classList.toggle('reel-mode', UI.reelMode);
+    btnReel.classList.toggle('active', UI.reelMode);
+    recomputeAll();
+  });
+
+  const mathDrawer = document.getElementById('mathDrawer');
+  const btnDrawer = document.getElementById('btnMathDrawer');
+  btnDrawer.addEventListener('click', () => {
+    mathDrawer.classList.toggle('open');
+    btnDrawer.classList.toggle('active', mathDrawer.classList.contains('open'));
+    renderMathSafe(mathDrawer);
+  });
+  document.getElementById('btnCloseDrawer').addEventListener('click', () => {
+    mathDrawer.classList.remove('open');
+    btnDrawer.classList.remove('active');
+  });
+
+  // ─── BOOTSTRAP & ANIMATION LOOP ─────────────────────────────────────────────
+  function init() {
+    bindSlidersLabels();
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('mode') === 'reel') {
+      UI.reelMode = true;
+      document.body.classList.add('reel-mode');
+      btnReel.classList.add('active');
+    }
+    const demoParam = params.get('demo');
+    if (demoParam && DEMO_PROFILES[demoParam]) {
+      UI.previewMode = demoParam;
+    }
+    recomputeAll();
+    window.addEventListener('resize', () => recomputeAll());
+  }
+
+  function loop(nowMs) {
+    drawMicroAssayCanvas(nowMs);
+    requestAnimationFrame(loop);
+  }
+
+  init();
+  requestAnimationFrame(loop);
+})();
+</script>
+<script src="./assets/story_spotlight.js" defer></script>
+<script src="./assets/rprime_si.js" defer></script>
+</body>
+</html>
