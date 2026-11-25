@@ -3,7 +3,7 @@
 
   // =========================================================================
   // RPRIME STORY-TO-MECHANISM SPOTLIGHT ENGINE
-  // Maps intense clinical/historical stories & facts from ALL 9 articles
+  // Maps intense clinical/historical stories & facts from ALL 10 articles
   // directly to the live biophysical components inside Simulations 01-07.
   // Zero modifications to any article HTML files.
   // =========================================================================
@@ -17,6 +17,7 @@
     { id: 'art06', num: '06', short: 'Art. 06 · Quantum Pharm', title: 'Article 06 — Why We Need Quantum Neuropharmacology', href: '/article6.html', accent: '#9b88ff' },
     { id: 'art07', num: '07', short: 'Art. 07 · ΔFosB Rent', title: 'Article 07 — ΔFosB Does Not Save Energy. It Charges Rent.', href: '/article7.html', accent: '#9b88ff' },
     { id: 'art08', num: '08', short: 'Art. 08 · Marshall & Kim', title: 'Article 08 — Marshall & Kim: What the Pills Left Behind', href: '/article8.html', accent: '#ff6b35' },
+    { id: 'art09', num: '09', short: 'Art. 09 · Basketball Diaries', title: 'Article 09 — An Analysis of The Basketball Diaries', href: '/article9.html', accent: '#ff4810' },
     { id: 'penrose', num: 'P', short: 'Essay · Penrose Addiction', title: 'Essay — Nobel Laureate Narcissism & Compulsion', href: '/penrose_article.html', accent: '#f59e0b' }
   ];
 
@@ -593,6 +594,47 @@
       }
     },
 
+    // ================= ARTICLE 09: THE BASKETBALL DIARIES (JIM CARROLL) =================
+    {
+      id: 'a09-heroin-6mam-bbb',
+      articleId: 'art09',
+      sim: 'sim_drug_compiler.html',
+      title: 'Why Heroin Is Never Sold as a Pill: 3,6-Diacetylmorphine → 6-MAM & Asp147 / Trp293',
+      fact: 'Article 09 explains why Jim Carroll\'s first "long heat wave" never came from a swallowed pill: oral heroin suffers hepatic first-pass deacetylation into polar morphine before crossing the BBB, blocking rapid 6-MAM conversion.',
+      pinTag: 'Diacetyl lipophilicity + 3-OH / Trp293',
+      reasonHeadline: 'This part was the reason masking morphine\'s two hydroxyls turns a slow polar drug into an instant BBB Trojan horse—and why N-methyl leaves Trp293 free to flip MOR active.',
+      reasonPoint: 'Inspect the 2D morphinan scaffold & CNS Kp,uu / MOR efficacy readout in the live Drug Compiler (flip Morphine ↔ Naloxone to see Trp293 steric jamming).',
+      mechanism: 'Diacetylmorphine itself is a weak prodrug whose 3,6-acetyl groups reduce polarity so it floods across the BBB when injected or smoked. Brain esterases rapidly strip the 3-acetyl group into potent 6-MAM, freeing the phenolic 3-OH to anchor Asp147/TM5-6 while its compact N-methyl leaves Trp293 unjammed so TM6/TM7 swing outward and dock Gi/Go.',
+      targetSelector: '#molCanvas',
+      trigger: () => { clickSel('button[onclick*="morphine-vs-naloxone"]'); }
+    },
+    {
+      id: 'a09-reggie-detox-relapse',
+      articleId: 'art09',
+      sim: 'sim_synapse.html',
+      title: 'Surviving Reggie\'s Cold-Turkey Detox — Then Stealing His Cash Anyway (E_d ≡ 0)',
+      fact: 'Article 09 traces Jim Carroll sweating through Reggie\'s cold-turkey withdrawal ("I just want to be pure"), getting physically clean—and immediately walking back out to score after stealing money from the one adult who saved him.',
+      pinTag: 'Detox clears drug, leaves E_d ≡ 0 loop',
+      reasonHeadline: 'This part was the reason sweating out acute withdrawal does not erase the striatal attractor waiting on the other side of the apartment door.',
+      reasonPoint: 'Inspect the Withdrawal SDE trajectory & E_d ≡ 0 readout showing why drug clearance alone leaves the self-reinforcing ΔFosB / CP-AMPA loop intact.',
+      mechanism: 'Even after acute cAMP superactivation and LC-NE withdrawal subside, ΔFosB → CDK5 → DARPP-32 Thr75-P, stalled RNA Pol II on Fosb, and cortical glutamate CP-AMPA spines keep the adapted attractor alive. During abstinence d ≡ 0 gives zero receptor-blockade leverage (E_d ≡ 0), so returning straight into old street cues pulls the trajectory right back across the separatrix.',
+      targetSelector: '#sdeCanvas',
+      trigger: () => { clickSel('[data-preset="futility"]'); }
+    },
+    {
+      id: 'a09-rooftop-door-alpha1a',
+      articleId: 'art09',
+      sim: 'sim_paradox_rig.html',
+      title: 'Mickey\'s Rooftop Snap & Jim\'s 3-Second Switch Outside Mom\'s Locked Door (NE → α1A)',
+      fact: 'Article 09 breaks down why Mickey loses executive braking on a rooftop and why Jim flips from screaming rage to sobbing "I\'ll be a good boy, Mom" in seconds at his mother\'s locked door.',
+      pinTag: 'α1A lacks barcode → PFC brake collapses',
+      reasonHeadline: 'This part was the reason acute withdrawal NE overdrive shuts down prefrontal restraint while dACC separation distress runs raw.',
+      reasonPoint: 'Watch the Layer III Working Memory bar collapse as excessive Locus Coeruleus NE slams low-affinity α1A adrenoceptors past the inverted-U peak.',
+      mechanism: 'During acute opioid withdrawal, unmasked cAMP superactivation drives hyperactive LC norepinephrine onto prefrontal α1A receptors—which lack C-terminal phosphorylation barcodes for fast β-arrestin2/clathrin internalization. Layer III recurrent braking collapses via PKC/HCN/KCNQ leak currents, leaving amygdala Substance P/NK1 rage and dACC/MOR separation pain completely unbuffered.',
+      targetSelector: '#wmBar',
+      trigger: () => { clickSel('[data-preset="penrose"]'); }
+    },
+
     // ================= PENROSE ESSAY: NARCISSISM & ADDICTION =================
     {
       id: 'pen-alpha1a-pfc',
@@ -982,7 +1024,7 @@
       </div>
       <div class="rps-tabs">
         ${currentSim ? `<button type="button" class="rps-tab ${activeTab === 'local' ? 'active' : ''}" data-tab="local">This Lab (${localStories.length})</button>` : ''}
-        <button type="button" class="rps-tab ${activeTab === 'all' ? 'active' : ''}" data-tab="all">All 9 Articles (${STORIES.length})</button>
+        <button type="button" class="rps-tab ${activeTab === 'all' ? 'active' : ''}" data-tab="all">All 10 Articles (${STORIES.length})</button>
       </div>
       <div class="rps-art-strip">${artButtons}</div>
       <div class="rps-body">
@@ -1041,7 +1083,7 @@
 
     function renderHub() {
       const items = hubFilter === 'all' ? STORIES : STORIES.filter((s) => s.articleId === hubFilter);
-      const filterBtns = [`<button type="button" class="rps-art-pill ${hubFilter === 'all' ? 'active' : ''}" data-hf="all">All 9 Articles (${STORIES.length} Stories)</button>`]
+      const filterBtns = [`<button type="button" class="rps-art-pill ${hubFilter === 'all' ? 'active' : ''}" data-hf="all">All 10 Articles (${STORIES.length} Stories)</button>`]
         .concat(ARTICLES.map((a) => {
           const n = STORIES.filter((s) => s.articleId === a.id).length;
           return `<button type="button" class="rps-art-pill ${hubFilter === a.id ? 'active' : ''}" data-hf="${a.id}">${a.short} (${n})</button>`;
@@ -1071,9 +1113,9 @@
       sec.innerHTML = `
         <div class="rps-hub-head">
           <div>
-            <div class="rps-hub-kicker">Interactive Story → Mechanism Index · All 9 Articles × 7 Live Labs</div>
+            <div class="rps-hub-kicker">Interactive Story → Mechanism Index · All 10 Articles × 7 Live Labs</div>
             <h2 class="rps-hub-h2">"This Part Was The Reason X Happened"</h2>
-            <p class="rps-hub-desc">Pick any intense real-world story, historical case, or paradox from Articles 01–08 and the Penrose essay. Each button opens the exact live simulation, loads its physiological parameters, and spotlights the exact gauge, curve, channel, or orbital that caused it.</p>
+            <p class="rps-hub-desc">Pick any intense real-world story, historical case, or paradox from Articles 01–09 and the Penrose essay. Each button opens the exact live simulation, loads its physiological parameters, and spotlights the exact gauge, curve, channel, or orbital that caused it.</p>
           </div>
         </div>
         <div class="rps-hub-filters">${filterBtns}</div>

@@ -134,6 +134,22 @@
       ]
     },
     {
+      "id": "article9",
+      "number": "09",
+      "title": "An Analysis of The Basketball Diaries: The Court, the Heat Wave, and How a Brain Dismantles a Kid",
+      "date": "2026-11-25",
+      "url": "./article9.html",
+      "keywords": ["basketball diaries", "jim carroll", "pedro", "mickey", "neutron", "reggie", "wilt chamberlain", "nicotine", "a4b2", "a6b2", "nachr", "7-10 seconds", "40-55 minutes", "dc/dt", "diacetylmorphine", "6-mam", "heroin", "oral heroin", "first-pass", "asp147", "trp293", "girk", "k+ efflux", "alpha1a", "phosphorylation barcode", "substance p", "nk1", "medial amygdala", "crf", "dacc", "social pain", "separation distress", "candy shop", "cold turkey", "detox", "rooftop", "locked door", "rikers island", "poetry reading", "deltafosb", "cdk5", "thr75", "cp-ampa", "stalled pol ii", "e_d=0", "rho^23.3"],
+      "core_mechanism": "Chronological receptor-to-circuit dissection of The Basketball Diaries (1995) and Jim Carroll's descent: (1) Smoked nicotine hits α4β2/α6β2 nAChRs on VTA DA neurons in 7–10 s vs. 40–55 min for gum/patches; steep dC/dt drives phasic Ca2+-mediated DA bursts and striatal LTP. (2) Heroin (3,6-diacetylmorphine) is never sold orally because hepatic first-pass hydrolyzes it to polar morphine, preventing rapid BBB crossing and brain conversion into potent 6-MAM; the phenolic 3-OH anchors Asp147/TM5-6 while N-methyl leaves Trp293 free to swing TM6/TM7 outward, docking Gi/Go, dropping cAMP/PKA, opening GIRK K+ efflux to hyperpolarize LC NE and dorsal-horn nociceptors, and silencing VTA GABA interneurons to produce pure MOR hedonic-hotspot 'liking' ('a long heat wave'). (3) Abrupt clearance unmasks cAMP superactivation, hyperactive LC NE flooding α1A adrenoceptors (which lack C-terminal phosphorylation barcodes for β-arrestin2/clathrin internalization), Substance P/NK1 pro-inflammatory agitation in MeA, CRF surge, and D1-MSN retrograde dynorphin/KOR suppression—producing bathroom rage and stripping cognitive empathy. (4) As compulsion accelerates through the candy-shop arrest of Pedro, Reggie's forced cold-turkey detox ('I just want to be pure'), Jim stealing Reggie's cash after surviving acute sickness, the public restroom, Mickey's α1A-hijacked rooftop fatality, and Jim's 3-second oscillation outside his mother's locked door (dACC/MOR separation distress + PFC shutdown), abstinence alone yields E_d === 0 because ΔFosB -> CDK5 -> DARPP-32 Thr75, stalled RNA Pol II, and CP-AMPA glutamate spines keep the adapted attractor intact (τ ∝ ρ^23.3) until six months of forced isolation at Rikers Island plus a new identity outside the old cue ecology lets him refuse Pedro's bag at the stage door.",
+      "epistemic_notes": "Preserves explicit mechanistic boundaries: subjective MOR 'liking' qualia remain an open hard problem beyond hedonic-hotspot localization; behavioral recovery across the Rikers Island/stage-door turning point is framed as a probabilistically rare-event separatrix crossing (τ ∝ ρ^23.3) rather than thermodynamic irreversibility.",
+      "actions": [
+        { "label": "▶ Compare Heroin/Morphine vs Naloxone in Sim 05", "href": "./sim_drug_compiler.html#preset=morphine-vs-naloxone" },
+        { "label": "▶ Prove Post-Detox E_d=0 Persistence in Sim 01", "href": "./sim_synapse.html#preset=futility" },
+        { "label": "▶ Trigger LC NE → α1A PFC Collapse in Sim 02", "href": "./sim_paradox_rig.html#preset=penrose-stress" },
+        { "label": "Read Article 09", "href": "./article9.html" }
+      ]
+    },
+    {
       "id": "penrose",
       "number": "Essay",
       "title": "I Documented a Nobel Laureate's Narcissism While Reading His Book — And Got Addicted Anyway",
