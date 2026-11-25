@@ -17,967 +17,1992 @@
 <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg: #080808;
-    --surface: rgba(255,255,255,0.03);
-    --border: rgba(255,255,255,0.07);
-    --text: #f0ece4;
-    --muted: #555;
-    --muted2: #888;
-    --accent: #c8ff00;
-    --accent2: #ff6b35;
+    --void: #010102;
+    --chassis: #060709;
+    --plate-hi: #0f1116;
+    --plate-mid: #090b0f;
+    --plate-lo: #050608;
+    --oled: #000000;
+    --key-hi: #1a1d24;
+    --key-lo: #0c0e13;
+    --line: rgba(255, 255, 255, 0.085);
+    --line-hi: rgba(255, 255, 255, 0.19);
+    --spec: rgba(255, 255, 255, 0.11);
+    --text: #f2efe8;
+    --text-dim: #a9a59c;
+    --muted: #65625c;
+    --lime: #c8ff00;
+    --orange: #ff4810;
+    --cyan: #18dcff;
+    --violet: #a78bfa;
     --font-display: 'Syne', sans-serif;
     --font-body: 'DM Sans', sans-serif;
     --font-mono: 'IBM Plex Mono', monospace;
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; background: var(--void); color-scheme: dark; }
 
   body {
-    background: var(--bg);
+    background-color: var(--void);
+    background-image:
+      radial-gradient(ellipse 80% 42% at 62% 0%, rgba(255, 255, 255, 0.045) 0%, transparent 64%),
+      linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
+    background-position: 0 0, -1px -1px, -1px -1px;
     color: var(--text);
     font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.7;
+    font-size: 15.5px;
+    line-height: 1.62;
     overflow-x: hidden;
     min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* NOISE TEXTURE */
+  /* Subtle machined aluminum noise */
   body::after {
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.032;
     pointer-events: none;
     z-index: 9998;
     mix-blend-mode: overlay;
   }
 
-  /* AURORA BLOBS */
-  .aurora {
+  /* Top tachometer scroll hairline */
+  #scrollNeedle {
     position: fixed;
-    inset: 0;
-    overflow: hidden;
-    z-index: 0;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    z-index: 10020;
+    background: linear-gradient(90deg, var(--lime) 0%, #e4ff66 65%, var(--orange) 100%);
+    box-shadow: 0 0 12px rgba(200, 255, 0, 0.7);
     pointer-events: none;
   }
-  .blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(110px);
-    animation: drift linear infinite;
-  }
-  .blob-1 {
-    width: 750px; height: 750px;
-    background: radial-gradient(circle, rgba(200,255,0,0.18), transparent 65%);
-    top: -250px; left: -200px;
-    animation-duration: 28s;
-    animation-name: drift1;
-  }
-  .blob-2 {
-    width: 550px; height: 550px;
-    background: radial-gradient(circle, rgba(255,107,53,0.15), transparent 65%);
-    top: 35%; right: -180px;
-    animation-duration: 34s;
-    animation-name: drift2;
-    animation-delay: -12s;
-  }
-  .blob-3 {
-    width: 450px; height: 450px;
-    background: radial-gradient(circle, rgba(120,80,220,0.12), transparent 65%);
-    bottom: 5%; left: 15%;
-    animation-duration: 26s;
-    animation-name: drift3;
-    animation-delay: -7s;
-  }
-  .blob-4 {
-    width: 320px; height: 320px;
-    background: radial-gradient(circle, rgba(200,255,0,0.1), transparent 65%);
-    bottom: -80px; right: 25%;
-    animation-duration: 32s;
-    animation-name: drift1;
-    animation-delay: -18s;
-  }
 
-  @keyframes drift1 {
-    0%,100% { transform: translate(0,0) scale(1); }
-    33% { transform: translate(50px,-40px) scale(1.06); }
-    66% { transform: translate(-35px,55px) scale(0.95); }
-  }
-  @keyframes drift2 {
-    0%,100% { transform: translate(0,0) scale(1); }
-    40% { transform: translate(-60px,30px) scale(1.08); }
-    70% { transform: translate(40px,-50px) scale(0.93); }
-  }
-  @keyframes drift3 {
-    0%,100% { transform: translate(0,0) scale(1); }
-    30% { transform: translate(30px,60px) scale(1.04); }
-    60% { transform: translate(-50px,-30px) scale(0.97); }
-  }
-
-  /* LAYOUT */
-  .container {
-    max-width: 1100px;
+  .wrap {
+    max-width: 1240px;
     margin: 0 auto;
-    padding: 0 40px;
+    padding: 0 28px;
     position: relative;
-    z-index: 1;
+    z-index: 2;
   }
 
-  /* NAV */
+  /* ================= TOP HARDWARE INSTRUMENT BAR ================= */
   .nav {
     position: sticky;
     top: 0;
-    z-index: 100;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    background: rgba(8,8,8,0.72);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    z-index: 200;
+    background: rgba(3, 3, 5, 0.9);
+    backdrop-filter: blur(22px) saturate(140%);
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 14px 36px rgba(0, 0, 0, 0.92);
   }
   .nav-inner {
-    max-width: 1100px;
+    max-width: 1240px;
     margin: 0 auto;
-    padding: 0 40px;
-    height: 64px;
+    padding: 0 28px;
+    height: 58px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-  .logo {
-    font-family: var(--font-display);
-    font-size: 17px;
-    font-weight: 800;
-    letter-spacing: -0.3px;
-    color: var(--text);
-    text-decoration: none;
-  }
-  .logo span { color: var(--accent); }
-  .nav-links {
-    display: flex;
-    gap: 36px;
-    list-style: none;
-  }
-  .nav-links a {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    color: var(--muted2);
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--accent); }
-
-  /* HERO */
-  .hero {
-    min-height: 92vh;
-    display: flex;
-    align-items: center;
-    position: relative;
-    padding: 120px 0 90px;
-    overflow: hidden;
-  }
-  .hero-glow {
-    position: absolute;
-    width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(200,255,0,0.055) 0%, transparent 65%);
-    top: 50%; left: -80px;
-    transform: translateY(-50%);
-    pointer-events: none;
-  }
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 760px;
-  }
-  .hero-eyebrow {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 32px;
-    opacity: 0;
-    animation: fadeUp 0.6s ease forwards 0.2s;
-  }
-  .hero-title {
-    font-family: var(--font-display);
-    font-size: clamp(46px, 7.5vw, 92px);
-    font-weight: 800;
-    line-height: 1.0;
-    letter-spacing: -2.5px;
-    margin-bottom: 36px;
-    text-wrap: balance;
-  }
-  .word {
-    display: inline-block;
-    opacity: 0;
-    animation: fadeUp 0.75s ease forwards;
-  }
-  .word:nth-child(1) { animation-delay: 0.38s; }
-  .word:nth-child(2) { animation-delay: 0.52s; }
-  .word:nth-child(3) { animation-delay: 0.66s; }
-  .word:nth-child(4) { animation-delay: 0.80s; }
-  .word:nth-child(5) { animation-delay: 0.94s; }
-  .word:nth-child(6) { animation-delay: 1.08s; color: var(--accent); }
-  .hero-sub {
-    font-size: 18px;
-    line-height: 1.8;
-    color: #888;
-    max-width: 560px;
-    margin-bottom: 44px;
-    opacity: 0;
-    animation: fadeUp 0.7s ease forwards 1.3s;
-    text-wrap: balance;
-  }
-  .hero-cta {
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    opacity: 0;
-    animation: fadeUp 0.7s ease forwards 1.5s;
-  }
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    padding: 14px 30px;
-    background: var(--accent);
-    color: #080808;
-    font-family: var(--font-display);
-    font-size: 14px;
-    font-weight: 700;
-    text-decoration: none;
-    border-radius: 7px;
-    letter-spacing: 0.01em;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 48px rgba(200,255,0,0.28);
-  }
-  .btn-ghost {
-    display: inline-flex;
-    align-items: center;
-    padding: 14px 24px;
-    color: var(--muted2);
-    font-size: 14px;
-    text-decoration: none;
-    border: 1px solid rgba(255,255,255,0.09);
-    border-radius: 7px;
-    backdrop-filter: blur(8px);
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .btn-ghost:hover { border-color: rgba(255,255,255,0.22); color: var(--text); }
-
-  /* EEG WAVEFORM */
-  .hero-eeg {
-    position: absolute;
-    right: -40px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 540px;
-    opacity: 0;
-    z-index: 1;
-    animation: eegAppear 1s ease forwards 2s;
-  }
-  @keyframes eegAppear { to { opacity: 0.11; } }
-  .eeg-path {
-    stroke-dasharray: 1400;
-    stroke-dashoffset: 1400;
-    animation: drawEEG 3s ease forwards 2.2s;
-  }
-  @keyframes drawEEG { to { stroke-dashoffset: 0; } }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(26px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* DIVIDER */
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 88px 0;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* SECTION LABEL */
-  .section-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 44px;
-    display: flex;
-    align-items: center;
-    gap: 18px;
-  }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* ABOUT */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     gap: 16px;
   }
-  .about-main {
-    grid-column: 1 / -1;
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    background: rgba(255,255,255,0.025);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
-    border-radius: 14px;
-    padding: 44px 52px;
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 15.5px;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
   }
-  .about-main p {
-    font-size: 17px;
-    line-height: 1.9;
-    color: #bbb;
-    margin-bottom: 20px;
-    text-wrap: balance;
+  .brand-led {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 10px var(--lime), 0 0 2px #fff;
+    flex-shrink: 0;
   }
-  .about-main p:last-child { margin-bottom: 0; }
-  .about-main strong { color: var(--text); font-weight: 500; }
+  .brand span { color: var(--lime); }
+  .brand-rev {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    padding-left: 10px;
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    background: #030406;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 3px;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.9);
+  }
+  .nav-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 9px;
+    border-radius: 5px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-links a:hover { background: rgba(255, 255, 255, 0.07); color: #fff; }
+  .nav-links a.hot { color: var(--lime); }
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .key-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 13px;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    color: var(--text);
+    background: linear-gradient(180deg, var(--key-hi) 0%, var(--key-lo) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 3px 8px rgba(0, 0, 0, 0.85);
+    transition: transform 0.1s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+    white-space: nowrap;
+  }
+  .key-btn:hover { border-color: rgba(255, 255, 255, 0.3); }
+  .key-btn:active { transform: translateY(1px); box-shadow: inset 0 2px 5px #000; }
+  .key-btn.orange-cap {
+    background: linear-gradient(180deg, #ff5d26 0%, #e03a06 100%);
+    color: #050505;
+    border-color: #ff7c4d;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42), 0 6px 20px -4px rgba(255, 72, 16, 0.55);
+  }
+  .key-btn.orange-cap:hover { background: linear-gradient(180deg, #ff6f3d 0%, #f0430b 100%); }
 
-  .reality-card {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(255,255,255,0.02);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 28px 32px;
+  /* ================= SPLIT COCKPIT HERO ================= */
+  .hero {
+    padding: 46px 0 54px;
+    border-bottom: 1px solid var(--line);
     position: relative;
   }
-  .reality-card::before, .reality-card::after {
-    content: '';
-    position: absolute;
-    width: 10px; height: 10px;
-    opacity: 0.3;
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
+    gap: 34px;
+    align-items: center;
   }
-  .reality-card::before { top: 10px; left: 10px; border-top: 1px solid var(--accent); border-left: 1px solid var(--accent); }
-  .reality-card::after  { bottom: 10px; right: 10px; border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); }
-  .reality-label {
+  .serial-strip {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 5px 11px;
+    background: #06070a;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: 5px;
     font-family: var(--font-mono);
     font-size: 10px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    margin-bottom: 14px;
+    color: var(--text-dim);
+    margin-bottom: 22px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
-  .reality-card p { font-size: 14px; line-height: 1.75; color: #888; }
-  @keyframes blink {
-    0%,100% { opacity: 1; }
-    50% { opacity: 0.3; }
+  .serial-strip i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--orange);
+    box-shadow: 0 0 8px var(--orange);
+    display: inline-block;
   }
-  .big-line {
+  .hero-title {
     font-family: var(--font-display);
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--accent);
-    line-height: 1.4;
-    margin: 36px 0;
-    padding-left: 24px;
-    border-left: 3px solid var(--accent);
-  }
-  .big-line.orange { color: var(--accent2); border-left-color: var(--accent2); }
-
-  /* ARTICLES */
-  .articles-category { margin-bottom: 72px; }
-  .category-label {
-    font-family: var(--font-display);
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 8px;
-    letter-spacing: -0.4px;
-  }
-  .category-desc {
-    font-size: 14px;
-    color: var(--muted2);
-    margin-bottom: 24px;
-    max-width: 480px;
-    line-height: 1.65;
-  }
-  .bento-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .span-2 { grid-column: 1 / -1; }
-
-  .article-card {
-    display: block;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(255,255,255,0.025);
-    border: 1px solid rgba(255,255,255,0.065);
-    border-radius: 12px;
-    padding: 28px 32px;
-    text-decoration: none;
-    transition: border-color 0.25s, background 0.25s, transform 0.2s, box-shadow 0.25s;
-    position: relative;
-    overflow: hidden;
-  }
-  .article-card::before, .article-card::after {
-    content: '';
-    position: absolute;
-    width: 10px; height: 10px;
-    border-color: rgba(200,255,0,0.22);
-    opacity: 0;
-    transition: opacity 0.25s;
-  }
-  .article-card::before { top: 10px; left: 10px; border-top: 1px solid; border-left: 1px solid; }
-  .article-card::after  { bottom: 10px; right: 10px; border-bottom: 1px solid; border-right: 1px solid; }
-  .article-card:hover {
-    border-color: rgba(200,255,0,0.18);
-    background: rgba(255,255,255,0.04);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 48px rgba(0,0,0,0.4);
-  }
-  .article-card:hover::before, .article-card:hover::after { opacity: 1; }
-
-  .article-card-num {
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.16em;
-    color: var(--accent);
-    margin-bottom: 14px;
-    opacity: 0.75;
-  }
-  .article-card-title {
-    font-family: var(--font-display);
-    font-size: 19px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 10px;
-    line-height: 1.25;
-    letter-spacing: -0.3px;
+    font-size: clamp(40px, 5.4vw, 72px);
+    font-weight: 800;
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    color: #f6f4ee;
+    margin-bottom: 22px;
     text-wrap: balance;
   }
-  .article-card.featured .article-card-title { font-size: 26px; }
-  .article-card-desc {
-    font-size: 14px;
-    color: #666;
-    line-height: 1.65;
+  .hero-title .prime-word {
+    color: var(--lime);
+    text-shadow: 0 0 38px rgba(200, 255, 0, 0.24);
   }
-  .article-card-tag {
+  .hero-sub {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-dim);
+    max-width: 530px;
+    margin-bottom: 28px;
+  }
+  .hero-sub strong { color: var(--text); font-weight: 600; }
+
+  .hero-triggers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .hw-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 17px;
+    border-radius: 7px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+  .hw-cta:active { transform: translateY(1px); }
+  .hw-cta-lime {
+    background: linear-gradient(180deg, #d7ff38 0%, #b3e600 100%);
+    color: #040504;
+    border: 1px solid #e1ff6b;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72), 0 10px 28px -8px rgba(200, 255, 0, 0.45), 0 3px 8px #000;
+  }
+  .hw-cta-lime:hover {
+    transform: translateY(-1px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 14px 36px -6px rgba(200, 255, 0, 0.6), 0 4px 10px #000;
+  }
+  .hw-cta-carbon {
+    background: linear-gradient(180deg, #191c24 0%, #0b0d12 100%);
+    color: var(--text);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 6px 18px rgba(0, 0, 0, 0.85);
+  }
+  .hw-cta-carbon:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 72, 16, 0.65);
+    box-shadow: inset 0 1px 0 rgba(255, 110, 60, 0.28), 0 8px 24px rgba(0, 0, 0, 0.9);
+  }
+  .led-pip {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
     display: inline-block;
-    margin-top: 18px;
+    flex-shrink: 0;
+  }
+  .led-orange { background: var(--orange); box-shadow: 0 0 9px var(--orange); }
+  .led-lime { background: var(--lime); box-shadow: 0 0 9px var(--lime); }
+  .led-cyan { background: var(--cyan); box-shadow: 0 0 9px var(--cyan); }
+  .led-violet { background: var(--violet); box-shadow: 0 0 9px var(--violet); }
+
+  /* 3-Cell Recessed OLED Spec Strip */
+  .spec-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .spec-cell {
+    background: #030406;
+    border: 1px solid rgba(255, 255, 255, 0.085);
+    border-radius: 7px;
+    padding: 11px 13px;
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.95), 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+  .spec-val {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+  }
+  .spec-val.lime { color: var(--lime); }
+  .spec-lbl {
     font-family: var(--font-mono);
     font-size: 9px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #8e8a82;
-    transition: color 0.2s;
+    color: var(--muted);
+    margin-top: 5px;
   }
-  .article-card:hover .article-card-tag { color: var(--accent); }
 
-  .article-card.sim {
-    border-color: rgba(255,107,53,0.1);
-  }
-  .article-card.sim .article-card-num { color: var(--accent2); }
-  .article-card.sim::before, .article-card.sim::after { border-color: rgba(255,107,53,0.22); }
-  .article-card.sim:hover { border-color: rgba(255,107,53,0.2); }
-  .article-card.sim:hover .article-card-tag { color: var(--accent2); }
-
-  /* FOCUS AREAS */
-  .focus-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-  .focus-card {
-    backdrop-filter: blur(10px);
-    background: rgba(255,255,255,0.018);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 22px 24px;
-    transition: border-color 0.2s;
-  }
-  .focus-card:hover { border-color: rgba(200,255,0,0.14); }
-  .focus-num {
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    color: var(--accent);
-    opacity: 0.5;
-    margin-bottom: 10px;
-  }
-  .focus-text { font-size: 13px; color: #777; line-height: 1.65; }
-
-  /* CONTACT */
-  .contact-block {
-    backdrop-filter: blur(14px);
-    background: rgba(255,255,255,0.025);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 56px;
-    text-align: center;
+  /* ================= PHYSICAL HARDWARE TELEMETRY MODULE (HERO RIGHT) ================= */
+  .hw-unit {
     position: relative;
+    background: linear-gradient(180deg, #13161d 0%, #090b0f 36%, #050608 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    padding: 16px 16px 15px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      inset 0 -2px 0 rgba(0, 0, 0, 0.95),
+      0 32px 76px -18px rgba(0, 0, 0, 0.98),
+      0 0 0 1px rgba(0, 0, 0, 0.95);
   }
-  .contact-block::before, .contact-block::after {
+  /* 4 machined hex corner screws */
+  .hw-screw {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #2b303c, #0a0c10 70%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: inset 0 1px 2px #000;
+    pointer-events: none;
+  }
+  .hw-screw::after {
     content: '';
     position: absolute;
-    width: 18px; height: 18px;
-    border-color: rgba(200,255,0,0.18);
+    inset: 2px;
+    border-radius: 50%;
+    background: #040507;
   }
-  .contact-block::before { top: 18px; left: 18px; border-top: 1px solid; border-left: 1px solid; }
-  .contact-block::after  { bottom: 18px; right: 18px; border-bottom: 1px solid; border-right: 1px solid; }
-  .contact-block h3 {
-    font-family: var(--font-display);
-    font-size: clamp(32px, 6vw, 56px);
-    font-weight: 800;
-    margin-bottom: 16px;
-    letter-spacing: -1px;
-    line-height: 1.1;
-  }
-  .contact-block .contact-sub {
-    color: var(--muted2);
-    font-size: 17px;
-    margin-bottom: 12px;
-    max-width: 560px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .contact-topics {
+  .hw-screw.tl { top: 8px; left: 8px; }
+  .hw-screw.tr { top: 8px; right: 8px; }
+  .hw-screw.bl { bottom: 8px; left: 8px; }
+  .hw-screw.br { bottom: 8px; right: 8px; }
+
+  .hw-head {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 40px;
-    margin-top: 20px;
-  }
-  .contact-topic-tag {
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 12px 11px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 12px;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .hw-head-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--lime);
+  }
+  .hw-live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--orange);
+    box-shadow: 0 0 8px var(--orange);
+    animation: recPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes recPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* Deep Pitch-Black Recessed OLED Bezel */
+  .oled-bezel {
+    position: relative;
+    background: #000000;
+    border: 1.5px solid #1f232d;
+    border-radius: 9px;
+    overflow: hidden;
+    box-shadow:
+      inset 0 4px 24px rgba(0, 0, 0, 1),
+      inset 0 0 0 1px #000,
+      0 1px 0 rgba(255, 255, 255, 0.1);
+    height: 256px;
+  }
+  .oled-bezel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.045) 0%, transparent 18%, transparent 92%, rgba(0, 0, 0, 0.45) 100%);
+    pointer-events: none;
+  }
+  #heroOledCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .oled-hud-tl {
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    padding: 6px 14px;
-    border: 1px solid rgba(200,255,0,0.2);
-    border-radius: 4px;
-    color: var(--accent);
-    background: rgba(200,255,0,0.05);
+    color: rgba(242, 239, 232, 0.78);
+    pointer-events: none;
+    z-index: 2;
   }
-  .contact-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: center;
-    margin-top: 8px;
-  }
-  .contact-email {
-    display: inline-block;
-    padding: 18px 40px;
-    background: rgba(200,255,0,0.07);
-    border: 1px solid rgba(200,255,0,0.25);
-    border-radius: 8px;
-    color: var(--accent);
-    text-decoration: none;
+  .oled-hud-tl strong { color: var(--lime); }
+  .oled-hud-tr {
+    position: absolute;
+    top: 10px;
+    right: 12px;
     font-family: var(--font-mono);
-    font-size: 14px;
-    letter-spacing: 0.04em;
-    transition: background 0.2s, box-shadow 0.2s;
-  }
-  .contact-email:hover {
-    background: rgba(200,255,0,0.12);
-    box-shadow: 0 0 40px rgba(200,255,0,0.14);
-  }
-  .contact-insta {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 18px 40px;
-    background: rgba(255,107,53,0.07);
-    border: 1px solid rgba(255,107,53,0.25);
-    border-radius: 8px;
-    color: var(--accent2);
-    text-decoration: none;
-    font-family: var(--font-mono);
-    font-size: 14px;
-    letter-spacing: 0.04em;
-    transition: background 0.2s, box-shadow 0.2s;
-  }
-  .contact-insta:hover {
-    background: rgba(255,107,53,0.12);
-    box-shadow: 0 0 40px rgba(255,107,53,0.14);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--orange);
+    font-variant-numeric: tabular-nums;
+    pointer-events: none;
+    z-index: 2;
   }
 
-  /* FOOTER */
-  .footer {
-    margin-top: 88px;
-    padding: 32px 0;
-    border-top: 1px solid var(--border);
+  /* 4 Tactile Channel Selector Keys */
+  .hw-ch-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-top: 11px;
+  }
+  .hw-ch-btn {
+    position: relative;
+    padding: 9px 6px 8px;
+    border-radius: 6px;
+    background: linear-gradient(180deg, #191c24 0%, #0b0d12 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.11), 0 3px 8px rgba(0, 0, 0, 0.85);
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.14s ease;
+  }
+  .hw-ch-btn:hover { border-color: rgba(255, 255, 255, 0.28); color: #fff; }
+  .hw-ch-btn:active { transform: translateY(1px); box-shadow: inset 0 2px 5px #000; }
+  .hw-ch-btn.active {
+    background: linear-gradient(180deg, rgba(200, 255, 0, 0.16) 0%, #0d1208 100%);
+    border-color: rgba(200, 255, 0, 0.7);
+    color: var(--lime);
+    box-shadow: inset 0 1px 0 rgba(200, 255, 0, 0.5), 0 0 18px -4px rgba(200, 255, 0, 0.35), 0 3px 8px #000;
+  }
+  .hw-ch-btn::before {
+    content: '';
+    display: block;
+    width: 14px;
+    height: 2px;
+    border-radius: 2px;
+    margin: 0 auto 5px;
+    background: rgba(255, 255, 255, 0.16);
+  }
+  .hw-ch-btn.active::before {
+    background: var(--lime);
+    box-shadow: 0 0 8px var(--lime);
+  }
+
+  /* Bottom Physical Deck: Readouts + Orange Machined Fader */
+  .hw-deck {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr auto;
+    gap: 10px;
+    align-items: center;
+    margin-top: 11px;
+    padding-top: 11px;
+    border-top: 1px solid rgba(255, 255, 255, 0.075);
+  }
+  .hw-readout {
+    background: #020203;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    padding: 7px 10px;
+    box-shadow: inset 0 2px 8px #000;
+  }
+  .hw-readout-lbl {
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .hw-readout-val {
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--lime);
+    font-variant-numeric: tabular-nums;
+    margin-top: 2px;
+  }
+  .hw-fader-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .hw-fader-top {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .hw-fader-top strong { color: var(--orange); font-variant-numeric: tabular-nums; }
+  /* Teenage Engineering machined bright-orange fader */
+  .te-fader {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--orange) 0%, var(--orange) var(--pct, 35%), #020204 var(--pct, 35%), #020204 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 2px 4px #000, 0 1px 0 rgba(255, 255, 255, 0.06);
+    outline: none;
+    cursor: pointer;
+  }
+  .te-fader::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 16px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #ff5d26 0%, #ff4810 44%, #120603 46%, #120603 54%, #ff4810 56%, #ff5d26 100%);
+    border: 1px solid #ff916b;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 3px 10px rgba(0, 0, 0, 0.95), 0 0 12px rgba(255, 72, 16, 0.45);
+    cursor: grab;
+  }
+  .te-fader::-moz-range-thumb {
+    width: 22px;
+    height: 16px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #ff5d26 0%, #ff4810 44%, #120603 46%, #120603 54%, #ff4810 56%, #ff5d26 100%);
+    border: 1px solid #ff916b;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.95);
+    cursor: grab;
+  }
+  .hw-open-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 11px;
+    border-radius: 6px;
+    background: linear-gradient(180deg, #1b1e26 0%, #0c0e13 100%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: var(--text);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 3px 8px #000;
+  }
+  .hw-open-link:hover { border-color: var(--lime); color: var(--lime); }
+
+  /* ================= SECTION HEADINGS ================= */
+  section.band {
+    padding: 68px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .band-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 26px;
+  }
+  .band-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 8px;
+  }
+  .band-title {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3.2vw, 38px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.06;
+    color: #fff;
+  }
+  .band-sub {
+    font-size: 14.5px;
+    color: var(--text-dim);
+    max-width: 540px;
+    line-height: 1.58;
+  }
+
+  /* ================= MODULAR HARDWARE LAB RACK (#simulations) ================= */
+  .flagship-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .hw-card {
+    --mx: 50%;
+    --my: 0%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--text);
+    background: linear-gradient(180deg, var(--plate-hi) 0%, var(--plate-mid) 46%, var(--plate-lo) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: 12px;
+    padding: 22px 24px 20px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.13),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.96),
+      0 22px 48px -20px rgba(0, 0, 0, 0.96);
+    transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+  }
+  .hw-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.26);
+    background:
+      radial-gradient(460px circle at var(--mx) var(--my), rgba(255, 255, 255, 0.06), rgba(200, 255, 0, 0.025) 36%, transparent 70%),
+      linear-gradient(180deg, var(--plate-hi) 0%, var(--plate-mid) 46%, var(--plate-lo) 100%);
+  }
+  .hw-card-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .hw-ch-id {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-dim);
+  }
+  .hw-card.cyan-accent { border-top: 2px solid var(--cyan); }
+  .hw-card.orange-accent { border-top: 2px solid var(--orange); }
+  .hw-card.lime-accent { border-top: 2px solid var(--lime); }
+
+  .hw-card-title {
+    font-family: var(--font-display);
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    color: #fff;
+    margin-bottom: 9px;
+  }
+  .hw-card-desc {
+    font-size: 13.8px;
+    color: var(--text-dim);
+    line-height: 1.58;
+    margin-bottom: 16px;
+  }
+  .hw-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+  .hw-chip {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: #020305;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    color: #d6d3cb;
+    box-shadow: inset 0 1px 4px #000;
+  }
+  .hw-card-foot {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* Master Command Strip (NeuroLab Deck) */
+  .deck-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+    padding: 18px 24px;
+    margin-bottom: 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text);
+    background:
+      radial-gradient(500px 140px at 14% 50%, rgba(200, 255, 0, 0.085), transparent 70%),
+      linear-gradient(180deg, #12151c 0%, #07090d 100%);
+    border: 1px solid rgba(200, 255, 0, 0.32);
+    box-shadow: inset 0 1px 0 rgba(200, 255, 0, 0.35), 0 18px 40px -18px #000;
+    transition: transform 0.16s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .deck-strip:hover {
+    transform: translateY(-2px);
+    border-color: var(--lime);
+    box-shadow: inset 0 1px 0 rgba(200, 255, 0, 0.5), 0 22px 46px -14px rgba(200, 255, 0, 0.22);
+  }
+  .deck-left { display: flex; flex-direction: column; gap: 4px; }
+  .deck-kicker {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--lime);
+  }
+  .deck-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .deck-scales {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+  .deck-scales span {
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: #020305;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+  }
+
+  /* 3x2 Precision Instrument Rack (Sims 01-06 + Naloxone) */
+  .rack-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .rack-tile {
+    --mx: 50%;
+    --my: 0%;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--text);
+    background: linear-gradient(180deg, #0d0f14 0%, #06070a 100%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 10px;
+    padding: 17px 18px 16px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 16px 36px -18px #000;
+    transition: transform 0.16s ease, border-color 0.18s ease, background 0.18s ease;
+  }
+  .rack-tile:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 72, 16, 0.55);
+    background:
+      radial-gradient(320px circle at var(--mx) var(--my), rgba(255, 72, 16, 0.075), transparent 68%),
+      linear-gradient(180deg, #10131a 0%, #07080c 100%);
+  }
+  .rack-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative;
-    z-index: 1;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 10px;
   }
-  .footer-logo {
+  .rack-stat {
+    background: #020204;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: #d6d3cb;
+    font-size: 9px;
+  }
+  .rack-title {
     font-family: var(--font-display);
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--muted);
-    text-decoration: none;
+    font-size: 16.5px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 7px;
   }
-  .footer-logo span { color: var(--accent); }
-  .footer-note {
+  .rack-desc {
+    font-size: 12.8px;
+    color: var(--text-dim);
+    line-height: 1.52;
+    margin-bottom: 12px;
+  }
+  .rack-go {
+    margin-top: auto;
     font-family: var(--font-mono);
     font-size: 10px;
-    color: #777;
-    letter-spacing: 0.06em;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 0.15s;
+  }
+  .rack-tile:hover .rack-go { color: var(--orange); }
+
+  /* ================= RESEARCH THESIS & REALITY PLATES (#research) ================= */
+  .thesis-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 14px;
+  }
+  .thesis-plate {
+    background: linear-gradient(180deg, #0d0f14 0%, #050608 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 3px solid var(--lime);
+    border-radius: 12px;
+    padding: 32px 34px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 22px 48px -20px #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+  }
+  .thesis-plate p { font-size: 15.8px; line-height: 1.78; color: #c4c0b7; }
+  .thesis-plate strong { color: #fff; font-weight: 600; }
+  .field-stack { display: flex; flex-direction: column; gap: 14px; }
+  .field-plate {
+    flex: 1;
+    background: linear-gradient(180deg, #0c0e13 0%, #050608 100%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 12px;
+    padding: 22px 24px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09), 0 18px 40px -18px #000;
+  }
+  .field-lbl {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .field-plate p { font-size: 13.8px; line-height: 1.66; color: var(--text-dim); }
+
+  /* ================= MONOGRAPH ARCHIVE (#articles) ================= */
+  .archive-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    background: #030406;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: inset 0 2px 8px #000;
+  }
+  .arch-tab {
+    padding: 7px 12px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.14s ease;
+  }
+  .arch-tab:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
+  .arch-tab.active {
+    background: linear-gradient(180deg, rgba(200, 255, 0, 0.15) 0%, #0d1208 100%);
+    border-color: rgba(200, 255, 0, 0.55);
+    color: var(--lime);
   }
 
-  /* SCROLL REVEAL */
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.72s ease, transform 0.72s ease;
+  .dossier-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .dossier-row {
+    --mx: 50%;
+    --my: 50%;
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr) auto;
+    gap: 20px;
+    align-items: center;
+    padding: 20px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text);
+    background: linear-gradient(180deg, #0c0e13 0%, #050608 100%);
+    border: 1px solid rgba(255, 255, 255, 0.085);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09), 0 14px 32px -18px #000;
+    transition: transform 0.15s ease, border-color 0.18s ease, background 0.18s ease;
+  }
+  .dossier-row:hover {
+    transform: translateX(4px);
+    border-color: rgba(200, 255, 0, 0.45);
+    background:
+      radial-gradient(480px circle at var(--mx) var(--my), rgba(200, 255, 0, 0.055), transparent 65%),
+      linear-gradient(180deg, #10131a 0%, #07080b 100%);
+  }
+  .dossier-row.sim-row:hover { border-color: rgba(255, 72, 16, 0.55); }
+  .dossier-row.hidden-cat { display: none; }
 
-  /* MOBILE */
-  @media (max-width: 820px) {
-    .container, .nav-inner { padding: 0 24px; }
+  .dossier-idx {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--lime);
+    line-height: 1;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    padding-right: 16px;
+  }
+  .dossier-row.sim-row .dossier-idx { color: var(--orange); }
+  .dossier-idx small {
+    display: block;
+    font-size: 8.5px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-top: 5px;
+    text-transform: uppercase;
+  }
+  .dossier-main { min-width: 0; }
+  .dossier-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+  .dossier-cat { color: var(--text-dim); }
+  .dossier-clear {
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: #020305;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    color: var(--lime);
+  }
+  .dossier-clear.warn { color: var(--orange); border-color: rgba(255, 72, 16, 0.35); }
+  .dossier-title {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.24;
+    color: #fff;
+    margin-bottom: 5px;
+  }
+  .dossier-desc {
+    font-size: 13.5px;
+    color: var(--text-dim);
+    line-height: 1.54;
+  }
+  .dossier-arrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 9px 13px;
+    border-radius: 6px;
+    background: linear-gradient(180deg, #171a22 0%, #0a0c10 100%);
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    color: var(--text-dim);
+    white-space: nowrap;
+    transition: all 0.15s ease;
+  }
+  .dossier-row:hover .dossier-arrow { border-color: var(--lime); color: var(--lime); }
+  .dossier-row.sim-row:hover .dossier-arrow { border-color: var(--orange); color: var(--orange); }
+
+  /* ================= 10 RESEARCH FOCUS CHANNELS ================= */
+  .focus-matrix {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  .focus-cell {
+    background: linear-gradient(180deg, #0b0d12 0%, #050608 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 15px 16px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  }
+  .focus-code {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--lime);
+    margin-bottom: 7px;
+  }
+  .focus-body { font-size: 12.3px; color: var(--text-dim); line-height: 1.52; }
+
+  /* ================= CONTACT HARDWARE PLATE & FOOTER ================= */
+  .contact-chassis {
+    position: relative;
+    background:
+      radial-gradient(620px 240px at 50% 0%, rgba(200, 255, 0, 0.06), transparent 70%),
+      linear-gradient(180deg, #101219 0%, #050608 100%);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 14px;
+    padding: 46px 36px;
+    text-align: center;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 28px 64px -22px #000;
+  }
+  .contact-chassis h3 {
+    font-family: var(--font-display);
+    font-size: clamp(30px, 4.8vw, 48px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .contact-sub {
+    font-size: 15.5px;
+    color: var(--text-dim);
+    max-width: 540px;
+    margin: 0 auto 22px;
+  }
+  .contact-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 7px;
+    margin-bottom: 28px;
+  }
+  .contact-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background: #020305;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #d6d3cb;
+  }
+  .contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .footer {
+    padding: 32px 0 84px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  .footer a { color: var(--text); text-decoration: none; font-family: var(--font-display); font-weight: 800; font-size: 14px; }
+  .footer a span { color: var(--lime); }
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width: 1040px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+    .flagship-pair { grid-template-columns: 1fr; }
+    .rack-grid { grid-template-columns: repeat(2, 1fr); }
+    .thesis-grid { grid-template-columns: 1fr; }
+    .focus-matrix { grid-template-columns: repeat(2, 1fr); }
+    .brand-rev { display: none; }
+  }
+  @media (max-width: 760px) {
+    .wrap, .nav-inner { padding: 0 18px; }
     .nav-links { display: none; }
-    .hero { min-height: 75vh; padding: 96px 0 64px; }
-    .hero-eeg { display: none; }
-    .about-grid, .bento-grid { grid-template-columns: 1fr; }
-    .bento-grid .span-2 { grid-column: 1; }
-    .focus-grid { grid-template-columns: 1fr 1fr; }
-    .contact-block { padding: 40px 28px; }
-    .divider { margin: 64px 0; }
-    .footer { flex-direction: column; gap: 14px; text-align: center; }
-  }
-  @media (max-width: 480px) {
-    .focus-grid { grid-template-columns: 1fr; }
+    .rack-grid { grid-template-columns: 1fr; }
+    .spec-strip { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .hw-deck { grid-template-columns: 1fr; }
+    .dossier-row { grid-template-columns: 1fr; gap: 10px; }
+    .dossier-idx { border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 0 0 8px; }
+    .dossier-arrow { justify-self: start; }
+    .focus-matrix { grid-template-columns: 1fr; }
   }
 </style>
-<link rel="stylesheet" href="./assets/rprime_cockpit.css">
+<link rel="stylesheet" href="./assets/rprime_hardware.css">
 </head>
 <body>
 
-<!-- Aurora blobs -->
-<div class="aurora" aria-hidden="true">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-  <div class="blob blob-4"></div>
-</div>
+<div id="scrollNeedle" aria-hidden="true"></div>
 
-<!-- NAV -->
+<!-- MACHINED TOP INSTRUMENT BAR -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="/" class="logo">Neuroscience with <span>RPrime</span></a>
+    <a href="/" class="brand">
+      <span class="brand-led"></span>
+      Neuroscience with <span>RPrime</span>
+      <span class="brand-rev">SYS // 2026.11</span>
+    </a>
     <ul class="nav-links">
-      <li><a href="./neurolab.html" style="color: var(--accent);">NeuroLab</a></li>
-      <li><a href="#simulations">Simulations</a></li>
+      <li><a href="./neurolab.html" class="hot">NeuroLab</a></li>
+      <li><a href="./sim_discovery.html">Discovery</a></li>
+      <li><a href="./sim_tracker.html">Tracker</a></li>
       <li><a href="#research">Research</a></li>
-      <li><a href="#articles">Articles</a></li>
+      <li><a href="#articles">Papers</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
+    <div class="nav-actions">
+      <button type="button" class="key-btn" onclick="window.RPrimeSI && window.RPrimeSI.open()">⌘J RPrime SI</button>
+      <a href="./neurolab.html" class="key-btn orange-cap">Launch Labs ↗</a>
+    </div>
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-glow"></div>
+<!-- SPLIT COCKPIT HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="serial-strip">
+          <i></i>
+          <span>CHASSIS 01 · INDEPENDENT COMPUTATIONAL NEUROPHARMACOLOGY</span>
+        </div>
+        <h1 class="hero-title">Your brain doesn't care about your <span class="prime-word">prime.</span></h1>
+        <p class="hero-sub">Real neuroscience. No textbook fiction. Receptor-level pharmacology, original <strong>ΔFosB</strong> quantum &amp; stochastic biophysics, and live 60 fps multi-scale solvers by <strong>Rishik Pannala</strong>.</p>
+        <div class="hero-triggers">
+          <a href="./neurolab.html" class="hw-cta hw-cta-lime">
+            <span class="led-pip" style="background:#050605;box-shadow:none;"></span>
+            Launch NeuroLab →
+          </a>
+          <a href="./sim_tracker.html" class="hw-cta hw-cta-carbon">
+            <span class="led-pip led-orange"></span>
+            Forecast My Loop
+          </a>
+          <a href="#articles" class="hw-cta hw-cta-carbon">Papers ↓</a>
+        </div>
+        <div class="spec-strip">
+          <div class="spec-cell">
+            <div class="spec-val lime">09</div>
+            <div class="spec-lbl">Live ODE &amp; 3D Labs</div>
+          </div>
+          <div class="spec-cell">
+            <div class="spec-val">230K+</div>
+            <div class="spec-lbl">Live PDB + AlphaFold</div>
+          </div>
+          <div class="spec-cell">
+            <div class="spec-val">09</div>
+            <div class="spec-lbl">Original Monographs</div>
+          </div>
+        </div>
+      </div>
 
-  <svg class="hero-eeg" viewBox="0 0 540 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path class="eeg-path"
-      d="M0,100 L38,100 L44,100 L48,62 L52,138 L56,32 L60,168 L64,78 L68,122 L72,100
-         L108,100 L114,100 L118,66 L122,134 L126,38 L130,162 L134,82 L138,118 L142,100
-         L178,100 L184,100 L188,58 L192,142 L196,28 L200,172 L204,76 L208,124 L212,100
-         L248,100 L254,100 L258,70 L262,130 L266,44 L270,156 L274,84 L278,116 L282,100
-         L318,100 L324,100 L328,60 L332,140 L336,34 L340,166 L344,80 L348,120 L352,100
-         L388,100 L394,100 L398,64 L402,136 L406,36 L410,164 L414,79 L418,121 L422,100
-         L458,100 L464,100 L468,55 L472,145 L476,26 L480,174 L484,77 L488,123 L492,100
-         L540,100"
-      stroke="#c8ff00" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
+      <!-- PHYSICAL HARDWARE TELEMETRY MODULE (LIVE INTERACTIVE 60 FPS OLED) -->
+      <div class="hw-unit" aria-label="Interactive RPrime Live Telemetry Hardware Unit">
+        <span class="hw-screw tl"></span>
+        <span class="hw-screw tr"></span>
+        <span class="hw-screw bl"></span>
+        <span class="hw-screw br"></span>
 
-  <div class="container">
-    <div class="hero-content">
-      <div class="hero-eyebrow">RPrime Neuroscience — Independent Research</div>
-      <h1 class="hero-title">
-        <span class="word">Your&nbsp;</span><span class="word">brain&nbsp;</span><span class="word">doesn't&nbsp;</span><span class="word">care&nbsp;</span><span class="word">about&nbsp;</span><span class="word">your&nbsp;prime.</span>
-      </h1>
-      <p class="hero-sub">Real neuroscience. No textbook language. Deep pharmacology, receptor-level mechanisms, and original research by <strong style="color: var(--text); font-weight: 500;">Rishik Pannala</strong>.</p>
-      <div class="hero-cta">
-        <a href="#articles" class="btn-primary">Read the Research →</a>
-        <a href="./neurolab.html" class="btn-ghost" style="border-color: rgba(200,255,0,0.28); color: var(--text);">Launch RPrime NeuroLab →</a>
+        <div class="hw-head">
+          <span>RPRIME TELEMETRY // MODEL RP-09</span>
+          <span class="hw-head-right"><i class="hw-live-dot"></i>LIVE 60 FPS OLED</span>
+        </div>
+
+        <div class="oled-bezel">
+          <div class="oled-hud-tl" id="oledHudTl"><strong>CH-01 · SYNAPSE</strong> · 50 µs HH &amp; DARPP-32</div>
+          <div class="oled-hud-tr" id="oledHudTr">Vm −74.2 mV</div>
+          <canvas id="heroOledCanvas"></canvas>
+        </div>
+
+        <div class="hw-ch-row" role="tablist" aria-label="Telemetry Channel">
+          <button type="button" class="hw-ch-btn active" data-ch="synapse">01 Synapse</button>
+          <button type="button" class="hw-ch-btn" data-ch="ecg">02 ECG·hERG</button>
+          <button type="button" class="hw-ch-btn" data-ch="sde">03 SDE·ρ²³</button>
+          <button type="button" class="hw-ch-btn" data-ch="fosb">04 ΔFosB 3D</button>
+        </div>
+
+        <div class="hw-deck">
+          <div class="hw-readout">
+            <div class="hw-readout-lbl" id="hwReadoutLbl">THR75 / PKA BRAKE</div>
+            <div class="hw-readout-val" id="hwReadoutVal">35% · ACTIVE</div>
+          </div>
+          <div class="hw-fader-wrap">
+            <div class="hw-fader-top">
+              <span id="hwFaderLbl">STIMULANT DRIVE</span>
+              <strong id="hwFaderVal">35%</strong>
+            </div>
+            <input type="range" id="hwFader" class="te-fader" min="0" max="100" value="35" style="--pct:35%;">
+          </div>
+          <a href="./sim_synapse.html" id="hwOpenLab" class="hw-open-link">Open Lab ↗</a>
+        </div>
       </div>
     </div>
   </div>
-</section>
+</header>
 
-<div class="container">
+<main class="wrap">
 
-  <div class="divider"></div>
+  <!-- SECTION 01: MODULAR HARDWARE LAB RACK -->
+  <section id="simulations" class="band">
+    <div class="band-head">
+      <div>
+        <div class="band-kicker"><span class="led-pip led-lime"></span>RPRIME NEUROLAB // 09 LIVE INSTRUMENT ENGINES</div>
+        <h2 class="band-title">Modular Computational Biophysics Rack</h2>
+      </div>
+      <p class="band-sub">Zero pre-recorded animations. Every module integrates real differential equations, X-ray coordinates, or Bayesian particle filters directly in your browser—linked to Loyal RPrime SI (⌘J).</p>
+    </div>
 
-  <!-- RESEARCH IDENTITY -->
-  <section id="research" class="reveal">
-    <div class="section-label">What this is</div>
-    <div class="about-grid">
-      <div class="about-main">
+    <!-- TOP 2 FLAGSHIP CONSOLES SIDE-BY-SIDE -->
+    <div class="flagship-pair">
+      <a href="./sim_discovery.html" class="hw-card cyan-accent">
+        <div class="hw-card-bar">
+          <span class="hw-ch-id"><span class="led-pip led-cyan"></span>CH-07 // FLAGSHIP DISCOVERY OS</span>
+          <span style="color:var(--cyan);">230K+ PDB · TRUE DFT</span>
+        </div>
+        <div class="hw-card-title">RPrime Discovery OS — Quantum &amp; Covalent Drug Bench</div>
+        <p class="hw-card-desc">Stream any protein from RCSB PDB or AlphaFold DB directly into the viewport. Runs 7-axis Hendlich LIGSITE (&lt;180 Å³ refusal gate), cysteine SASA hunting, and PySCF df-ωB97X-D/def2-SVP cloud orbitals.</p>
+        <div class="hw-specs">
+          <span class="hw-chip">RCSB PDB + AlphaFold</span>
+          <span class="hw-chip">LIGSITE &lt;180 Å³ Gate</span>
+          <span class="hw-chip">PySCF ωB97X-D</span>
+          <span class="hw-chip">Vina 1.2 + R2 Atlas</span>
+        </div>
+        <div class="hw-card-foot" style="color:var(--cyan);">
+          <span>Launch Discovery OS</span><span>→</span>
+        </div>
+      </a>
+
+      <a href="./sim_tracker.html" class="hw-card orange-accent">
+        <div class="hw-card-bar">
+          <span class="hw-ch-id"><span class="led-pip led-orange"></span>CH-08 // PERSONAL TRAJECTORY ENGINE</span>
+          <span style="color:var(--orange);">1,024 SMC · LOYAL SI</span>
+        </div>
+        <div class="hw-card-title">Personal Behavioral State Forecaster — Bayesian Itô SDE</div>
+        <p class="hw-card-desc">Fit your own loop (scrolling, checking, gaming, substance, or study spirals) with a 1,024-particle Bayesian filter. Separates static rigidity φ̂ from noise D̂, bounds ρ̂ from past breaks, and self-grades 24h bets via Brier score.</p>
+        <div class="hw-specs">
+          <span class="hw-chip">Itô Log-SDE SMC</span>
+          <span class="hw-chip">5-Circuit Classifier</span>
+          <span class="hw-chip">Brier Self-Scoring</span>
+          <span class="hw-chip">100% Private Local Vault</span>
+        </div>
+        <div class="hw-card-foot" style="color:var(--orange);">
+          <span>Forecast My Loop</span><span>→</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- MASTER COMMAND DECK STRIP -->
+    <a href="./neurolab.html" class="deck-strip">
+      <div class="deck-left">
+        <div class="deck-kicker">MASTER COMMAND DECK // ALL 09 MULTI-SCALE LABS + 40-BEAT STORY SPOTLIGHT</div>
+        <div class="deck-title">RPrime NeuroLab — Unified Spatial-Temporal Command Center</div>
+      </div>
+      <div class="deck-scales">
+        <span>10⁻¹⁰ m Quantum</span>
+        <span>10⁻⁶ m Synapse</span>
+        <span>10⁻³ m Microcircuit</span>
+        <span>10⁻¹ m Organ ECG</span>
+        <span>N=1,000 Cohort</span>
+      </div>
+      <span class="key-btn orange-cap" style="pointer-events:none;">Open Deck →</span>
+    </a>
+
+    <!-- 3x2 PRECISION INSTRUMENT RACK (SIMS 01-06) -->
+    <div class="rack-grid">
+      <a href="./sim_synapse.html" class="rack-tile">
+        <div class="rack-top"><span>LAB 01 // SYNAPSE → GENOME</span><span class="rack-stat">µs → 90d</span></div>
+        <div class="rack-title">Cortico-Striatal D1 MSN Twin</div>
+        <p class="rack-desc">VMAT2/DAT efflux, DARPP-32 Thr34/Thr75 switch, Willmore spine energy, ATP rent, and Freidlin–Wentzell curl (+1.73 · E_d ≡ 0).</p>
+        <div class="rack-go">Launch Lab 01 →</div>
+      </a>
+      <a href="./sim_paradox_rig.html" class="rack-tile">
+        <div class="rack-top"><span>LAB 02 // PATCH-CLAMP RIG</span><span class="rack-stat">50 µs HH</span></div>
+        <div class="rack-title">The Paradox Rig — VTA–NAc–PFC</div>
+        <p class="rack-desc">500-neuron 1 kHz network + 11-channel Hodgkin–Huxley patched cell with Mg²⁺ NMDA block, FSCV trace, and α2A/α1A switches.</p>
+        <div class="rack-go">Launch Lab 02 →</div>
+      </a>
+      <a href="./sim_quantum_pocket.html" class="rack-tile">
+        <div class="rack-top"><span>LAB 03 // 3D POCKET LAB</span><span class="rack-stat">18 Å³ vs 368 Å³</span></div>
+        <div class="rack-title">Quantum &amp; Covalent ΔFosB / MOR</div>
+        <p class="rack-desc">7 superposed X-ray structures (5VPE↔7UCC↔5VPB 11.59 Å closure), live LIGSITE scanner, C172 pKa swing, and MV0 trap.</p>
+        <div class="rack-go">Launch Lab 03 →</div>
+      </a>
+      <a href="./sim_brain_heart.html" class="rack-tile">
+        <div class="rack-top"><span>LAB 04 // BRAIN–HEART TWIN</span><span class="rack-stat">18-Cell ECG</span></div>
+        <div class="rack-title">BBB, Cocaethylene &amp; hERG ICU</div>
+        <p class="rack-desc">CYP2D6 Hour-6 amphetamine metabolite surge, CES1 cocaethylene 3× hERG block, transmural ECG QTc/TdP, and methadone arrest.</p>
+        <div class="rack-go">Launch Lab 04 →</div>
+      </a>
+      <a href="./sim_drug_compiler.html" class="rack-tile">
+        <div class="rack-top"><span>LAB 05 // DRUG COMPILER</span><span class="rack-stat">PEOE · MPO</span></div>
+        <div class="rack-title">Atom-to-Action-Potential Bench</div>
+        <p class="rack-desc">Mutate explicit Kekulé bonds live into Gasteiger PEOE charges, Ertl TPSA, Pfizer CNS MPO, Kp,uu/LAT1, and ventricular APD90.</p>
+        <div class="rack-go">Launch Lab 05 →</div>
+      </a>
+      <a href="./sim_cohort_trial.html" class="rack-tile">
+        <div class="rack-top"><span>LAB 06 // VIRTUAL TRIAL</span><span class="rack-stat">N = 1,000</span></div>
+        <div class="rack-title">1,000-Brain Separatrix Cohort</div>
+        <p class="rack-desc">Run Article 07's Graded Perturbation Separatrix Assay to measure ρ_i live, expose unstratified ADHD RCTs, and inspect ρ²³ tails.</p>
+        <div class="rack-go">Launch Lab 06 →</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- SECTION 02: RESEARCH THESIS & REALITY FIELD PLATES -->
+  <section id="research" class="band">
+    <div class="band-head">
+      <div>
+        <div class="band-kicker"><span class="led-pip led-orange"></span>THESIS // WHAT THIS IS</div>
+        <h2 class="band-title">The Machinery Underneath Human Behavior</h2>
+      </div>
+    </div>
+
+    <div class="thesis-grid">
+      <div class="thesis-plate">
         <p>The brain's neurochemistry isn't abstract. If you want presence, peak performance, or to understand why you do the things you do — it breaks down to neuroscience. The perception of other people, the bonding and reward from human connection, the confidence you feel — all of it originates in the brain.</p>
         <p><strong>Unless you understand the machinery of your own brain, you won't be able to work with it.</strong> Once you can, you will reach a level you once thought was impossible. This isn't about showing how smart you are. It's about self-discovery.</p>
         <p>You could have ADHD and take medicine to ease the symptoms — and your own brain will try to counteract the drug, even if it helps you. This is the war being documented here. And it has a larger-than-life meaning.</p>
       </div>
-      <div class="reality-card reveal" style="transition-delay: 0.12s;">
-        <div class="reality-label" style="color: var(--accent2);">Real world — Kensington</div>
-        <p>Go to Kensington, Philadelphia — which I recommend you don't — and you will see stimulant and opioid addicts losing their lives for a drug. Children who felt raised by that substance, not a parent. That's the connection being made here. Why does this happen at a molecular level?</p>
-      </div>
-      <div class="reality-card reveal" style="transition-delay: 0.22s;">
-        <div class="reality-label" style="color: #9b88ff;">Real world — memory &amp; trauma</div>
-        <p>Survivors of extreme trauma who couldn't remember the events they faced. They didn't simply forget — the brain was hiding it from them. That's not weakness. That's a survival mechanism running exactly as designed. Your enemies are just pawns the brain uses to checkmate you.</p>
+
+      <div class="field-stack">
+        <div class="field-plate">
+          <div class="field-lbl" style="color:var(--orange);"><span class="led-pip led-orange"></span>FIELD REPORT 01 · KENSINGTON</div>
+          <p>Go to Kensington, Philadelphia — which I recommend you don't — and you will see stimulant and opioid addicts losing their lives for a drug. Children who felt raised by that substance, not a parent. That's the connection being made here. Why does this happen at a molecular level?</p>
+        </div>
+        <div class="field-plate">
+          <div class="field-lbl" style="color:var(--violet);"><span class="led-pip led-violet"></span>FIELD REPORT 02 · MEMORY &amp; TRAUMA</div>
+          <p>Survivors of extreme trauma who couldn't remember the events they faced. They didn't simply forget — the brain was hiding it from them. That's not weakness. That's a survival mechanism running exactly as designed. Your enemies are just pawns the brain uses to checkmate you.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <div class="divider"></div>
+  <!-- SECTION 03: MONOGRAPH ARCHIVE (ALL 9 ARTICLES + NALOXONE SIM) -->
+  <section id="articles" class="band">
+    <div class="band-head">
+      <div>
+        <div class="band-kicker"><span class="led-pip led-lime"></span>PUBLICATION ARCHIVE // 09 MONOGRAPHS + RECEPTOR LAB</div>
+        <h2 class="band-title">Research Papers &amp; Deep Dives</h2>
+      </div>
+      <div class="archive-tabs" role="tablist" aria-label="Filter monographs by category">
+        <button type="button" class="arch-tab active" data-cat="all">All [10]</button>
+        <button type="button" class="arch-tab" data-cat="pharma">Pharmacology [05]</button>
+        <button type="button" class="arch-tab" data-cat="opioid">Opioids &amp; Addiction [03]</button>
+        <button type="button" class="arch-tab" data-cat="quantum">Quantum [01]</button>
+        <button type="button" class="arch-tab" data-cat="psych">Psychology [01]</button>
+      </div>
+    </div>
 
-  <!-- RPRIME NEUROLAB — BIONEUROLOGICAL SIMULATIONS -->
-  <section id="simulations" class="reveal">
-    <div class="section-label">RPrime NeuroLab — Live Computational Biophysics</div>
-    <div class="category-label">State-of-the-Art Bioneurological Simulations</div>
-    <div class="category-desc" style="max-width: 640px;">Real-time differential equation, spiking-network, 3D volumetric cavity, and multi-organ PBPK solvers running at 60 fps in your browser. Perturb the actual equations and test textbook dogma live.</div>
-    <div class="bento-grid">
-      <a href="./neurolab.html" class="article-card featured span-2" style="border-color: rgba(200,255,0,0.22); background: linear-gradient(135deg, rgba(200,255,0,0.05), rgba(255,107,53,0.03));">
-        <div class="article-card-num">Master Command Deck — 9 Live Labs · 230k+ PDBs &amp; True DFT to Personal Trajectory SDE + Loyal SI (⌘J)</div>
-        <div class="article-card-title">RPrime NeuroLab — Multi-Scale Simulation Suite</div>
-        <div class="article-card-desc">Interactive spatial-temporal command deck uniting nine real-time engines — from live 230,000+ RCSB PDB / AlphaFold streaming and Kohn–Sham ωB97X-D quantum drug discovery to personal behavioral Itô log-SDE trajectory forecasting, de novo PEOE compilation, 500-neuron spiking rigs, transmural cardiac cables, 1,000-brain clinical trials, and the Loyal RPrime SI Copilot (⌘J / Ctrl+J).</div>
-        <div class="article-card-tag" style="color: var(--accent);">Open NeuroLab Command Center →</div>
+    <div class="dossier-list" id="dossierList">
+      <a href="/article7.html" class="dossier-row" data-cat="pharma">
+        <div class="dossier-idx">07<small>ORIGINAL</small></div>
+        <div class="dossier-main">
+          <div class="dossier-meta">
+            <span class="dossier-cat">Cat. 01 · Transcription &amp; Target Tractability</span>
+            <span class="dossier-clear">Pharmacists &amp; Grad · Original Research</span>
+          </div>
+          <div class="dossier-title">ΔFosB Does Not Save Your Brain Energy. It Charges Rent.</div>
+          <div class="dossier-desc">The protein everyone names as the cause of long-lasting neuroadaptation has no pocket a drug can sit in — 18 Å³ against a 250 Å³ threshold. Unpublished MD, quantum chemistry, and a proof that the adapted state has no energy landscape at all.</div>
+        </div>
+        <span class="dossier-arrow">Read ↗</span>
       </a>
-      <a href="./sim_discovery.html" class="article-card featured span-2" style="border-color: rgba(0,229,255,0.28); background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(200,255,0,0.04));">
-        <div class="article-card-num" style="color: #00e5ff;">Flagship Lab 07 — Full 230k+ RCSB PDB · AlphaFold · True Kohn–Sham DFT</div>
-        <div class="article-card-title">RPRIME DISCOVERY OS — Quantum &amp; Covalent Drug Discovery Platform</div>
-        <div class="article-card-desc">Stream any experimental protein from RCSB PDB or AlphaFold DB directly into your browser. Runs real-time 7-axis Hendlich LIGSITE cavity scanning (enforcing the &lt;180 Å³ covalent-only gate), Shrake–Rupley cysteine SASA hunting, Federated PubChem/QCArchive lookup, and live PySCF df-ωB97X-D/def2-SVP + AutoDock Vina 1.2 cloud solving — with 1-click handoff into the 1,000-Brain Trial.</div>
-        <div class="article-card-tag" style="color: #00e5ff;">Launch RPrime Discovery OS →</div>
+
+      <a href="/article8.html" class="dossier-row" data-cat="pharma">
+        <div class="dossier-idx">08<small>CASE FILE</small></div>
+        <div class="dossier-main">
+          <div class="dossier-meta">
+            <span class="dossier-cat">Cat. 01 · Addiction &amp; Relationships</span>
+            <span class="dossier-clear warn">Viewer Discretion Advised</span>
+          </div>
+          <div class="dossier-title">An Analysis of Marshall and Kim: Two Runaways, the Songs, and What the Pills Left Behind</div>
+          <div class="dossier-desc">Two kids from Detroit, the same class of drug problem, and twenty-six years later one has eighteen years sober and the other is in a county jail. What ΔFosB, cocaethylene, methadone, and social-pain circuitry actually did underneath the songs.</div>
+        </div>
+        <span class="dossier-arrow">Read ↗</span>
       </a>
-      <a href="./sim_tracker.html" class="article-card featured span-2" style="border-color: rgba(155,136,255,0.30); background: linear-gradient(135deg, rgba(155,136,255,0.07), rgba(200,255,0,0.04));">
-        <div class="article-card-num" style="color: #9b88ff;">Flagship Lab 08 — Personal Bayesian Itô Log-SDE · 5-Circuit Phenotype Separator · Loyal RPrime SI (⌘J)</div>
-        <div class="article-card-title">PERSONAL BEHAVIORAL STATE FORECASTER — Private Trajectory &amp; Separatrix Engine</div>
-        <div class="article-card-desc">Turn your own behavioral loop (doomscrolling, feed checking, gaming, substance, or Penrose-style study spirals) into a 1,024-particle Bayesian Itô log-SDE digital twin. Separates static trait rigidity φ̂ from dynamic noise D̂ via multi-lag variograms, bounds separatrix ratio ρ̂ from past cutback attempts, isolates your dominant receptor circuit, self-scores 24h bets via Brier skill, and pairs with the site-wide 100% private Loyal RPrime SI Copilot (⌘J / Ctrl+J).</div>
-        <div class="article-card-tag" style="color: #9b88ff;">Launch Personal Trajectory Forecaster →</div>
+
+      <a href="/article1.html" class="dossier-row" data-cat="pharma">
+        <div class="dossier-idx">01<small>DEEP DIVE</small></div>
+        <div class="dossier-main">
+          <div class="dossier-meta">
+            <span class="dossier-cat">Cat. 01 · Pharmacology &amp; Stimulants</span>
+            <span class="dossier-clear">Pharmacists &amp; Grad</span>
+          </div>
+          <div class="dossier-title">Methamphetamine</div>
+          <div class="dossier-desc">Mechanism, history, clinical use, and tolerance — a complete pharmacological breakdown of the most potent dopamine releaser known to medicine. GRK2, β-arrestin recruitment, DAT/VMAT2 reversal, and what your brain does to fight back.</div>
+        </div>
+        <span class="dossier-arrow">Read ↗</span>
       </a>
-      <a href="./sim_drug_compiler.html" class="article-card sim">
-        <div class="article-card-num">Simulation 05 — De Novo Cheminformatics to Action Potentials</div>
-        <div class="article-card-title">ATOM-TO-ACTION-POTENTIAL COMPILER — Chemical Graph Engine</div>
-        <div class="article-card-desc">Mutate functional groups on phenethylamine, morphinan, tropane, and ΔFosB benzofuranone scaffolds. Solves Gasteiger PEOE partial charges, Ertl TPSA, Wildman–Crippen cLogP, Pfizer CNS MPO, and unbound BBB Kp,uu live into spiking neurons and cardiac hERG — with 1-click handoff to a 1,000-brain trial.</div>
-        <div class="article-card-tag" style="color: var(--accent2);">Launch De Novo Drug Compiler →</div>
+
+      <a href="/article2.html" class="dossier-row" data-cat="pharma">
+        <div class="dossier-idx">02<small>PARADOX</small></div>
+        <div class="dossier-main">
+          <div class="dossier-meta">
+            <span class="dossier-cat">Cat. 01 · Pharmacology &amp; Stimulants</span>
+            <span class="dossier-clear">General Audience</span>
+          </div>
+          <div class="dossier-title">Why meth is safer than amphetamine — cardiovascularly</div>
+          <div class="dossier-desc">The counterintuitive truth about peripheral vs. central stimulant effects, norepinephrine, CYP2D6 metabolism, and why the "dangerous" molecule may actually be easier on your heart at therapeutic doses.</div>
+        </div>
+        <span class="dossier-arrow">Read ↗</span>
       </a>
-      <a href="./sim_cohort_trial.html" class="article-card sim">
-        <div class="article-card-num">Simulation 06 — N = 1,000 Population SDE &amp; Perturbation Lab</div>
-        <div class="article-card-title">1,000-BRAIN VIRTUAL TRIAL &amp; SEPARATRIX LAB</div>
-        <div class="article-card-desc">Runs 1,000 genetically diverse virtual humans (CYP2D6 metabolizers, NMDA release-deficit vs. reuptake ADHD, latent bipolar/hERG outliers) at 60 fps. Execute Article 07's Graded Perturbation Separatrix Assay to measure ρ_i live and expose why unstratified DSM group-average RCTs lie.</div>
-        <div class="article-card-tag" style="color: var(--accent2);">Launch 1,000-Brain Trial Lab →</div>
+
+      <a href="/article4.html" class="dossier-row" data-cat="pharma">
+        <div class="dossier-idx">04<small>THEORY</small></div>
+        <div class="dossier-main">
+          <div class="dossier-meta">
+            <span class="dossier-cat">Cat. 01 · ADHD Theory</span>
+            <span class="dossier-clear">Pharmacists &amp; Grad</span>
+          </div>
+          <div class="dossier-title">The Standard ADHD Model Is Incomplete</div>
+          <div class="dossier-desc">The catecholamine deficit hypothesis doesn't explain why stimulants calm instead of excite. The NMDA overcompensation hypothesis does — and it redefines what ADHD actually is.</div>
+        </div>
+        <span class="dossier-arrow">Read ↗</span>
       </a>
-      <a href="./sim_synapse.html" class="article-card sim">
-        <div class="article-card-num">Simulation 01 — µs to 90 Days</div>
-        <div class="article-card-title">RPrime SYNAPSE — Cortico-Striatal D1 MSN Twin</div>
-        <div class="article-card-desc">Couples millisecond VMAT2/DAT efflux and NMDA Mg²⁺ spine voltage with dual-clock GRK2/β-arrestin2 endocytosis, DARPP-32 Thr34/Thr75 inversion, live Willmore spine geometry, ATP/s metabolic rent, and Itô log-space Freidlin–Wentzell persistence (E_d ≡ 0).</div>
-        <div class="article-card-tag" style="color: var(--accent2);">Launch Synaptic &amp; SDE Engine →</div>
+
+      <a href="/article3.html" class="dossier-row" data-cat="opioid">
+        <div class="dossier-idx">03<small>TRAP</small></div>
+        <div class="dossier-main">
+          <div class="dossier-meta">
+            <span class="dossier-cat">Cat. 03 · Dopamine &amp; Addiction</span>
+            <span class="dossier-clear">General Audience</span>
+          </div>
+          <div class="dossier-title">Dopamine</div>
+          <div class="dossier-desc">Where it comes from, what it actually does, why addiction is permanent, and what your health teacher isn't telling you.</div>
+        </div>
+        <span class="dossier-arrow">Read ↗</span>
       </a>
-      <a href="./sim_paradox_rig.html" class="article-card sim">
-        <div class="article-card-num">Simulation 02 — 500-Neuron Spiking Rig + Audio</div>
-        <div class="article-card-title">THE PARADOX RIG — VTA–NAc–PFC Patch-Clamp Lab</div>
-        <div class="article-card-desc">Live 1 kHz spiking microcircuit with intracellular patch-clamp oscilloscope, carbon-fiber FSCV dopamine trace, and Web Audio microelectrode sonification. Test NMDA-compensated ADHD, α2A/α1A prefrontal switches, and iatrogenic akathisia.</div>
-        <div class="article-card-tag" style="color: var(--accent2);">Launch Spiking &amp; Patch-Clamp Rig →</div>
+
+      <a href="/article5.html" class="dossier-row" data-cat="opioid">
+        <div class="dossier-idx">05<small>CLINICAL</small></div>
+        <div class="dossier-main">
+          <div class="dossier-meta">
+            <span class="dossier-cat">Cat. 03 · Opioid Crisis &amp; Addiction</span>
+            <span class="dossier-clear">General Audience</span>
+          </div>
+          <div class="dossier-title">An Analysis of Four Good Days</div>
+          <div class="dossier-desc">A film about heroin addiction. What it shows you is devastating. What it doesn't explain is why MOR, KOR, cAMP superactivation, and rACC anosognosia made it inevitable.</div>
+        </div>
+        <span class="dossier-arrow">Read ↗</span>
       </a>
-      <a href="./sim_quantum_pocket.html" class="article-card sim">
-        <div class="article-card-num">Simulation 03 — 3D Structural &amp; Quantum Bench</div>
-        <div class="article-card-title">QUANTUM &amp; COVALENT POCKET LAB — ΔFosB &amp; MOR</div>
-        <div class="article-card-desc">Interactive 3D bZIP heterodimer morphing (5VPE ↔ 7UCC ↔ 5VPB 11.59 Å redox closure), 40-frame LIGSITE cavity inspector (18 Å³ vs 250 Å³ threshold), C172 counter-ion pKa screening, covalent warhead bench, and MOR frontier orbitals.</div>
-        <div class="article-card-tag" style="color: var(--accent2);">Launch 3D Quantum Pocket Lab →</div>
+
+      <a href="/naloxone_sim.html" class="dossier-row sim-row" data-cat="opioid">
+        <div class="dossier-idx">09<small>SIM LAB</small></div>
+        <div class="dossier-main">
+          <div class="dossier-meta">
+            <span class="dossier-cat">Cat. 03 · Interactive Receptor Simulation</span>
+            <span class="dossier-clear warn">Interactive Lab</span>
+          </div>
+          <div class="dossier-title">Naloxone vs MOR — Live Receptor Simulation</div>
+          <div class="dossier-desc">Animated receptor binding, competitive displacement, and a real-time pharmacodynamic model of naloxone blocking opioid signaling at the mu-opioid receptor.</div>
+        </div>
+        <span class="dossier-arrow">Launch ↗</span>
       </a>
-      <a href="./sim_brain_heart.html" class="article-card sim">
-        <div class="article-card-num">Simulation 04 — 3-Organ PBPK &amp; Cardiac Electrophysiology</div>
-        <div class="article-card-title">BRAIN–HEART DIGITAL TWIN — BBB, Cocaethylene &amp; hERG</div>
-        <div class="article-card-desc">Couples unbound BBB lipophilicity (Kp,uu) and hepatic CYP2D6 / CES1 transesterification to a biophysical human ventricular myocyte (INa, ICaL, IKr/hERG), live Lead-II ICU ECG, QTc monitor, and Torsades EAD threshold.</div>
-        <div class="article-card-tag" style="color: var(--accent2);">Launch Brain–Heart Digital Twin →</div>
+
+      <a href="/article6.html" class="dossier-row" data-cat="quantum">
+        <div class="dossier-idx">06<small>QUANTUM</small></div>
+        <div class="dossier-main">
+          <div class="dossier-meta">
+            <span class="dossier-cat">Cat. 04 · Quantum Neuropharmacology</span>
+            <span class="dossier-clear">General Audience</span>
+          </div>
+          <div class="dossier-title">Why We Need Quantum Neuropharmacology — Not Classical Neuropharmacology</div>
+          <div class="dossier-desc">The model they teach in schools describes a universe that collapses in 10⁻¹¹ seconds. Why London dispersion and frontier molecular orbitals are the true operating system of your brain.</div>
+        </div>
+        <span class="dossier-arrow">Read ↗</span>
+      </a>
+
+      <a href="/penrose_article.html" class="dossier-row" data-cat="psych">
+        <div class="dossier-idx">P<small>ESSAY</small></div>
+        <div class="dossier-main">
+          <div class="dossier-meta">
+            <span class="dossier-cat">Cat. 02 · Psychology &amp; Science Communication</span>
+            <span class="dossier-clear">General Audience</span>
+          </div>
+          <div class="dossier-title">I Documented a Nobel Laureate's Narcissism While Reading His Book — And Got Addicted Anyway</div>
+          <div class="dossier-desc">A neuroscience and psychological analysis of Roger Penrose, Road to Reality, NE α1A prefrontal shutdown, and how narcissistic pedagogy creates compulsive readers.</div>
+        </div>
+        <span class="dossier-arrow">Read ↗</span>
       </a>
     </div>
   </section>
 
-  <div class="divider"></div>
-
-  <!-- ARTICLES -->
-  <section id="articles">
-
-    <!-- Category 1 -->
-    <div class="articles-category reveal">
-      <div class="section-label">Category 01</div>
-      <div class="category-label">Pharmacology &amp; Stimulants</div>
-      <div class="category-desc">The science of dopamine, amphetamines, and what tolerance actually means at the receptor level.</div>
-      <div class="bento-grid">
-        <a href="/article1.html" class="article-card featured span-2">
-          <div class="article-card-num">Article 01 — Deep Dive</div>
-          <div class="article-card-title">Methamphetamine</div>
-          <div class="article-card-desc">Mechanism, history, clinical use, and tolerance — a complete pharmacological breakdown of the most potent dopamine releaser known to medicine. GRK2, beta-arrestin recruitment, DAT reversal, and what your brain does to fight back.</div>
-          <div class="article-card-tag">For pharmacists &amp; graduate students →</div>
-        </a>
-        <a href="/article2.html" class="article-card">
-          <div class="article-card-num">Article 02</div>
-          <div class="article-card-title">Why meth is safer than amphetamine — cardiovascularly</div>
-          <div class="article-card-desc">The counterintuitive truth about peripheral vs. central stimulant effects, norepinephrine, and why the "dangerous" drug may actually be easier on your heart.</div>
-          <div class="article-card-tag">General audience →</div>
-        </a>
-        <a href="/article4.html" class="article-card">
-          <div class="article-card-num">Article 04</div>
-          <div class="article-card-title">The Standard ADHD Model Is Incomplete</div>
-          <div class="article-card-desc">The catecholamine deficit hypothesis doesn't explain why stimulants calm instead of excite. The NMDA overcompensation hypothesis does — and it redefines what ADHD actually is.</div>
-          <div class="article-card-tag">Pharmacists &amp; graduate students →</div>
-        </a>
-        <a href="/article7.html" class="article-card featured span-2">
-          <div class="article-card-num">Article 07 — Original Research</div>
-          <div class="article-card-title">ΔFosB Does Not Save Your Brain Energy. It Charges Rent.</div>
-          <div class="article-card-desc">The protein everyone names as the cause of long-lasting neuroadaptation has no pocket a drug can sit in — 18 Å&sup3; against a 250 Å&sup3; threshold, and the only cavity that opens is the redox switch itself. Unpublished molecular dynamics, semiempirical quantum chemistry, and a mathematical proof that the addicted state has no energy landscape at all.</div>
-          <div class="article-card-tag">Pharmacists &amp; graduate students →</div>
-        </a>
-        <a href="/article8.html" class="article-card featured span-2">
-          <div class="article-card-num">Article 08</div>
-          <div class="article-card-title">An Analysis of Marshall and Kim: Two Runaways, the Songs, and What the Pills Left Behind</div>
-          <div class="article-card-desc">Two kids from Detroit, the same class of drug problem, and twenty-six years later one has eighteen years sober and the other is in a county jail. What &Delta;FosB, cocaethylene and the social-pain circuitry actually did underneath the songs.</div>
-          <div class="article-card-tag">Warning, viewer discretion is advised &rarr;</div>
-        </a>
+  <!-- SECTION 04: 10 FOCUS CHANNELS -->
+  <section class="band">
+    <div class="band-head">
+      <div>
+        <div class="band-kicker"><span class="led-pip led-cyan"></span>SCOPE // 10 ACTIVE RESEARCH CHANNELS</div>
+        <h2 class="band-title">Areas of Research Focus</h2>
       </div>
     </div>
-
-    <!-- Category 2 -->
-    <div class="articles-category reveal" style="transition-delay: 0.08s;">
-      <div class="section-label">Category 02</div>
-      <div class="category-label">Psychology &amp; Science Communication</div>
-      <div class="category-desc">The psychology behind how we learn, who we trust, and why even knowing the trap doesn't stop you from falling in.</div>
-      <div class="bento-grid">
-        <a href="/penrose_article.html" class="article-card featured span-2">
-          <div class="article-card-num">Essay — Psychology</div>
-          <div class="article-card-title">I Documented a Nobel Laureate's Narcissism While Reading His Book — And Got Addicted Anyway</div>
-          <div class="article-card-desc">A neuroscience and psychological analysis of Roger Penrose, Road to Reality, and how narcissistic pedagogy creates compulsive readers. With a librarian as the control subject.</div>
-          <div class="article-card-tag">General audience →</div>
-        </a>
-      </div>
-    </div>
-
-    <!-- Category 3 -->
-    <div class="articles-category reveal" style="transition-delay: 0.1s;">
-      <div class="section-label">Category 03</div>
-      <div class="category-label">Opioid Crisis &amp; Addiction</div>
-      <div class="category-desc">Dopamine, reward, and why the brain makes addiction inevitable — not a moral failure, a molecular one.</div>
-      <div class="bento-grid">
-        <a href="/article3.html" class="article-card">
-          <div class="article-card-num">Article 03</div>
-          <div class="article-card-title">Dopamine</div>
-          <div class="article-card-desc">Where it comes from, what it actually does, why addiction is permanent, and what your health teacher isn't telling you.</div>
-          <div class="article-card-tag">General audience →</div>
-        </a>
-        <a href="/article5.html" class="article-card">
-          <div class="article-card-num">Article 05</div>
-          <div class="article-card-title">An Analysis of Four Good Days</div>
-          <div class="article-card-desc">A film about heroin addiction. What it shows you is devastating. What it doesn't explain is why the brain made it inevitable.</div>
-          <div class="article-card-tag">General audience →</div>
-        </a>
-        <a href="/naloxone_sim.html" class="article-card sim span-2">
-          <div class="article-card-num">Interactive Simulation</div>
-          <div class="article-card-title">Naloxone vs MOR — Live Receptor Simulation</div>
-          <div class="article-card-desc">Animated receptor binding, competitive displacement, and a real-time pharmacodynamic model of naloxone blocking opioid signaling at the mu-opioid receptor. Watch it happen at the molecular level.</div>
-          <div class="article-card-tag">Interactive →</div>
-        </a>
-      </div>
-    </div>
-
-    <!-- Category 4 -->
-    <div class="articles-category reveal" style="transition-delay: 0.12s;">
-      <div class="section-label">Category 04</div>
-      <div class="category-label">Quantum Neuropharmacology</div>
-      <div class="category-desc">Why the chemistry taught in schools is physically impossible — and what the real physics says about how your brain and drugs actually work.</div>
-      <div class="bento-grid">
-        <a href="/article6.html" class="article-card featured span-2">
-          <div class="article-card-num">Essay 06 — Quantum Chemistry</div>
-          <div class="article-card-title">Why We Need Quantum Neuropharmacology — Not Classical Neuropharmacology</div>
-          <div class="article-card-desc">The model they teach in schools describes a universe that can't exist. Electrons don't orbit nuclei — if they did, atoms would collapse in 10⁻¹¹ seconds. Here's what that means for your brain, your drugs, and why rational drug design requires the real physics.</div>
-          <div class="article-card-tag">General audience →</div>
-        </a>
-      </div>
-    </div>
-
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- AREAS OF FOCUS -->
-  <section class="reveal">
-    <div class="section-label">Areas of research focus</div>
-    <div class="focus-grid">
-      <div class="focus-card"><div class="focus-num">01</div><div class="focus-text">Pharmacology of amphetamines — specifically methamphetamine and its clinical applications</div></div>
-      <div class="focus-card"><div class="focus-num">02</div><div class="focus-text">Disorders — Bipolar, ADHD, schizophrenia, opioid use disorder, MDD, anxiety, stimulant use disorder</div></div>
-      <div class="focus-card"><div class="focus-num">03</div><div class="focus-text">Tolerance and brain adaptation to psychoactive compounds</div></div>
-      <div class="focus-card"><div class="focus-num">04</div><div class="focus-text">Treatment-resistant ADHD and treatment-resistant MDD</div></div>
-      <div class="focus-card"><div class="focus-num">05</div><div class="focus-text">SSRIs — side effects, efficacy, mechanism, and autoreceptor downregulation for therapeutic effect</div></div>
-      <div class="focus-card"><div class="focus-num">06</div><div class="focus-text">Psychomotor agitation, akathisia, and antipsychotic use — haloperidol, aripiprazole</div></div>
-      <div class="focus-card"><div class="focus-num">07</div><div class="focus-text">Amphetamine tolerance — beta-arrestin2 recruitment, cAMP downregulation, DARPP-32 phosphorylation at T75</div></div>
-      <div class="focus-card"><div class="focus-num">08</div><div class="focus-text">Dopamine in pleasure, reward, motivation, and executive function — and why dysregulation causes akathisia or mania</div></div>
-      <div class="focus-card"><div class="focus-num">09</div><div class="focus-text">Norepinephrine — its role in arousal, attention, and psychiatric pharmacology</div></div>
-      <div class="focus-card"><div class="focus-num">10</div><div class="focus-text">Serotonergic activity — 5-HT receptor pharmacology and clinical relevance</div></div>
+    <div class="focus-matrix">
+      <div class="focus-cell"><div class="focus-code">CH // 01</div><div class="focus-body">Pharmacology of amphetamines — specifically methamphetamine and clinical applications</div></div>
+      <div class="focus-cell"><div class="focus-code">CH // 02</div><div class="focus-body">Disorders — Bipolar, ADHD, schizophrenia, OUD, MDD, anxiety, stimulant use disorder</div></div>
+      <div class="focus-cell"><div class="focus-code">CH // 03</div><div class="focus-body">Tolerance and long-horizon brain adaptation to psychoactive compounds</div></div>
+      <div class="focus-cell"><div class="focus-code">CH // 04</div><div class="focus-body">Treatment-resistant ADHD and treatment-resistant MDD</div></div>
+      <div class="focus-cell"><div class="focus-code">CH // 05</div><div class="focus-body">SSRIs — side effects, efficacy, mechanism, and 5-HT1A autoreceptor downregulation</div></div>
+      <div class="focus-cell"><div class="focus-code">CH // 06</div><div class="focus-body">Psychomotor agitation, akathisia, and antipsychotics — haloperidol, aripiprazole</div></div>
+      <div class="focus-cell"><div class="focus-code">CH // 07</div><div class="focus-body">Amphetamine tolerance — β-arrestin2 recruitment, cAMP, DARPP-32 Thr75 phosphorylation</div></div>
+      <div class="focus-cell"><div class="focus-code">CH // 08</div><div class="focus-body">Dopamine in reward, motivation, and executive control — akathisia &amp; mania</div></div>
+      <div class="focus-cell"><div class="focus-code">CH // 09</div><div class="focus-body">Norepinephrine — α2A/α1A arousal switches and psychiatric pharmacology</div></div>
+      <div class="focus-cell"><div class="focus-code">CH // 10</div><div class="focus-body">Serotonergic activity — 5-HT receptor pharmacology and clinical relevance</div></div>
     </div>
   </section>
 
-  <div class="divider"></div>
-
-  <!-- CONTACT -->
-  <section id="contact" class="reveal">
-    <div class="section-label">Contact</div>
-    <div class="contact-block">
-      <h3>CONTACT ME</h3>
-      <p class="contact-sub">For anything neuroscience related, pharmacology related, research collaboration, questions, or feedback.</p>
-      <div class="contact-topics">
-        <span class="contact-topic-tag">Neuroscience</span>
-        <span class="contact-topic-tag">Pharmacology</span>
-        <span class="contact-topic-tag">GPCR Signaling</span>
-        <span class="contact-topic-tag">Research Collaboration</span>
-        <span class="contact-topic-tag">Stimulant Tolerance</span>
-        <span class="contact-topic-tag">Science Communication</span>
+  <!-- SECTION 05: CONTACT HARDWARE PLATE -->
+  <section id="contact" class="band" style="border-bottom:none;">
+    <div class="contact-chassis">
+      <span class="hw-screw tl"></span>
+      <span class="hw-screw tr"></span>
+      <span class="hw-screw bl"></span>
+      <span class="hw-screw br"></span>
+      <div class="band-kicker" style="justify-content:center;"><span class="led-pip led-lime"></span>DIRECT TRANSMISSION // COLLABORATION &amp; INQUIRIES</div>
+      <h3>CONTACT RPRIME</h3>
+      <p class="contact-sub">For neuroscience, pharmacology, computational collaboration, critique, or research inquiries.</p>
+      <div class="contact-tags">
+        <span class="contact-tag">Neuroscience</span>
+        <span class="contact-tag">Pharmacology</span>
+        <span class="contact-tag">GPCR Signaling</span>
+        <span class="contact-tag">Research Collaboration</span>
+        <span class="contact-tag">Stimulant Tolerance</span>
+        <span class="contact-tag">Science Communication</span>
       </div>
-      <div class="contact-links">
-        <a href="mailto:neurosciencerprime@gmail.com" class="contact-email">neurosciencerprime@gmail.com</a>
-        <a href="https://www.instagram.com/neurosciencerprime/" target="_blank" class="contact-insta">Instagram — @neurosciencerprime</a>
+      <div class="contact-actions">
+        <a href="mailto:neurosciencerprime@gmail.com" class="hw-cta hw-cta-lime">neurosciencerprime@gmail.com</a>
+        <a href="https://www.instagram.com/neurosciencerprime/" target="_blank" rel="noopener" class="hw-cta hw-cta-carbon"><span class="led-pip led-orange"></span>Instagram · @neurosciencerprime</a>
       </div>
     </div>
   </section>
 
   <footer class="footer">
-    <a href="/" class="footer-logo">Neuroscience with <span>RPrime</span></a>
-    <div class="footer-note">Independent neuroscience research by Rishik Pannala — RPrime © 2026</div>
+    <a href="/">Neuroscience with <span>RPrime</span></a>
+    <div>INDEPENDENT COMPUTATIONAL NEUROSCIENCE BY RISHIK PANNALA — © 2026</div>
   </footer>
-
-</div><!-- /container -->
+</main>
 
 <script>
-  // Scroll reveal — Intersection Observer
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
+(() => {
+  'use strict';
+
+  // 1. Scroll tachometer needle
+  const needle = document.getElementById('scrollNeedle');
+  const updateScroll = () => {
+    const h = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    needle.style.width = Math.min(100, Math.max(0, (window.scrollY / h) * 100)).toFixed(2) + '%';
+  };
+  window.addEventListener('scroll', updateScroll, { passive: true });
+  updateScroll();
+
+  // 2. Monograph Category Filter
+  const archTabs = document.querySelectorAll('.arch-tab');
+  const dossierRows = document.querySelectorAll('.dossier-row');
+  archTabs.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const cat = btn.dataset.cat;
+      archTabs.forEach((b) => b.classList.toggle('active', b === btn));
+      dossierRows.forEach((row) => {
+        row.classList.toggle('hidden-cat', cat !== 'all' && row.dataset.cat !== cat);
+      });
     });
-  }, { threshold: 0.07, rootMargin: '0px 0px -36px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  });
+
+  // 3. Cursor-tracked anodized specular sheen across cards
+  document.querySelectorAll('.hw-card, .rack-tile, .dossier-row').forEach((el) => {
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', (e.clientX - r.left).toFixed(1) + 'px');
+      el.style.setProperty('--my', (e.clientY - r.top).toFixed(1) + 'px');
+    }, { passive: true });
+  });
+
+  // 4. LIVE 60 FPS HERO OLED TELEMETRY HARDWARE ENGINE (4 REAL INTERACTIVE MODES)
+  const canvas = document.getElementById('heroOledCanvas');
+  const ctx = canvas.getContext('2d');
+  const hudTl = document.getElementById('oledHudTl');
+  const hudTr = document.getElementById('oledHudTr');
+  const rLbl = document.getElementById('hwReadoutLbl');
+  const rVal = document.getElementById('hwReadoutVal');
+  const fLbl = document.getElementById('hwFaderLbl');
+  const fVal = document.getElementById('hwFaderVal');
+  const fader = document.getElementById('hwFader');
+  const openLab = document.getElementById('hwOpenLab');
+
+  const CH_META = {
+    synapse: {
+      tl: '<strong>CH-01 · SYNAPSE</strong> · 50 µs HH &amp; DARPP-32',
+      rLbl: 'THR75 / PKA BRAKE',
+      fLbl: 'STIMULANT DRIVE',
+      href: './sim_synapse.html'
+    },
+    ecg: {
+      tl: '<strong>CH-02 · ECG·hERG</strong> · 18-CELL VENTRICULAR CABLE',
+      rLbl: 'QTC / hERG BLOCK',
+      fLbl: 'COCAETHYLENE LOAD',
+      href: './sim_brain_heart.html'
+    },
+    sde: {
+      tl: '<strong>CH-03 · SDE·ρ²³</strong> · ITÔ LOG-SPACE SEPARATRIX',
+      rLbl: 'ESCAPE τ (ρ²³)',
+      fLbl: 'LOOP CUT Δv',
+      href: './sim_tracker.html'
+    },
+    fosb: {
+      tl: '<strong>CH-04 · 3D ΔFOSB</strong> · 5VPE ↔ 5VPB REDOX SWITCH',
+      rLbl: 'C172–C285 S–S',
+      fLbl: 'OXIDATION MORPH',
+      href: './sim_quantum_pocket.html'
+    }
+  };
+
+  let activeCh = 'synapse';
+  let gain = 0.35;
+  let W = 520, H = 256, dpr = 1;
+
+  // Channel 1: Live HH ring buffer
+  const HH_N = 220;
+  const hhBuf = new Float32Array(HH_N).fill(-72);
+  let hhV = -72, hhM = 0.05, hhH = 0.6, hhN = 0.32, hhPtr = 0;
+
+  // Channel 2: Live ECG sweep buffer
+  const ECG_N = 240;
+  const ecgBuf = new Float32Array(ECG_N).fill(0);
+  let ecgPhase = 0, ecgPtr = 0;
+
+  // Channel 3: 24 live stochastic Itô trajectories
+  const SDE_K = 24, SDE_L = 90;
+  const sdePaths = Array.from({ length: SDE_K }, () => new Float32Array(SDE_L).fill(1.0));
+  function resetSDE() {
+    const v = 1.48 * (1 - 0.24 * gain);
+    const k = 0.44, D = 0.036;
+    for (let i = 0; i < SDE_K; i++) {
+      let x = 0.55 + (Math.random() - 0.5) * 0.14;
+      for (let t = 0; t < SDE_L; t++) {
+        const A = Math.exp(x);
+        const f = 0.10 + (v * A * A * A) / (1.0 + A * A * A) - k * A;
+        const drift = f / A - D;
+        const u1 = Math.max(1e-6, Math.random()), u2 = Math.random();
+        const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+        x = Math.max(-1.6, Math.min(1.25, x + 0.18 * drift + Math.sqrt(2 * D * 0.18) * z));
+        sdePaths[i][t] = x;
+      }
+    }
+  }
+  resetSDE();
+
+  // Channel 4: Dual α-helix bZIP coordinates
+  const HELIX_N = 26;
+  let rotY = 0;
+
+  function resize() {
+    const r = canvas.parentElement.getBoundingClientRect();
+    W = Math.max(280, r.width);
+    H = Math.max(220, r.height);
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener('resize', resize, { passive: true });
+  resize();
+
+  function syncChrome() {
+    const m = CH_META[activeCh];
+    hudTl.innerHTML = m.tl;
+    rLbl.textContent = m.rLbl;
+    fLbl.textContent = m.fLbl;
+    openLab.href = m.href;
+    const pct = Math.round(gain * 100);
+    fVal.textContent = pct + '%';
+    fader.style.setProperty('--pct', pct + '%');
+  }
+
+  document.querySelectorAll('.hw-ch-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      activeCh = btn.dataset.ch;
+      document.querySelectorAll('.hw-ch-btn').forEach((b) => b.classList.toggle('active', b === btn));
+      if (activeCh === 'sde') resetSDE();
+      syncChrome();
+    });
+  });
+
+  fader.addEventListener('input', () => {
+    gain = Number(fader.value) / 100;
+    syncChrome();
+    if (activeCh === 'sde') resetSDE();
+  });
+  syncChrome();
+
+  function drawOledGrid() {
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(255,255,255,0.045)';
+    ctx.lineWidth = 1;
+    const gx = 36, gy = 36;
+    for (let x = gx; x < W; x += gx) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = gy; y < H; y += gy) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+  }
+
+  function stepSynapse() {
+    const Iinj = 3.5 + gain * 16.5;
+    for (let s = 0; s < 14; s++) {
+      const dt = 0.04;
+      const V = hhV;
+      const am = 0.1 * (V + 40) / (1 - Math.exp(-(V + 40) / 10) + 1e-6);
+      const bm = 4 * Math.exp(-(V + 65) / 18);
+      const ah = 0.07 * Math.exp(-(V + 65) / 20);
+      const bh = 1 / (1 + Math.exp(-(V + 35) / 10));
+      const an = 0.01 * (V + 55) / (1 - Math.exp(-(V + 55) / 10) + 1e-6);
+      const bn = 0.125 * Math.exp(-(V + 65) / 80);
+      hhM += dt * (am * (1 - hhM) - bm * hhM);
+      hhH += dt * (ah * (1 - hhH) - bh * hhH);
+      hhN += dt * (an * (1 - hhN) - bn * hhN);
+      const INa = 120 * hhM * hhM * hhM * hhH * (V - 50);
+      const IK = 36 * hhN * hhN * hhN * hhN * (V + 77);
+      const IL = 0.3 * (V + 54.4);
+      hhV = Math.max(-90, Math.min(48, V + dt * (Iinj - INa - IK - IL)));
+    }
+    hhBuf[hhPtr] = hhV;
+    hhPtr = (hhPtr + 1) % HH_N;
+
+    drawOledGrid();
+    // Threshold reference line (-55 mV)
+    const yThr = H * 0.72 - ((-55 + 90) / 140) * (H * 0.62);
+    ctx.strokeStyle = 'rgba(255,72,16,0.28)';
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(0, yThr); ctx.lineTo(W, yThr); ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.strokeStyle = '#c8ff00';
+    ctx.lineWidth = 2;
+    ctx.shadowColor = 'rgba(200,255,0,0.6)';
+    ctx.shadowBlur = 10;
+    ctx.beginPath();
+    for (let i = 0; i < HH_N; i++) {
+      const idx = (hhPtr + i) % HH_N;
+      const x = (i / (HH_N - 1)) * W;
+      const y = H * 0.82 - ((hhBuf[idx] + 90) / 140) * (H * 0.66);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // Live terminal dot
+    const lastY = H * 0.82 - ((hhV + 90) / 140) * (H * 0.66);
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.arc(W - 3, lastY, 3, 0, Math.PI * 2); ctx.fill();
+
+    hudTr.textContent = `Vm ${hhV.toFixed(1)} mV`;
+    const thr75 = Math.round(14 + gain * 78);
+    rVal.textContent = `${thr75}% · ${thr75 > 62 ? 'BLUNTED' : 'NOMINAL'}`;
+    rVal.style.color = thr75 > 62 ? '#ff4810' : '#c8ff00';
+  }
+
+  function stepECG() {
+    const qtc = Math.round(405 + gain * 155);
+    const hergPct = Math.round(gain * 76);
+    const dt = 0.016 * (1 + gain * 0.35);
+    ecgPhase = (ecgPhase + dt) % 1.0;
+    const p = ecgPhase;
+    // Biophysical P-QRS-T synthesis + cocaethylene hERG T-wave stretch & EAD wobble
+    let y = 0;
+    y += 0.14 * Math.exp(-Math.pow((p - 0.16) / 0.028, 2)); // P
+    y -= 0.16 * Math.exp(-Math.pow((p - 0.27) / 0.011, 2)); // Q
+    y += 1.05 * Math.exp(-Math.pow((p - 0.30) / 0.013, 2)); // R
+    y -= 0.28 * Math.exp(-Math.pow((p - 0.335) / 0.013, 2)); // S
+    const tPos = 0.50 + gain * 0.16;
+    const tWid = 0.048 + gain * 0.055;
+    y += (0.34 - gain * 0.06) * Math.exp(-Math.pow((p - tPos) / tWid, 2)); // T stretched
+    if (gain > 0.62) {
+      y += (gain - 0.62) * 0.42 * Math.sin(p * 72) * Math.exp(-Math.pow((p - (tPos + 0.06)) / 0.06, 2)); // EAD
+    }
+    ecgBuf[ecgPtr] = y;
+    ecgPtr = (ecgPtr + 1) % ECG_N;
+
+    drawOledGrid();
+    const danger = qtc >= 500;
+    const col = danger ? '#ff4810' : '#c8ff00';
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 2.1;
+    ctx.shadowColor = danger ? 'rgba(255,72,16,0.75)' : 'rgba(200,255,0,0.55)';
+    ctx.shadowBlur = 10;
+    ctx.beginPath();
+    for (let i = 0; i < ECG_N; i++) {
+      const idx = (ecgPtr + i) % ECG_N;
+      const x = (i / (ECG_N - 1)) * W;
+      const py = H * 0.64 - ecgBuf[idx] * (H * 0.38);
+      if (i === 0) ctx.moveTo(x, py); else ctx.lineTo(x, py);
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    hudTr.textContent = `QTc ${qtc} ms`;
+    rVal.textContent = `${qtc} ms · hERG ${hergPct}%`;
+    rVal.style.color = danger ? '#ff4810' : '#c8ff00';
+  }
+
+  let sdeFrame = 0;
+  function stepSDE() {
+    sdeFrame++;
+    if (sdeFrame % 75 === 0) resetSDE();
+    drawOledGrid();
+
+    // Separatrix line A_mid
+    const ySep = H * 0.56;
+    ctx.strokeStyle = 'rgba(255,72,16,0.75)';
+    ctx.lineWidth = 1.4;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath(); ctx.moveTo(0, ySep); ctx.lineTo(W, ySep); ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.font = '600 9px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#ff4810';
+    ctx.fillText('SEPARATRIX x_mid (A_mid)', 12, ySep - 6);
+
+    let escaped = 0;
+    for (let i = 0; i < SDE_K; i++) {
+      const path = sdePaths[i];
+      const didEsc = path[SDE_L - 1] < -0.25;
+      if (didEsc) escaped++;
+      ctx.strokeStyle = didEsc ? 'rgba(200,255,0,0.75)' : 'rgba(255,72,16,0.28)';
+      ctx.lineWidth = didEsc ? 1.5 : 1.0;
+      ctx.beginPath();
+      for (let t = 0; t < SDE_L; t++) {
+        const x = 14 + (t / (SDE_L - 1)) * (W - 28);
+        const y = H * 0.44 - path[t] * (H * 0.28);
+        if (t === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+
+    const escPct = Math.round((escaped / SDE_K) * 100);
+    const tauDays = Math.max(4, Math.round(145 * Math.pow(1 - 0.72 * gain, 2.8)));
+    hudTr.textContent = `ESC ${escPct}%`;
+    rVal.textContent = `~${tauDays}d · Δv −${Math.round(gain * 24)}%`;
+    rVal.style.color = escPct >= 50 ? '#c8ff00' : '#ff4810';
+  }
+
+  function stepFosB() {
+    rotY += 0.014;
+    drawOledGrid();
+    const ssDist = (13.62 - gain * (13.62 - 2.03)).toFixed(2);
+    const pinch = gain * 26;
+    const cx = W * 0.5, cy = H * 0.52;
+
+    const project = (x, y, z) => {
+      const rx = x * Math.cos(rotY) - z * Math.sin(rotY);
+      const rz = x * Math.sin(rotY) + z * Math.cos(rotY);
+      const sc = 260 / (260 + rz);
+      return { sx: cx + rx * sc, sy: cy + y * sc, z: rz };
+    };
+
+    const chainA = [], chainB = [];
+    for (let i = 0; i < HELIX_N; i++) {
+      const u = i / (HELIX_N - 1);
+      const y = (u - 0.5) * 170;
+      const fork = u < 0.45 ? (0.45 - u) * (76 - pinch * 1.9) : 0;
+      const a1 = u * 11;
+      chainA.push(project(-16 - fork + Math.cos(a1) * 11, y, Math.sin(a1) * 11));
+      chainB.push(project(16 + fork + Math.cos(a1 + Math.PI) * 11, y, Math.sin(a1 + Math.PI) * 11));
+    }
+
+    const drawStrand = (pts, col) => {
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 2.4;
+      ctx.shadowColor = col;
+      ctx.shadowBlur = 8;
+      ctx.beginPath();
+      pts.forEach((p, idx) => idx === 0 ? ctx.moveTo(p.sx, p.sy) : ctx.lineTo(p.sx, p.sy));
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    };
+    drawStrand(chainA, '#18dcff');
+    drawStrand(chainB, '#a78bfa');
+
+    // C172 (chainA[5]) <-> C285 (chainB[5]) redox sulfur bridge
+    const pA = chainA[5], pB = chainB[5];
+    const bonded = gain > 0.82;
+    ctx.strokeStyle = bonded ? '#c8ff00' : '#ff4810';
+    ctx.lineWidth = bonded ? 2.8 : 1.5;
+    if (!bonded) ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(pA.sx, pA.sy); ctx.lineTo(pB.sx, pB.sy); ctx.stroke();
+    ctx.setLineDash([]);
+
+    [pA, pB].forEach((p, idx) => {
+      ctx.fillStyle = bonded ? '#c8ff00' : '#ffbe0b';
+      ctx.beginPath(); ctx.arc(p.sx, p.sy, 5, 0, Math.PI * 2); ctx.fill();
+      ctx.font = '700 9.5px "IBM Plex Mono", monospace';
+      ctx.fillStyle = '#fff';
+      ctx.fillText(idx === 0 ? 'C172 Sγ' : 'C285 Sγ', p.sx + (idx === 0 ? -52 : 9), p.sy + 3);
+    });
+
+    hudTr.textContent = bonded ? '5VPB OXIDISED' : '5VPE DNA-BOUND';
+    rVal.textContent = `${ssDist} Å · ${bonded ? 'DISULFIDE' : 'OPEN'}`;
+    rVal.style.color = bonded ? '#c8ff00' : '#18dcff';
+  }
+
+  function loop() {
+    if (activeCh === 'synapse') stepSynapse();
+    else if (activeCh === 'ecg') stepECG();
+    else if (activeCh === 'sde') stepSDE();
+    else stepFosB();
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
 </script>
+<script src="./assets/rprime_hardware.js" defer></script>
 <script src="./assets/rprime_si.js" defer></script>
-<script src="./assets/rprime_cockpit.js" defer></script>
 </body>
 </html>
