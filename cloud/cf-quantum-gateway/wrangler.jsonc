@@ -1,0 +1,57 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rprime-quantum-gateway",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-24",
+  "observability": {
+    "enabled": true,
+    "traces": {
+      "enabled": true
+    }
+  },
+  // Cloudflare Free Tier R2 Vault (10 GB storage, $0.00 egress)
+  // Create via: npx wrangler r2 bucket create rprime-quantum-vault
+  "r2_buckets": [
+    {
+      "binding": "QUANTUM_VAULT",
+      "bucket_name": "rprime-quantum-vault"
+    }
+  ],
+  // Cloudflare Free Tier D1 SQLite (5 GB storage, 5M row reads/day)
+  // Create via: npx wrangler d1 create rprime-neuro-atlas
+  // Then replace database_id below and initialize with:
+  //   npx wrangler d1 execute rprime-neuro-atlas --remote --file=./schema.sql
+  "d1_databases": [
+    {
+      "binding": "ATLAS_DB",
+      "database_name": "rprime-neuro-atlas",
+      "database_id": "REPLACE_WITH_D1_DATABASE_ID"
+    }
+  ],
+  // Non-secret runtime configuration (safe to commit)
+  "vars": {
+    "ALLOWED_ORIGINS": "https://neurosciencerprime.github.io,http://localhost:8000",
+    "DEFAULT_METHOD": "df-wB97X-D/def2-SVP+ddCOSMO",
+    "RATE_LIMIT_MAX_TOKENS": "8",
+    "RATE_LIMIT_REFILL_SECONDS": "120",
+    "MODAL_TIMEOUT_MS": "12000",
+    "HF_TIMEOUT_MS": "55000",
+    "FEDERATION_TIMEOUT_MS": "2500"
+  }
+  // =========================================================================
+  // SECRETS — NEVER hardcode secrets in wrangler.jsonc or source code!
+  // Configure all secrets via `npx wrangler secret put <NAME>`:
+  //
+  //   1. MODAL_URL              Optional primary Modal GPU Turbo endpoint URL
+  //                             (e.g. https://<user>--rprime-gpu-dft-app.modal.run)
+  //                             Fails over automatically after 12s or quota 402/429.
+  //
+  //   2. HF_SPACE_URL           24/7 Hugging Face Spaces Free Docker baseline URL
+  //                             (e.g. https://<user>-rprime-true-dft.hf.space)
+  //
+  //   3. GATEWAY_SHARED_SECRET  Shared secret sent in `X-RPrime-Gateway-Key` header
+  //                             to authenticate gateway -> Modal/HF upstream calls
+  //                             (and verified via constant-time Web Crypto for
+  //                             trusted admin/recompute calls).
+  // =========================================================================
+}

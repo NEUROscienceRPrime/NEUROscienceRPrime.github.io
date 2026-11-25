@@ -872,7 +872,7 @@
   }
   .protocol-tabs {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     border-bottom: 1px solid var(--border);
     background: rgba(255,255,255,0.015);
   }
@@ -881,7 +881,8 @@
     background: transparent;
     border: none;
     border-right: 1px solid var(--border);
-    padding: 16px 16px;
+    border-bottom: 1px solid var(--border);
+    padding: 16px 18px;
     text-align: left;
     cursor: pointer;
     color: var(--text);
@@ -1145,6 +1146,7 @@
       <li><a href="./sim_brain_heart.html">Sim 04 · Brain–Heart</a></li>
       <li><a href="./sim_drug_compiler.html">Sim 05 · Compiler</a></li>
       <li><a href="./sim_cohort_trial.html">Sim 06 · 1,000-Brain Trial</a></li>
+      <li><a href="./sim_discovery.html" style="color: var(--cyan);">Sim 07 · Discovery OS</a></li>
       <li><a href="./naloxone_sim.html">Naloxone</a></li>
     </ul>
   </div>
@@ -1159,14 +1161,18 @@
   <section class="hero">
     <div class="hero-header">
       <div class="hero-title-col">
-        <div class="eyebrow"><span class="pulse-dot"></span> RPrime Computational Neuropharmacology · 7 Live Engines</div>
-        <h1>From <span class="lime">10⁻¹¹ m</span> Partial Charges to 1,000-Brain Trials.</h1>
-        <p class="hero-sub">Executable neuroscience built directly from Rishik Pannala’s research archive. Edit chemical graphs, inspect Kabsch-aligned RCSB X-ray cavities, integrate stochastic spine curl barriers, patch-clamp 500 spiking neurons, and run 1,000-subject virtual clinical trials in real time.</p>
+        <div class="eyebrow"><span class="pulse-dot"></span> RPrime Computational Neuropharmacology · 8 Live Engines</div>
+        <h1>From <span class="lime">230k+ PDBs</span> &amp; True DFT to 1,000-Brain Trials.</h1>
+        <p class="hero-sub">Executable neuroscience built directly from Rishik Pannala’s research archive. Stream any RCSB PDB or AlphaFold structure, solve Kohn–Sham ωB97X-D orbitals and covalent ΔE, mutate chemical graphs, patch-clamp 500 spiking neurons, and run 1,000-subject virtual clinical trials in real time.</p>
       </div>
       <div class="hero-stats" aria-label="Suite Specifications">
         <div class="stat-chip">
-          <div class="num">7 Labs</div>
-          <div class="lbl">Real-Time Solvers</div>
+          <div class="num">8 Labs</div>
+          <div class="lbl">Real-Time Engines</div>
+        </div>
+        <div class="stat-chip">
+          <div class="num">230k+</div>
+          <div class="lbl">Live RCSB PDB + AF</div>
         </div>
         <div class="stat-chip">
           <div class="num">1,000</div>
@@ -1175,10 +1181,6 @@
         <div class="stat-chip">
           <div class="num">500+</div>
           <div class="lbl">1 kHz Spiking &amp; HH Cells</div>
-        </div>
-        <div class="stat-chip">
-          <div class="num">0 Deps</div>
-          <div class="lbl">Client-Side Native</div>
         </div>
       </div>
     </div>
@@ -1207,7 +1209,7 @@
         <button type="button" class="scale-node" role="tab" aria-selected="false" data-scale="1" style="--node-color: #ff6b35;" onmouseenter="hoverScale(1)" onclick="selectScale(1, true)">
           <div class="scale-meter"><span>10⁻⁸ m</span><span class="scale-time">ms – 90 min</span></div>
           <div class="scale-domain">GPCR &amp; Synaptic Cleft</div>
-          <div class="scale-lab-ref">Lab 07 · MOR Steric Lockout</div>
+          <div class="scale-lab-ref">Lab 08 · MOR Steric Lockout</div>
         </button>
         <button type="button" class="scale-node" role="tab" aria-selected="false" data-scale="2" style="--node-color: #c8ff00;" onmouseenter="hoverScale(2)" onclick="selectScale(2, true)">
           <div class="scale-meter"><span>10⁻⁶ m</span><span class="scale-time">ms – 90 days</span></div>
@@ -1252,18 +1254,19 @@
 
   <div class="divider"></div>
 
-  <!-- ALL 7 LABS BENTO COMMAND GRID -->
+  <!-- ALL 8 LABS BENTO COMMAND GRID -->
   <section id="labs">
     <div class="section-label">01 · Simulation Workbenches</div>
     <div class="section-header-row">
       <div>
-        <h2 class="section-title">Seven Interactive Digital Twins</h2>
-        <p class="section-sub">Launch a standalone simulation engine, compile a custom molecule into a 1,000-brain clinical trial, jump into a preset, or open 9:16 vertical studio mode.</p>
+        <h2 class="section-title">Eight Interactive Digital Twins</h2>
+        <p class="section-sub">Stream any of 230,000+ RCSB PDB structures into live Kohn–Sham ωB97X-D DFT, compile custom chemical graphs, or launch a standalone organ, circuit, or 1,000-brain trial engine.</p>
       </div>
     </div>
 
     <div class="filter-bar" role="toolbar" aria-label="Filter simulations by topic">
-      <button type="button" class="filter-pill active" onclick="filterLabs('all', this)">All 7 Labs</button>
+      <button type="button" class="filter-pill active" onclick="filterLabs('all', this)">All 8 Labs</button>
+      <button type="button" class="filter-pill" onclick="filterLabs('discovery', this)">Discovery OS &amp; 230k PDB</button>
       <button type="button" class="filter-pill" onclick="filterLabs('compiler', this)">De Novo &amp; 1,000-Brain Trial</button>
       <button type="button" class="filter-pill" onclick="filterLabs('dopamine', this)">Dopamine &amp; Stimulants</button>
       <button type="button" class="filter-pill" onclick="filterLabs('fosb', this)">ΔFosB &amp; Persistence</button>
@@ -1273,6 +1276,62 @@
     </div>
 
     <div class="labs-bento">
+
+      <!-- LAB 07 — RPRIME DISCOVERY OS (FEATURED SPAN-12 FLAGSHIP) -->
+      <article class="lab-card featured" id="lab-07" data-tags="discovery compiler quantum fosb dopamine opioid cardiac" style="--card-accent: #00e5ff; border-color: rgba(0,229,255,0.32);">
+        <div style="display:flex; flex-direction:column;">
+          <div class="lab-top-meta">
+            <span class="lab-id">Lab 07 · Flagship · 230k+ RCSB PDB + AlphaFold + True DFT</span>
+            <span class="solver-badge">PySCF df-ωB97X-D/def2-SVP + LIGSITE + Vina 1.2</span>
+          </div>
+          <h3 class="lab-title">RPRIME DISCOVERY OS — Full-PDB &amp; Kohn–Sham Quantum Workbench</h3>
+          <p class="lab-desc">Stream any experimental protein from the ~230,000 RCSB PDB or 200M+ AlphaFold DB directly into your browser. Automatically runs 7-axis Hendlich LIGSITE cavity scanning (&lt;180 Å³ covalent-only gate) and Shrake–Rupley cysteine SASA hunting, pairs with Federated PubChem/QCArchive + live cloud PySCF Kohn–Sham DFT (.cube HOMO/LUMO, Fukui f⁺, ΔE_cov) &amp; AutoDock Vina, and hands off into Lab 05 &amp; Lab 06.</p>
+          <div class="lab-metrics">
+            <div class="metric-box">
+              <div class="metric-val">230k+ PDB</div>
+              <div class="metric-lbl">Live RCSB + AlphaFold</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-val">ωB97X-D</div>
+              <div class="metric-lbl">RI-JK + ddCOSMO .cube</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-val">&lt;180 Å³</div>
+              <div class="metric-lbl">Anti-Hallucination Gate</div>
+            </div>
+          </div>
+          <div class="companion-strip">
+            <span>Companion Reads:</span>
+            <a href="./article7.html" class="article-ref">Article 07 · ΔFosB QM/MD</a>
+            <a href="./article6.html" class="article-ref">Article 06 · Quantum Pharm</a>
+            <a href="./article1.html" class="article-ref">Article 01 · DAT</a>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div class="sub-kicker">Kohn–Sham Electrophilicity, Condensed Fukui &amp; Covalent Adduct ΔE</div>
+            <div class="lab-eq-strip">
+              $$\omega = \frac{\mu^2}{2\eta}, \quad f_A^+ = q_A(N{+}1) - q_A(N), \quad \Delta E_{\text{cov}} = E_{\text{adduct}} - E_{\text{lig}} - E_{\text{CH}_3\text{SH}}$$
+            </div>
+            <div class="preset-group">
+              <div class="sub-kicker">Direct Target &amp; Ligand Deep-Links</div>
+              <div class="preset-pills">
+                <a href="./sim_discovery.html#pdb=5VPE" class="preset-link">🧬 5VPE ΔFosB/JunD + C172 Hunter</a>
+                <a href="./sim_discovery.html#pdb=1HSG" class="preset-link">🔍 1HSG HIV-1 Protease (368 Å³)</a>
+                <a href="./sim_discovery.html#pdb=4XP1" class="preset-link">⚡ 4XP1 Dopamine Transporter</a>
+                <a href="./sim_discovery.html#pdb=8EF5" class="preset-link">🛡️ 8EF5 Fentanyl–MOR Complex</a>
+                <a href="./sim_discovery.html#pdb=7CN1" class="preset-link">💓 7CN1 hERG Kv11.1 Channel</a>
+                <a href="./sim_discovery.html#pdb=6OIM" class="preset-link">🎯 6OIM KRAS G12C Covalent</a>
+              </div>
+            </div>
+          </div>
+          <div class="card-cta-row">
+            <a href="./sim_discovery.html" class="btn-card-primary">Launch RPrime Discovery OS →</a>
+            <a href="./sim_discovery.html?mode=reel" class="btn-card-reel">9:16 Reel Mode ↗</a>
+          </div>
+        </div>
+      </article>
 
       <!-- LAB 05 — ATOM-TO-ACTION-POTENTIAL COMPILER -->
       <article class="lab-card" id="lab-05" data-tags="compiler dopamine quantum opioid cardiac fosb" style="--card-accent: #00e5ff; border-color: rgba(0,229,255,0.24);">
@@ -1564,10 +1623,10 @@
         </div>
       </article>
 
-      <!-- LAB 07 — NALOXONE VS MOR -->
-      <article class="lab-card" id="lab-07" data-tags="opioid quantum" style="--card-accent: #c8ff00;">
+      <!-- LAB 08 — NALOXONE VS MOR -->
+      <article class="lab-card" id="lab-08" data-tags="opioid quantum" style="--card-accent: #c8ff00;">
         <div class="lab-top-meta">
-          <span class="lab-id">Lab 07 · 10⁻⁸ m · Receptor Kinetics</span>
+          <span class="lab-id">Lab 08 · 10⁻⁸ m · Receptor Kinetics</span>
           <span class="solver-badge">7-Scene Canvas + Cheng–Prusoff</span>
         </div>
         <h3 class="lab-title">NALOXONE vs. MOR — Competitive Overdose Reversal</h3>
@@ -1641,8 +1700,12 @@
           <div class="pt-title">Quantum Sterics, Topology &amp; Non-Gradient Physics</div>
         </button>
         <button type="button" class="protocol-tab" role="tab" aria-selected="false" onclick="selectProtocol(4, this)">
-          <div class="pt-num">Workflow 05 · New</div>
+          <div class="pt-num">Workflow 05</div>
           <div class="pt-title">De Novo Molecule-to-Population Pipeline (Lab 05 → 06)</div>
+        </button>
+        <button type="button" class="protocol-tab" role="tab" aria-selected="false" onclick="selectProtocol(5, this)">
+          <div class="pt-num">Workflow 06 · Flagship</div>
+          <div class="pt-title">Any-PDB Tractability + Live True-DFT ωB97X-D + 1,000-Brain Triage</div>
         </button>
       </div>
 
@@ -1712,14 +1775,14 @@ const SCALES = [
   },
   {
     kicker: 'SCALE 02 · 10⁻⁸ m (10 NANOMETERS) · GPCR CONFORMATION & CLEFT',
-    title: 'Lab 07 — Naloxone vs. MOR Steric Lockout',
+    title: 'Lab 08 — Naloxone vs. MOR Steric Lockout',
     desc: 'Competitive binding at the mu-opioid receptor (Asp147 anchor). Naloxone’s Kd (~1.5 nM) beats morphine (~4.0 nM) while its rigid allyl arm physically blocks TM5/TM6 outward opening.',
     eqLabel: 'Cheng–Prusoff Competitive Receptor Occupancy',
     latex: '\\theta_{\\text{Nal}} = \\frac{[\\text{Nal}]/1.5}{1 + [\\text{Nal}]/1.5 + [\\text{Mor}]/4.0}, \\quad t_{1/2} \\approx 60\\text{–}90\\text{ min}',
     fallbackEq: 'θ_Nal = ([Nal]/1.5) / (1 + [Nal]/1.5 + [Mor]/4.0)',
     launchHref: './naloxone_sim.html',
-    launchText: 'Launch Lab 07 →',
-    cardHref: '#lab-07',
+    launchText: 'Launch Lab 08 →',
+    cardHref: '#lab-08',
     color: '#ff6b35'
   },
   {
@@ -1808,10 +1871,10 @@ const PROTOCOLS = [
         readHref: './article8.html', readText: 'Article 08'
       },
       {
-        idx: 'Step 02 · Lab 07', scale: '10⁻⁸ m',
+        idx: 'Step 02 · Lab 08', scale: '10⁻⁸ m',
         title: 'Competitive MOR Lockout',
         desc: 'Introduce Naloxone (Kd 1.5 nM): displace agonist at Asp147 and jam TM6 closed with its rigid allyl group.',
-        goHref: './naloxone_sim.html', goText: 'Open in Lab 07 →',
+        goHref: './naloxone_sim.html', goText: 'Open in Lab 08 →',
         readHref: './article5.html', readText: 'Article 05'
       },
       {
@@ -1927,6 +1990,40 @@ const PROTOCOLS = [
         idx: 'Step 04 · Lab 06', scale: 'Separatrix ρᵢ',
         title: 'Graded Perturbation Separatrix Assay',
         desc: 'Run "The Experiment Nobody Has Run": apply a transient knockdown pulse across 1,000 adapted brains to measure ρ_i (R² = 0.85) vs. R_i (R² = 0.32).',
+        goHref: './sim_cohort_trial.html#preset=separatrix-assay', goText: 'Open in Lab 06 →',
+        readHref: './article7.html', readText: 'Article 07 §10.4'
+      }
+    ]
+  },
+  {
+    desc: 'Stream any protein target from RCSB PDB (230k+ structures) or AlphaFold DB, run Hendlich 7-axis LIGSITE & Shrake–Rupley cysteine tractability in <150 ms, solve Kohn–Sham df-ωB97X-D/def2-SVP frontier orbitals + covalent ΔE_cov & Vina poses, and pipe your hit straight into the 1,000-Brain Virtual Trial.',
+    chain: '230k+ PDB / AlphaFold (Lab 07) → LIGSITE & Cys Hunter → True ωB97X-D DFT → N = 1,000 Trial (Lab 06)',
+    steps: [
+      {
+        idx: 'Step 01 · Lab 07', scale: '230k+ PDB',
+        title: 'Stream Target & Scan Cavities',
+        desc: 'Fetch any PDB ID (5VPE, 4XP1, 8EF5, 7CN1) or UniProt AlphaFold model; LIGSITE auto-flags <180 Å³ flat surfaces as covalent-only.',
+        goHref: './sim_discovery.html#pdb=5VPE', goText: 'Open in Lab 07 →',
+        readHref: './article7.html', readText: 'Article 07 §7'
+      },
+      {
+        idx: 'Step 02 · Lab 07', scale: 'SASA & 8 Å',
+        title: 'Hunt Reactive Cysteines',
+        desc: 'Rank every Cys Sγ by Shrake–Rupley SASA, 8 Å cationic/acidic neighbors, and disulfide geometry to isolate covalent handles like C172.',
+        goHref: './sim_discovery.html#pdb=7UCD', goText: 'Open in Lab 07 →',
+        readHref: './article7.html', readText: 'Article 07 §6'
+      },
+      {
+        idx: 'Step 03 · Lab 07', scale: 'ωB97X-D DFT',
+        title: 'Solve Orbitals, Fukui f⁺ & ΔE_cov',
+        desc: 'Pass the CNS MPO / PAINS pre-gate to query PubChemQC/R2 or compute PySCF df-ωB97X-D/def2-SVP .cube orbitals, warhead ΔE, and Vina poses.',
+        goHref: './sim_discovery.html', goText: 'Open in Lab 07 →',
+        readHref: './article6.html', readText: 'Article 06'
+      },
+      {
+        idx: 'Step 04 · Lab 05→06', scale: 'N = 1,000',
+        title: 'Surgical Tuning & Cohort Triage',
+        desc: 'Refine substituents in Lab 05 (Kp,uu / hERG) and launch a 1,000-subject CYP2D6 + separatrix clinical trial in Lab 06.',
         goHref: './sim_cohort_trial.html#preset=separatrix-assay', goText: 'Open in Lab 06 →',
         readHref: './article7.html', readText: 'Article 07 §10.4'
       }
