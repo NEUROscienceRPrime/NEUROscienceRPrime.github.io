@@ -872,7 +872,7 @@
   }
   .protocol-tabs {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     border-bottom: 1px solid var(--border);
     background: rgba(255,255,255,0.015);
   }
@@ -881,7 +881,7 @@
     background: transparent;
     border: none;
     border-right: 1px solid var(--border);
-    padding: 18px 20px;
+    padding: 16px 16px;
     text-align: left;
     cursor: pointer;
     color: var(--text);
@@ -1140,10 +1140,12 @@
       <li><a href="./index.html">← Home</a></li>
       <li><a href="./neurolab.html" class="active">NeuroLab Hub</a></li>
       <li><a href="./sim_synapse.html">Sim 01 · Synapse</a></li>
-      <li><a href="./sim_paradox_rig.html">Sim 02 · Paradox Rig</a></li>
-      <li><a href="./sim_quantum_pocket.html">Sim 03 · Quantum Pocket</a></li>
+      <li><a href="./sim_paradox_rig.html">Sim 02 · Paradox</a></li>
+      <li><a href="./sim_quantum_pocket.html">Sim 03 · Quantum</a></li>
       <li><a href="./sim_brain_heart.html">Sim 04 · Brain–Heart</a></li>
-      <li><a href="./naloxone_sim.html">Sim 05 · Naloxone</a></li>
+      <li><a href="./sim_drug_compiler.html">Sim 05 · Compiler</a></li>
+      <li><a href="./sim_cohort_trial.html">Sim 06 · 1,000-Brain Trial</a></li>
+      <li><a href="./naloxone_sim.html">Naloxone</a></li>
     </ul>
   </div>
   <div class="scroll-progress" aria-hidden="true">
@@ -1157,18 +1159,18 @@
   <section class="hero">
     <div class="hero-header">
       <div class="hero-title-col">
-        <div class="eyebrow"><span class="pulse-dot"></span> RPrime Computational Neuropharmacology · 5 Live Engines</div>
-        <h1>From <span class="lime">10⁻¹⁰ m</span> Orbitals to Ventricular ECG.</h1>
-        <p class="hero-sub">Executable neuroscience built directly from Rishik Pannala’s research archive. No pre-rendered video loops—every workbench runs real-time differential equations, stochastic barriers, spiking networks, and 3D structural geometry in your browser.</p>
+        <div class="eyebrow"><span class="pulse-dot"></span> RPrime Computational Neuropharmacology · 7 Live Engines</div>
+        <h1>From <span class="lime">10⁻¹¹ m</span> Partial Charges to 1,000-Brain Trials.</h1>
+        <p class="hero-sub">Executable neuroscience built directly from Rishik Pannala’s research archive. Edit chemical graphs, inspect Kabsch-aligned RCSB X-ray cavities, integrate stochastic spine curl barriers, patch-clamp 500 spiking neurons, and run 1,000-subject virtual clinical trials in real time.</p>
       </div>
       <div class="hero-stats" aria-label="Suite Specifications">
         <div class="stat-chip">
-          <div class="num">10¹⁰×</div>
-          <div class="lbl">Spatial Span (Å → Meter)</div>
+          <div class="num">7 Labs</div>
+          <div class="lbl">Real-Time Solvers</div>
         </div>
         <div class="stat-chip">
-          <div class="num">5 Labs</div>
-          <div class="lbl">Real-Time Solvers</div>
+          <div class="num">1,000</div>
+          <div class="lbl">Virtual Trial Brains</div>
         </div>
         <div class="stat-chip">
           <div class="num">500+</div>
@@ -1205,7 +1207,7 @@
         <button type="button" class="scale-node" role="tab" aria-selected="false" data-scale="1" style="--node-color: #ff6b35;" onmouseenter="hoverScale(1)" onclick="selectScale(1, true)">
           <div class="scale-meter"><span>10⁻⁸ m</span><span class="scale-time">ms – 90 min</span></div>
           <div class="scale-domain">GPCR &amp; Synaptic Cleft</div>
-          <div class="scale-lab-ref">Lab 05 · MOR Steric Lockout</div>
+          <div class="scale-lab-ref">Lab 07 · MOR Steric Lockout</div>
         </button>
         <button type="button" class="scale-node" role="tab" aria-selected="false" data-scale="2" style="--node-color: #c8ff00;" onmouseenter="hoverScale(2)" onclick="selectScale(2, true)">
           <div class="scale-meter"><span>10⁻⁶ m</span><span class="scale-time">ms – 90 days</span></div>
@@ -1250,18 +1252,19 @@
 
   <div class="divider"></div>
 
-  <!-- ALL 5 LABS BENTO COMMAND GRID -->
+  <!-- ALL 7 LABS BENTO COMMAND GRID -->
   <section id="labs">
     <div class="section-label">01 · Simulation Workbenches</div>
     <div class="section-header-row">
       <div>
-        <h2 class="section-title">Five Interactive Digital Twins</h2>
-        <p class="section-sub">Launch a standalone simulation engine, jump straight into a clinical/computational preset, or open 9:16 vertical studio mode.</p>
+        <h2 class="section-title">Seven Interactive Digital Twins</h2>
+        <p class="section-sub">Launch a standalone simulation engine, compile a custom molecule into a 1,000-brain clinical trial, jump into a preset, or open 9:16 vertical studio mode.</p>
       </div>
     </div>
 
     <div class="filter-bar" role="toolbar" aria-label="Filter simulations by topic">
-      <button type="button" class="filter-pill active" onclick="filterLabs('all', this)">All 5 Labs</button>
+      <button type="button" class="filter-pill active" onclick="filterLabs('all', this)">All 7 Labs</button>
+      <button type="button" class="filter-pill" onclick="filterLabs('compiler', this)">De Novo &amp; 1,000-Brain Trial</button>
       <button type="button" class="filter-pill" onclick="filterLabs('dopamine', this)">Dopamine &amp; Stimulants</button>
       <button type="button" class="filter-pill" onclick="filterLabs('fosb', this)">ΔFosB &amp; Persistence</button>
       <button type="button" class="filter-pill" onclick="filterLabs('quantum', this)">Quantum &amp; 3D Structure</button>
@@ -1270,6 +1273,103 @@
     </div>
 
     <div class="labs-bento">
+
+      <!-- LAB 05 — ATOM-TO-ACTION-POTENTIAL COMPILER -->
+      <article class="lab-card" id="lab-05" data-tags="compiler dopamine quantum opioid cardiac fosb" style="--card-accent: #00e5ff; border-color: rgba(0,229,255,0.24);">
+        <div class="lab-top-meta">
+          <span class="lab-id">Lab 05 · 10⁻¹¹ m → 10⁰ m · De Novo Compiler</span>
+          <span class="solver-badge">Gasteiger PEOE + Ertl TPSA + HH/hERG</span>
+        </div>
+        <h3 class="lab-title">ATOM-TO-ACTION-POTENTIAL COMPILER — Chemical Graph Engine</h3>
+        <p class="lab-desc">Mutate functional groups live across phenethylamine, morphinan, tropane, and ΔFosB benzofuranone cores. Computes Gasteiger–Marsili partial charges, Ertl TPSA, Wildman–Crippen cLogP, Pfizer CNS MPO, and unbound BBB Kp,uu directly into spiking neurons and ventricular hERG—with 1-click handoff to Lab 06.</p>
+        <div class="lab-metrics">
+          <div class="metric-box">
+            <div class="metric-val">PEOE qᵢ</div>
+            <div class="metric-lbl">6-Iter Orbital Charge</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">CNS MPO</div>
+            <div class="metric-lbl">0–6.00 &amp; BBB Kp,uu</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">1-Click →</div>
+            <div class="metric-lbl">1,000-Brain Handoff</div>
+          </div>
+        </div>
+        <div class="lab-eq-strip">
+          $$\chi_i^{(k)} = a_i + b_i q_i + c_i q_i^2, \qquad K_{p,\text{uu}} = f\big(\mathrm{cLogD}_{7.4},\,\mathrm{TPSA},\,\mathrm{HBD},\,\mathrm{LAT1}\big)$$
+        </div>
+        <div class="preset-group">
+          <div class="sub-kicker">Direct Scenario Deep-Links</div>
+          <div class="preset-pills">
+            <a href="./sim_drug_compiler.html#preset=dopamine-bbb-wall" class="preset-link">🧱 Dopamine 2-OH BBB Wall (−98%)</a>
+            <a href="./sim_drug_compiler.html#preset=amphetamine-vs-desoxyn" class="preset-link">⚡ Amphetamine vs N-Methyl Desoxyn</a>
+            <a href="./sim_drug_compiler.html#preset=ldopa-lat1-rescue" class="preset-link">🧬 L-DOPA LAT1 Carrier Rescue</a>
+            <a href="./sim_drug_compiler.html#preset=morphine-vs-naloxone" class="preset-link">🛡️ Morphine -CH₃ vs Naloxone Allyl</a>
+            <a href="./sim_drug_compiler.html#preset=cocaine-to-cocaethylene" class="preset-link">🧪 Cocaine → Cocaethylene 3.2× hERG</a>
+            <a href="./sim_drug_compiler.html#preset=fosb-phenacyl-vs-9oc3" class="preset-link">🎯 ΔFosB Phenacyl vs 9OC3</a>
+          </div>
+        </div>
+        <div class="companion-strip">
+          <span>Companion Reads:</span>
+          <a href="./article1.html" class="article-ref">Article 01</a>
+          <a href="./article2.html" class="article-ref">Article 02</a>
+          <a href="./article6.html" class="article-ref">Article 06</a>
+          <a href="./article7.html" class="article-ref">Article 07</a>
+        </div>
+        <div class="card-cta-row">
+          <a href="./sim_drug_compiler.html" class="btn-card-primary">Launch Drug Compiler →</a>
+          <a href="./sim_drug_compiler.html?mode=reel" class="btn-card-reel">9:16 Reel Mode ↗</a>
+        </div>
+      </article>
+
+      <!-- LAB 06 — 1,000-BRAIN VIRTUAL CLINICAL TRIAL & SEPARATRIX LAB -->
+      <article class="lab-card" id="lab-06" data-tags="compiler dopamine fosb cardiac" style="--card-accent: #ff6b35; border-color: rgba(255,107,53,0.24);">
+        <div class="lab-top-meta">
+          <span class="lab-id">Lab 06 · N = 1,000 Cohort · Population Biophysics</span>
+          <span class="solver-badge">1,000× Itô SDE + CYP2D6 + Kaplan–Meier</span>
+        </div>
+        <h3 class="lab-title">1,000-BRAIN VIRTUAL TRIAL &amp; SEPARATRIX LAB</h3>
+        <p class="lab-desc">Simulates 1,000 genetically distinct humans (CYP2D6 PM→UM, 38% NMDA release-deficit ADHD vs. 34% reuptake vs. 18% MDD vs. 10% latent bipolar/LQTS) at 60fps. Run Article 07’s Graded Perturbation Separatrix Assay to measure ρ_i live and unmask why unstratified DSM group-average RCTs fail.</p>
+        <div class="lab-metrics">
+          <div class="metric-box">
+            <div class="metric-val">N = 1,000</div>
+            <div class="metric-lbl">Parallel Brains @ 60fps</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">R² = 0.85</div>
+            <div class="metric-lbl">ln ρ vs 0.32 ln R</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">1-in-200</div>
+            <div class="metric-lbl">QTc &amp; Bipolar Outliers</div>
+          </div>
+        </div>
+        <div class="lab-eq-strip">
+          $$\rho_i = \frac{A_{\text{hi},i}}{A_{\text{mid},i}} \implies \tau_i \propto \rho_i^{\alpha/D_i}, \qquad D_i = (1-\varphi)\mathrm{Var}(x)k \;\;(\varphi \approx 0.70)$$
+        </div>
+        <div class="preset-group">
+          <div class="sub-kicker">Direct Scenario Deep-Links</div>
+          <div class="preset-pills">
+            <a href="./sim_cohort_trial.html#preset=separatrix-assay" class="preset-link">🔬 Graded Separatrix Perturbation Assay</a>
+            <a href="./sim_cohort_trial.html#preset=adhd-rct-illusion" class="preset-link">📊 Why Unstratified ADHD RCTs Lie</a>
+            <a href="./sim_cohort_trial.html#preset=abstinence-vs-loopv" class="preset-link">🔒 Ed ≡ 0 Abstinence vs −10.6% Loop v</a>
+            <a href="./sim_cohort_trial.html#preset=marshall-kim-tail" class="preset-link">⏳ 99.2% Remission vs ρ²³·³ Tail</a>
+            <a href="./sim_cohort_trial.html#preset=cocaethylene-outliers" class="preset-link">🚨 1-in-200 Cocaethylene Torsades</a>
+            <a href="./sim_cohort_trial.html#preset=ssri-bipolar-trap" class="preset-link">⚠️ SSRI Latent Bipolar Mixed-State</a>
+          </div>
+        </div>
+        <div class="companion-strip">
+          <span>Companion Reads:</span>
+          <a href="./article4.html" class="article-ref">Article 04 · ADHD</a>
+          <a href="./article7.html" class="article-ref">Article 07 · Separatrix</a>
+          <a href="./article8.html" class="article-ref">Article 08 · Remission</a>
+        </div>
+        <div class="card-cta-row">
+          <a href="./sim_cohort_trial.html" class="btn-card-primary">Launch 1,000-Brain Trial →</a>
+          <a href="./sim_cohort_trial.html?mode=reel" class="btn-card-reel">9:16 Reel Mode ↗</a>
+        </div>
+      </article>
 
       <!-- LAB 01 — SYNAPSE (FEATURED SPAN-12) -->
       <article class="lab-card featured" id="lab-01" data-tags="dopamine fosb" style="--card-accent: #c8ff00;">
@@ -1464,10 +1564,10 @@
         </div>
       </article>
 
-      <!-- LAB 05 — NALOXONE VS MOR -->
-      <article class="lab-card" id="lab-05" data-tags="opioid quantum" style="--card-accent: #c8ff00;">
+      <!-- LAB 07 — NALOXONE VS MOR -->
+      <article class="lab-card" id="lab-07" data-tags="opioid quantum" style="--card-accent: #c8ff00;">
         <div class="lab-top-meta">
-          <span class="lab-id">Lab 05 · 10⁻⁸ m · Receptor Kinetics</span>
+          <span class="lab-id">Lab 07 · 10⁻⁸ m · Receptor Kinetics</span>
           <span class="solver-badge">7-Scene Canvas + Cheng–Prusoff</span>
         </div>
         <h3 class="lab-title">NALOXONE vs. MOR — Competitive Overdose Reversal</h3>
@@ -1540,6 +1640,10 @@
           <div class="pt-num">Workflow 04</div>
           <div class="pt-title">Quantum Sterics, Topology &amp; Non-Gradient Physics</div>
         </button>
+        <button type="button" class="protocol-tab" role="tab" aria-selected="false" onclick="selectProtocol(4, this)">
+          <div class="pt-num">Workflow 05 · New</div>
+          <div class="pt-title">De Novo Molecule-to-Population Pipeline (Lab 05 → 06)</div>
+        </button>
       </div>
 
       <div class="protocol-body" id="protocolBody">
@@ -1608,14 +1712,14 @@ const SCALES = [
   },
   {
     kicker: 'SCALE 02 · 10⁻⁸ m (10 NANOMETERS) · GPCR CONFORMATION & CLEFT',
-    title: 'Lab 05 — Naloxone vs. MOR Steric Lockout',
+    title: 'Lab 07 — Naloxone vs. MOR Steric Lockout',
     desc: 'Competitive binding at the mu-opioid receptor (Asp147 anchor). Naloxone’s Kd (~1.5 nM) beats morphine (~4.0 nM) while its rigid allyl arm physically blocks TM5/TM6 outward opening.',
     eqLabel: 'Cheng–Prusoff Competitive Receptor Occupancy',
     latex: '\\theta_{\\text{Nal}} = \\frac{[\\text{Nal}]/1.5}{1 + [\\text{Nal}]/1.5 + [\\text{Mor}]/4.0}, \\quad t_{1/2} \\approx 60\\text{–}90\\text{ min}',
     fallbackEq: 'θ_Nal = ([Nal]/1.5) / (1 + [Nal]/1.5 + [Mor]/4.0)',
     launchHref: './naloxone_sim.html',
-    launchText: 'Launch Lab 05 →',
-    cardHref: '#lab-05',
+    launchText: 'Launch Lab 07 →',
+    cardHref: '#lab-07',
     color: '#ff6b35'
   },
   {
@@ -1704,10 +1808,10 @@ const PROTOCOLS = [
         readHref: './article8.html', readText: 'Article 08'
       },
       {
-        idx: 'Step 02 · Lab 05', scale: '10⁻⁸ m',
+        idx: 'Step 02 · Lab 07', scale: '10⁻⁸ m',
         title: 'Competitive MOR Lockout',
         desc: 'Introduce Naloxone (Kd 1.5 nM): displace agonist at Asp147 and jam TM6 closed with its rigid allyl group.',
-        goHref: './naloxone_sim.html', goText: 'Open in Lab 05 →',
+        goHref: './naloxone_sim.html', goText: 'Open in Lab 07 →',
         readHref: './article5.html', readText: 'Article 05'
       },
       {
@@ -1791,6 +1895,40 @@ const PROTOCOLS = [
         desc: 'Observe Euler–Maruyama trajectories in a curl field (∮ ΔV = +1.73 ≠ 0) at Re = 5×10⁻⁹ where inertia vanishes to 14 digits.',
         goHref: './sim_synapse.html#preset=destabilize', goText: 'Open in Lab 01 →',
         readHref: './article7.html', readText: 'Article 07 §10.3'
+      }
+    ]
+  },
+  {
+    desc: 'Design or mutate a psychoactive scaffold atom-by-atom from first-principles Gasteiger PEOE charges and Ertl TPSA, compile its BBB and hERG electrophysiological profile live, and pass it directly into a 1,000-subject pharmacogenomic clinical trial & separatrix perturbation assay.',
+    chain: '10⁻¹¹ m Chemical Graph (Lab 05) → HH & Myocyte AP → N = 1,000 Trial & Separatrix ρᵢ (Lab 06)',
+    steps: [
+      {
+        idx: 'Step 01 · Lab 05', scale: '10⁻¹¹ m',
+        title: 'Two -OH Groups vs. N-Methyl Shield',
+        desc: 'Add 3,4-diol (-OH, -OH) to build dopamine (TPSA 66.5 Å², Kp,uu −98% collapse), then test N-methylamphetamine’s HBD shield.',
+        goHref: './sim_drug_compiler.html#preset=dopamine-bbb-wall', goText: 'Open in Lab 05 →',
+        readHref: './article2.html', readText: 'Article 02'
+      },
+      {
+        idx: 'Step 02 · Lab 05', scale: '10⁻⁶→10⁰ m',
+        title: 'Compile Neural & Cardiac Safety',
+        desc: 'Compare Amphetamine vs. Desoxyn or transesterify Cocaine to Cocaethylene, watching live spiking & ventricular QTc before 1-click trial handoff.',
+        goHref: './sim_drug_compiler.html#preset=amphetamine-vs-desoxyn', goText: 'Open in Lab 05 →',
+        readHref: './article1.html', readText: 'Article 01'
+      },
+      {
+        idx: 'Step 03 · Lab 06', scale: 'N = 1,000',
+        title: 'Unmask DSM Group-Average Illusions',
+        desc: 'Stratify 1,000 virtual brains by NMDA release-deficit vs. reuptake endophenotype and CYP2D6 status to expose opposing responder halves & 1-in-200 QTc outliers.',
+        goHref: './sim_cohort_trial.html#preset=adhd-rct-illusion', goText: 'Open in Lab 06 →',
+        readHref: './article4.html', readText: 'Article 04'
+      },
+      {
+        idx: 'Step 04 · Lab 06', scale: 'Separatrix ρᵢ',
+        title: 'Graded Perturbation Separatrix Assay',
+        desc: 'Run "The Experiment Nobody Has Run": apply a transient knockdown pulse across 1,000 adapted brains to measure ρ_i (R² = 0.85) vs. R_i (R² = 0.32).',
+        goHref: './sim_cohort_trial.html#preset=separatrix-assay', goText: 'Open in Lab 06 →',
+        readHref: './article7.html', readText: 'Article 07 §10.4'
       }
     ]
   }

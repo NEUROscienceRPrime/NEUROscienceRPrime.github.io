@@ -1,0 +1,4128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1,000-BRAIN VIRTUAL TRIAL &amp; SEPARATRIX LAB — Population Biophysics &amp; Perturbation Assay — Neuroscience with RPrime</title>
+<link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #080808;
+    --surface: #0f0f11;
+    --surface2: #151519;
+    --surface3: #1c1c22;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.17);
+    --text: #f0ece4;
+    --muted: #6e6d68;
+    --muted2: #a09d95;
+    --lime: #c8ff00;
+    --orange: #ff6b35;
+    --violet: #9b88ff;
+    --cyan: #00e5ff;
+    --danger: #ff3b5c;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    line-height: 1.55;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* FRACTAL NOISE OVERLAY */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 9998;
+    mix-blend-mode: overlay;
+  }
+
+  /* AMBIENT AURORA */
+  .aurora {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(135px);
+    opacity: 0.52;
+  }
+  .blob-1 {
+    width: 680px; height: 680px;
+    background: radial-gradient(circle, rgba(200,255,0,0.11), transparent 68%);
+    top: -260px; left: -180px;
+  }
+  .blob-2 {
+    width: 580px; height: 580px;
+    background: radial-gradient(circle, rgba(255,107,53,0.10), transparent 68%);
+    top: 30%; right: -200px;
+  }
+  .blob-3 {
+    width: 540px; height: 540px;
+    background: radial-gradient(circle, rgba(0,229,255,0.08), transparent 68%);
+    bottom: -160px; left: 24%;
+  }
+
+  /* STICKY TOP NAV */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(8,8,8,0.86);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1520px;
+    margin: 0 auto;
+    padding: 8px 22px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .brand-cluster {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .logo span { color: var(--lime); }
+  .live-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--lime);
+    background: rgba(200,255,0,0.08);
+    border: 1px solid rgba(200,255,0,0.24);
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 8px var(--lime);
+    animation: pulseDot 1.6s ease-in-out infinite;
+  }
+  @keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.38; transform: scale(0.8); }
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+    color: var(--muted2);
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 5px 9px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .nav-links a:hover {
+    color: var(--text);
+    border-color: var(--border-strong);
+    background: rgba(255,255,255,0.03);
+  }
+  .nav-links a.active {
+    color: #080808;
+    background: var(--lime);
+    border-color: var(--lime);
+    font-weight: 600;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .nav-btn {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 6px 11px;
+    border-radius: 5px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .nav-btn:hover {
+    border-color: var(--lime);
+    color: var(--lime);
+  }
+  .nav-btn.active {
+    background: rgba(0,229,255,0.14);
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+  .nav-btn.violet {
+    border-color: rgba(155,136,255,0.38);
+    color: #d3caff;
+  }
+  .nav-btn.violet:hover, .nav-btn.violet.active {
+    border-color: var(--violet);
+    color: var(--violet);
+    background: rgba(155,136,255,0.13);
+  }
+
+  /* EXPANDABLE KATEX DRAWER */
+  .math-drawer {
+    display: none;
+    position: relative;
+    z-index: 150;
+    background: #0b0b0e;
+    border-bottom: 2px solid var(--violet);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.88);
+  }
+  .math-drawer.open { display: block; }
+  .math-drawer-inner {
+    max-width: 1520px;
+    margin: 0 auto;
+    padding: 22px;
+  }
+  .drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .drawer-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--violet);
+    letter-spacing: -0.3px;
+  }
+  .drawer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .eq-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--violet);
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+  }
+  .eq-card.lime { border-left-color: var(--lime); }
+  .eq-card.orange { border-left-color: var(--orange); }
+  .eq-card.cyan { border-left-color: var(--cyan); }
+  .eq-card-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    margin-bottom: 8px;
+  }
+  .eq-card-note {
+    font-size: 12px;
+    color: var(--muted2);
+    line-height: 1.55;
+    margin-top: 8px;
+  }
+  .param-editor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+    gap: 10px;
+  }
+  .param-cell {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+  }
+  .param-cell label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted2);
+    margin-bottom: 4px;
+  }
+  .param-cell input {
+    width: 100%;
+    background: #070709;
+    color: var(--lime);
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  /* MAIN SHELL */
+  .shell {
+    max-width: 1520px;
+    margin: 0 auto;
+    padding: 20px 22px 72px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* 9:16 REEL BADGE */
+  .reel-badge-bar {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    background: rgba(200,255,0,0.09);
+    border: 1px solid rgba(200,255,0,0.32);
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+  .reel-handle { color: var(--lime); font-weight: 600; }
+  .reel-tag { color: var(--text); letter-spacing: 0.06em; font-size: 10px; }
+
+  /* CUSTOM COMPILED MOLECULE BANNER (SIM 05 HANDOFF) */
+  .custom-mol-banner {
+    display: none;
+    background: linear-gradient(90deg, rgba(200,255,0,0.12), rgba(0,229,255,0.09), rgba(155,136,255,0.08));
+    border: 1.5px solid var(--lime);
+    box-shadow: 0 0 32px rgba(200,255,0,0.14);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    gap: 14px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .custom-mol-banner.visible { display: flex; }
+  .cm-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .cm-pill {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--lime);
+    color: #080808;
+  }
+  .cm-name {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--lime);
+    letter-spacing: -0.3px;
+  }
+  .cm-specs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .cm-chip {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(8,8,8,0.75);
+    border: 1px solid var(--border-strong);
+    color: var(--text);
+  }
+  .cm-chip b { color: var(--cyan); }
+
+  /* HERO HEADER */
+  .hero-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 6px;
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3vw, 38px);
+    font-weight: 800;
+    line-height: 1.06;
+    letter-spacing: -0.9px;
+    margin-bottom: 6px;
+  }
+  .page-title span { color: var(--lime); }
+  .page-title .org { color: var(--orange); }
+  .page-sub {
+    font-size: 14px;
+    color: var(--muted2);
+    max-width: 920px;
+    line-height: 1.55;
+  }
+  .companion-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .companion-pill {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--muted2);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .companion-pill:hover {
+    border-color: var(--lime);
+    color: var(--lime);
+  }
+
+  /* 6 PRESETS STRIP */
+  .presets-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 1280px) {
+    .presets-strip { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 720px) {
+    .presets-strip { grid-template-columns: 1fr 1fr; }
+  }
+  .preset-btn {
+    text-align: left;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 11px;
+    cursor: pointer;
+    transition: all 0.16s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    color: var(--text);
+  }
+  .preset-btn:hover {
+    border-color: var(--border-strong);
+    background: var(--surface2);
+    transform: translateY(-1px);
+  }
+  .preset-btn.active {
+    border-color: var(--lime);
+    background: rgba(200,255,0,0.07);
+    box-shadow: 0 0 20px rgba(200,255,0,0.08);
+  }
+  .preset-btn.orange-p.active {
+    border-color: var(--orange);
+    background: rgba(255,107,53,0.09);
+  }
+  .preset-btn.violet-p.active {
+    border-color: var(--violet);
+    background: rgba(155,136,255,0.10);
+  }
+  .preset-btn.cyan-p.active {
+    border-color: var(--cyan);
+    background: rgba(0,229,255,0.09);
+  }
+  .preset-num {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--lime);
+  }
+  .preset-btn.orange-p .preset-num { color: var(--orange); }
+  .preset-btn.violet-p .preset-num { color: var(--violet); }
+  .preset-btn.cyan-p .preset-num { color: var(--cyan); }
+  .preset-name {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .preset-sub {
+    font-size: 11px;
+    color: var(--muted2);
+    line-height: 1.38;
+  }
+
+  /* MODE SWITCHER & TRANSPORT BAR */
+  .mode-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    padding: 9px 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .mode-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .mode-tab {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 8px 13px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--muted2);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .mode-tab:hover {
+    color: var(--text);
+    border-color: var(--border-strong);
+  }
+  .mode-tab.active {
+    background: var(--lime);
+    color: #080808;
+    border-color: var(--lime);
+  }
+  .mode-tab[data-mode="B"].active {
+    background: var(--cyan);
+    border-color: var(--cyan);
+    color: #05080a;
+  }
+  .mode-tab[data-mode="C"].active {
+    background: var(--violet);
+    border-color: var(--violet);
+    color: #08060c;
+  }
+
+  .transport-cluster {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+  }
+  .ctrl-btn {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 7px 11px;
+    border-radius: 6px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .ctrl-btn:hover {
+    border-color: var(--lime);
+    color: var(--lime);
+  }
+  .ctrl-btn.primary {
+    background: var(--lime);
+    color: #080808;
+    border-color: var(--lime);
+    font-weight: 600;
+  }
+  .ctrl-btn.primary:hover { background: #d6ff38; }
+  .ctrl-btn.orange {
+    background: rgba(255,107,53,0.14);
+    border-color: var(--orange);
+    color: var(--orange);
+    font-weight: 600;
+  }
+  .ctrl-btn.orange:hover { background: rgba(255,107,53,0.24); }
+  .ctrl-btn.cyan {
+    background: rgba(0,229,255,0.13);
+    border-color: var(--cyan);
+    color: var(--cyan);
+    font-weight: 600;
+  }
+  .ctrl-btn.cyan.active-unmask {
+    background: var(--cyan);
+    color: #05080a;
+    box-shadow: 0 0 22px rgba(0,229,255,0.35);
+  }
+  .ctrl-btn.violet {
+    background: rgba(155,136,255,0.13);
+    border-color: var(--violet);
+    color: var(--violet);
+  }
+  .speed-select {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+  .clock-readout {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--lime);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .phase-badge {
+    font-size: 10px;
+    padding: 3px 7px;
+    border-radius: 4px;
+    background: rgba(255,107,53,0.15);
+    border: 1px solid rgba(255,107,53,0.38);
+    color: var(--orange);
+  }
+
+  /* MAIN 2-COLUMN WORKSPACE BENTO */
+  .workspace-bento {
+    display: grid;
+    grid-template-columns: 0.94fr 1.06fr;
+    gap: 16px;
+    align-items: start;
+  }
+  @media (max-width: 1140px) {
+    .workspace-bento { grid-template-columns: 1fr; }
+  }
+
+  .col-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+  .panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .panel-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted2);
+  }
+  .panel-title {
+    font-family: var(--font-display);
+    font-size: 16.5px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+  .panel-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: var(--surface2);
+    border: 1px solid var(--border-strong);
+    color: var(--lime);
+    white-space: nowrap;
+  }
+  .panel-badge.orange { color: var(--orange); border-color: rgba(255,107,53,0.35); }
+  .panel-badge.cyan { color: var(--cyan); border-color: rgba(0,229,255,0.35); }
+  .panel-badge.violet { color: var(--violet); border-color: rgba(155,136,255,0.35); }
+  .panel-badge.danger { color: var(--danger); border-color: rgba(255,59,92,0.45); background: rgba(255,59,92,0.09); }
+
+  canvas.sim-canvas {
+    display: block;
+    width: 100%;
+    background: #060608;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: crosshair;
+  }
+
+  .sort-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .mini-tabs {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+  .mini-tab {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--muted2);
+    cursor: pointer;
+  }
+  .mini-tab:hover { color: var(--text); }
+  .mini-tab.active {
+    border-color: var(--lime);
+    color: var(--lime);
+    background: rgba(200,255,0,0.09);
+  }
+
+  .legend-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted2);
+  }
+  .leg-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .leg-dot {
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+
+  /* TELEMETRY ROW */
+  .telemetry-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  @media (max-width: 640px) {
+    .telemetry-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .metric-box {
+    background: #0a0a0d;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+  }
+  .metric-label {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    margin-bottom: 2px;
+  }
+  .metric-val {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .metric-sub {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* INDIVIDUAL PATIENT INSPECTOR */
+  .inspector-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 12px;
+    align-items: stretch;
+  }
+  @media (max-width: 680px) {
+    .inspector-grid { grid-template-columns: 1fr; }
+  }
+  .pt-kv-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .pt-kv {
+    background: #0a0a0d;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 6px 8px;
+  }
+  .pt-k {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .pt-v {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* MODE DECKS */
+  .mode-deck { display: none; flex-direction: column; gap: 14px; }
+  .mode-deck.active { display: flex; }
+
+  /* SLIDERS & CONTROLS */
+  .ctrl-rack {
+    background: #0b0b0e;
+    border: 1px solid var(--border-strong);
+    border-radius: 9px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .ctrl-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 640px) {
+    .ctrl-row-2 { grid-template-columns: 1fr; }
+  }
+  .slider-box {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .slider-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted2);
+  }
+  .slider-head strong {
+    color: var(--lime);
+    font-size: 12px;
+  }
+  input[type="range"].sim-range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 5px;
+    background: #23232b;
+    border-radius: 3px;
+    outline: none;
+  }
+  input[type="range"].sim-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--lime);
+    cursor: pointer;
+    border: 2px solid #080808;
+    box-shadow: 0 0 8px rgba(200,255,0,0.55);
+  }
+  input[type="range"].sim-range.orange::-webkit-slider-thumb {
+    background: var(--orange);
+    box-shadow: 0 0 8px rgba(255,107,53,0.55);
+  }
+  input[type="range"].sim-range.cyan::-webkit-slider-thumb {
+    background: var(--cyan);
+    box-shadow: 0 0 8px rgba(0,229,255,0.55);
+  }
+  input[type="range"].sim-range.violet::-webkit-slider-thumb {
+    background: var(--violet);
+    box-shadow: 0 0 8px rgba(155,136,255,0.55);
+  }
+
+  select.sim-select {
+    width: 100%;
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    outline: none;
+  }
+  select.sim-select:focus { border-color: var(--cyan); }
+
+  .diag-callout {
+    border-left: 3px solid var(--lime);
+    background: rgba(200,255,0,0.05);
+    padding: 9px 12px;
+    border-radius: 0 6px 6px 0;
+    font-size: 12.5px;
+    color: #dad6ce;
+    line-height: 1.5;
+  }
+  .diag-callout.orange {
+    border-left-color: var(--orange);
+    background: rgba(255,107,53,0.07);
+  }
+  .diag-callout.cyan {
+    border-left-color: var(--cyan);
+    background: rgba(0,229,255,0.07);
+  }
+  .diag-callout.violet {
+    border-left-color: var(--violet);
+    background: rgba(155,136,255,0.07);
+  }
+
+  .btn-strip {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  /* CUSTOM SLIDERS MINI DRAWER IN MODE B */
+  .custom-tuner {
+    display: none;
+    background: rgba(200,255,0,0.04);
+    border: 1px dashed rgba(200,255,0,0.35);
+    border-radius: 8px;
+    padding: 10px 12px;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  }
+  .custom-tuner.open { display: grid; }
+
+  /* FOOTER */
+  .lab-footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .lab-footer a { color: var(--lime); text-decoration: none; }
+
+  /* 9:16 REEL MODE */
+  body.reel-mode .nav-inner { padding: 6px 12px; min-height: 46px; }
+  body.reel-mode .nav-links { display: none; }
+  body.reel-mode .shell {
+    max-width: 460px;
+    margin: 10px auto 32px;
+    padding: 14px;
+    border: 1px solid rgba(200,255,0,0.30);
+    border-radius: 18px;
+    background: #08080a;
+    box-shadow: 0 0 80px rgba(200,255,0,0.09);
+  }
+  body.reel-mode .reel-badge-bar { display: flex; }
+  body.reel-mode .page-title { font-size: 23px; }
+  body.reel-mode .presets-strip { grid-template-columns: 1fr 1fr; }
+  body.reel-mode .workspace-bento,
+  body.reel-mode .inspector-grid,
+  body.reel-mode .ctrl-row-2 {
+    grid-template-columns: 1fr;
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<!-- STICKY TOP NAVIGATION -->
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand-cluster">
+      <a href="./index.html" class="logo">Neuroscience with <span>RPrime</span></a>
+      <span class="live-pill"><span class="live-dot"></span>N=1,000 FLOAT32 SDE · 60FPS</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="./index.html">← Home</a></li>
+      <li><a href="./neurolab.html">NeuroLab Hub</a></li>
+      <li><a href="./sim_synapse.html">Sim 01</a></li>
+      <li><a href="./sim_paradox_rig.html">Sim 02</a></li>
+      <li><a href="./sim_quantum_pocket.html">Sim 03</a></li>
+      <li><a href="./sim_brain_heart.html">Sim 04</a></li>
+      <li><a href="./sim_drug_compiler.html">Sim 05</a></li>
+      <li><a href="./sim_cohort_trial.html" class="active">Sim 06 · Cohort</a></li>
+      <li><a href="./naloxone_sim.html">Naloxone</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button type="button" class="nav-btn" id="btnReelMode" title="Toggle 9:16 Vertical Reel Mode (?mode=reel)">[📱 9:16 Reel Mode]</button>
+      <button type="button" class="nav-btn violet" id="btnMathDrawer" title="Inspect Population SDE, Stratification & Perturbation Math">[📐 Inspect Population SDE, Stratification &amp; Perturbation Math]</button>
+    </div>
+  </div>
+</header>
+
+<!-- EXPANDABLE GLASS-BOX KATEX EQUATIONS & PARAMETER DRAWER -->
+<section class="math-drawer" id="mathDrawer">
+  <div class="math-drawer-inner">
+    <div class="drawer-header">
+      <div>
+        <div class="eyebrow" style="color:var(--violet);margin-bottom:2px;">POPULATION BIOPHYSICS // 1,000-SUBJECT PARALLEL FLOAT32 SOLVER</div>
+        <div class="drawer-title">Itô Log-Space Persistence SDE, Variance Decomposition, Separatrix Assay &amp; Mechanistic Stratification</div>
+      </div>
+      <div class="btn-strip">
+        <button type="button" class="ctrl-btn" id="btnResetPopConstants">Reset Population Constants</button>
+        <button type="button" class="ctrl-btn" id="btnCloseDrawer">Close ×</button>
+      </div>
+    </div>
+
+    <div class="drawer-grid">
+      <div class="eq-card lime">
+        <div class="eq-card-label">1 · Multiplicative Spine Dynamics &amp; Itô-Corrected Log Drift (Art. 07 §10.4)</div>
+        <div>$$dx_i = \left[\frac{b_{0,i} + d_i(t) + \frac{v_i A_i^{n_i}}{K_i^{n_i} + A_i^{n_i}} - k_{A,i}A_i}{A_i} - D_i\right]dt + \sqrt{2D_i}\,dW_i, \quad x_i = \ln A_i$$</div>
+        <div class="eq-card-note">Multiplicative spine fluctuations $\sigma_m A_i\,dW_i$ force logarithmic coordinates where $-D_i = -\sigma_{m,i}^2/2$ shifts true stochastic fixed points $(A_{\text{lo},i}, A_{\text{mid},i}, A_{\text{hi},i})$ relative to deterministic zeros.</div>
+      </div>
+
+      <div class="eq-card orange">
+        <div class="eq-card-label">2 · Static Heterogeneity $s_i$ vs. Dynamic Fluctuation ($3.3\times$ Inflation Trap)</div>
+        <div>$$\rho_{\text{auto}}(t) \xrightarrow{t\to\infty} \varphi = \frac{\mathrm{Var}(s)}{\mathrm{Var}(s)+\mathrm{Var}(d)} \approx 0.70, \qquad D = (1-\varphi)\,\mathrm{Var}(x_{\text{obs}})\,k$$</div>
+        <div class="eq-card-note">Permanent between-person offset $s_i$ accounts for $\varphi \approx 70\%$ of cross-sectional variance. Naive cross-sectional estimators omit $(1-\varphi)$, inflating $D$ by $1/(1-0.70) \approx 3.33\times$ and understating escape times by orders of magnitude.</div>
+      </div>
+
+      <div class="eq-card violet">
+        <div class="eq-card-label">3 · Persistence Power Law, $R_i$ vs. $\rho_i$, &amp; Perturbation Separatrix Assay</div>
+        <div>$$\tau_i \propto \rho_i^{\,\alpha/D_i} \;\;(\alpha/D \approx 23.3), \quad \rho_i = \frac{A_{\text{hi},i}}{A_{\text{mid},i}} \;(R^2 \approx 0.85), \quad R_i = \frac{A_{\text{hi},i}}{A_{\text{lo},i}} \;(R^2 \approx 0.32)$$</div>
+        <div class="eq-card-note">During abstinence $d_i \equiv 0 \implies E_d = \partial\ln\tau/\partial\ln d \equiv 0$, whereas $E_v = +21.8$. A transient fractional knockdown $A_i \to (1-p)A_{\text{hi},i}$ flips patient $i$ permanently iff $(1-p)A_{\text{hi},i} &lt; A_{\text{mid},i} \iff \rho_i &lt; \frac{1}{1-p}$.</div>
+      </div>
+
+      <div class="eq-card cyan">
+        <div class="eq-card-label">4 · Pharmacogenomic CYP2D6 Exposure, NMDA Paradoxical Calm &amp; Cardiac QTc</div>
+        <div>$$C_{p,i} = \frac{\text{Dose}}{f_{\text{2D6}}M_{\text{CYP},i} + (1-f_{\text{2D6}})M_{\text{CES1},i}}, \qquad \text{NMDA}_i = \frac{\gamma_{\text{NMDA},i}}{1 + (\text{DA}_i / K_q)^2}$$</div>
+        <div class="eq-card-note">In True NMDA Release-Deficit ADHD (low $\eta_{\text{rel},i}$), pure NDRIs fail to raise $\text{DA}_i$ enough to silence $\gamma_{\text{NMDA},i}$ while raising NE agitation; DAT releasers restore $\text{DA}_i$ and collapse glutamate noise. `CYP2D6 PM` ($0.15\times$) $\times$ subclinical `hERG` reserve yields `1-in-200` $\text{QTc} &gt; 500\text{ ms}$ outliers.</div>
+      </div>
+    </div>
+
+    <div class="eyebrow" style="color:var(--lime);margin-bottom:8px;">LIVE POPULATION STOCHASTIC &amp; GENETIC COHORT PARAMETERS (RECOMPUTES ALL 1,000 BRAINS)</div>
+    <div class="param-editor-grid">
+      <div class="param-cell">
+        <label>In Vivo Noise Amplitude D₀ (d⁻¹)</label>
+        <input type="number" id="p_D0" value="0.0279" min="0.0120" max="0.0900" step="0.0010">
+      </div>
+      <div class="param-cell">
+        <label>Static Heterogeneity Share φ</label>
+        <input type="number" id="p_phi" value="0.70" min="0.10" max="0.90" step="0.05">
+      </div>
+      <div class="param-cell">
+        <label>Postsynaptic ATP Share ψ</label>
+        <input type="number" id="p_psi" value="0.34" min="0.15" max="0.65" step="0.02">
+      </div>
+      <div class="param-cell">
+        <label>Knockdown Hold Window (days)</label>
+        <input type="number" id="p_pulseDays" value="0.5" min="0.2" max="5.0" step="0.1">
+      </div>
+      <div class="param-cell">
+        <label>Cohort PRNG Seed (Deterministic)</label>
+        <input type="number" id="p_seed" value="20261125" min="1" max="99999999" step="1">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN WORKSPACE -->
+<main class="shell">
+
+  <!-- 9:16 REEL HEADER -->
+  <div class="reel-badge-bar">
+    <span class="reel-handle">@neurosciencerprime</span>
+    <span class="reel-tag">SIM 06 · 1,000-BRAIN TRIAL &amp; SEPARATRIX LAB</span>
+  </div>
+
+  <!-- SIM 05 URL HANDOFF BANNER -->
+  <section class="custom-mol-banner" id="customMolBanner">
+    <div>
+      <div class="cm-title-row">
+        <span class="cm-pill">🧬 LAB 05 → LAB 06 HANDOFF ACTIVE</span>
+        <span class="cm-name" id="cmBannerName">COMPILED MOLECULE IN TRIAL: Custom Ligand</span>
+      </div>
+      <div class="cm-specs" id="cmBannerSpecs"></div>
+    </div>
+    <div class="btn-strip">
+      <button type="button" class="ctrl-btn primary" id="btnRunCustomModeB">⚡ Stratify 1,000-Brain Trial</button>
+      <a href="./sim_drug_compiler.html" class="ctrl-btn" style="text-decoration:none;">← Edit Atoms in Sim 05</a>
+    </div>
+  </section>
+
+  <!-- HERO HEADER -->
+  <div class="hero-strip">
+    <div>
+      <div class="eyebrow">SIMULATION 06 // POPULATION STOCHASTIC BIOPHYSICS, SEPARATRIX ASSAY &amp; STRATIFIED PHARMACOGENOMICS</div>
+      <h1 class="page-title">1,000-BRAIN <span>VIRTUAL TRIAL</span> &amp; <span class="org">SEPARATRIX LAB</span></h1>
+      <p class="page-sub">Simultaneous 60 fps Itô log-space SDE &amp; `CYP2D6`/`hERG` clinical trial engine across $N = 1,000$ genetically and neurochemically distinct humans: execute Article 07's Graded Perturbation Separatrix Assay, expose why unstratified DSM group-average RCTs lie, and inspect `1-in-200` lethal outliers.</p>
+    </div>
+    <div class="companion-links">
+      <a href="./article4.html" class="companion-pill">Art. 04 (NMDA Paradoxical Calm) →</a>
+      <a href="./article7.html" class="companion-pill">Art. 07 (Separatrix ρ &amp; E_d ≡ 0) →</a>
+      <a href="./article8.html" class="companion-pill">Art. 08 (Marshall/Kim Tail &amp; Cocaethylene) →</a>
+      <a href="./sim_drug_compiler.html" class="companion-pill" style="border-color:rgba(200,255,0,0.35);color:var(--lime);">⚗️ Compile Molecule in Sim 05 →</a>
+    </div>
+  </div>
+
+  <!-- 6 ONE-CLICK EXPERIMENTAL PRESETS -->
+  <div class="presets-strip">
+    <button type="button" class="preset-btn active" data-preset="separatrix-assay" id="preset_separatrix-assay">
+      <span class="preset-num">Preset 01 · Mode A</span>
+      <span class="preset-name">The Separatrix Assay</span>
+      <span class="preset-sub">Article 07's unrun experiment: 28% transient receptor knockdown pulse bifurcates 1,000 brains along hidden A_mid,i.</span>
+    </button>
+    <button type="button" class="preset-btn orange-p" data-preset="abstinence-vs-loopv" id="preset_abstinence-vs-loopv">
+      <span class="preset-num">Preset 02 · Mode A/C</span>
+      <span class="preset-name">Abstinence (E_d≡0) vs −10.6% v</span>
+      <span class="preset-sub">100% receptor blockade shifts remission 0.00% during abstinence; −10.6% loop gain v collapses persistence.</span>
+    </button>
+    <button type="button" class="preset-btn cyan-p" data-preset="adhd-rct-illusion" id="preset_adhd-rct-illusion">
+      <span class="preset-num">Preset 03 · Mode B</span>
+      <span class="preset-name">The ADHD RCT Group-Mean Lie</span>
+      <span class="preset-sub">Methylphenidate looks mediocre (d≈0.18) until unmasking reveals Reuptake responders (+1.68) canceling NMDA agitation (−0.92).</span>
+    </button>
+    <button type="button" class="preset-btn violet-p" data-preset="marshall-kim-tail" id="preset_marshall-kim-tail">
+      <span class="preset-num">Preset 04 · Mode C</span>
+      <span class="preset-name">Marshall &amp; Kim 10-Yr Tail</span>
+      <span class="preset-sub">Why &gt;95% remit while a 2×-higher-ρᵢ tail persists 2²³·³× longer — and why cross-sectional Rᵢ (R²≈0.32) fails.</span>
+    </button>
+    <button type="button" class="preset-btn orange-p" data-preset="cocaethylene-outliers" id="preset_cocaethylene-outliers">
+      <span class="preset-num">Preset 05 · Mode B</span>
+      <span class="preset-name">Cocaethylene QTc &gt; 500ms</span>
+      <span class="preset-sub">Cocaine + Ethanol hepatic transesterification: 3.2× hERG block triggers Torsades outliers invisible to N=40 trials.</span>
+    </button>
+    <button type="button" class="preset-btn violet-p" data-preset="ssri-bipolar-trap" id="preset_ssri-bipolar-trap">
+      <span class="preset-num">Preset 06 · Mode B</span>
+      <span class="preset-name">SSRI Bipolar &amp; MDD Trap</span>
+      <span class="preset-sub">Unstratified SSRI monotherapy: 5-HT2C blunts hypodopaminergic MDD while 10% latent bipolar flips into mixed agitation.</span>
+    </button>
+  </div>
+
+  <!-- MODE SWITCHER & SIMULATION TRANSPORT BAR -->
+  <div class="mode-bar">
+    <div class="mode-tabs" role="tablist" aria-label="Laboratory Experiment Mode">
+      <button type="button" class="mode-tab active" data-mode="A" id="tabModeA">⚡ Mode A · Perturbation Separatrix Assay</button>
+      <button type="button" class="mode-tab" data-mode="B" id="tabModeB">📊 Mode B · Stratified vs Unstratified RCT</button>
+      <button type="button" class="mode-tab" data-mode="C" id="tabModeC">📈 Mode C · Kaplan–Meier &amp; R vs ρ Regression</button>
+    </div>
+
+    <div class="transport-cluster">
+      <button type="button" class="ctrl-btn" id="btnPlayPause">⏸ Pause</button>
+      <button type="button" class="ctrl-btn" id="btnResetCohort">↺ Reset Withdrawal Day 0</button>
+      <select class="speed-select" id="speedSelect" aria-label="Simulation Speed">
+        <option value="0.5">0.5× Speed</option>
+        <option value="1" selected>1.0× Speed</option>
+        <option value="2.5">2.5× Speed</option>
+        <option value="6">6.0× Fast-Forward</option>
+      </select>
+      <button type="button" class="ctrl-btn" id="btnShareURL" title="Copy Shareable Experiment Link">🔗 Share</button>
+    </div>
+
+    <div class="clock-readout">
+      <span id="clockReadout">WITHDRAWAL DAY 000.0</span>
+      <span class="phase-badge" id="statusBadge">ADAPTED BASIN (d ≡ 0)</span>
+    </div>
+  </div>
+
+  <!-- MAIN 2-COLUMN BENTO -->
+  <div class="workspace-bento">
+
+    <!-- LEFT COLUMN: PERSISTENT 1,000-BRAIN COHORT MATRIX + PATIENT INSPECTOR -->
+    <div class="col-stack">
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-eyebrow">25 × 40 NEURAL POPULATION MATRIX // CLICK ANY BRAIN TO INSPECT</div>
+            <h2 class="panel-title" id="matrixTitle">1,000 Virtual Humans — Live Synaptic CP-AMPA State Aᵢ(t)</h2>
+          </div>
+          <span class="panel-badge" id="matrixBadge">1,000 / 1,000 Adapted</span>
+        </div>
+
+        <div class="sort-row">
+          <div class="mini-tabs" id="sortTabs">
+            <button type="button" class="mini-tab active" data-sort="id">Blinded Order</button>
+            <button type="button" class="mini-tab" data-sort="rho">Sort by Hidden ρᵢ</button>
+            <button type="button" class="mini-tab" data-sort="subtype">Sort by Endophenotype</button>
+            <button type="button" class="mini-tab" data-sort="cyp">Sort by CYP2D6</button>
+          </div>
+          <span style="font-family:var(--font-mono);font-size:10px;color:var(--muted2);" id="hoverHint">Hover or click any of the 1,000 cells</span>
+        </div>
+
+        <canvas id="cohortGridCanvas" class="sim-canvas" height="315"></canvas>
+
+        <div class="legend-row" id="matrixLegend">
+          <span class="leg-item"><span class="leg-dot" style="background:#ff6b35"></span>Adapted Basin (Aᵢ &gt; A_mid,i · Paying ATP Rent)</span>
+          <span class="leg-item"><span class="leg-dot" style="background:#00e5ff"></span>Crossing Separatrix A_mid,i</span>
+          <span class="leg-item"><span class="leg-dot" style="background:#c8ff00"></span>Remitted to Baseline A_lo,i</span>
+          <span class="leg-item"><span class="leg-dot" style="background:#9b88ff"></span>High-ρᵢ Long Tail (&gt;1.46)</span>
+        </div>
+
+        <div class="telemetry-grid">
+          <div class="metric-box">
+            <div class="metric-label" id="kpi1Label">Remitted Brains</div>
+            <div class="metric-val" id="kpi1Val" style="color:var(--lime)">0 / 1,000 (0.0%)</div>
+            <div class="metric-sub" id="kpi1Sub">Below hidden saddle A_mid,i</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label" id="kpi2Label">Static Share φ (Art. 07)</div>
+            <div class="metric-val" id="kpi2Val" style="color:var(--orange)">φ = 0.70 (3.33×)</div>
+            <div class="metric-sub" id="kpi2Sub">Naive D_obs inflated 3.33×</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label" id="kpi3Label">Persistence Scaling</div>
+            <div class="metric-val" id="kpi3Val" style="color:var(--violet)">τ ∝ ρ²³·³</div>
+            <div class="metric-sub" id="kpi3Sub">R²(ρ)=0.86 vs R²(R)=0.32</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label" id="kpi4Label">Cohort ATP Rent</div>
+            <div class="metric-val" id="kpi4Val" style="color:var(--orange)">+6.42% Budget</div>
+            <div class="metric-sub" id="kpi4Sub">Install repaid in 4.1 s</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label" id="kpi5Label">CYP2D6 PM / UM</div>
+            <div class="metric-val" id="kpi5Val" style="color:var(--cyan)">70 PM · 60 UM</div>
+            <div class="metric-sub" id="kpi5Sub">150 IM · 720 Normal EM</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label" id="kpi6Label">Cardiac QTc &gt; 500ms</div>
+            <div class="metric-val" id="kpi6Val" style="color:var(--danger)">0 Outliers</div>
+            <div class="metric-sub" id="kpi6Sub">Subclinical hERG LQTS: 24</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CLICKABLE INDIVIDUAL PATIENT INSPECTOR -->
+      <section class="panel" id="patientInspectorPanel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-eyebrow">INDIVIDUAL VIRTUAL HUMAN BIOPHYSICAL FILE</div>
+            <h2 class="panel-title" id="ptHeaderTitle">Patient #0042 — True NMDA-Compensated ADHD · CYP2D6 EM (1.00×)</h2>
+          </div>
+          <div class="mini-tabs">
+            <button type="button" class="mini-tab" id="btnPickNmda">Find NMDA-ADHD</button>
+            <button type="button" class="mini-tab" id="btnPickTail">Find Kim-Like High-ρᵢ Tail</button>
+            <button type="button" class="mini-tab" id="btnPickOutlier">Find CYP2D6 PM + LQTS</button>
+          </div>
+        </div>
+
+        <div class="inspector-grid">
+          <div class="pt-kv-list">
+            <div class="pt-kv">
+              <div class="pt-k">Endophenotype (Art. 04)</div>
+              <div class="pt-v" id="ptSubtype" style="color:var(--lime)">NMDA Release-Deficit</div>
+            </div>
+            <div class="pt-kv">
+              <div class="pt-k">CYP2D6 Genotype</div>
+              <div class="pt-v" id="ptCyp">EM *1/*1 (1.00× CL)</div>
+            </div>
+            <div class="pt-kv">
+              <div class="pt-k">Measured Fold Rᵢ = A_hi/A_lo</div>
+              <div class="pt-v" id="ptR">6.48× (Weak R²≈0.32)</div>
+            </div>
+            <div class="pt-kv">
+              <div class="pt-k">Hidden Separatrix ρᵢ = A_hi/A_mid</div>
+              <div class="pt-v" id="ptRho" style="color:var(--cyan)">1.36× (Knockdown &gt;26.5%)</div>
+            </div>
+            <div class="pt-kv">
+              <div class="pt-k">Itô Barrier ΔUᵢ/Dᵢ &amp; Expected τᵢ</div>
+              <div class="pt-v" id="ptTau" style="color:var(--violet)">ΔU/D = 3.9 · τ = 24.6 d</div>
+            </div>
+            <div class="pt-kv">
+              <div class="pt-k">Static Offset sᵢ &amp; ATP Rent</div>
+              <div class="pt-v" id="ptRent">sᵢ = +0.14 · +6.1% ATP/s</div>
+            </div>
+            <div class="pt-kv">
+              <div class="pt-k">Trial Response (ΔCGI Score)</div>
+              <div class="pt-v" id="ptTrialResp">—</div>
+            </div>
+            <div class="pt-kv">
+              <div class="pt-k">Ventricular QTc (Bazett)</div>
+              <div class="pt-v" id="ptQtc">418 ms (Normal)</div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;color:var(--muted2);">
+              <span>SINGLE-PATIENT TRAJECTORY Aᵢ(t) vs A_hi, A_mid, A_lo</span>
+              <span id="ptLiveAVal" style="color:var(--lime)">Aᵢ = 5.82</span>
+            </div>
+            <canvas id="patientTraceCanvas" class="sim-canvas" height="175"></canvas>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- RIGHT COLUMN: ACTIVE EXPERIMENT MODE DECKS -->
+    <div class="col-stack">
+
+      <!-- ==================== MODE A: GRADED PERTURBATION SEPARATRIX ASSAY ==================== -->
+      <div class="mode-deck active" id="deckModeA">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-eyebrow">MODE A // ARTICLE 07 LINES 879–882 — "THE EXPERIMENT NOBODY HAS RUN"</div>
+              <h2 class="panel-title">Graded Receptor Knockdown Separatrix Assay vs. Driver Blockade (E_d ≡ 0)</h2>
+            </div>
+            <span class="panel-badge cyan" id="assayStatusBadge">Pulse Ready · Critical Flip ρ_crit = 1.39</span>
+          </div>
+
+          <div class="ctrl-rack">
+            <div class="ctrl-row-2">
+              <div class="slider-box">
+                <div class="slider-head">
+                  <span>Transient Receptor Knockdown Pulse</span>
+                  <strong id="lblKnockdownPct">28% Reduction (Flips ρᵢ &lt; 1.39)</strong>
+                </div>
+                <input type="range" class="sim-range cyan" id="sliderKnockdown" min="0" max="75" step="1" value="28">
+              </div>
+
+              <div class="slider-box">
+                <div class="slider-head">
+                  <span>Loop Self-Reinforcement Gain Δv (E_v = +21.8)</span>
+                  <strong id="lblLoopVPct" style="color:var(--lime)">0.0% (Baseline Loop)</strong>
+                </div>
+                <input type="range" class="sim-range" id="sliderLoopV" min="-25" max="10" step="0.2" value="0">
+              </div>
+            </div>
+
+            <div class="ctrl-row-2">
+              <div class="slider-box">
+                <div class="slider-head">
+                  <span>Synaptic Destabilization Noise ΔD (E_D = −6.99)</span>
+                  <strong id="lblNoiseDPct" style="color:var(--violet)">0.0% (D₀ = 0.0279 d⁻¹)</strong>
+                </div>
+                <input type="range" class="sim-range violet" id="sliderNoiseD" min="-30" max="80" step="0.5" value="0">
+              </div>
+
+              <div style="display:flex;flex-direction:column;justify-content:center;gap:6px;">
+                <label style="display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;color:var(--orange);cursor:pointer;">
+                  <input type="checkbox" id="chkAbstinenceBlock" style="accent-color:var(--orange);width:15px;height:15px;">
+                  <span>100% Abstinence Receptor Blockade (d ≡ 0 → ΔKM = 0.00%)</span>
+                </label>
+                <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted2);" id="blockadeProofNote">
+                  Blocking drug receptors during abstinence alters 0 of 1,000 barriers (E_d ≡ 0).
+                </div>
+              </div>
+            </div>
+
+            <div class="btn-strip">
+              <button type="button" class="ctrl-btn primary" id="btnFirePulse">⚡ Fire Transient Knockdown Pulse &amp; Release</button>
+              <button type="button" class="ctrl-btn cyan" id="btnSweepAssay">📊 Sweep 0%→75% Assay Curve</button>
+              <button type="button" class="ctrl-btn orange" id="btnSnapV106">Snap v = −10.6% (Art. 07)</button>
+              <button type="button" class="ctrl-btn violet" id="btnSnapD417">Snap D = +41.7%</button>
+              <button type="button" class="ctrl-btn" id="btnResetLevers">↺ Reset Levers</button>
+            </div>
+          </div>
+
+          <div class="diag-callout cyan" id="modeACallout">
+            <strong>Why perturbation succeeds where Western blots fail:</strong> Cross-sectional fold-change $R_i = A_{\text{hi},i}/A_{\text{lo},i}$ cannot see the unstable saddle $A_{\text{mid},i}$. Knocking all 1,000 adapted brains transiently down by <strong>28%</strong> and releasing the manipulation splits the population cleanly: brains pushed below $1/\rho_i$ collapse permanently to healthy `#c8ff00` baseline, while brains with $\rho_i &gt; 1.39$ rebound to `#ff6b35`!
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+            <span class="panel-eyebrow" style="color:var(--cyan);">1,000-BRAIN NORMALIZED PHASE CLOUD: Aᵢ(t)/A_hi,i vs HIDDEN SEPARATRIX ρᵢ (CLICK ANY DOT)</span>
+            <span style="font-family:var(--font-mono);font-size:10.5px;color:var(--muted2);" id="phaseCloudStats">Dashed Cyan Curve = Saddle Boundary 1/ρᵢ</span>
+          </div>
+          <canvas id="phaseCloudCanvas" class="sim-canvas" height="255"></canvas>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+            <span class="panel-eyebrow" style="color:var(--lime);">PERTURBATION DOSE-RESPONSE RECONSTRUCTION OF ρᵢ &amp; ELASTICITY COMPARISON</span>
+            <span style="font-family:var(--font-mono);font-size:10.5px;color:var(--lime);" id="inferredRhoReadout">Assay-Inferred Median ρ̂₅₀ = 1.37 vs True ρ₅₀ = 1.37</span>
+          </div>
+          <canvas id="assayCurveCanvas" class="sim-canvas" height="215"></canvas>
+        </section>
+      </div>
+
+      <!-- ==================== MODE B: STRATIFIED VS UNSTRATIFIED CLINICAL TRIAL ==================== -->
+      <div class="mode-deck" id="deckModeB">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-eyebrow">MODE B // WHY PSYCHIATRY'S DSM GROUP-AVERAGE RCTs LIE (ARTICLES 01, 02, 04 &amp; 08)</div>
+              <h2 class="panel-title">N = 1,000 Stratified Trial &amp; CYP2D6 / hERG Torsades Outlier Detector</h2>
+            </div>
+            <span class="panel-badge cyan" id="rctHeaderBadge">DSM-5 LUMPED BLIND</span>
+          </div>
+
+          <div class="ctrl-rack">
+            <div class="ctrl-row-2">
+              <div class="slider-box">
+                <div class="slider-head">
+                  <span>Investigational Drug Regimen</span>
+                  <strong id="lblDrugClass" style="color:var(--cyan)">NDRI Reuptake Blocker</strong>
+                </div>
+                <select class="sim-select" id="selectTrialDrug">
+                  <option value="mph">Methylphenidate HCl (NDRI — Pure Reuptake Block, CES1)</option>
+                  <option value="damp">D-Amphetamine (Mixed DAT/NET Releaser, CYP2D6)</option>
+                  <option value="meth">N-Methylamphetamine (5× Central DAT Selectivity, Kp,uu 1.85)</option>
+                  <option value="ssri">SSRI Monotherapy (SERT Block — 5-HT2C Brake &amp; Bipolar Risk)</option>
+                  <option value="cocaeth">Cocaine + Ethanol (Hepatic Cocaethylene — 3.2× hERG Block)</option>
+                  <option value="custom">🧬 Custom Compiled Molecule (Lab 05 Handoff / Tuner)</option>
+                </select>
+              </div>
+
+              <div class="slider-box">
+                <div class="slider-head">
+                  <span>Normalized Clinical Dose Multiplier</span>
+                  <strong id="lblTrialDose">1.00× Standard Regimen</strong>
+                </div>
+                <input type="range" class="sim-range cyan" id="sliderTrialDose" min="0.4" max="2.5" step="0.05" value="1.0">
+              </div>
+            </div>
+
+            <!-- Interactive Custom Molecule Parameter Tuner (when 'custom' is active) -->
+            <div class="custom-tuner" id="customTunerBox">
+              <div class="slider-box">
+                <div class="slider-head"><span>BBB Kp,uu</span><strong id="lblCustKpuu">1.20</strong></div>
+                <input type="range" class="sim-range" id="slCustKpuu" min="0.02" max="2.20" step="0.02" value="1.20">
+              </div>
+              <div class="slider-box">
+                <div class="slider-head"><span>DAT Efflux</span><strong id="lblCustDatRel">0.75</strong></div>
+                <input type="range" class="sim-range" id="slCustDatRel" min="0.00" max="1.00" step="0.02" value="0.75">
+              </div>
+              <div class="slider-box">
+                <div class="slider-head"><span>DAT Block</span><strong id="lblCustDatBlk">0.40</strong></div>
+                <input type="range" class="sim-range" id="slCustDatBlk" min="0.00" max="1.00" step="0.02" value="0.40">
+              </div>
+              <div class="slider-box">
+                <div class="slider-head"><span>NET Surge</span><strong id="lblCustNet">0.35</strong></div>
+                <input type="range" class="sim-range orange" id="slCustNet" min="0.00" max="1.00" step="0.02" value="0.35">
+              </div>
+              <div class="slider-box">
+                <div class="slider-head"><span>hERG Risk</span><strong id="lblCustHerg">0.20</strong></div>
+                <input type="range" class="sim-range orange" id="slCustHerg" min="0.00" max="1.00" step="0.02" value="0.20">
+              </div>
+            </div>
+
+            <div class="btn-strip">
+              <button type="button" class="ctrl-btn cyan" id="btnToggleUnmask">⚡ Unmask Neurochemical Subtypes (Paradoxical Calm Stratification)</button>
+              <button type="button" class="ctrl-btn violet" id="btnDrawN40">🎲 Draw Random N=40 Typical Psychiatry RCT</button>
+              <button type="button" class="ctrl-btn" id="btnToggleCustomTuner">⚗️ Tune Custom Receptor Profile</button>
+            </div>
+          </div>
+
+          <div class="diag-callout orange" id="modeBCallout">
+            <strong>The DSM Lumping Illusion:</strong> When all 1,000 patients diagnosed under broad behavioral checklists are averaged into one bar, opposing biological mechanisms cancel out — hiding massive paradoxical calm in true release-deficit patients, masking worsening agitation in mismatched subtypes, and burying `1-in-200` `CYP2D6 PM × hERG` cardiac outliers!
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+            <span class="panel-eyebrow" style="color:var(--lime);">LUMPED DSM GROUP MEAN vs. MECHANISTIC ENDOPHENOTYPE DISTRIBUTIONS (COHEN'S d &amp; NNT)</span>
+            <span style="font-family:var(--font-mono);font-size:10.5px;color:var(--cyan);" id="n40CompareReadout">Full N=1,000 d = +0.18 · Random N=40 Subsample: Click to sample</span>
+          </div>
+          <canvas id="rctDistCanvas" class="sim-canvas" height="275"></canvas>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+            <span class="panel-eyebrow" style="color:var(--orange);">PHARMACOGENOMIC PLASMA EXPOSURE vs. VENTRICULAR QTc (ms) &amp; ADVERSE OUTLIERS (CLICK DOT)</span>
+            <span style="font-family:var(--font-mono);font-size:10.5px;color:var(--danger);" id="qtcOutlierReadout">QTc &gt; 500ms Torsades Risk: 0/1,000 · N=40 Miss Prob: —</span>
+          </div>
+          <canvas id="qtcSafetyCanvas" class="sim-canvas" height="215"></canvas>
+        </section>
+      </div>
+
+      <!-- ==================== MODE C: KAPLAN-MEIER SURVIVAL & R vs RHO REGRESSION ==================== -->
+      <div class="mode-deck" id="deckModeC">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-eyebrow">MODE C // SURVIVAL EPIDEMIOLOGY &amp; STRUCTURAL IDENTIFIABILITY (ARTICLES 07 &amp; 08)</div>
+              <h2 class="panel-title">Kaplan–Meier Remission Curve S(t) &amp; Cross-Sectional Rᵢ vs. Hidden ρᵢ</h2>
+            </div>
+            <span class="panel-badge violet" id="kmHorizonBadge">Horizon: 0 → 365 Days</span>
+          </div>
+
+          <div class="ctrl-rack">
+            <div class="btn-strip" style="justify-content:space-between;">
+              <div class="mini-tabs" id="horizonTabs">
+                <button type="button" class="mini-tab active" data-horizon="365">365-Day Clinical Window</button>
+                <button type="button" class="mini-tab" data-horizon="3650">3,650-Day (10-Yr Marshall &amp; Kim Tail)</button>
+              </div>
+              <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                <label style="display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--muted2);cursor:pointer;">
+                  <input type="checkbox" id="chkShowNaivePhi" checked style="accent-color:var(--orange);">
+                  <span>Show Naive Uncorrected Variance Curve (φ=0, 3.3× D)</span>
+                </label>
+                <label style="display:flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--violet);cursor:pointer;">
+                  <input type="checkbox" id="chkShowBlockadeKM" checked style="accent-color:var(--violet);">
+                  <span>Overlay 100% Abstinence Blockade (E_d ≡ 0)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="diag-callout violet" id="modeCCallout">
+            <strong>Two people, heavier chemical load on the survivor, 22 years in the cell for the other (Article 08):</strong> Post-withdrawal $d \equiv 0$, so exposure history drops out of the fixed points. Over 10 years <strong>&gt;95%</strong> of adapted brains remit spontaneously, yet a modest increase in unmeasured $\rho_i = A_{\text{hi},i}/A_{\text{mid},i}$ stretches $\tau_i \propto \rho_i^{23.3}$ into multi-decade persistence — while measured fold-change $R_i = A_{\text{hi},i}/A_{\text{lo},i}$ explains only $R^2 \approx 0.32$!
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+            <span class="panel-eyebrow" style="color:var(--lime);">KAPLAN–MEIER ADAPTED-STATE PERSISTENCE SURVIVAL CURVE S(t) ACROSS N = 1,000</span>
+            <span style="font-family:var(--font-mono);font-size:10.5px;color:var(--lime);" id="kmSummaryReadout">Median τ₅₀ = 16.5 d · 1-Yr Remitted: 84.8% · 10-Yr Remitted: 96.1%</span>
+          </div>
+          <canvas id="kmCanvas" class="sim-canvas" height="245"></canvas>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+            <span class="panel-eyebrow" style="color:var(--cyan);">WHY CROSS-SECTIONAL FOLD-CHANGE FAILS: ln τᵢ vs ln Rᵢ (R²≈0.32) vs ln ρᵢ (R²≈0.85) — CLICK ANY DOT</span>
+            <span style="font-family:var(--font-mono);font-size:10.5px;color:var(--orange);" id="sliceSpreadReadout">Within R ∈ [6,7), escape time τᵢ still spans &gt;120×!</span>
+          </div>
+          <canvas id="regressionCanvas" class="sim-canvas" height="245"></canvas>
+        </section>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="lab-footer">
+    <div><strong style="color:var(--text);">Neuroscience with <span style="color:var(--lime);">RPrime</span></strong> · Sim 06 Population Biophysics &amp; Perturbation Assay · Written &amp; Engineered from Articles 01–08 by Rishik Pannala</div>
+    <div><a href="./neurolab.html">← Return to NeuroLab Command Deck</a> · <a href="./sim_drug_compiler.html">Launch Sim 05 Drug Compiler →</a></div>
+  </footer>
+
+</main>
+
+<script>
+(function() {
+  'use strict';
+
+  // ─── KA-TEX AUTO-RENDER BOOTSTRAP ───────────────────────────────────────────
+  function renderMathSafe(el) {
+    if (typeof window.renderMathInElement === 'function') {
+      try {
+        window.renderMathInElement(el || document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false },
+            { left: '\\(', right: '\\)', display: false },
+            { left: '\\[', right: '\\]', display: true }
+          ],
+          throwOnError: false
+        });
+      } catch (_) {}
+    }
+  }
+  window.addEventListener('DOMContentLoaded', () => renderMathSafe(document.body));
+  window.addEventListener('load', () => renderMathSafe(document.body));
+
+  // ─── DETERMINISTIC PRNG (MULBERRY32 + BOX-MULLER) ───────────────────────────
+  function mulberry32(seed) {
+    let a = seed >>> 0;
+    return function() {
+      a |= 0;
+      a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function makeNormal(rng) {
+    let spare = null;
+    return function() {
+      if (spare !== null) {
+        const val = spare;
+        spare = null;
+        return val;
+      }
+      let u = 0, v = 0;
+      while (u <= 1e-12) u = rng();
+      while (v <= 1e-12) v = rng();
+      const mag = Math.sqrt(-2.0 * Math.log(u));
+      spare = mag * Math.sin(2.0 * Math.PI * v);
+      return mag * Math.cos(2.0 * Math.PI * v);
+    };
+  }
+
+  // ─── POPULATION SIZE & TYPED ARRAYS (N = 1,000 VIRTUAL HUMANS) ──────────────
+  const N = 1000;
+  const GRID_ROWS = 25;
+  const GRID_COLS = 40;
+
+  // Genotype & Endophenotype vectors
+  const cypCode     = new Uint8Array(N);    // 0=PM (7%), 1=IM (15%), 2=EM (72%), 3=UM (6%)
+  const cypMult     = new Float32Array(N);  // 0.15, 0.55, 1.00, 2.20
+  const ces1Mult    = new Float32Array(N);  // Hepatic CES1 clearance factor (~1.0, rare PM ~0.28)
+  const subtype     = new Uint8Array(N);    // 0=True NMDA-ADHD (38%), 1=Reuptake-ADHD (34%), 2=Anhedonic MDD (18%), 3=Latent Bipolar/LQTS (10%)
+  const etaRel      = new Float32Array(N);  // Vesicular DA release efficiency
+  const gammaNmda   = new Float32Array(N);  // Maladaptive cortical NMDA hypercompensation gain
+  const kDatClear   = new Float32Array(N);  // Baseline DAT clearance velocity
+  const bipolarSens = new Float32Array(N);  // Cortico-striatal mixed-state switch vulnerability
+  const qtcBase     = new Float32Array(N);  // Baseline Bazett QTc (ms)
+  const hergSens    = new Float32Array(N);  // Subclinical KCNH2 / hERG repolarization sensitivity
+  const lqtsCarrier = new Uint8Array(N);    // 1 if subclinical LQTS carrier (~2.4%)
+
+  // Synaptic CP-AMPA Persistence & Static Heterogeneity vectors (Article 07 §10.4)
+  const staticS     = new Float32Array(N);  // Permanent between-person log-receptor offset s_i (phi ~ 0.70)
+  const b0Arr       = new Float32Array(N);  // Basal supply b_{0,i}
+  const v0Arr       = new Float32Array(N);  // Baseline autocatalytic loop strength v_{0,i}
+  const KArr        = new Float32Array(N);  // Hill half-max K_i
+  const kAArr       = new Float32Array(N);  // First-order removal k_{A,i}
+  const hillNArr    = new Float32Array(N);  // Hill cooperativity n_i
+  const DBaseArr    = new Float32Array(N);  // Individual baseline Itô diffusion D_{0,i}
+
+  // Baseline (untreated abstinence) fixed points & persistence metrics
+  const xLo0        = new Float32Array(N);
+  const xMid0       = new Float32Array(N);
+  const xHi0        = new Float32Array(N);
+  const foldR       = new Float32Array(N);  // Cross-sectional R_i = A_hi / A_lo
+  const sepRho      = new Float32Array(N);  // True hidden separatrix ratio rho_i = A_hi / A_mid
+  const dU0         = new Float32Array(N);  // Baseline Itô potential barrier
+  const tau0        = new Float32Array(N);  // Baseline exact MFPT escape time (days)
+  const tauNaivePhi = new Float32Array(N);  // Naive uncorrected cross-sectional prediction (3.33x inflated D)
+  const atpRentPct  = new Float32Array(N);  // Continuous neuronal metabolic rent +Delta P / P_0 (%)
+
+  // Active (under current v, D, or blockade levers) fixed points & expected escape times
+  const xLoAct      = new Float32Array(N);
+  const xMidAct     = new Float32Array(N);
+  const xHiAct      = new Float32Array(N);
+  const bistableAct = new Uint8Array(N);
+  const tauAct      = new Float32Array(N);
+
+  // Live 60fps Euler-Maruyama Stochastic Trajectory State
+  const xLive       = new Float32Array(N);  // Current log-receptor coordinate x_i(t) = ln A_i(t)
+  const remitted    = new Uint8Array(N);    // 1 once trajectory crosses into healthy baseline basin
+  const remitDay    = new Float32Array(N);  // Simulated day of remission (-1 if still adapted)
+  const pulseState  = new Uint8Array(N);    // 0=normal, 1=pushed below saddle, 2=above saddle during pulse
+
+  // Mode B Clinical Trial Per-Patient Outputs
+  const rctScore    = new Float32Array(N);  // Clinical global change score (-3.5 severe worsening to +3.5 remission)
+  const rctPlasma   = new Float32Array(N);  // Relative unbound systemic exposure C_p,i
+  const rctBrain    = new Float32Array(N);  // Relative CNS unbound exposure C_b,i
+  const rctNmdaPost = new Float32Array(N);  // Post-drug cortical NMDA noise
+  const rctQtc      = new Float32Array(N);  // Drug-induced ventricular QTc (ms)
+  const rctAdverse  = new Uint8Array(N);    // 0=none, 1=agitation/akathisia, 2=QTc>500ms Torsades risk, 3=both
+  const inSubN40    = new Uint8Array(N);    // 1 if drawn in random N=40 underpowered RCT subsample
+
+  // Display sort index map: displayOrder[slot] -> patient ID i
+  const displayOrder = new Uint16Array(N);
+
+  // Single-patient rolling history buffer (220 samples)
+  const PT_HIST_LEN = 220;
+  const ptHistT = new Float32Array(PT_HIST_LEN);
+  const ptHistA = new Float32Array(PT_HIST_LEN);
+  let ptHistCount = 0;
+
+  // ─── DRUG LIBRARY + CUSTOM SIM 05 MOLECULE PROFILE ──────────────────────────
+  const DRUG_PROFILES = {
+    mph: {
+      key: 'mph',
+      name: 'Methylphenidate HCl (NDRI)',
+      classTag: 'Pure DAT/NET Blocker · CES1',
+      kpuu: 1.15, fCyp2d6: 0.12, fCes1Inhib: 0.00,
+      datRel: 0.00, datBlk: 0.74, net: 0.78, sert: 0.02,
+      morAgo: 0.00, morAnt: 0.00, herg: 0.26
+    },
+    damp: {
+      key: 'damp',
+      name: 'D-Amphetamine Sulfate',
+      classTag: 'Mixed DAT/NET Releaser · CYP2D6',
+      kpuu: 0.94, fCyp2d6: 0.72, fCes1Inhib: 0.00,
+      datRel: 0.68, datBlk: 0.36, net: 0.84, sert: 0.08,
+      morAgo: 0.00, morAnt: 0.00, herg: 0.19
+    },
+    meth: {
+      key: 'meth',
+      name: 'N-Methylamphetamine HCl (Desoxyn)',
+      classTag: '5× Central DAT Releaser · Kp,uu 1.85',
+      kpuu: 1.85, fCyp2d6: 0.68, fCes1Inhib: 0.00,
+      datRel: 0.96, datBlk: 0.42, net: 0.30, sert: 0.16,
+      morAgo: 0.00, morAnt: 0.00, herg: 0.14
+    },
+    ssri: {
+      key: 'ssri',
+      name: 'SSRI Monotherapy (Escitalopram / Fluoxetine)',
+      classTag: 'Selective SERT Block · CYP2D6/2C19',
+      kpuu: 0.96, fCyp2d6: 0.76, fCes1Inhib: 0.00,
+      datRel: 0.00, datBlk: 0.02, net: 0.05, sert: 0.94,
+      morAgo: 0.00, morAnt: 0.00, herg: 0.28
+    },
+    cocaeth: {
+      key: 'cocaeth',
+      name: 'Cocaine + Ethanol → Cocaethylene',
+      classTag: 'Hepatic Transesterification · 3.2× hERG',
+      kpuu: 1.38, fCyp2d6: 0.22, fCes1Inhib: 0.56,
+      datRel: 0.00, datBlk: 0.84, net: 0.86, sert: 0.14,
+      morAgo: 0.06, morAnt: 0.00, herg: 0.54
+    },
+    custom: {
+      key: 'custom',
+      name: 'Custom Compiled Ligand',
+      classTag: 'Lab 05 De Novo Graph Handoff',
+      mw: 149.2, logp: 2.07, tpsa: 12.0, pka: 9.9, mpo: 5.45,
+      kpuu: 1.20, fCyp2d6: 0.65, fCes1Inhib: 0.00,
+      datRel: 0.75, datBlk: 0.40, net: 0.35, sert: 0.10,
+      morAgo: 0.00, morAnt: 0.00, herg: 0.20
+    }
+  };
+
+  // ─── MASTER SIMULATION STATE ────────────────────────────────────────────────
+  const S = {
+    mode: 'A',                 // 'A' | 'B' | 'C'
+    activePreset: 'separatrix-assay',
+    playing: true,
+    speed: 1.0,
+    reelMode: false,
+
+    // Population constants
+    seed: 20261125,
+    D0: 0.0279,
+    phi: 0.70,
+    psi: 0.34,
+    pulseHoldDays: 0.5,
+
+    // Live SDE clock & perturbation levers (Mode A & C)
+    tDays: 0.0,
+    knockdownPct: 28,          // 0 -> 75%
+    pulseActive: false,
+    pulseEndDay: 0.0,
+    pulseTargetScale: 1.0,
+    loopVPct: 0.0,             // % shift in v_i
+    noiseDPct: 0.0,            // % shift in D_i
+    abstinenceBlock: false,    // 100% receptor blockade during abstinence (E_d === 0)
+    assaySweepCurve: [],       // [{pct, flippedFrac, theoFrac}]
+    inferredRho50: 1.37,
+    trueRho50: 1.37,
+
+    // Mode B RCT state
+    drugKey: 'mph',
+    doseMult: 1.0,
+    unmasked: false,
+    unmaskAnim: 0.0,           // 0 -> 1 smooth spring
+    n40Seed: 101,
+    n40Drawn: true,
+    customFromURL: false,
+
+    // Mode C Survival & Regression state
+    kmHorizonDays: 365,        // 365 or 3650
+    showNaivePhi: true,
+    showBlockadeKM: true,
+    regR: { r2: 0.32, slope: 11.2, intercept: -18.0 },
+    regRho: { r2: 0.85, slope: 22.8, intercept: -3.2 },
+    regDuRho: { r2: 0.85, slope: 0.65 },
+
+    // UI selection & sorting
+    sortBy: 'id',
+    selectedPt: 42,
+    hoverPt: -1,
+
+    // Cached RCT summary stats
+    rctStats: {
+      allMean: 0, allSD: 1, allD: 0, allRespPct: 0, allWorsePct: 0, allNNT: 99,
+      n40Mean: 0, n40D: 0, n40QtcHits: 0,
+      qtc500Count: 0, qtc470Count: 0, adverseCount: 0,
+      sub: [
+        { mean: 0, d: 0, respPct: 0, worsePct: 0, nnt: 99, count: 380 },
+        { mean: 0, d: 0, respPct: 0, worsePct: 0, nnt: 99, count: 340 },
+        { mean: 0, d: 0, respPct: 0, worsePct: 0, nnt: 99, count: 180 },
+        { mean: 0, d: 0, respPct: 0, worsePct: 0, nnt: 99, count: 100 }
+      ]
+    }
+  };
+
+  let liveRng = mulberry32(987654321);
+  let liveRandn = makeNormal(liveRng);
+
+  // ─── EXACT ITÔ LOG-SPACE DRIFT, ROOT FINDER & MFPT QUADRATURE ──────────────
+  function itoDriftX(x, b0, v, K, kA, n, D, dDrive) {
+    const A = Math.exp(x);
+    const ratio = A / K;
+    const rn = Math.pow(ratio, n);
+    const hill = v * (rn / (1.0 + rn));
+    const f = b0 + dDrive + hill - kA * A;
+    return f / A - D;
+  }
+
+  function findThreeRoots(b0, v, K, kA, n, D) {
+    const roots = [];
+    const M = 240;
+    const xmin = -1.8, xmax = 3.0;
+    const dx = (xmax - xmin) / M;
+    let prevX = xmin;
+    let prevY = itoDriftX(xmin, b0, v, K, kA, n, D, 0.0);
+    for (let s = 1; s <= M; s++) {
+      const curX = xmin + s * dx;
+      const curY = itoDriftX(curX, b0, v, K, kA, n, D, 0.0);
+      if (prevY * curY <= 0.0) {
+        let lo = prevX, hi = curX, fLo = prevY;
+        for (let it = 0; it < 20; it++) {
+          const mid = 0.5 * (lo + hi);
+          const fMid = itoDriftX(mid, b0, v, K, kA, n, D, 0.0);
+          if (fLo * fMid <= 0.0) hi = mid;
+          else { lo = mid; fLo = fMid; }
+        }
+        roots.push(0.5 * (lo + hi));
+      }
+      prevX = curX;
+      prevY = curY;
+    }
+    return roots;
+  }
+
+  function quadUpperBarrier(xMid, xHi, b0, v, K, kA, n, D) {
+    const M = 48;
+    const h = (xHi - xMid) / M;
+    let sum = 0.0;
+    for (let s = 0; s <= M; s++) {
+      const w = (s === 0 || s === M) ? 0.5 : 1.0;
+      const val = itoDriftX(xMid + s * h, b0, v, K, kA, n, D, 0.0);
+      if (val > 0.0) sum += w * val;
+    }
+    return sum * h;
+  }
+
+  function computeExactMFPT(xLo, xMid, xHi, b0, v, K, kA, n, D) {
+    const c = xHi + 0.60;
+    const M = 112;
+    const dx = (c - xLo) / M;
+    const U = new Float64Array(M + 1);
+    let prevD = itoDriftX(xLo, b0, v, K, kA, n, D, 0.0);
+    for (let s = 1; s <= M; s++) {
+      const curD = itoDriftX(xLo + s * dx, b0, v, K, kA, n, D, 0.0);
+      U[s] = U[s - 1] - 0.5 * (prevD + curD) * dx;
+      prevD = curD;
+    }
+    const idxHi = Math.min(M, Math.max(1, Math.round((xHi - xLo) / dx)));
+    const Uref = U[idxHi];
+    const inner = new Float64Array(M + 1);
+    for (let s = M - 1; s >= 0; s--) {
+      const e1 = Math.exp(Math.min(85, -(U[s] - Uref) / D));
+      const e2 = Math.exp(Math.min(85, -(U[s + 1] - Uref) / D));
+      inner[s] = inner[s + 1] + 0.5 * (e1 + e2) * dx;
+    }
+    let outer = 0.0;
+    for (let s = 0; s < idxHi; s++) {
+      const f1 = Math.exp(Math.min(85, (U[s] - Uref) / D)) * inner[s];
+      const f2 = Math.exp(Math.min(85, (U[s + 1] - Uref) / D)) * inner[s + 1];
+      outer += 0.5 * (f1 + f2) * dx;
+    }
+    return Math.max(0.25, outer / D);
+  }
+
+  function olsRegression(xs, ys) {
+    const m = xs.length;
+    if (m < 2) return { r2: 0, slope: 0, intercept: 0 };
+    let sx = 0, sy = 0;
+    for (let i = 0; i < m; i++) { sx += xs[i]; sy += ys[i]; }
+    const mx = sx / m, my = sy / m;
+    let sxx = 0, syy = 0, sxy = 0;
+    for (let i = 0; i < m; i++) {
+      const dx = xs[i] - mx, dy = ys[i] - my;
+      sxx += dx * dx;
+      syy += dy * dy;
+      sxy += dx * dy;
+    }
+    const slope = sxx > 1e-12 ? sxy / sxx : 0;
+    const r2 = (sxx > 1e-12 && syy > 1e-12) ? (sxy * sxy) / (sxx * syy) : 0;
+    return { r2, slope, intercept: my - slope * mx };
+  }
+
+  // ─── GENERATE 1,000 GENETICALLY & NEUROCHEMICALLY DISTINCT HUMANS ──────────
+  function generatePopulation() {
+    const rng = mulberry32(S.seed);
+    const randn = makeNormal(rng);
+
+    // 1. Exact CYP2D6 Genotype Counts: 70 PM (7%), 150 IM (15%), 720 EM (72%), 60 UM (6%)
+    const cypDeck = new Uint8Array(N);
+    let idx = 0;
+    for (let k = 0; k < 70; k++)  cypDeck[idx++] = 0;
+    for (let k = 0; k < 150; k++) cypDeck[idx++] = 1;
+    for (let k = 0; k < 720; k++) cypDeck[idx++] = 2;
+    for (let k = 0; k < 60; k++)  cypDeck[idx++] = 3;
+    for (let i = N - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      const tmp = cypDeck[i]; cypDeck[i] = cypDeck[j]; cypDeck[j] = tmp;
+    }
+
+    // 2. Exact Neurochemical Endophenotype Counts: 380 Subtype 0, 340 Subtype 1, 180 Subtype 2, 100 Subtype 3
+    const subDeck = new Uint8Array(N);
+    idx = 0;
+    for (let k = 0; k < 380; k++) subDeck[idx++] = 0;
+    for (let k = 0; k < 340; k++) subDeck[idx++] = 1;
+    for (let k = 0; k < 180; k++) subDeck[idx++] = 2;
+    for (let k = 0; k < 100; k++) subDeck[idx++] = 3;
+    for (let i = N - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      const tmp = subDeck[i]; subDeck[i] = subDeck[j]; subDeck[j] = tmp;
+    }
+
+    // Dynamic variance scale for static offset s_i so Var(s)/(Var(s)+Var(d)) = phi
+    const varDynApprox = S.D0 / 4.2;
+    const sigmaStatic = Math.sqrt(Math.max(0.001, (S.phi / Math.max(0.05, 1.0 - S.phi)) * varDynApprox));
+
+    const lnRArr = new Float64Array(N);
+    const lnRhoArr = new Float64Array(N);
+    const lnTauArr = new Float64Array(N);
+    const dUArrTmp = new Float64Array(N);
+
+    for (let i = 0; i < N; i++) {
+      // Pharmacogenomics
+      const cCode = cypDeck[i];
+      cypCode[i] = cCode;
+      const baseMult = cCode === 0 ? 0.15 : (cCode === 1 ? 0.55 : (cCode === 2 ? 1.00 : 2.20));
+      cypMult[i] = Math.max(0.09, baseMult * Math.exp(0.08 * randn()));
+      ces1Mult[i] = (rng() < 0.03) ? (0.16 + 0.05 * rng()) : Math.max(0.65, 1.0 + 0.12 * randn());
+
+      // Endophenotype neurochemistry (Article 04)
+      const st = subDeck[i];
+      subtype[i] = st;
+      if (st === 0) {
+        // 38% True NMDA-Compensated Release-Deficit ADHD
+        etaRel[i] = Math.max(0.14, Math.min(0.45, 0.27 + 0.06 * randn()));
+        gammaNmda[i] = Math.max(1.15, 1.68 + 0.22 * randn());
+        kDatClear[i] = Math.max(0.75, 1.02 + 0.12 * randn());
+        bipolarSens[i] = Math.max(0.0, 0.12 + 0.06 * randn());
+      } else if (st === 1) {
+        // 34% Reuptake-Driven Inattentive / Mild Deficit
+        etaRel[i] = Math.max(0.72, 0.94 + 0.09 * randn());
+        gammaNmda[i] = Math.max(0.08, 0.24 + 0.07 * randn());
+        kDatClear[i] = Math.max(1.28, 1.66 + 0.18 * randn());
+        bipolarSens[i] = Math.max(0.0, 0.08 + 0.05 * randn());
+      } else if (st === 2) {
+        // 18% Hypodopaminergic Anhedonic MDD (Misdiagnosed as ADHD — zero NMDA compensation)
+        etaRel[i] = Math.max(0.32, 0.50 + 0.08 * randn());
+        gammaNmda[i] = Math.max(0.01, 0.05 + 0.025 * randn());
+        kDatClear[i] = Math.max(0.75, 0.98 + 0.10 * randn());
+        bipolarSens[i] = Math.max(0.0, 0.10 + 0.05 * randn());
+      } else {
+        // 10% Latent Cortico-Striatal Bipolar / Subclinical hERG LQTS Enriched
+        etaRel[i] = Math.max(0.50, 0.78 + 0.14 * randn());
+        gammaNmda[i] = Math.max(0.35, 0.68 + 0.18 * randn());
+        kDatClear[i] = Math.max(0.80, 1.12 + 0.15 * randn());
+        bipolarSens[i] = Math.max(0.85, 1.42 + 0.25 * randn());
+      }
+
+      // Cardiac hERG & QTc reserve (enriched in Subtype 3, plus rare carriers across cohort)
+      const isLqts = (st === 3 && rng() < 0.18) || (st !== 3 && rng() < 0.008);
+      lqtsCarrier[i] = isLqts ? 1 : 0;
+      if (isLqts) {
+        qtcBase[i] = 452.0 + 11.0 * Math.abs(randn());
+        hergSens[i] = 1.85 + 0.42 * Math.abs(randn());
+      } else {
+        qtcBase[i] = Math.max(378.0, Math.min(446.0, 412.0 + 13.5 * randn()));
+        hergSens[i] = Math.max(0.65, 1.00 + 0.16 * randn());
+      }
+
+      // Static log-receptor heterogeneity s_i
+      staticS[i] = sigmaStatic * randn();
+
+      // Sample bistable synaptic CP-AMPA loop parameters (Article 07 §10.4 calibrated)
+      let accepted = false;
+      while (!accepted) {
+        const b0 = 6.50 * Math.exp(0.038 * randn());
+        const n = 4.00 + 0.54 * randn();
+        if (n < 2.75 || n > 5.45) continue;
+        const kA = 11.15 * Math.exp(0.054 * randn());
+        const K = 3.62 * Math.exp(0.042 * randn());
+        const v = 43.75 * Math.exp(0.165 * randn());
+        const Di = S.D0 * Math.exp(0.035 * randn());
+
+        const roots = findThreeRoots(b0, v, K, kA, n, Di);
+        if (roots.length === 3) {
+          const [rLo, rMid, rHi] = roots;
+          const rho = Math.exp(rHi - rMid);
+          if (rho < 1.11 || rho > 1.62) continue;
+
+          b0Arr[i] = b0;
+          v0Arr[i] = v;
+          KArr[i] = K;
+          kAArr[i] = kA;
+          hillNArr[i] = n;
+          DBaseArr[i] = Di;
+
+          xLo0[i] = rLo;
+          xMid0[i] = rMid;
+          xHi0[i] = rHi;
+          foldR[i] = Math.exp(rHi - rLo);
+          sepRho[i] = rho;
+
+          const dU = quadUpperBarrier(rMid, rHi, b0, v, K, kA, n, Di);
+          dU0[i] = dU;
+          const tExact = computeExactMFPT(rLo, rMid, rHi, b0, v, K, kA, n, Di);
+          tau0[i] = tExact;
+
+          // Naive cross-sectional variance prediction (inflates D by 1/(1 - phi) ~ 3.33x)
+          const Dnaive = Di / Math.max(0.08, 1.0 - S.phi);
+          const rootsNaive = findThreeRoots(b0, v, K, kA, n, Dnaive);
+          if (rootsNaive.length === 3) {
+            tauNaivePhi[i] = computeExactMFPT(rootsNaive[0], rootsNaive[1], rootsNaive[2], b0, v, K, kA, n, Dnaive);
+          } else {
+            tauNaivePhi[i] = 1.2 + 1.5 * rng();
+          }
+
+          // Continuous postsynaptic metabolic rent: +Delta P / P_0 = psi * (R_NA - 1), spine/receptor load scaled to realistic +2.3%..+9.9%
+          const spineLoadRatio = 1.0 + 0.069 + 0.222 * Math.min(1.0, Math.max(0.0, (foldR[i] - 4.2) / 5.2));
+          atpRentPct[i] = S.psi * (spineLoadRatio - 1.0) * 100.0;
+
+          lnRArr[i] = rHi - rLo;
+          lnRhoArr[i] = rHi - rMid;
+          lnTauArr[i] = Math.log(tExact);
+          dUArrTmp[i] = dU;
+          accepted = true;
+        }
+      }
+    }
+
+    // Ensure Patient #42 is an archetype True NMDA-Compensated ADHD for clean initial inspection
+    for (let i = 0; i < N; i++) {
+      if (subtype[i] === 0 && cypCode[i] === 2 && sepRho[i] > 1.31 && sepRho[i] < 1.43) {
+        S.selectedPt = i;
+        break;
+      }
+    }
+
+    // Compute true population OLS regressions (ln tau vs ln R and ln tau vs ln rho)
+    S.regR = olsRegression(lnRArr, lnTauArr);
+    S.regRho = olsRegression(lnRhoArr, lnTauArr);
+    S.regDuRho = olsRegression(lnRhoArr, dUArrTmp);
+
+    const sortedRho = Array.from(sepRho).sort((a, b) => a - b);
+    S.trueRho50 = sortedRho[500];
+
+    updateDisplaySortOrder();
+    recomputeActiveSDEBarriers();
+    resetLiveWithdrawalCohort();
+    buildAssaySweepCurve();
+    drawRandomN40Subsample(S.n40Seed);
+    recomputeClinicalTrial();
+  }
+
+  // ─── SORT DISPLAY ORDER FOR 25 × 40 GRID ───────────────────────────────────
+  function updateDisplaySortOrder() {
+    const idxs = Array.from({ length: N }, (_, i) => i);
+    if (S.sortBy === 'rho') {
+      idxs.sort((a, b) => sepRho[a] - sepRho[b]);
+    } else if (S.sortBy === 'subtype') {
+      idxs.sort((a, b) => (subtype[a] - subtype[b]) || (sepRho[a] - sepRho[b]));
+    } else if (S.sortBy === 'cyp') {
+      idxs.sort((a, b) => (cypCode[a] - cypCode[b]) || (rctQtc[b] - rctQtc[a]));
+    }
+    for (let k = 0; k < N; k++) displayOrder[k] = idxs[k];
+  }
+
+  // ─── RECOMPUTE ACTIVE SDE BARRIERS UNDER v, D, AND d≡0 LEVERS ───────────────
+  function recomputeActiveSDEBarriers() {
+    // Note: S.abstinenceBlock blocks drug drive d during abstinence.
+    // Because d === 0 already during abstinence, 100% receptor blockade changes drift by 0.0000! (E_d === 0)
+    const vScale = Math.max(0.25, 1.0 + S.loopVPct / 100.0);
+    const dScale = Math.max(0.25, 1.0 + S.noiseDPct / 100.0);
+
+    for (let i = 0; i < N; i++) {
+      const b0 = b0Arr[i];
+      const v = v0Arr[i] * vScale;
+      const K = KArr[i];
+      const kA = kAArr[i];
+      const n = hillNArr[i];
+      const Di = DBaseArr[i] * dScale;
+
+      const roots = findThreeRoots(b0, v, K, kA, n, Di);
+      if (roots.length === 3) {
+        bistableAct[i] = 1;
+        xLoAct[i] = roots[0];
+        xMidAct[i] = roots[1];
+        xHiAct[i] = roots[2];
+        tauAct[i] = computeExactMFPT(roots[0], roots[1], roots[2], b0, v, K, kA, n, Di);
+      } else {
+        // Loop gain reduced past saddle-node bifurcation -> adapted basin annihilated!
+        bistableAct[i] = 0;
+        const singleLo = roots.length > 0 ? roots[0] : Math.log(b0 / (kA + Di));
+        xLoAct[i] = singleLo;
+        xMidAct[i] = singleLo + 0.15;
+        xHiAct[i] = xHi0[i];
+        tauAct[i] = 0.8 + 0.9 * (sepRho[i] - 1.1);
+      }
+    }
+  }
+
+  // ─── INITIALIZE / RESET ALL 1,000 LIVE TRAJECTORIES IN ADAPTED BASIN ────────
+  function resetLiveWithdrawalCohort() {
+    S.tDays = 0.0;
+    S.pulseActive = false;
+    liveRng = mulberry32((S.seed ^ 0x5A5A5A5A) >>> 0);
+    liveRandn = makeNormal(liveRng);
+
+    for (let i = 0; i < N; i++) {
+      xLive[i] = xHi0[i] + 0.032 * liveRandn();
+      remitted[i] = 0;
+      remitDay[i] = -1.0;
+      pulseState[i] = 0;
+    }
+    ptHistCount = 0;
+    recordSelectedPatientPoint();
+  }
+
+  function recordSelectedPatientPoint() {
+    const id = S.selectedPt;
+    const A = Math.exp(xLive[id]);
+    if (ptHistCount < PT_HIST_LEN) {
+      ptHistT[ptHistCount] = S.tDays;
+      ptHistA[ptHistCount] = A;
+      ptHistCount++;
+    } else {
+      ptHistT.copyWithin(0, 1);
+      ptHistA.copyWithin(0, 1);
+      ptHistT[PT_HIST_LEN - 1] = S.tDays;
+      ptHistA[PT_HIST_LEN - 1] = A;
+    }
+  }
+
+  // ─── STEP ALL 1,000 VIRTUAL BRAINS VIA EULER-MARUYAMA (60 FPS) ──────────────
+  function stepCohortSDE(dtDays) {
+    const vScale = Math.max(0.25, 1.0 + S.loopVPct / 100.0);
+    const dScale = Math.max(0.25, 1.0 + S.noiseDPct / 100.0);
+
+    // Check if transient graded knockdown pulse is active
+    const inPulse = S.pulseActive && (S.tDays < S.pulseEndDay);
+    if (S.pulseActive && S.tDays >= S.pulseEndDay) {
+      S.pulseActive = false;
+      for (let i = 0; i < N; i++) pulseState[i] = 0;
+    }
+
+    const nSub = Math.max(1, Math.ceil(dtDays / 0.05));
+    const h = dtDays / nSub;
+
+    for (let sub = 0; sub < nSub; sub++) {
+      S.tDays += h;
+      const sqrt2h = Math.sqrt(2.0 * h);
+
+      for (let i = 0; i < N; i++) {
+        const Di = DBaseArr[i] * dScale;
+        let xi = xLive[i];
+
+        if (inPulse && remitted[i] === 0) {
+          // Transient graded receptor knockdown clamps/pulls pool toward (1 - p) * A_hi0
+          const xTarget = xHi0[i] + Math.log(Math.max(0.12, S.pulseTargetScale));
+          xi += (xTarget - xi) * Math.min(1.0, h * 5.5) + Math.sqrt(Di) * 0.35 * sqrt2h * liveRandn();
+          pulseState[i] = (xi < xMidAct[i]) ? 1 : 2;
+        } else {
+          const A = Math.exp(xi);
+          const K = KArr[i];
+          const n = hillNArr[i];
+          const ratio = A / K;
+          const rn = Math.pow(ratio, n);
+          // During abstinence d_i(t) === 0 identically (whether receptor blocker is on board or not!)
+          const f = b0Arr[i] + (v0Arr[i] * vScale * rn) / (1.0 + rn) - kAArr[i] * A;
+          const drift = f / A - Di;
+          xi += drift * h + Math.sqrt(Di) * sqrt2h * liveRandn();
+        }
+
+        // Reflecting Physiological Bounds
+        const xFloor = xLoAct[i] - 0.45;
+        const xCeil = xHi0[i] + 0.55;
+        if (xi < xFloor) xi = xFloor + 0.5 * (xFloor - xi);
+        if (xi > xCeil) xi = xCeil - 0.5 * (xi - xCeil);
+
+        xLive[i] = xi;
+
+        // Detect permanent collapse into healthy baseline basin
+        const remitThresh = xLoAct[i] + 0.32 * (xMidAct[i] - xLoAct[i]);
+        if (remitted[i] === 0 && xi <= remitThresh && !inPulse) {
+          remitted[i] = 1;
+          remitDay[i] = S.tDays;
+        }
+      }
+    }
+    recordSelectedPatientPoint();
+  }
+
+  // ─── TRIGGER GRADED PERTURBATION KNOCKDOWN PULSE (MODE A) ───────────────────
+  function fireKnockdownPulse() {
+    const frac = Math.min(0.85, Math.max(0.0, S.knockdownPct / 100.0));
+    S.pulseTargetScale = 1.0 - frac;
+    S.pulseActive = true;
+    S.pulseEndDay = S.tDays + S.pulseHoldDays;
+
+    // Immediately displace active adapted brains by the graded knockdown fraction (1 - p)
+    for (let i = 0; i < N; i++) {
+      if (remitted[i] === 0) {
+        const curA = Math.exp(xLive[i]);
+        const knockedA = Math.max(Math.exp(xLoAct[i]) * 0.7, curA * S.pulseTargetScale);
+        xLive[i] = Math.log(knockedA);
+        pulseState[i] = (xLive[i] < xMidAct[i]) ? 1 : 2;
+      }
+    }
+    recordSelectedPatientPoint();
+    buildAssaySweepCurve();
+  }
+
+  // ─── COMPUTE FULL 0% -> 75% SEPARATRIX PERTURBATION ASSAY CURVE ─────────────
+  function buildAssaySweepCurve() {
+    const pts = [];
+    let p50Cross = null;
+    for (let pct = 0; pct <= 75; pct += 2.5) {
+      const scale = 1.0 - pct / 100.0;
+      const critRho = 1.0 / Math.max(0.15, scale);
+      let flipped = 0;
+      let noisyAssayFlipped = 0;
+      for (let i = 0; i < N; i++) {
+        if (sepRho[i] < critRho) flipped++;
+        // Simulated assay outcome after pulse + noisy washout
+        const xPost = xHi0[i] + Math.log(scale) + 0.018 * Math.sin(i * 12.9898);
+        if (xPost < xMid0[i]) noisyAssayFlipped++;
+      }
+      const frac = noisyAssayFlipped / N;
+      if (p50Cross === null && frac >= 0.50) {
+        p50Cross = pct;
+      }
+      pts.push({
+        pct,
+        theoFrac: flipped / N,
+        assayFrac: frac
+      });
+    }
+    S.assaySweepCurve = pts;
+    S.inferredRho50 = p50Cross !== null ? (1.0 / (1.0 - p50Cross / 100.0)) : S.trueRho50;
+  }
+
+  // ─── MODE B: STRATIFIED VS UNSTRATIFIED CLINICAL TRIAL SOLVER (N = 1,000) ──
+  function drawRandomN40Subsample(seedVal) {
+    S.n40Seed = seedVal;
+    inSubN40.fill(0);
+    const r = mulberry32(seedVal);
+    let picked = 0;
+    while (picked < 40) {
+      const k = Math.floor(r() * N);
+      if (inSubN40[k] === 0) {
+        inSubN40[k] = 1;
+        picked++;
+      }
+    }
+  }
+
+  function recomputeClinicalTrial() {
+    const prof = DRUG_PROFILES[S.drugKey] || DRUG_PROFILES.mph;
+    const dose = S.doseMult;
+    const rngNoise = mulberry32((S.seed + 7717) >>> 0);
+    const nrm = makeNormal(rngNoise);
+
+    let sumAll = 0, sumSqAll = 0, respAll = 0, worseAll = 0;
+    let sumN40 = 0, sqN40 = 0, n40Cnt = 0, n40QtcHits = 0;
+    let qtc500 = 0, qtc470 = 0, advCnt = 0;
+
+    const subAcc = [
+      { sum: 0, sq: 0, resp: 0, worse: 0, n: 0 },
+      { sum: 0, sq: 0, resp: 0, worse: 0, n: 0 },
+      { sum: 0, sq: 0, resp: 0, worse: 0, n: 0 },
+      { sum: 0, sq: 0, resp: 0, worse: 0, n: 0 }
+    ];
+
+    for (let i = 0; i < N; i++) {
+      // 1. Pharmacogenomic Systemic & Unbound Brain Exposure
+      const effClearance = prof.fCyp2d6 * cypMult[i] +
+        (1.0 - prof.fCyp2d6) * ces1Mult[i] * (1.0 - prof.fCes1Inhib);
+      const Cp = dose / Math.max(0.13, effClearance);
+      const Cb = Cp * prof.kpuu;
+      rctPlasma[i] = Cp;
+      rctBrain[i] = Cb;
+
+      // 2. Synaptic Cleft Transmitters & Receptor Actions
+      const occRel = (Cb * prof.datRel) / (0.65 + Cb * prof.datRel);
+      const occBlk = (Cb * prof.datBlk) / (0.55 + Cb * prof.datBlk);
+      const occNet = (Cb * prof.net) / (0.60 + Cb * prof.net);
+      const occSert = (Cb * prof.sert) / (0.45 + Cb * prof.sert);
+      const occMorAgo = (Cb * prof.morAgo) / (0.55 + Cb * prof.morAgo);
+      const occMorAnt = (Cb * prof.morAnt) / (0.35 + Cb * prof.morAnt);
+
+      // Reuptake inhibition scales with endogenous vesicular release etaRel[i];
+      // DAT reversal pumps DA directly even when etaRel[i] is crippled (Article 04)!
+      const baseDA = etaRel[i] / kDatClear[i];
+      const daFromBlk = baseDA * (1.0 + 2.35 * occBlk);
+      const daFromRel = 2.65 * occRel;
+      // SERT 5-HT2C VTA brake mildly dampens tonic DA when SERT is unopposed
+      const sertDaBrake = 1.0 - 0.28 * occSert * (1.0 - occRel - 0.5 * occBlk);
+      // MOR VTA GABA disinhibition adds non-cognitive mesolimbic DA surge
+      const morDaSurge = 0.85 * occMorAgo * (1.0 - occMorAnt);
+      const cleftDA = Math.max(0.05, (daFromBlk + daFromRel) * sertDaBrake + morDaSurge);
+
+      // Cortical NMDA hypercompensation silencing when DA deficit is resolved
+      const nmdaBefore = gammaNmda[i];
+      const quenchRatio = Math.max(0.0, (cleftDA - 0.42) / 0.62);
+      const neMismatch = Math.max(0.0, occNet * 1.35 - (cleftDA - baseDA) * 0.85);
+      const nmdaAfter = nmdaBefore / (1.0 + quenchRatio * quenchRatio * 2.4) +
+        (subtype[i] === 0 ? 0.58 * neMismatch : 0.14 * neMismatch);
+      rctNmdaPost[i] = nmdaAfter;
+
+      // 3. Endophenotype-Specific Clinical Outcome Score (Delta CGI: -3.5 to +3.5)
+      const st = subtype[i];
+      let score = 0.0;
+      const measNoise = 0.68 * nrm();
+
+      if (st === 0) {
+        // 38% True NMDA-Compensated Release-Deficit ADHD (Article 04)
+        // Pure reuptake block (datRel ~ 0) fails to silence NMDA while high NET worsens agitation!
+        const releaseRescue = 2.45 * occRel + 0.32 * occBlk * etaRel[i];
+        const nmdaRelief = nmdaBefore * (releaseRescue / (0.62 + releaseRescue));
+        const pureNdriAgitation = 1.68 * occNet * (1.0 - 0.85 * occRel);
+        const cypOverdosePenalty = Cb > 2.8 ? 0.55 * (Cb - 2.8) : 0.0;
+        const sertShift = 0.18 * occSert; // Modest anxious blunting, fails to fix DA deficit
+        score = 1.28 * nmdaRelief - pureNdriAgitation - cypOverdosePenalty + sertShift - 0.35 * occMorAgo + measNoise;
+      } else if (st === 1) {
+        // 34% Reuptake-Driven Inattentive / Mild Deficit
+        const targetDA = cleftDA - baseDA;
+        const optimalWindow = 1.85 * (targetDA / (0.50 + targetDA)) - (cleftDA > 2.45 ? 1.10 * (cleftDA - 2.45) : 0.0);
+        const neFocus = 0.38 * occNet - (Cp * prof.net > 1.35 ? 0.85 * (Cp * prof.net - 1.35) : 0.0);
+        const mildAnxLift = 0.52 * occSert;
+        score = optimalWindow + neFocus + mildAnxLift - 0.45 * occMorAgo + measNoise;
+      } else if (st === 2) {
+        // 18% Hypodopaminergic Anhedonic MDD (Misdiagnosed as ADHD — energized by stimulants, 5-HT2C DA blunting on SSRI)
+        const daEnergyLift = 1.15 * ((cleftDA - baseDA) / (0.75 + Math.abs(cleftDA - baseDA)));
+        const ssriBlunt = -0.36 * occSert * (1.05 - etaRel[i]);
+        const overStim = Cp * (prof.net + prof.datRel) > 1.75 ? 0.80 * (Cp * (prof.net + prof.datRel) - 1.75) : 0.0;
+        score = daEnergyLift + ssriBlunt - overStim + measNoise;
+      } else {
+        // 10% Latent Cortico-Striatal Bipolar / Subclinical hERG LQTS
+        // Vulnerable to SSRI manic/mixed switch & high-dose catecholamine destabilization
+        const rawDrive = 0.95 * occSert + 0.52 * Math.min(1.6, Math.max(0, cleftDA - 1.35)) + 0.42 * occNet;
+        const switchDrive = bipolarSens[i] * rawDrive;
+        const mildStabilize = (cleftDA > 0.55 && cleftDA < 1.25 && occSert < 0.2) ? 0.35 : 0.0;
+        score = mildStabilize - 0.98 * switchDrive + measNoise;
+      }
+
+      // BBB-rejected peripheral molecules (e.g. Dopamine Kp,uu ~ 0.02 from Sim 05) produce ~0 central benefit + peripheral sympathetic strain!
+      if (prof.kpuu < 0.12) {
+        score = -0.35 * Cp * prof.net + 0.45 * nrm();
+      }
+
+      score = Math.max(-3.4, Math.min(3.4, score));
+      rctScore[i] = score;
+
+      // 4. Ventricular Bazett QTc (ms) & Adverse Event Classification
+      // Calibrated so CYP2D6 PM (0.15x) x Subclinical LQTS gives ~1-in-200 (4-7/1000) Torsades outliers on CYP2D6 drugs,
+      // and ~20x cardiac risk surge (~45-58/1000) on Cocaine + Ethanol (Cocaethylene 3.2x hERG block, Article 08)!
+      const dQtHerg = 26.5 * Math.pow(Cp * prof.herg, 1.15) * hergSens[i];
+      const dQtSymp = 7.2 * Math.min(2.5, Cp * prof.net);
+      const qtc = qtcBase[i] + dQtHerg + dQtSymp;
+      rctQtc[i] = qtc;
+
+      const hasQtc500 = qtc >= 500.0;
+      const hasSevereAgitation = score <= -1.15;
+      if (hasQtc500 && hasSevereAgitation) rctAdverse[i] = 3;
+      else if (hasQtc500) rctAdverse[i] = 2;
+      else if (hasSevereAgitation) rctAdverse[i] = 1;
+      else rctAdverse[i] = 0;
+
+      if (hasQtc500) qtc500++;
+      if (qtc >= 470.0) qtc470++;
+      if (rctAdverse[i] > 0) advCnt++;
+
+      // Accumulate global & stratified RCT metrics
+      const isResp = score >= 1.0;
+      const isWorse = score <= -0.75;
+      sumAll += score;
+      sumSqAll += score * score;
+      if (isResp) respAll++;
+      if (isWorse) worseAll++;
+
+      subAcc[st].sum += score;
+      subAcc[st].sq += score * score;
+      if (isResp) subAcc[st].resp++;
+      if (isWorse) subAcc[st].worse++;
+      subAcc[st].n++;
+
+      if (inSubN40[i]) {
+        sumN40 += score;
+        sqN40 += score * score;
+        n40Cnt++;
+        if (hasQtc500) n40QtcHits++;
+      }
+    }
+
+    const allMean = sumAll / N;
+    const allVar = Math.max(0.04, sumSqAll / N - allMean * allMean);
+    const allSD = Math.sqrt(allVar);
+    const placeboRespRate = 0.18; // Standard 18% placebo responder benchmark for NNT
+    const allRespRate = respAll / N;
+    const allNNT = (allRespRate - placeboRespRate) > 0.01 ? (1.0 / (allRespRate - placeboRespRate)) : 99.9;
+
+    S.rctStats.allMean = allMean;
+    S.rctStats.allSD = allSD;
+    S.rctStats.allD = allMean / allSD;
+    S.rctStats.allRespPct = allRespRate * 100.0;
+    S.rctStats.allWorsePct = (worseAll / N) * 100.0;
+    S.rctStats.allNNT = allNNT;
+    S.rctStats.qtc500Count = qtc500;
+    S.rctStats.qtc470Count = qtc470;
+    S.rctStats.adverseCount = advCnt;
+
+    const m40 = sumN40 / Math.max(1, n40Cnt);
+    const sd40 = Math.sqrt(Math.max(0.04, sqN40 / Math.max(1, n40Cnt) - m40 * m40));
+    S.rctStats.n40Mean = m40;
+    S.rctStats.n40D = m40 / sd40;
+    S.rctStats.n40QtcHits = n40QtcHits;
+
+    for (let st = 0; st < 4; st++) {
+      const a = subAcc[st];
+      const mn = a.sum / Math.max(1, a.n);
+      const sd = Math.sqrt(Math.max(0.04, a.sq / Math.max(1, a.n) - mn * mn));
+      const rr = a.resp / Math.max(1, a.n);
+      S.rctStats.sub[st] = {
+        mean: mn,
+        d: mn / sd,
+        respPct: rr * 100.0,
+        worsePct: (a.worse / Math.max(1, a.n)) * 100.0,
+        nnt: (rr - placeboRespRate) > 0.01 ? (1.0 / (rr - placeboRespRate)) : 99.9,
+        count: a.n
+      };
+    }
+
+    if (S.sortBy === 'cyp') updateDisplaySortOrder();
+  }
+
+  // ─── DOM REFERENCES ─────────────────────────────────────────────────────────
+  const dom = {
+    btnReelMode: document.getElementById('btnReelMode'),
+    btnMathDrawer: document.getElementById('btnMathDrawer'),
+    mathDrawer: document.getElementById('mathDrawer'),
+    btnCloseDrawer: document.getElementById('btnCloseDrawer'),
+    btnResetPopConstants: document.getElementById('btnResetPopConstants'),
+    p_D0: document.getElementById('p_D0'),
+    p_phi: document.getElementById('p_phi'),
+    p_psi: document.getElementById('p_psi'),
+    p_pulseDays: document.getElementById('p_pulseDays'),
+    p_seed: document.getElementById('p_seed'),
+
+    customMolBanner: document.getElementById('customMolBanner'),
+    cmBannerName: document.getElementById('cmBannerName'),
+    cmBannerSpecs: document.getElementById('cmBannerSpecs'),
+    btnRunCustomModeB: document.getElementById('btnRunCustomModeB'),
+
+    tabModeA: document.getElementById('tabModeA'),
+    tabModeB: document.getElementById('tabModeB'),
+    tabModeC: document.getElementById('tabModeC'),
+    deckModeA: document.getElementById('deckModeA'),
+    deckModeB: document.getElementById('deckModeB'),
+    deckModeC: document.getElementById('deckModeC'),
+
+    btnPlayPause: document.getElementById('btnPlayPause'),
+    btnResetCohort: document.getElementById('btnResetCohort'),
+    speedSelect: document.getElementById('speedSelect'),
+    btnShareURL: document.getElementById('btnShareURL'),
+    clockReadout: document.getElementById('clockReadout'),
+    statusBadge: document.getElementById('statusBadge'),
+
+    matrixTitle: document.getElementById('matrixTitle'),
+    matrixBadge: document.getElementById('matrixBadge'),
+    matrixLegend: document.getElementById('matrixLegend'),
+    hoverHint: document.getElementById('hoverHint'),
+    cohortGridCanvas: document.getElementById('cohortGridCanvas'),
+
+    kpi1Label: document.getElementById('kpi1Label'), kpi1Val: document.getElementById('kpi1Val'), kpi1Sub: document.getElementById('kpi1Sub'),
+    kpi2Label: document.getElementById('kpi2Label'), kpi2Val: document.getElementById('kpi2Val'), kpi2Sub: document.getElementById('kpi2Sub'),
+    kpi3Label: document.getElementById('kpi3Label'), kpi3Val: document.getElementById('kpi3Val'), kpi3Sub: document.getElementById('kpi3Sub'),
+    kpi4Label: document.getElementById('kpi4Label'), kpi4Val: document.getElementById('kpi4Val'), kpi4Sub: document.getElementById('kpi4Sub'),
+    kpi5Label: document.getElementById('kpi5Label'), kpi5Val: document.getElementById('kpi5Val'), kpi5Sub: document.getElementById('kpi5Sub'),
+    kpi6Label: document.getElementById('kpi6Label'), kpi6Val: document.getElementById('kpi6Val'), kpi6Sub: document.getElementById('kpi6Sub'),
+
+    ptHeaderTitle: document.getElementById('ptHeaderTitle'),
+    ptSubtype: document.getElementById('ptSubtype'),
+    ptCyp: document.getElementById('ptCyp'),
+    ptR: document.getElementById('ptR'),
+    ptRho: document.getElementById('ptRho'),
+    ptTau: document.getElementById('ptTau'),
+    ptRent: document.getElementById('ptRent'),
+    ptTrialResp: document.getElementById('ptTrialResp'),
+    ptQtc: document.getElementById('ptQtc'),
+    ptLiveAVal: document.getElementById('ptLiveAVal'),
+    patientTraceCanvas: document.getElementById('patientTraceCanvas'),
+    btnPickNmda: document.getElementById('btnPickNmda'),
+    btnPickTail: document.getElementById('btnPickTail'),
+    btnPickOutlier: document.getElementById('btnPickOutlier'),
+
+    // Mode A
+    assayStatusBadge: document.getElementById('assayStatusBadge'),
+    sliderKnockdown: document.getElementById('sliderKnockdown'),
+    lblKnockdownPct: document.getElementById('lblKnockdownPct'),
+    sliderLoopV: document.getElementById('sliderLoopV'),
+    lblLoopVPct: document.getElementById('lblLoopVPct'),
+    sliderNoiseD: document.getElementById('sliderNoiseD'),
+    lblNoiseDPct: document.getElementById('lblNoiseDPct'),
+    chkAbstinenceBlock: document.getElementById('chkAbstinenceBlock'),
+    blockadeProofNote: document.getElementById('blockadeProofNote'),
+    btnFirePulse: document.getElementById('btnFirePulse'),
+    btnSweepAssay: document.getElementById('btnSweepAssay'),
+    btnSnapV106: document.getElementById('btnSnapV106'),
+    btnSnapD417: document.getElementById('btnSnapD417'),
+    btnResetLevers: document.getElementById('btnResetLevers'),
+    modeACallout: document.getElementById('modeACallout'),
+    phaseCloudCanvas: document.getElementById('phaseCloudCanvas'),
+    assayCurveCanvas: document.getElementById('assayCurveCanvas'),
+    inferredRhoReadout: document.getElementById('inferredRhoReadout'),
+
+    // Mode B
+    rctHeaderBadge: document.getElementById('rctHeaderBadge'),
+    selectTrialDrug: document.getElementById('selectTrialDrug'),
+    lblDrugClass: document.getElementById('lblDrugClass'),
+    sliderTrialDose: document.getElementById('sliderTrialDose'),
+    lblTrialDose: document.getElementById('lblTrialDose'),
+    customTunerBox: document.getElementById('customTunerBox'),
+    slCustKpuu: document.getElementById('slCustKpuu'), lblCustKpuu: document.getElementById('lblCustKpuu'),
+    slCustDatRel: document.getElementById('slCustDatRel'), lblCustDatRel: document.getElementById('lblCustDatRel'),
+    slCustDatBlk: document.getElementById('slCustDatBlk'), lblCustDatBlk: document.getElementById('lblCustDatBlk'),
+    slCustNet: document.getElementById('slCustNet'), lblCustNet: document.getElementById('lblCustNet'),
+    slCustHerg: document.getElementById('slCustHerg'), lblCustHerg: document.getElementById('lblCustHerg'),
+    btnToggleUnmask: document.getElementById('btnToggleUnmask'),
+    btnDrawN40: document.getElementById('btnDrawN40'),
+    btnToggleCustomTuner: document.getElementById('btnToggleCustomTuner'),
+    modeBCallout: document.getElementById('modeBCallout'),
+    n40CompareReadout: document.getElementById('n40CompareReadout'),
+    qtcOutlierReadout: document.getElementById('qtcOutlierReadout'),
+    rctDistCanvas: document.getElementById('rctDistCanvas'),
+    qtcSafetyCanvas: document.getElementById('qtcSafetyCanvas'),
+
+    // Mode C
+    kmHorizonBadge: document.getElementById('kmHorizonBadge'),
+    chkShowNaivePhi: document.getElementById('chkShowNaivePhi'),
+    chkShowBlockadeKM: document.getElementById('chkShowBlockadeKM'),
+    kmSummaryReadout: document.getElementById('kmSummaryReadout'),
+    sliceSpreadReadout: document.getElementById('sliceSpreadReadout'),
+    kmCanvas: document.getElementById('kmCanvas'),
+    regressionCanvas: document.getElementById('regressionCanvas')
+  };
+
+  // ─── RETINA DPR CANVAS HELPER ───────────────────────────────────────────────
+  const canvasMap = new Map();
+  function prepCanvas(canvas) {
+    const dpr = Math.min(2.5, window.devicePixelRatio || 1);
+    const rect = canvas.getBoundingClientRect();
+    const cssW = Math.max(240, rect.width || 600);
+    const cssH = parseFloat(canvas.getAttribute('height')) || 260;
+    const targetW = Math.round(cssW * dpr);
+    const targetH = Math.round(cssH * dpr);
+    if (canvas.width !== targetW || canvas.height !== targetH) {
+      canvas.width = targetW;
+      canvas.height = targetH;
+    }
+    let ctx = canvasMap.get(canvas);
+    if (!ctx) {
+      ctx = canvas.getContext('2d');
+      canvasMap.set(canvas, ctx);
+    }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { ctx, w: cssW, h: cssH };
+  }
+
+  // ─── DRAW 1: 25 × 40 NEURAL PATIENT COHORT MATRIX ──────────────────────────
+  function drawCohortGrid(animSec) {
+    const { ctx, w, h } = prepCanvas(dom.cohortGridCanvas);
+    ctx.fillStyle = '#060608';
+    ctx.fillRect(0, 0, w, h);
+
+    const padX = 10, padY = 10;
+    const availW = w - 2 * padX;
+    const availH = h - 2 * padY;
+    const cellW = availW / GRID_COLS;
+    const cellH = availH / GRID_ROWS;
+    const gap = Math.min(2.2, Math.max(1.0, cellW * 0.14));
+
+    const pulseWave = 0.5 + 0.5 * Math.sin(animSec * 6.5);
+
+    for (let slot = 0; slot < N; slot++) {
+      const i = displayOrder[slot];
+      const r = Math.floor(slot / GRID_COLS);
+      const c = slot % GRID_COLS;
+      const x = padX + c * cellW;
+      const y = padY + r * cellH;
+      const cw = Math.max(2, cellW - gap);
+      const ch = Math.max(2, cellH - gap);
+
+      if (S.mode === 'B') {
+        // Clinical Trial Visualization
+        const sc = rctScore[i];
+        const adv = rctAdverse[i];
+        if (sc >= 1.0) {
+          const inten = Math.min(1, (sc - 0.8) / 2.2);
+          if (S.unmasked && subtype[i] === 2) {
+            // MDD energized (cyan) vs paradoxical calm (lime)
+            ctx.fillStyle = `rgba(0, 229, 255, ${(0.48 + 0.48 * inten).toFixed(2)})`;
+          } else {
+            ctx.fillStyle = `rgba(200, 255, 0, ${(0.45 + 0.52 * inten).toFixed(2)})`;
+          }
+        } else if (sc <= -0.75) {
+          const inten = Math.min(1, (-sc - 0.5) / 2.2);
+          ctx.fillStyle = `rgba(255, 107, 53, ${(0.48 + 0.50 * inten).toFixed(2)})`;
+        } else {
+          ctx.fillStyle = S.unmasked ? 'rgba(158, 155, 147, 0.28)' : 'rgba(120, 120, 132, 0.26)';
+        }
+        ctx.fillRect(x, y, cw, ch);
+
+        // Unmasked subtype corner micro-indicator
+        if (S.unmasked) {
+          const stColors = ['#c8ff00', '#00e5ff', '#9b88ff', '#ff6b35'];
+          ctx.fillStyle = stColors[subtype[i]];
+          ctx.fillRect(x, y, Math.min(4, cw * 0.32), Math.min(3, ch * 0.28));
+        }
+
+        // Lethal QTc > 500ms Torsades outlier crimson pulsing border!
+        if (adv >= 2) {
+          ctx.strokeStyle = `rgba(255, 59, 92, ${(0.65 + 0.35 * pulseWave).toFixed(2)})`;
+          ctx.lineWidth = 1.6;
+          ctx.strokeRect(x - 0.5, y - 0.5, cw + 1, ch + 1);
+        }
+      } else {
+        // Mode A & C: Live Itô Stochastic Synaptic CP-AMPA State
+        if (remitted[i]) {
+          ctx.fillStyle = '#c8ff00';
+          ctx.fillRect(x, y, cw, ch);
+        } else {
+          const span = Math.max(0.15, xHi0[i] - xLo0[i]);
+          const norm = Math.max(0, Math.min(1.15, (xLive[i] - xLo0[i]) / span));
+          const nearSaddle = Math.abs(xLive[i] - xMidAct[i]) < 0.085 || pulseState[i] === 1;
+          if (nearSaddle) {
+            ctx.fillStyle = '#00e5ff';
+          } else {
+            const alpha = 0.42 + 0.55 * Math.min(1, norm);
+            ctx.fillStyle = `rgba(255, 107, 53, ${alpha.toFixed(2)})`;
+          }
+          ctx.fillRect(x, y, cw, ch);
+
+          // High-rho long-tail border marker (Marshall & Kim tail)
+          if (sepRho[i] > 1.46) {
+            ctx.strokeStyle = 'rgba(155, 136, 255, 0.72)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(x + 0.5, y + 0.5, cw - 1, ch - 1);
+          }
+        }
+      }
+
+      // Highlight selected or hovered patient
+      if (i === S.selectedPt || i === S.hoverPt) {
+        ctx.strokeStyle = i === S.selectedPt ? '#ffffff' : '#00e5ff';
+        ctx.lineWidth = i === S.selectedPt ? 2.0 : 1.4;
+        ctx.strokeRect(x - 1, y - 1, cw + 2, ch + 2);
+      }
+    }
+  }
+
+  // ─── DRAW 2: SINGLE-PATIENT TRAJECTORY INSPECTOR CANVAS ────────────────────
+  function drawPatientTrace() {
+    const { ctx, w, h } = prepCanvas(dom.patientTraceCanvas);
+    ctx.fillStyle = '#060608';
+    ctx.fillRect(0, 0, w, h);
+
+    const id = S.selectedPt;
+    const padL = 38, padR = 12, padT = 12, padB = 22;
+    const pw = w - padL - padR;
+    const ph = h - padT - padB;
+
+    if (S.mode === 'B') {
+      // In Mode B, draw single-patient Cleft DA, Cortical NMDA Noise before/after, and QTc safety bar
+      const prof = DRUG_PROFILES[S.drugKey] || DRUG_PROFILES.mph;
+      const bars = [
+        { label: 'Release η', val: etaRel[id] / 1.3, raw: etaRel[id].toFixed(2), col: '#9b88ff' },
+        { label: 'Pre-NMDA', val: gammaNmda[id] / 2.2, raw: gammaNmda[id].toFixed(2), col: '#ff6b35' },
+        { label: 'Post-NMDA', val: rctNmdaPost[id] / 2.2, raw: rctNmdaPost[id].toFixed(2), col: '#00e5ff' },
+        { label: 'CNS Cb', val: Math.min(1, rctBrain[id] / 3.0), raw: rctBrain[id].toFixed(2) + '×', col: '#c8ff00' },
+        { label: 'QTc Risk', val: Math.max(0, (rctQtc[id] - 360) / 180), raw: Math.round(rctQtc[id]) + 'ms', col: rctQtc[id] >= 500 ? '#ff3b5c' : '#f0ece4' }
+      ];
+      const bw = pw / bars.length;
+      ctx.font = '10px "IBM Plex Mono", monospace';
+      ctx.textAlign = 'center';
+      for (let b = 0; b < bars.length; b++) {
+        const bx = padL + b * bw + bw * 0.16;
+        const barW = bw * 0.68;
+        const bh = Math.max(3, Math.min(1, bars[b].val) * (ph - 18));
+        const by = padT + ph - bh;
+        ctx.fillStyle = 'rgba(255,255,255,0.05)';
+        ctx.fillRect(bx, padT + 14, barW, ph - 14);
+        ctx.fillStyle = bars[b].col;
+        ctx.fillRect(bx, by, barW, bh);
+        ctx.fillStyle = '#f0ece4';
+        ctx.fillText(bars[b].raw, bx + barW / 2, Math.max(padT + 10, by - 4));
+        ctx.fillStyle = '#9e9b93';
+        ctx.fillText(bars[b].label, bx + barW / 2, h - 6);
+      }
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#6e6d68';
+      ctx.fillText(prof.name.slice(0, 32), padL, 11);
+      return;
+    }
+
+    const aLo = Math.exp(xLoAct[id]);
+    const aMid = Math.exp(xMidAct[id]);
+    const aHi = Math.exp(xHi0[id]);
+    const yMax = aHi * 1.25;
+    const yMin = 0;
+    const yToPx = (val) => padT + ph * (1.0 - (val - yMin) / (yMax - yMin));
+
+    // Reference attractor lines
+    const drawRef = (val, col, dash, tag) => {
+      const py = yToPx(val);
+      ctx.save();
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 1;
+      ctx.setLineDash(dash);
+      ctx.beginPath();
+      ctx.moveTo(padL, py);
+      ctx.lineTo(w - padR, py);
+      ctx.stroke();
+      ctx.fillStyle = col;
+      ctx.font = '9.5px "IBM Plex Mono", monospace';
+      ctx.fillText(tag, 4, py + 3);
+      ctx.restore();
+    };
+    drawRef(aHi, 'rgba(255,107,53,0.65)', [3, 3], 'A_hi');
+    if (bistableAct[id]) drawRef(aMid, 'rgba(0,229,255,0.80)', [5, 3], 'A_mid');
+    drawRef(aLo, 'rgba(200,255,0,0.65)', [3, 3], 'A_lo');
+
+    // Trajectory line
+    if (ptHistCount > 1) {
+      const t0 = ptHistT[0];
+      const tSpan = Math.max(0.5, ptHistT[ptHistCount - 1] - t0);
+      ctx.strokeStyle = remitted[id] ? '#c8ff00' : '#ff6b35';
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      for (let k = 0; k < ptHistCount; k++) {
+        const px = padL + ((ptHistT[k] - t0) / tSpan) * pw;
+        const py = yToPx(Math.min(yMax, ptHistA[k]));
+        if (k === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+    }
+
+    ctx.fillStyle = '#6e6d68';
+    ctx.font = '9.5px "IBM Plex Mono", monospace';
+    ctx.fillText(`Day ${S.tDays.toFixed(1)}`, padL, h - 5);
+    ctx.textAlign = 'right';
+    ctx.fillText(remitted[id] ? `REMITTED (Day ${remitDay[id].toFixed(1)})` : 'ADAPTED BASIN', w - padR, h - 5);
+    ctx.textAlign = 'left';
+  }
+
+  // ─── DRAW 3 (MODE A): 1,000-BRAIN PHASE CLOUD & SEPARATRIX BIFURCATION ──────
+  let phaseDotCoords = null;
+  function drawPhaseCloud() {
+    const { ctx, w, h } = prepCanvas(dom.phaseCloudCanvas);
+    ctx.fillStyle = '#060608';
+    ctx.fillRect(0, 0, w, h);
+
+    const padL = 48, padR = 18, padT = 16, padB = 30;
+    const pw = w - padL - padR;
+    const ph = h - padT - padB;
+
+    const rhoMin = 1.10, rhoMax = 1.65;
+    const yMin = 0.05, yMax = 1.22;
+    const xPx = (rho) => padL + ((rho - rhoMin) / (rhoMax - rhoMin)) * pw;
+    const yPx = (yn) => padT + (1.0 - (yn - yMin) / (yMax - yMin)) * ph;
+
+    // Subtle grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.lineWidth = 1;
+    for (let r = 1.15; r <= 1.601; r += 0.10) {
+      const px = xPx(r);
+      ctx.beginPath(); ctx.moveTo(px, padT); ctx.lineTo(px, padT + ph); ctx.stroke();
+      ctx.fillStyle = '#6e6d68';
+      ctx.font = '10px "IBM Plex Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(r.toFixed(2), px, h - 8);
+    }
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#9e9b93';
+    ctx.fillText('Hidden Separatrix Ratio ρᵢ = A_hi,i / A_mid,i →', padL + pw * 0.30, h - 8);
+
+    // Knockdown preview horizontal band y = 1 - knockdownPct/100
+    const kdY = 1.0 - S.knockdownPct / 100.0;
+    const pyKd = yPx(kdY);
+    ctx.save();
+    ctx.strokeStyle = 'rgba(200,255,0,0.45)';
+    ctx.setLineDash([3, 4]);
+    ctx.beginPath(); ctx.moveTo(padL, pyKd); ctx.lineTo(padL + pw, pyKd); ctx.stroke();
+    ctx.fillStyle = 'rgba(200,255,0,0.85)';
+    ctx.font = '10px "IBM Plex Mono", monospace';
+    ctx.fillText(`Knockdown Target (${100 - S.knockdownPct}% A_hi)`, padL + 6, Math.max(padT + 11, pyKd - 4));
+    ctx.restore();
+
+    // Critical vertical flip line rho_crit = 1 / (1 - p)
+    const rhoCrit = 1.0 / Math.max(0.15, kdY);
+    if (rhoCrit >= rhoMin && rhoCrit <= rhoMax) {
+      const pxCrit = xPx(rhoCrit);
+      ctx.save();
+      ctx.strokeStyle = 'rgba(0,229,255,0.45)';
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath(); ctx.moveTo(pxCrit, padT); ctx.lineTo(pxCrit, padT + ph); ctx.stroke();
+      ctx.restore();
+    }
+
+    // Glowing Hidden Separatrix Curve y = A_mid / A_hi = 1 / rho
+    ctx.save();
+    ctx.strokeStyle = '#00e5ff';
+    ctx.lineWidth = 2.2;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    for (let s = 0; s <= 80; s++) {
+      const r = rhoMin + (s / 80) * (rhoMax - rhoMin);
+      const px = xPx(r);
+      const py = yPx(1.0 / r);
+      if (s === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+    ctx.fillStyle = '#00e5ff';
+    ctx.font = '10px "IBM Plex Mono", monospace';
+    ctx.fillText('Hidden Saddle Separatrix A_mid,i / A_hi,i = 1/ρᵢ', padL + pw - 275, yPx(1.0 / 1.56) - 7);
+    ctx.restore();
+
+    // Plot all 1,000 virtual brains
+    if (!phaseDotCoords || phaseDotCoords.length !== N * 2) {
+      phaseDotCoords = new Float32Array(N * 2);
+    }
+    for (let i = 0; i < N; i++) {
+      const yn = Math.exp(xLive[i] - xHi0[i]);
+      const px = xPx(Math.min(rhoMax, Math.max(rhoMin, sepRho[i])));
+      const py = yPx(Math.min(yMax, Math.max(yMin, yn)));
+      phaseDotCoords[2 * i] = px;
+      phaseDotCoords[2 * i + 1] = py;
+
+      if (remitted[i]) {
+        ctx.fillStyle = 'rgba(200,255,0,0.82)';
+      } else if (xLive[i] < xMidAct[i]) {
+        ctx.fillStyle = 'rgba(0,229,255,0.90)';
+      } else {
+        ctx.fillStyle = 'rgba(255,107,53,0.78)';
+      }
+      ctx.fillRect(px - 1.7, py - 1.7, 3.4, 3.4);
+    }
+
+    // Highlight selected patient
+    const selX = phaseDotCoords[2 * S.selectedPt];
+    const selY = phaseDotCoords[2 * S.selectedPt + 1];
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(selX, selY, 5.5, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Y-axis ticks
+    ctx.fillStyle = '#6e6d68';
+    ctx.font = '9.5px "IBM Plex Mono", monospace';
+    ctx.textAlign = 'right';
+    [0.2, 0.5, 0.8, 1.0].forEach((v) => {
+      ctx.fillText((v * 100).toFixed(0) + '%', padL - 6, yPx(v) + 3);
+    });
+    ctx.textAlign = 'left';
+  }
+
+  // ─── DRAW 4 (MODE A): PERTURBATION DOSE-RESPONSE & ELASTICITY COMPARISON ───
+  function drawAssayCurve() {
+    const { ctx, w, h } = prepCanvas(dom.assayCurveCanvas);
+    ctx.fillStyle = '#060608';
+    ctx.fillRect(0, 0, w, h);
+
+    const midSplit = w * 0.52;
+    const padL = 42, padR = 14, padT = 20, padB = 28;
+
+    // LEFT HALF: Graded Knockdown % -> Permanently Reversed Cohort % (Reconstructing F(rho))
+    const lw = midSplit - padL - 12;
+    const lh = h - padT - padB;
+    const xKd = (pct) => padL + (pct / 75.0) * lw;
+    const yFrac = (f) => padT + (1.0 - f) * lh;
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+    ctx.strokeRect(padL, padT, lw, lh);
+
+    // 50% horizontal median line
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,255,255,0.16)';
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.moveTo(padL, yFrac(0.5)); ctx.lineTo(padL + lw, yFrac(0.5)); ctx.stroke();
+    ctx.restore();
+
+    // Theoretical cumulative rho distribution curve
+    if (S.assaySweepCurve.length > 1) {
+      ctx.strokeStyle = '#00e5ff';
+      ctx.lineWidth = 2.0;
+      ctx.beginPath();
+      S.assaySweepCurve.forEach((pt, idx) => {
+        const px = xKd(pt.pct);
+        const py = yFrac(pt.assayFrac);
+        if (idx === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+    }
+
+    // Current slider marker
+    const curIdx = Math.min(S.assaySweepCurve.length - 1, Math.round(S.knockdownPct / 2.5));
+    const curPt = S.assaySweepCurve[curIdx] || { pct: S.knockdownPct, assayFrac: 0 };
+    const cx = xKd(S.knockdownPct);
+    const cy = yFrac(curPt.assayFrac);
+    ctx.fillStyle = '#c8ff00';
+    ctx.beginPath(); ctx.arc(cx, cy, 4.8, 0, Math.PI * 2); ctx.fill();
+
+    ctx.fillStyle = '#9e9b93';
+    ctx.font = '9.5px "IBM Plex Mono", monospace';
+    ctx.fillText('Knockdown Pulse (0% → 75%)', padL, h - 7);
+    ctx.fillStyle = '#c8ff00';
+    ctx.fillText(`${S.knockdownPct}% → ${(curPt.assayFrac * 100).toFixed(1)}% Reversed`, padL + 4, padT + 12);
+
+    // RIGHT HALF: Day-30 Remission % Head-to-Head Bar Comparison (Art. 07 Elasticities)
+    const rx0 = midSplit + 18;
+    const rw = w - rx0 - padR;
+    const rh = lh;
+
+    // Compute Day-30 remission % for each condition directly from cohort tau0 / tauAct
+    let remBase30 = 0, remBlk30 = 0, remV106_30 = 0, remPulse30 = 0;
+    for (let i = 0; i < N; i++) {
+      const pBase = 1.0 - Math.exp(-30.0 / tau0[i]);
+      remBase30 += pBase;
+      remBlk30 += pBase; // E_d === 0 identically!
+      // -10.6% loop gain v reduces barrier drastically (~8-11x faster escape)
+      const tauV = Math.max(0.8, tau0[i] * Math.pow(0.894, 21.8));
+      remV106_30 += (1.0 - Math.exp(-30.0 / tauV));
+      const flippedByPulse = sepRho[i] < (1.0 / Math.max(0.15, 1.0 - S.knockdownPct / 100.0));
+      remPulse30 += flippedByPulse ? 1.0 : pBase;
+    }
+    const bars = [
+      { name: 'Abstinence', pct: (remBase30 / N) * 100, col: '#ff6b35' },
+      { name: '100% Block (Ed≡0)', pct: (remBlk30 / N) * 100, col: '#9b88ff' },
+      { name: '−10.6% Loop v', pct: (remV106_30 / N) * 100, col: '#c8ff00' },
+      { name: `${S.knockdownPct}% Pulse`, pct: (remPulse30 / N) * 100, col: '#00e5ff' }
+    ];
+
+    const slotH = rh / bars.length;
+    ctx.font = '9.5px "IBM Plex Mono", monospace';
+    bars.forEach((b, idx) => {
+      const by = padT + idx * slotH + 4;
+      const bh = Math.max(10, slotH - 12);
+      ctx.fillStyle = 'rgba(255,255,255,0.05)';
+      ctx.fillRect(rx0, by, rw, bh);
+      const fillW = (b.pct / 100.0) * rw;
+      ctx.fillStyle = b.col;
+      ctx.fillRect(rx0, by, fillW, bh);
+      ctx.fillStyle = '#080808';
+      if (fillW > 75) {
+        ctx.fillText(`${b.name}: ${b.pct.toFixed(1)}%`, rx0 + 6, by + bh * 0.68);
+      } else {
+        ctx.fillStyle = '#f0ece4';
+        ctx.fillText(`${b.name}: ${b.pct.toFixed(1)}%`, rx0 + fillW + 6, by + bh * 0.68);
+      }
+    });
+    ctx.fillStyle = '#9e9b93';
+    ctx.fillText('Day-30 Remission % (0.00% Blockade Shift)', rx0, h - 7);
+  }
+
+  // ─── DRAW 5 (MODE B): LUMPED DSM BAR VS UNMASKED 4-SUBTYPE BEESWARM ─────────
+  function drawRctDistribution() {
+    const { ctx, w, h } = prepCanvas(dom.rctDistCanvas);
+    ctx.fillStyle = '#060608';
+    ctx.fillRect(0, 0, w, h);
+
+    const padL = 165, padR = 20, padT = 22, padB = 28;
+    const pw = w - padL - padR;
+    const ph = h - padT - padB;
+    const xMin = -3.5, xMax = 3.5;
+    const xPx = (sc) => padL + ((sc - xMin) / (xMax - xMin)) * pw;
+
+    // Zero clinical change vertical line & responder threshold (+1.0)
+    const xZero = xPx(0);
+    const xResp = xPx(1.0);
+    const xWorse = xPx(-0.75);
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(xZero, padT); ctx.lineTo(xZero, padT + ph); ctx.stroke();
+
+    ctx.save();
+    ctx.setLineDash([4, 4]);
+    ctx.strokeStyle = 'rgba(200,255,0,0.35)';
+    ctx.beginPath(); ctx.moveTo(xResp, padT); ctx.lineTo(xResp, padT + ph); ctx.stroke();
+    ctx.strokeStyle = 'rgba(255,107,53,0.35)';
+    ctx.beginPath(); ctx.moveTo(xWorse, padT); ctx.lineTo(xWorse, padT + ph); ctx.stroke();
+    ctx.restore();
+
+    ctx.font = '9.5px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#ff6b35';
+    ctx.fillText('← Agitated / Worsened', padL + 4, 14);
+    ctx.fillStyle = '#9e9b93';
+    ctx.textAlign = 'center';
+    ctx.fillText('0.0 (No Change)', xZero, 14);
+    ctx.fillStyle = '#c8ff00';
+    ctx.textAlign = 'right';
+    ctx.fillText('Responder / Paradoxical Calm →', w - padR, 14);
+    ctx.textAlign = 'left';
+
+    const stMeta = [
+      { name: '38% True NMDA-ADHD', sub: 'Low η_rel + High NMDA', col: '#c8ff00' },
+      { name: '34% Reuptake ADHD', sub: 'Intact η_rel + Fast DAT', col: '#00e5ff' },
+      { name: '18% Anhedonic MDD', sub: 'Zero NMDA · Energized', col: '#9b88ff' },
+      { name: '10% Bipolar / LQTS', sub: 'Switch & hERG Vulnerable', col: '#ff6b35' }
+    ];
+
+    const u = S.unmaskAnim; // 0 = Lumped single DSM row, 1 = 5 rows (Top DSM Lumped + 4 Unmasked Subtypes)
+    const topRowY = padT + (1.0 - u) * (ph * 0.42) + u * 22;
+
+    // Draw Lumped DSM Group-Average Bar
+    const meanX = xPx(S.rctStats.allMean);
+    ctx.fillStyle = 'rgba(255,255,255,0.06)';
+    ctx.fillRect(padL, topRowY - 13, pw, 26);
+    ctx.fillStyle = S.rctStats.allMean >= 0 ? 'rgba(200,255,0,0.32)' : 'rgba(255,107,53,0.35)';
+    ctx.fillRect(Math.min(xZero, meanX), topRowY - 11, Math.abs(meanX - xZero), 22);
+    ctx.strokeStyle = '#f0ece4';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(meanX, topRowY - 14); ctx.lineTo(meanX, topRowY + 14); ctx.stroke();
+
+    ctx.fillStyle = '#f0ece4';
+    ctx.font = 'bold 11px "Syne", sans-serif';
+    ctx.fillText('DSM LUMPED (N=1,000)', 10, topRowY - 2);
+    ctx.font = '9.5px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#a09d95';
+    const nntStr = S.rctStats.allNNT < 50 ? S.rctStats.allNNT.toFixed(1) : '∞';
+    ctx.fillText(`d=${S.rctStats.allD >= 0 ? '+' : ''}${S.rctStats.allD.toFixed(2)} · NNT=${nntStr}`, 10, topRowY + 11);
+
+    // Draw 1,000 beeswarm dots interpolating smoothly from lumped row to 4 subtype rows!
+    const rowSpacing = (ph - 46) / 4.0;
+    for (let st = 0; st < 4; st++) {
+      const ry = padT + 56 + st * rowSpacing;
+      if (u > 0.08) {
+        ctx.save();
+        ctx.globalAlpha = u;
+        ctx.fillStyle = 'rgba(255,255,255,0.03)';
+        ctx.fillRect(padL, ry - rowSpacing * 0.38, pw, rowSpacing * 0.76);
+
+        const stStat = S.rctStats.sub[st];
+        const stMeanX = xPx(stStat.mean);
+        ctx.fillStyle = stStat.mean >= 0 ? 'rgba(200,255,0,0.18)' : 'rgba(255,107,53,0.22)';
+        ctx.fillRect(Math.min(xZero, stMeanX), ry - 9, Math.abs(stMeanX - xZero), 18);
+        ctx.strokeStyle = stMeta[st].col;
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(stMeanX, ry - 12); ctx.lineTo(stMeanX, ry + 12); ctx.stroke();
+
+        ctx.fillStyle = stMeta[st].col;
+        ctx.font = 'bold 10.5px "Syne", sans-serif';
+        ctx.fillText(stMeta[st].name, 10, ry - 2);
+        ctx.fillStyle = '#a09d95';
+        ctx.font = '9.5px "IBM Plex Mono", monospace';
+        const sNnt = stStat.nnt < 50 ? stStat.nnt.toFixed(1) : '∞';
+        ctx.fillText(`d=${stStat.d >= 0 ? '+' : ''}${stStat.d.toFixed(2)} · NNT=${sNnt} (${stStat.respPct.toFixed(0)}%)`, 10, ry + 11);
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < N; i++) {
+      const st = subtype[i];
+      const jitter = ((i * 73) % 19 - 9) * 1.15;
+      const yLumped = topRowY + jitter * 1.6;
+      const yStrat = padT + 56 + st * rowSpacing + jitter * 0.95;
+      const py = yLumped * (1.0 - u) + yStrat * u;
+      const px = xPx(rctScore[i]);
+
+      if (u > 0.45) {
+        ctx.fillStyle = rctScore[i] <= -0.75 ? 'rgba(255,107,53,0.82)' : stMeta[st].col;
+      } else {
+        ctx.fillStyle = rctScore[i] >= 1.0 ? 'rgba(200,255,0,0.70)' :
+          (rctScore[i] <= -0.75 ? 'rgba(255,107,53,0.75)' : 'rgba(160,157,149,0.50)');
+      }
+      ctx.fillRect(px - 1.4, py - 1.4, 2.8, 2.8);
+    }
+
+    // X-axis bottom ticks
+    ctx.fillStyle = '#6e6d68';
+    ctx.font = '9.5px "IBM Plex Mono", monospace';
+    ctx.textAlign = 'center';
+    [-3, -2, -1, 0, 1, 2, 3].forEach((v) => {
+      ctx.fillText((v > 0 ? '+' : '') + v + ' ΔCGI', xPx(v), h - 6);
+    });
+    ctx.textAlign = 'left';
+  }
+
+  // ─── DRAW 6 (MODE B): CYP2D6 PLASMA EXPOSURE VS QTc OUTLIER SCATTER ─────────
+  let qtcDotCoords = null;
+  function drawQtcSafety() {
+    const { ctx, w, h } = prepCanvas(dom.qtcSafetyCanvas);
+    ctx.fillStyle = '#060608';
+    ctx.fillRect(0, 0, w, h);
+
+    const padL = 50, padR = 18, padT = 16, padB = 28;
+    const pw = w - padL - padR;
+    const ph = h - padT - padB;
+
+    let maxCp = 4.5;
+    for (let i = 0; i < N; i++) if (rctPlasma[i] > maxCp) maxCp = Math.min(14, rctPlasma[i] * 1.06);
+    const yMin = 375, yMax = Math.max(545, Math.min(640, 520 + S.rctStats.qtc500Count * 1.5));
+
+    const xPx = (cp) => padL + (Math.min(maxCp, cp) / maxCp) * pw;
+    const yPx = (q) => padT + (1.0 - (Math.min(yMax, Math.max(yMin, q)) - yMin) / (yMax - yMin)) * ph;
+
+    // Torsades danger zone shading above 500 ms
+    const y500 = yPx(500);
+    const y470 = yPx(470);
+    ctx.fillStyle = 'rgba(255, 59, 92, 0.11)';
+    ctx.fillRect(padL, padT, pw, Math.max(0, y500 - padT));
+
+    ctx.save();
+    ctx.setLineDash([5, 3]);
+    ctx.strokeStyle = '#ff3b5c';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(padL, y500); ctx.lineTo(padL + pw, y500); ctx.stroke();
+    ctx.strokeStyle = 'rgba(255,107,53,0.55)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(padL, y470); ctx.lineTo(padL + pw, y470); ctx.stroke();
+    ctx.restore();
+
+    ctx.font = '9.5px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#ff3b5c';
+    ctx.fillText('500 ms TORSADES DE POINTES THRESHOLD', padL + 6, Math.max(padT + 11, y500 - 4));
+
+    if (!qtcDotCoords || qtcDotCoords.length !== N * 2) {
+      qtcDotCoords = new Float32Array(N * 2);
+    }
+    const cypCols = ['#ff3b5c', '#ff6b35', '#9e9b93', '#00e5ff']; // PM, IM, EM, UM
+
+    for (let i = 0; i < N; i++) {
+      const px = xPx(rctPlasma[i]);
+      const py = yPx(rctQtc[i]);
+      qtcDotCoords[2 * i] = px;
+      qtcDotCoords[2 * i + 1] = py;
+
+      ctx.fillStyle = rctQtc[i] >= 500 ? '#ff3b5c' : cypCols[cypCode[i]];
+      const sz = rctQtc[i] >= 500 ? 4.4 : (inSubN40[i] ? 3.4 : 2.6);
+      ctx.fillRect(px - sz / 2, py - sz / 2, sz, sz);
+    }
+
+    // Selected patient ring
+    const sx = qtcDotCoords[2 * S.selectedPt];
+    const sy = qtcDotCoords[2 * S.selectedPt + 1];
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(sx, sy, 5.5, 0, Math.PI * 2); ctx.stroke();
+
+    // Axes labels
+    ctx.fillStyle = '#6e6d68';
+    ctx.textAlign = 'right';
+    [400, 450, 500].forEach((q) => {
+      if (q <= yMax) ctx.fillText(q + 'ms', padL - 5, yPx(q) + 3);
+    });
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#9e9b93';
+    ctx.fillText('Relative Systemic Exposure C_p,i (CYP2D6: Red=PM 0.15×, Org=IM, Gray=EM, Cyan=UM 2.2×) →', padL, h - 7);
+  }
+
+  // ─── DRAW 7 (MODE C): KAPLAN-MEIER SURVIVAL CURVE S(t) ──────────────────────
+  function drawKaplanMeier() {
+    const { ctx, w, h } = prepCanvas(dom.kmCanvas);
+    ctx.fillStyle = '#060608';
+    ctx.fillRect(0, 0, w, h);
+
+    const padL = 48, padR = 18, padT = 18, padB = 30;
+    const pw = w - padL - padR;
+    const ph = h - padT - padB;
+    const maxT = S.kmHorizonDays;
+
+    const xPx = (t) => padL + (t / maxT) * pw;
+    const yPx = (s) => padT + (1.0 - s) * ph;
+
+    // Grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    [0.0, 0.25, 0.50, 0.75, 1.0].forEach((s) => {
+      const py = yPx(s);
+      ctx.beginPath(); ctx.moveTo(padL, py); ctx.lineTo(padL + pw, py); ctx.stroke();
+      ctx.fillStyle = '#6e6d68';
+      ctx.font = '9.5px "IBM Plex Mono", monospace';
+      ctx.textAlign = 'right';
+      ctx.fillText((s * 100).toFixed(0) + '%', padL - 6, py + 3);
+    });
+    ctx.textAlign = 'left';
+
+    const steps = 140;
+    // Helper to plot cohort survival S(t) = (1/N) * sum exp(-t / tau_i)
+    function plotCohortCurve(tauArr, color, lineW, dash) {
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = lineW;
+      ctx.setLineDash(dash || []);
+      ctx.beginPath();
+      for (let k = 0; k <= steps; k++) {
+        const t = (k / steps) * maxT;
+        let surv = 0.0;
+        for (let i = 0; i < N; i++) {
+          surv += Math.exp(-t / tauArr[i]);
+        }
+        surv /= N;
+        const px = xPx(t), py = yPx(surv);
+        if (k === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // 1. Naive Uncorrected Cross-Sectional Variance Curve (phi=0 -> 3.33x inflated D)
+    if (S.showNaivePhi) {
+      plotCohortCurve(tauNaivePhi, 'rgba(160,157,149,0.65)', 1.6, [3, 4]);
+    }
+
+    // 2. Untreated Abstinence Baseline S_0(t)
+    plotCohortCurve(tau0, '#ff6b35', 2.2, []);
+
+    // 3. 100% Abstinence Receptor Blockade S_{d=0}(t) — sits IDENTICALLY on S_0(t) (E_d === 0)!
+    if (S.showBlockadeKM) {
+      plotCohortCurve(tau0, '#9b88ff', 2.0, [6, 5]);
+    }
+
+    // 4. Active Intervention Cohort Survival Curve (incorporates v, D, and any fired Knockdown Pulse!)
+    ctx.save();
+    ctx.strokeStyle = '#c8ff00';
+    ctx.lineWidth = 2.4;
+    ctx.beginPath();
+    for (let k = 0; k <= steps; k++) {
+      const t = (k / steps) * maxT;
+      let surv = 0.0;
+      for (let i = 0; i < N; i++) {
+        if (remitted[i] && remitDay[i] >= 0 && t >= remitDay[i]) {
+          surv += 0.0;
+        } else {
+          surv += Math.exp(-t / tauAct[i]);
+        }
+      }
+      surv /= N;
+      const px = xPx(t), py = yPx(surv);
+      if (k === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+    ctx.restore();
+
+    // Current live simulation time marker
+    if (S.tDays <= maxT) {
+      const curX = xPx(S.tDays);
+      let liveSurv = 0;
+      for (let i = 0; i < N; i++) if (!remitted[i]) liveSurv++;
+      liveSurv /= N;
+      ctx.strokeStyle = 'rgba(0,229,255,0.5)';
+      ctx.beginPath(); ctx.moveTo(curX, padT); ctx.lineTo(curX, padT + ph); ctx.stroke();
+      ctx.fillStyle = '#00e5ff';
+      ctx.beginPath(); ctx.arc(curX, yPx(liveSurv), 4.5, 0, Math.PI * 2); ctx.fill();
+    }
+
+    // Legend inside top-right
+    const lx = w - padR - 265, ly = padT + 10;
+    ctx.font = '9.5px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#ff6b35'; ctx.fillText('— Untreated Abstinence S₀(t)', lx, ly);
+    if (S.showBlockadeKM) {
+      ctx.fillStyle = '#9b88ff'; ctx.fillText('-- 100% Receptor Blockade (Δ=0.00%, Ed≡0)', lx, ly + 14);
+    }
+    ctx.fillStyle = '#c8ff00'; ctx.fillText('— Active Intervention S(t)', lx, ly + 28);
+    if (S.showNaivePhi) {
+      ctx.fillStyle = '#a09d95'; ctx.fillText('·· Naive Uncorrected φ=0 (3.3× D Error)', lx, ly + 42);
+    }
+
+    // X-axis ticks
+    ctx.fillStyle = '#6e6d68';
+    ctx.textAlign = 'center';
+    for (let k = 0; k <= 5; k++) {
+      const d = Math.round((k / 5) * maxT);
+      ctx.fillText(maxT > 1000 ? `${(d / 365).toFixed(1)} yr` : `Day ${d}`, xPx(d), h - 8);
+    }
+    ctx.textAlign = 'left';
+  }
+
+  // ─── DRAW 8 (MODE C): SIDE-BY-SIDE REGRESSION (ln τ vs ln R vs ln ρ) ────────
+  let regDotCoords = null;
+  function drawRegressions() {
+    const { ctx, w, h } = prepCanvas(dom.regressionCanvas);
+    ctx.fillStyle = '#060608';
+    ctx.fillRect(0, 0, w, h);
+
+    const gapMid = 38;
+    const padL = 44, padR = 14, padT = 22, padB = 28;
+    const halfW = (w - padL - padR - gapMid) / 2;
+    const ph = h - padT - padB;
+
+    if (!regDotCoords || regDotCoords.length !== N * 4) {
+      regDotCoords = new Float32Array(N * 4);
+    }
+
+    const yMin = -0.5, yMax = 10.5; // ln(tau) in days (~0.6d to ~36,000d)
+    const yPx = (lt) => padT + (1.0 - (Math.min(yMax, Math.max(yMin, lt)) - yMin) / (yMax - yMin)) * ph;
+
+    // LEFT PANEL: ln(tau_i) vs ln(R_i = A_hi / A_lo) -> Weak R^2 ~ 0.32
+    const xRMin = 1.45, xRMax = 2.35;
+    const xRPx = (lr) => padL + ((lr - xRMin) / (xRMax - xRMin)) * halfW;
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    ctx.strokeRect(padL, padT, halfW, ph);
+
+    // Highlight narrow slice R in [6, 7) -> ln R in [1.79, 1.95) showing huge vertical spread!
+    const sx1 = xRPx(Math.log(6.0)), sx2 = xRPx(Math.log(7.0));
+    ctx.fillStyle = 'rgba(255,107,53,0.08)';
+    ctx.fillRect(sx1, padT, sx2 - sx1, ph);
+
+    for (let i = 0; i < N; i++) {
+      const lr = Math.log(foldR[i]);
+      const lt = Math.log(tau0[i]);
+      const px = xRPx(Math.min(xRMax, Math.max(xRMin, lr)));
+      const py = yPx(lt);
+      regDotCoords[4 * i] = px;
+      regDotCoords[4 * i + 1] = py;
+      ctx.fillStyle = 'rgba(255,107,53,0.62)';
+      ctx.fillRect(px - 1.4, py - 1.4, 2.8, 2.8);
+    }
+
+    // OLS line for ln R
+    ctx.strokeStyle = '#ff6b35';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(xRPx(xRMin), yPx(S.regR.slope * xRMin + S.regR.intercept));
+    ctx.lineTo(xRPx(xRMax), yPx(S.regR.slope * xRMax + S.regR.intercept));
+    ctx.stroke();
+
+    ctx.font = 'bold 10.5px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#ff6b35';
+    ctx.fillText(`Measured Fold Rᵢ = A_hi/A_lo · R² = ${S.regR.r2.toFixed(2)}`, padL + 4, 14);
+    ctx.font = '9.5px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#9e9b93';
+    ctx.fillText('ln Rᵢ (Cross-Sectional Blot) →', padL + 12, h - 7);
+
+    // RIGHT PANEL: ln(tau_i) vs ln(rho_i = A_hi / A_mid) -> Strong R^2 ~ 0.85, slope ~ 23
+    const rx0 = padL + halfW + gapMid;
+    const xRhoMin = 0.10, xRhoMax = 0.50;
+    const xRhoPx = (lrho) => rx0 + ((lrho - xRhoMin) / (xRhoMax - xRhoMin)) * halfW;
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    ctx.strokeRect(rx0, padT, halfW, ph);
+
+    for (let i = 0; i < N; i++) {
+      const lrho = Math.log(sepRho[i]);
+      const lt = Math.log(tau0[i]);
+      const px = xRhoPx(Math.min(xRhoMax, Math.max(xRhoMin, lrho)));
+      const py = yPx(lt);
+      regDotCoords[4 * i + 2] = px;
+      regDotCoords[4 * i + 3] = py;
+      ctx.fillStyle = sepRho[i] > 1.46 ? 'rgba(155,136,255,0.85)' : 'rgba(200,255,0,0.68)';
+      ctx.fillRect(px - 1.4, py - 1.4, 2.8, 2.8);
+    }
+
+    // OLS line for ln rho
+    ctx.strokeStyle = '#00e5ff';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(xRhoPx(xRhoMin), yPx(S.regRho.slope * xRhoMin + S.regRho.intercept));
+    ctx.lineTo(xRhoPx(xRhoMax), yPx(S.regRho.slope * xRhoMax + S.regRho.intercept));
+    ctx.stroke();
+
+    ctx.font = 'bold 10.5px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#c8ff00';
+    ctx.fillText(`Hidden Separatrix ρᵢ · R² = ${S.regRho.r2.toFixed(2)} (Slope ${S.regRho.slope.toFixed(1)})`, rx0 + 4, 14);
+    ctx.font = '9.5px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#9e9b93';
+    ctx.fillText('ln ρᵢ = ln(A_hi/A_mid) →', rx0 + 18, h - 7);
+
+    // Selected patient rings on both panels
+    const id = S.selectedPt;
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(regDotCoords[4 * id], regDotCoords[4 * id + 1], 5, 0, Math.PI * 2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(regDotCoords[4 * id + 2], regDotCoords[4 * id + 3], 5, 0, Math.PI * 2); ctx.stroke();
+
+    // Shared Y-axis ticks (ln tau -> days/years)
+    ctx.fillStyle = '#6e6d68';
+    ctx.textAlign = 'right';
+    [
+      { lt: Math.log(2), lbl: '2d' },
+      { lt: Math.log(30), lbl: '30d' },
+      { lt: Math.log(365), lbl: '1yr' },
+      { lt: Math.log(3650), lbl: '10yr' }
+    ].forEach((tk) => {
+      ctx.fillText(tk.lbl, padL - 5, yPx(tk.lt) + 3);
+    });
+    ctx.textAlign = 'left';
+  }
+
+  // ─── REFRESH DOM TELEMETRY & PATIENT INSPECTOR ──────────────────────────────
+  const SUBTYPE_NAMES = [
+    'NMDA Release-Deficit ADHD (Art. 04)',
+    'Reuptake-Driven Inattentive ADHD',
+    'Hypodopaminergic MDD (Misdiagnosed)',
+    'Latent Bipolar / Subclinical LQTS'
+  ];
+  const CYP_LABELS = ['PM *4/*4', 'IM *1/*4', 'EM *1/*1', 'UM *1/*2xN'];
+
+  function refreshTelemetryDOM() {
+    let remCount = 0;
+    let rentSum = 0.0;
+    let lqtsCnt = 0;
+    for (let i = 0; i < N; i++) {
+      if (remitted[i]) remCount++;
+      else rentSum += atpRentPct[i];
+      if (lqtsCarrier[i]) lqtsCnt++;
+    }
+    const meanRent = rentSum / N;
+    const prof = DRUG_PROFILES[S.drugKey] || DRUG_PROFILES.mph;
+
+    if (S.mode === 'B') {
+      dom.clockReadout.textContent = `TRIAL N=1,000 · ${prof.name.split(' ')[0].toUpperCase()}`;
+      dom.statusBadge.textContent = S.unmasked ? 'SUBTYPES UNMASKED' : 'DSM-5 BLINDED';
+      dom.matrixTitle.textContent = `1,000 Virtual Humans — Clinical Response (${prof.name})`;
+      dom.matrixBadge.textContent = `Mean d = ${S.rctStats.allD >= 0 ? '+' : ''}${S.rctStats.allD.toFixed(2)} · Resp ${S.rctStats.allRespPct.toFixed(1)}%`;
+
+      dom.kpi1Label.textContent = 'DSM Group Effect';
+      dom.kpi1Val.textContent = `d = ${S.rctStats.allD >= 0 ? '+' : ''}${S.rctStats.allD.toFixed(2)}`;
+      dom.kpi1Val.style.color = Math.abs(S.rctStats.allD) < 0.35 ? 'var(--muted2)' : (S.rctStats.allD > 0 ? 'var(--lime)' : 'var(--orange)');
+      dom.kpi1Sub.textContent = `Resp ${S.rctStats.allRespPct.toFixed(1)}% · Worse ${S.rctStats.allWorsePct.toFixed(1)}%`;
+
+      dom.kpi2Label.textContent = 'True NMDA-ADHD (38%)';
+      const d0 = S.rctStats.sub[0].d;
+      dom.kpi2Val.textContent = `d = ${d0 >= 0 ? '+' : ''}${d0.toFixed(2)}`;
+      dom.kpi2Val.style.color = d0 >= 0.5 ? 'var(--lime)' : 'var(--orange)';
+      dom.kpi2Sub.textContent = d0 >= 0.5 ? 'Paradoxical Calm Achieved' : 'NDRI Fails / NE Agitation!';
+
+      dom.kpi3Label.textContent = 'Reuptake Subtype (34%)';
+      const d1 = S.rctStats.sub[1].d;
+      dom.kpi3Val.textContent = `d = ${d1 >= 0 ? '+' : ''}${d1.toFixed(2)}`;
+      dom.kpi3Val.style.color = d1 >= 0.5 ? 'var(--cyan)' : 'var(--muted2)';
+      dom.kpi3Sub.textContent = `NNT = ${S.rctStats.sub[1].nnt < 50 ? S.rctStats.sub[1].nnt.toFixed(1) : '∞'}`;
+
+      dom.kpi4Label.textContent = 'Bipolar / MDD Split';
+      dom.kpi4Val.textContent = `d_BP = ${S.rctStats.sub[3].d.toFixed(2)}`;
+      dom.kpi4Val.style.color = S.rctStats.sub[3].d < -0.5 ? 'var(--danger)' : 'var(--violet)';
+      dom.kpi4Sub.textContent = `MDD d = ${S.rctStats.sub[2].d >= 0 ? '+' : ''}${S.rctStats.sub[2].d.toFixed(2)} (Non-calming)`;
+    } else {
+      dom.clockReadout.textContent = `WITHDRAWAL DAY ${S.tDays.toFixed(1).padStart(5, '0')}`;
+      dom.statusBadge.textContent = S.pulseActive ? `KNOCKDOWN PULSE (−${S.knockdownPct}%)` :
+        (S.abstinenceBlock ? '100% BLOCKADE (Ed ≡ 0)' : 'ADAPTED BASIN (d ≡ 0)');
+      dom.matrixTitle.textContent = '1,000 Virtual Humans — Live Synaptic CP-AMPA State Aᵢ(t)';
+      dom.matrixBadge.textContent = `${1000 - remCount} Adapted · ${remCount} Remitted`;
+
+      dom.kpi1Label.textContent = 'Remitted Brains';
+      dom.kpi1Val.textContent = `${remCount} / 1,000 (${(remCount / 10).toFixed(1)}%)`;
+      dom.kpi1Val.style.color = 'var(--lime)';
+      dom.kpi1Sub.textContent = 'Collapsed to healthy A_lo,i';
+
+      const infl = 1.0 / Math.max(0.05, 1.0 - S.phi);
+      dom.kpi2Label.textContent = 'Static Share φ (Art. 07)';
+      dom.kpi2Val.textContent = `φ = ${S.phi.toFixed(2)} (${infl.toFixed(2)}×)`;
+      dom.kpi2Val.style.color = 'var(--orange)';
+      dom.kpi2Sub.textContent = `Naive D inflated ${infl.toFixed(2)}×`;
+
+      dom.kpi3Label.textContent = 'Persistence Law';
+      dom.kpi3Val.textContent = `τ ∝ ρ^${S.regRho.slope.toFixed(1)}`;
+      dom.kpi3Val.style.color = 'var(--violet)';
+      dom.kpi3Sub.textContent = `R²(ρ)=${S.regRho.r2.toFixed(2)} vs R²(R)=${S.regR.r2.toFixed(2)}`;
+
+      dom.kpi4Label.textContent = 'Cohort ATP Rent';
+      dom.kpi4Val.textContent = `+${meanRent.toFixed(2)}% Budget`;
+      dom.kpi4Val.style.color = 'var(--orange)';
+      const repaySec = meanRent > 0.2 ? (1.46e9 / ((meanRent / 100.0) * 7.31e9)).toFixed(1) + ' s' : 'Repaid';
+      dom.kpi4Sub.textContent = `Install repaid in ${repaySec}`;
+    }
+
+    dom.kpi5Val.textContent = '70 PM · 60 UM';
+    dom.kpi5Sub.textContent = '150 IM · 720 Normal EM';
+
+    const q500 = S.rctStats.qtc500Count;
+    dom.kpi6Val.textContent = `${q500} Outlier${q500 === 1 ? '' : 's'}`;
+    dom.kpi6Val.style.color = q500 > 0 ? 'var(--danger)' : 'var(--lime)';
+    dom.kpi6Sub.textContent = `Subclinical hERG LQTS: ${lqtsCnt}`;
+
+    // Mode A readouts
+    const rhoCrit = 1.0 / Math.max(0.15, 1.0 - S.knockdownPct / 100.0);
+    dom.assayStatusBadge.textContent = S.pulseActive
+      ? `PULSE ACTIVE (${(S.pulseEndDay - S.tDays).toFixed(1)}d left)`
+      : `Pulse Ready · Flips ρᵢ < ${rhoCrit.toFixed(2)}`;
+    dom.inferredRhoReadout.textContent = `Assay-Inferred Median ρ̂₅₀ = ${S.inferredRho50.toFixed(2)} vs Ground-Truth ρ₅₀ = ${S.trueRho50.toFixed(2)}`;
+
+    // Mode B readouts
+    const missProbN40 = Math.pow(1.0 - q500 / N, 40) * 100.0;
+    dom.n40CompareReadout.textContent = `Full N=1,000 d=${S.rctStats.allD >= 0 ? '+' : ''}${S.rctStats.allD.toFixed(2)} · Random N=40 RCT: d=${S.rctStats.n40D >= 0 ? '+' : ''}${S.rctStats.n40D.toFixed(2)} (QTc>500 caught: ${S.rctStats.n40QtcHits})`;
+    dom.qtcOutlierReadout.textContent = `QTc > 500ms Torsades Risk: ${q500}/1,000 (${(q500 / 10).toFixed(1)}%) · N=40 Trial Misses Outliers ${q500 > 0 ? missProbN40.toFixed(0) + '% of time!' : '—'}`;
+
+    // Mode C summary
+    const sortedTau = Array.from(tau0).sort((a, b) => a - b);
+    let rem1Yr = 0, rem10Yr = 0;
+    let minSlice = 1e9, maxSlice = 0;
+    for (let i = 0; i < N; i++) {
+      rem1Yr += (1.0 - Math.exp(-365.0 / tau0[i]));
+      rem10Yr += (1.0 - Math.exp(-3650.0 / tau0[i]));
+      if (foldR[i] >= 6.0 && foldR[i] < 7.0) {
+        if (tau0[i] < minSlice) minSlice = tau0[i];
+        if (tau0[i] > maxSlice) maxSlice = tau0[i];
+      }
+    }
+    dom.kmSummaryReadout.textContent = `Median τ₅₀ = ${sortedTau[500].toFixed(1)} d · 1-Yr Remitted: ${(rem1Yr / 10).toFixed(1)}% · 10-Yr Remitted: ${(rem10Yr / 10).toFixed(1)}%`;
+    const spreadRatio = maxSlice > minSlice ? Math.round(maxSlice / Math.max(0.5, minSlice)) : 120;
+    dom.sliceSpreadReadout.textContent = `Within narrow R ∈ [6,7), escape time τᵢ still spans ${spreadRatio}×!`;
+
+    // Selected Patient Inspector
+    const id = S.selectedPt;
+    dom.ptHeaderTitle.textContent = `Patient #${String(id).padStart(4, '0')} — ${SUBTYPE_NAMES[subtype[id]]} · CYP2D6 ${CYP_LABELS[cypCode[id]]}`;
+    dom.ptSubtype.textContent = SUBTYPE_NAMES[subtype[id]].split(' (')[0];
+    const stCol = ['#c8ff00', '#00e5ff', '#9b88ff', '#ff6b35'][subtype[id]];
+    dom.ptSubtype.style.color = stCol;
+    dom.ptCyp.textContent = `${CYP_LABELS[cypCode[id]]} (${cypMult[id].toFixed(2)}× CL)`;
+    dom.ptR.textContent = `${foldR[id].toFixed(2)}× (A_hi/A_lo)`;
+    const reqKd = Math.max(0, (1.0 - 1.0 / sepRho[id]) * 100.0);
+    dom.ptRho.textContent = `${sepRho[id].toFixed(2)}× (Flip >${reqKd.toFixed(0)}% KD)`;
+    const tauDisp = tauAct[id] > 999 ? `${(tauAct[id] / 365).toFixed(1)} yr` : `${tauAct[id].toFixed(1)} d`;
+    dom.ptTau.textContent = `ΔU/D=${(dU0[id] / DBaseArr[id]).toFixed(1)} · τ=${tauDisp}`;
+    dom.ptRent.textContent = `sᵢ=${staticS[id] >= 0 ? '+' : ''}${staticS[id].toFixed(2)} · +${atpRentPct[id].toFixed(1)}% ATP`;
+
+    const sc = rctScore[id];
+    const respTag = sc >= 1.0 ? (subtype[id] === 0 ? 'Paradoxical Calm' : (subtype[id] === 2 ? 'Energized' : 'Responder')) :
+      (sc <= -0.75 ? 'Agitated / Worsened' : 'Minimal Change');
+    dom.ptTrialResp.textContent = `${sc >= 0 ? '+' : ''}${sc.toFixed(2)} (${respTag})`;
+    dom.ptTrialResp.style.color = sc >= 1.0 ? 'var(--lime)' : (sc <= -0.75 ? 'var(--orange)' : 'var(--muted2)');
+
+    const q = rctQtc[id];
+    dom.ptQtc.textContent = `${Math.round(q)} ms ${q >= 500 ? '⚠️ TORSADES RISK' : (lqtsCarrier[id] ? '(LQTS Carrier)' : '(Safe)')}`;
+    dom.ptQtc.style.color = q >= 500 ? 'var(--danger)' : (q >= 470 ? 'var(--orange)' : 'var(--text)');
+    dom.ptLiveAVal.textContent = `Aᵢ = ${Math.exp(xLive[id]).toFixed(2)}`;
+  }
+
+  // ─── MODE SWITCHING & PRESETS ───────────────────────────────────────────────
+  function setMode(m) {
+    S.mode = m;
+    [dom.tabModeA, dom.tabModeB, dom.tabModeC].forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.mode === m);
+    });
+    dom.deckModeA.classList.toggle('active', m === 'A');
+    dom.deckModeB.classList.toggle('active', m === 'B');
+    dom.deckModeC.classList.toggle('active', m === 'C');
+
+    if (m === 'B') {
+      dom.matrixLegend.innerHTML = `
+        <span class="leg-item"><span class="leg-dot" style="background:#c8ff00"></span>Responder / Paradoxical Calm (ΔCGI ≥ +1)</span>
+        <span class="leg-item"><span class="leg-dot" style="background:#00e5ff"></span>Energized Non-ADHD (Unmasked)</span>
+        <span class="leg-item"><span class="leg-dot" style="background:#ff6b35"></span>Agitated / Worsened</span>
+        <span class="leg-item"><span class="leg-dot" style="background:#ff3b5c"></span>QTc &gt; 500ms Torsades Risk</span>`;
+    } else {
+      dom.matrixLegend.innerHTML = `
+        <span class="leg-item"><span class="leg-dot" style="background:#ff6b35"></span>Adapted Basin (Aᵢ &gt; A_mid,i · Paying ATP Rent)</span>
+        <span class="leg-item"><span class="leg-dot" style="background:#00e5ff"></span>Crossing Separatrix A_mid,i</span>
+        <span class="leg-item"><span class="leg-dot" style="background:#c8ff00"></span>Remitted to Baseline A_lo,i</span>
+        <span class="leg-item"><span class="leg-dot" style="background:#9b88ff"></span>High-ρᵢ Long Tail (&gt;1.46)</span>`;
+    }
+    refreshTelemetryDOM();
+  }
+
+  function syncModeAControlsDOM() {
+    dom.sliderKnockdown.value = S.knockdownPct;
+    const rc = 1.0 / Math.max(0.15, 1.0 - S.knockdownPct / 100.0);
+    dom.lblKnockdownPct.textContent = `${S.knockdownPct}% Reduction (Flips ρᵢ < ${rc.toFixed(2)})`;
+    dom.sliderLoopV.value = S.loopVPct;
+    dom.lblLoopVPct.textContent = `${S.loopVPct >= 0 ? '+' : ''}${S.loopVPct.toFixed(1)}% ${S.loopVPct < -8 ? '(C172 Loop Knockdown!)' : '(Baseline Loop)'}`;
+    dom.sliderNoiseD.value = S.noiseDPct;
+    dom.lblNoiseDPct.textContent = `${S.noiseDPct >= 0 ? '+' : ''}${S.noiseDPct.toFixed(1)}% (D = ${(S.D0 * (1 + S.noiseDPct / 100)).toFixed(4)} d⁻¹)`;
+    dom.chkAbstinenceBlock.checked = S.abstinenceBlock;
+  }
+
+  function syncModeBControlsDOM() {
+    dom.selectTrialDrug.value = S.drugKey;
+    const prof = DRUG_PROFILES[S.drugKey] || DRUG_PROFILES.mph;
+    dom.lblDrugClass.textContent = prof.classTag;
+    dom.sliderTrialDose.value = S.doseMult;
+    dom.lblTrialDose.textContent = `${S.doseMult.toFixed(2)}× Standard Regimen`;
+    dom.btnToggleUnmask.classList.toggle('active-unmask', S.unmasked);
+    dom.rctHeaderBadge.textContent = S.unmasked ? '4 ENDOPHENOTYPES UNMASKED' : 'DSM-5 LUMPED BLIND';
+  }
+
+  function applyPreset(presetId, updateHash) {
+    const valid = [
+      'separatrix-assay', 'abstinence-vs-loopv', 'adhd-rct-illusion',
+      'marshall-kim-tail', 'cocaethylene-outliers', 'ssri-bipolar-trap'
+    ];
+    if (!valid.includes(presetId)) presetId = 'separatrix-assay';
+    S.activePreset = presetId;
+
+    document.querySelectorAll('.preset-btn').forEach((b) => {
+      b.classList.toggle('active', b.dataset.preset === presetId);
+    });
+    if (updateHash) {
+      try { history.replaceState(null, '', `#preset=${presetId}`); } catch (_) {}
+    }
+
+    // Reset baseline levers before configuring preset
+    S.loopVPct = 0.0;
+    S.noiseDPct = 0.0;
+    S.abstinenceBlock = false;
+    S.knockdownPct = 28;
+    S.kmHorizonDays = 365;
+    document.querySelectorAll('#horizonTabs .mini-tab').forEach((t) => {
+      t.classList.toggle('active', parseInt(t.dataset.horizon, 10) === 365);
+    });
+    dom.kmHorizonBadge.textContent = 'Horizon: 0 → 365 Days';
+
+    if (presetId === 'separatrix-assay') {
+      S.sortBy = 'rho';
+      updateDisplaySortOrder();
+      syncSortTabs();
+      S.knockdownPct = 28;
+      recomputeActiveSDEBarriers();
+      resetLiveWithdrawalCohort();
+      S.tDays = 42.0; // Late withdrawal
+      fireKnockdownPulse();
+      syncModeAControlsDOM();
+      setMode('A');
+    } else if (presetId === 'abstinence-vs-loopv') {
+      S.sortBy = 'rho';
+      updateDisplaySortOrder();
+      syncSortTabs();
+      S.abstinenceBlock = true;
+      S.loopVPct = -10.6;
+      recomputeActiveSDEBarriers();
+      resetLiveWithdrawalCohort();
+      syncModeAControlsDOM();
+      setMode('A');
+    } else if (presetId === 'adhd-rct-illusion') {
+      S.drugKey = 'mph';
+      S.doseMult = 1.00;
+      S.unmasked = true;
+      S.unmaskAnim = 0.05; // Animate open!
+      S.sortBy = 'subtype';
+      recomputeClinicalTrial();
+      updateDisplaySortOrder();
+      syncSortTabs();
+      syncModeBControlsDOM();
+      setMode('B');
+    } else if (presetId === 'marshall-kim-tail') {
+      S.sortBy = 'rho';
+      updateDisplaySortOrder();
+      syncSortTabs();
+      S.kmHorizonDays = 3650;
+      document.querySelectorAll('#horizonTabs .mini-tab').forEach((t) => {
+        t.classList.toggle('active', parseInt(t.dataset.horizon, 10) === 3650);
+      });
+      dom.kmHorizonBadge.textContent = 'Horizon: 0 → 3,650 Days (10 Years)';
+      recomputeActiveSDEBarriers();
+      resetLiveWithdrawalCohort();
+      // Select a high-rho long-tail patient
+      pickPatientByRule((i) => sepRho[i] > 1.53);
+      syncModeAControlsDOM();
+      setMode('C');
+    } else if (presetId === 'cocaethylene-outliers') {
+      S.drugKey = 'cocaeth';
+      S.doseMult = 1.15;
+      S.unmasked = true;
+      S.unmaskAnim = 1.0;
+      recomputeClinicalTrial();
+      S.sortBy = 'cyp';
+      updateDisplaySortOrder();
+      syncSortTabs();
+      pickPatientByRule((i) => rctQtc[i] >= 505);
+      syncModeBControlsDOM();
+      setMode('B');
+    } else if (presetId === 'ssri-bipolar-trap') {
+      S.drugKey = 'ssri';
+      S.doseMult = 1.10;
+      S.unmasked = true;
+      S.unmaskAnim = 0.05;
+      recomputeClinicalTrial();
+      S.sortBy = 'subtype';
+      updateDisplaySortOrder();
+      syncSortTabs();
+      pickPatientByRule((i) => subtype[i] === 3 && rctScore[i] < -1.2);
+      syncModeBControlsDOM();
+      setMode('B');
+    }
+    refreshTelemetryDOM();
+  }
+
+  function syncSortTabs() {
+    document.querySelectorAll('#sortTabs .mini-tab').forEach((b) => {
+      b.classList.toggle('active', b.dataset.sort === S.sortBy);
+    });
+  }
+
+  function pickPatientByRule(pred) {
+    for (let k = 1; k <= N; k++) {
+      const cand = (S.selectedPt + k) % N;
+      if (pred(cand)) {
+        S.selectedPt = cand;
+        ptHistCount = 0;
+        recordSelectedPatientPoint();
+        refreshTelemetryDOM();
+        return;
+      }
+    }
+  }
+
+  // ─── PARSE SIM 05 URL HANDOFF (?custom=1&name=...) ──────────────────────────
+  function parseCustomMoleculeFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('custom') !== '1') return false;
+
+    const num = (key, fallback) => {
+      const raw = parseFloat(params.get(key));
+      return Number.isFinite(raw) ? raw : fallback;
+    };
+
+    const c = DRUG_PROFILES.custom;
+    c.name = (params.get('name') || 'Compiled De Novo Ligand').slice(0, 64);
+    c.mw = num('mw', 163.2);
+    c.logp = num('logp', 2.10);
+    c.tpsa = num('tpsa', 12.0);
+    c.pka = num('pka', 9.80);
+    c.mpo = num('mpo', 5.20);
+    c.kpuu = Math.max(0.01, Math.min(3.5, num('kpuu', 1.15)));
+    c.datRel = Math.max(0, Math.min(1.5, num('datRel', 0.50)));
+    c.datBlk = Math.max(0, Math.min(1.5, num('datBlk', 0.35)));
+    c.net = Math.max(0, Math.min(1.5, num('net', 0.30)));
+    c.morAgo = Math.max(0, Math.min(1.5, num('morAgo', 0.00)));
+    c.morAnt = Math.max(0, Math.min(1.5, num('morAnt', 0.00)));
+    c.herg = Math.max(0, Math.min(1.5, num('herg', 0.18)));
+    c.sert = Math.max(0, Math.min(1.5, num('sert', 0.08)));
+    c.fCyp2d6 = c.logp > 1.2 ? 0.68 : 0.30;
+    c.classTag = `CNS MPO ${c.mpo.toFixed(2)} · Kp,uu ${c.kpuu.toFixed(2)}`;
+
+    // Sync custom tuner sliders
+    dom.slCustKpuu.value = Math.min(2.2, c.kpuu); dom.lblCustKpuu.textContent = c.kpuu.toFixed(2);
+    dom.slCustDatRel.value = Math.min(1, c.datRel); dom.lblCustDatRel.textContent = c.datRel.toFixed(2);
+    dom.slCustDatBlk.value = Math.min(1, c.datBlk); dom.lblCustDatBlk.textContent = c.datBlk.toFixed(2);
+    dom.slCustNet.value = Math.min(1, c.net); dom.lblCustNet.textContent = c.net.toFixed(2);
+    dom.slCustHerg.value = Math.min(1, c.herg); dom.lblCustHerg.textContent = c.herg.toFixed(2);
+
+    // Populate banner
+    dom.cmBannerName.textContent = `COMPILED MOLECULE IN TRIAL: ${c.name}`;
+    dom.cmBannerSpecs.innerHTML = [
+      `MW <b>${c.mw.toFixed(1)}</b>`,
+      `cLogP <b>${c.logp.toFixed(2)}</b>`,
+      `TPSA <b>${c.tpsa.toFixed(1)} Å²</b>`,
+      `pKa <b>${c.pka.toFixed(2)}</b>`,
+      `CNS MPO <b>${c.mpo.toFixed(2)}/6</b>`,
+      `Kp,uu <b>${c.kpuu.toFixed(2)}</b>`,
+      `DAT Rel/Blk <b>${c.datRel.toFixed(2)}/${c.datBlk.toFixed(2)}</b>`,
+      `NET <b>${c.net.toFixed(2)}</b>`,
+      `MOR Ago/Ant <b>${c.morAgo.toFixed(2)}/${c.morAnt.toFixed(2)}</b>`,
+      `hERG <b>${c.herg.toFixed(2)}</b>`
+    ].map((s) => `<span class="cm-chip">${s}</span>`).join('');
+    dom.customMolBanner.classList.add('visible');
+
+    S.customFromURL = true;
+    S.drugKey = 'custom';
+    S.doseMult = 1.00;
+    S.unmasked = true;
+    S.unmaskAnim = 0.1;
+    recomputeClinicalTrial();
+    syncModeBControlsDOM();
+    setMode('B');
+    return true;
+  }
+
+  // ─── EVENT LISTENERS ────────────────────────────────────────────────────────
+  function setReelMode(on) {
+    S.reelMode = on;
+    document.body.classList.toggle('reel-mode', on);
+    dom.btnReelMode.classList.toggle('active', on);
+  }
+  dom.btnReelMode.addEventListener('click', () => setReelMode(!S.reelMode));
+
+  dom.btnMathDrawer.addEventListener('click', () => {
+    dom.mathDrawer.classList.toggle('open');
+    dom.btnMathDrawer.classList.toggle('active', dom.mathDrawer.classList.contains('open'));
+    renderMathSafe(dom.mathDrawer);
+  });
+  dom.btnCloseDrawer.addEventListener('click', () => {
+    dom.mathDrawer.classList.remove('open');
+    dom.btnMathDrawer.classList.remove('active');
+  });
+
+  function applyDrawerConstants() {
+    S.D0 = Math.max(0.012, Math.min(0.09, parseFloat(dom.p_D0.value) || 0.0279));
+    S.phi = Math.max(0.10, Math.min(0.90, parseFloat(dom.p_phi.value) || 0.70));
+    S.psi = Math.max(0.15, Math.min(0.65, parseFloat(dom.p_psi.value) || 0.34));
+    S.pulseHoldDays = Math.max(0.5, Math.min(5.0, parseFloat(dom.p_pulseDays.value) || 1.5));
+    S.seed = Math.max(1, parseInt(dom.p_seed.value, 10) || 20261125);
+    generatePopulation();
+    refreshTelemetryDOM();
+  }
+  [dom.p_D0, dom.p_phi, dom.p_psi, dom.p_pulseDays, dom.p_seed].forEach((inp) => {
+    inp.addEventListener('change', applyDrawerConstants);
+  });
+  dom.btnResetPopConstants.addEventListener('click', () => {
+    dom.p_D0.value = '0.0279';
+    dom.p_phi.value = '0.70';
+    dom.p_psi.value = '0.34';
+    dom.p_pulseDays.value = '0.5';
+    dom.p_seed.value = '20261125';
+    applyDrawerConstants();
+  });
+
+  // Mode Tabs & Presets
+  [dom.tabModeA, dom.tabModeB, dom.tabModeC].forEach((btn) => {
+    btn.addEventListener('click', () => setMode(btn.dataset.mode));
+  });
+  document.querySelectorAll('.preset-btn').forEach((btn) => {
+    btn.addEventListener('click', () => applyPreset(btn.dataset.preset, true));
+  });
+  dom.btnRunCustomModeB.addEventListener('click', () => {
+    S.drugKey = 'custom';
+    S.unmasked = true;
+    recomputeClinicalTrial();
+    syncModeBControlsDOM();
+    setMode('B');
+  });
+
+  // Transport
+  dom.btnPlayPause.addEventListener('click', () => {
+    S.playing = !S.playing;
+    dom.btnPlayPause.textContent = S.playing ? '⏸ Pause' : '▶ Play';
+  });
+  dom.btnResetCohort.addEventListener('click', () => {
+    resetLiveWithdrawalCohort();
+    refreshTelemetryDOM();
+  });
+  dom.speedSelect.addEventListener('change', () => {
+    S.speed = parseFloat(dom.speedSelect.value) || 1.0;
+  });
+  dom.btnShareURL.addEventListener('click', () => {
+    const url = new URL(window.location.href);
+    url.hash = `preset=${S.activePreset}`;
+    if (S.reelMode) url.searchParams.set('mode', 'reel');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url.toString()).catch(() => {});
+    }
+    dom.btnShareURL.textContent = '✓ Link Copied';
+    setTimeout(() => { dom.btnShareURL.textContent = '🔗 Share'; }, 1400);
+  });
+
+  // Cohort Grid Sort & Click/Hover
+  document.querySelectorAll('#sortTabs .mini-tab').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      S.sortBy = btn.dataset.sort;
+      syncSortTabs();
+      updateDisplaySortOrder();
+    });
+  });
+
+  function gridEventToPatient(ev) {
+    const rect = dom.cohortGridCanvas.getBoundingClientRect();
+    const x = ev.clientX - rect.left - 10;
+    const y = ev.clientY - rect.top - 10;
+    const availW = rect.width - 20;
+    const availH = rect.height - 20;
+    if (x < 0 || y < 0 || x >= availW || y >= availH) return -1;
+    const c = Math.min(GRID_COLS - 1, Math.floor((x / availW) * GRID_COLS));
+    const r = Math.min(GRID_ROWS - 1, Math.floor((y / availH) * GRID_ROWS));
+    return displayOrder[r * GRID_COLS + c];
+  }
+  dom.cohortGridCanvas.addEventListener('mousemove', (ev) => {
+    const pt = gridEventToPatient(ev);
+    S.hoverPt = pt;
+    if (pt >= 0) {
+      dom.hoverHint.textContent = `Hover: PT-#${String(pt).padStart(4, '0')} · ρᵢ=${sepRho[pt].toFixed(2)} · QTc=${Math.round(rctQtc[pt])}ms`;
+    }
+  });
+  dom.cohortGridCanvas.addEventListener('mouseleave', () => {
+    S.hoverPt = -1;
+    dom.hoverHint.textContent = 'Hover or click any of the 1,000 cells';
+  });
+  dom.cohortGridCanvas.addEventListener('click', (ev) => {
+    const pt = gridEventToPatient(ev);
+    if (pt >= 0) {
+      S.selectedPt = pt;
+      ptHistCount = 0;
+      recordSelectedPatientPoint();
+      refreshTelemetryDOM();
+    }
+  });
+
+  // Click-to-inspect on Scatter Canvases (Phase Cloud, QTc Safety, Regression)
+  function bindNearestDotClick(canvas, getCoordsFn) {
+    canvas.addEventListener('click', (ev) => {
+      const coords = getCoordsFn();
+      if (!coords) return;
+      const rect = canvas.getBoundingClientRect();
+      const mx = ev.clientX - rect.left;
+      const my = ev.clientY - rect.top;
+      let bestId = -1, bestDist2 = 196;
+      const stride = coords.length === N * 4 ? 4 : 2;
+      for (let i = 0; i < N; i++) {
+        const dx1 = coords[stride * i] - mx;
+        const dy1 = coords[stride * i + 1] - my;
+        const d1 = dx1 * dx1 + dy1 * dy1;
+        if (d1 < bestDist2) { bestDist2 = d1; bestId = i; }
+        if (stride === 4) {
+          const dx2 = coords[4 * i + 2] - mx;
+          const dy2 = coords[4 * i + 3] - my;
+          const d2 = dx2 * dx2 + dy2 * dy2;
+          if (d2 < bestDist2) { bestDist2 = d2; bestId = i; }
+        }
+      }
+      if (bestId >= 0) {
+        S.selectedPt = bestId;
+        ptHistCount = 0;
+        recordSelectedPatientPoint();
+        refreshTelemetryDOM();
+      }
+    });
+  }
+  bindNearestDotClick(dom.phaseCloudCanvas, () => phaseDotCoords);
+  bindNearestDotClick(dom.qtcSafetyCanvas, () => qtcDotCoords);
+  bindNearestDotClick(dom.regressionCanvas, () => regDotCoords);
+
+  // Quick Patient Finder Buttons
+  dom.btnPickNmda.addEventListener('click', () => pickPatientByRule((i) => subtype[i] === 0 && cypCode[i] === 2));
+  dom.btnPickTail.addEventListener('click', () => pickPatientByRule((i) => sepRho[i] > 1.52));
+  dom.btnPickOutlier.addEventListener('click', () => pickPatientByRule((i) => cypCode[i] === 0 && lqtsCarrier[i] === 1));
+
+  // Mode A Controls
+  dom.sliderKnockdown.addEventListener('input', () => {
+    S.knockdownPct = parseFloat(dom.sliderKnockdown.value) || 0;
+    syncModeAControlsDOM();
+    refreshTelemetryDOM();
+  });
+  dom.btnFirePulse.addEventListener('click', () => {
+    // If almost everyone already remitted, re-seed adapted cohort at Day 42 withdrawal first
+    let remCnt = 0;
+    for (let i = 0; i < N; i++) if (remitted[i]) remCnt++;
+    if (remCnt > 900) {
+      resetLiveWithdrawalCohort();
+      S.tDays = 42.0;
+    }
+    fireKnockdownPulse();
+    refreshTelemetryDOM();
+  });
+  dom.btnSweepAssay.addEventListener('click', () => {
+    resetLiveWithdrawalCohort();
+    S.tDays = 42.0;
+    fireKnockdownPulse();
+    buildAssaySweepCurve();
+    refreshTelemetryDOM();
+  });
+  dom.sliderLoopV.addEventListener('input', () => {
+    S.loopVPct = parseFloat(dom.sliderLoopV.value) || 0;
+    recomputeActiveSDEBarriers();
+    syncModeAControlsDOM();
+    refreshTelemetryDOM();
+  });
+  dom.sliderNoiseD.addEventListener('input', () => {
+    S.noiseDPct = parseFloat(dom.sliderNoiseD.value) || 0;
+    recomputeActiveSDEBarriers();
+    syncModeAControlsDOM();
+    refreshTelemetryDOM();
+  });
+  dom.chkAbstinenceBlock.addEventListener('change', () => {
+    S.abstinenceBlock = dom.chkAbstinenceBlock.checked;
+    recomputeActiveSDEBarriers();
+    refreshTelemetryDOM();
+  });
+  dom.btnSnapV106.addEventListener('click', () => {
+    S.loopVPct = -10.6;
+    recomputeActiveSDEBarriers();
+    syncModeAControlsDOM();
+    refreshTelemetryDOM();
+  });
+  dom.btnSnapD417.addEventListener('click', () => {
+    S.noiseDPct = 41.7;
+    recomputeActiveSDEBarriers();
+    syncModeAControlsDOM();
+    refreshTelemetryDOM();
+  });
+  dom.btnResetLevers.addEventListener('click', () => {
+    S.loopVPct = 0.0;
+    S.noiseDPct = 0.0;
+    S.abstinenceBlock = false;
+    recomputeActiveSDEBarriers();
+    resetLiveWithdrawalCohort();
+    syncModeAControlsDOM();
+    refreshTelemetryDOM();
+  });
+
+  // Mode B Controls
+  dom.selectTrialDrug.addEventListener('change', () => {
+    S.drugKey = dom.selectTrialDrug.value;
+    if (S.drugKey === 'custom') dom.customTunerBox.classList.add('open');
+    recomputeClinicalTrial();
+    syncModeBControlsDOM();
+    refreshTelemetryDOM();
+  });
+  dom.sliderTrialDose.addEventListener('input', () => {
+    S.doseMult = parseFloat(dom.sliderTrialDose.value) || 1.0;
+    recomputeClinicalTrial();
+    syncModeBControlsDOM();
+    refreshTelemetryDOM();
+  });
+  dom.btnToggleUnmask.addEventListener('click', () => {
+    S.unmasked = !S.unmasked;
+    syncModeBControlsDOM();
+    refreshTelemetryDOM();
+  });
+  dom.btnDrawN40.addEventListener('click', () => {
+    drawRandomN40Subsample((S.n40Seed + 7919) >>> 0);
+    recomputeClinicalTrial();
+    refreshTelemetryDOM();
+  });
+  dom.btnToggleCustomTuner.addEventListener('click', () => {
+    dom.customTunerBox.classList.toggle('open');
+    if (dom.customTunerBox.classList.contains('open')) {
+      S.drugKey = 'custom';
+      recomputeClinicalTrial();
+      syncModeBControlsDOM();
+      refreshTelemetryDOM();
+    }
+  });
+
+  [dom.slCustKpuu, dom.slCustDatRel, dom.slCustDatBlk, dom.slCustNet, dom.slCustHerg].forEach((sl) => {
+    sl.addEventListener('input', () => {
+      const c = DRUG_PROFILES.custom;
+      c.kpuu = parseFloat(dom.slCustKpuu.value); dom.lblCustKpuu.textContent = c.kpuu.toFixed(2);
+      c.datRel = parseFloat(dom.slCustDatRel.value); dom.lblCustDatRel.textContent = c.datRel.toFixed(2);
+      c.datBlk = parseFloat(dom.slCustDatBlk.value); dom.lblCustDatBlk.textContent = c.datBlk.toFixed(2);
+      c.net = parseFloat(dom.slCustNet.value); dom.lblCustNet.textContent = c.net.toFixed(2);
+      c.herg = parseFloat(dom.slCustHerg.value); dom.lblCustHerg.textContent = c.herg.toFixed(2);
+      S.drugKey = 'custom';
+      recomputeClinicalTrial();
+      syncModeBControlsDOM();
+      refreshTelemetryDOM();
+    });
+  });
+
+  // Mode C Controls
+  document.querySelectorAll('#horizonTabs .mini-tab').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      S.kmHorizonDays = parseInt(btn.dataset.horizon, 10) || 365;
+      document.querySelectorAll('#horizonTabs .mini-tab').forEach((t) => {
+        t.classList.toggle('active', t === btn);
+      });
+      dom.kmHorizonBadge.textContent = S.kmHorizonDays > 1000
+        ? 'Horizon: 0 → 3,650 Days (10 Years)'
+        : 'Horizon: 0 → 365 Days';
+    });
+  });
+  dom.chkShowNaivePhi.addEventListener('change', () => { S.showNaivePhi = dom.chkShowNaivePhi.checked; });
+  dom.chkShowBlockadeKM.addEventListener('change', () => { S.showBlockadeKM = dom.chkShowBlockadeKM.checked; });
+
+  // ─── URL BOOTSTRAP & 60 FPS ANIMATION LOOP ──────────────────────────────────
+  function initFromURL() {
+    generatePopulation();
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('mode') === 'reel') {
+      setReelMode(true);
+    }
+
+    const hadCustom = parseCustomMoleculeFromURL();
+    if (!hadCustom) {
+      let preset = params.get('preset') || '';
+      if (!preset && window.location.hash) {
+        const m = window.location.hash.match(/preset=([a-z0-9_-]+)/i);
+        if (m && m[1]) preset = m[1];
+      }
+      applyPreset(preset || 'separatrix-assay', false);
+    }
+  }
+
+  window.addEventListener('hashchange', () => {
+    const m = window.location.hash.match(/preset=([a-z0-9_-]+)/i);
+    if (m && m[1]) applyPreset(m[1], false);
+  });
+
+  let lastMs = performance.now();
+  let frameIdx = 0;
+
+  function tick(nowMs) {
+    const wallDt = Math.min(0.05, Math.max(0.001, (nowMs - lastMs) / 1000.0));
+    lastMs = nowMs;
+    frameIdx++;
+
+    // Smooth spring animation for Mode B Unmasking
+    const targetUnmask = S.unmasked ? 1.0 : 0.0;
+    S.unmaskAnim += (targetUnmask - S.unmaskAnim) * Math.min(1.0, wallDt * 8.5);
+
+    if (S.playing && (S.mode === 'A' || S.mode === 'C')) {
+      // Advance 1,000-brain Euler-Maruyama Itô SDE (~2.2 simulated days per wall second at 1x)
+      const dtDays = wallDt * 2.2 * S.speed;
+      stepCohortSDE(dtDays);
+      if (frameIdx % 4 === 0) {
+        refreshTelemetryDOM();
+      }
+    }
+
+    const animSec = nowMs * 0.001;
+    drawCohortGrid(animSec);
+    drawPatientTrace();
+
+    if (S.mode === 'A') {
+      drawPhaseCloud();
+      drawAssayCurve();
+    } else if (S.mode === 'B') {
+      drawRctDistribution();
+      drawQtcSafety();
+    } else {
+      drawKaplanMeier();
+      drawRegressions();
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  initFromURL();
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
