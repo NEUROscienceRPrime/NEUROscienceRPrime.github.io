@@ -1,0 +1,604 @@
+/* ==========================================================================
+   NEUROSCIENCE WITH RPRIME — TACTILE PRECISION HARDWARE DESIGN SYSTEM
+   Aesthetic: Teenage Engineering × Porsche GT Cockpit · Stealth Dark OLED
+   Applies cleanly across index.html, neurolab.html, and Sims 01–08.
+   Zero interference with physics solvers, canvases, IDs, or ?mode=reel.
+   ========================================================================== */
+
+:root {
+  --rp-void: #020203;
+  --rp-chassis: #060709;
+  --rp-carbon-hi: #0e1015;
+  --rp-carbon-lo: #06070a;
+  --rp-oled: #010102;
+  --rp-key-hi: #171920;
+  --rp-key-lo: #0b0c10;
+  --rp-hairline: rgba(255, 255, 255, 0.075);
+  --rp-hairline-hi: rgba(255, 255, 255, 0.16);
+  --rp-specular: rgba(255, 255, 255, 0.085);
+  --rp-lime: #c8ff00;
+  --rp-amber: #ff5e1f;
+  --rp-cyan: #22d3ee;
+  --rp-ivory: #edeae2;
+  --rp-titanium: #8c8982;
+
+  /* Darken existing page surface tokens uniformly for deeper OLED contrast */
+  --bg: #020203;
+  --surface: #07080b;
+  --surface-solid: #07080b;
+  --surface2: #0b0d11;
+  --surface3: #111319;
+  --panel: #07080b;
+  --panel2: #0b0d11;
+  --panel3: #111319;
+  --border: rgba(255, 255, 255, 0.075);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-bright: rgba(255, 255, 255, 0.17);
+  --text: #edeae2;
+  --accent2: #ff5e1f;
+  --orange: #ff5e1f;
+}
+
+/* ---------- 1. STEALTH CARBON CHASSIS BACKGROUND ---------- */
+html {
+  background-color: var(--rp-void) !important;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--rp-void) !important;
+  background-image:
+    radial-gradient(ellipse 90% 42% at 50% -8%, rgba(255, 255, 255, 0.038) 0%, transparent 65%),
+    radial-gradient(circle 680px at 88% 12%, rgba(200, 255, 0, 0.022) 0%, transparent 62%),
+    radial-gradient(circle 640px at 12% 82%, rgba(255, 94, 31, 0.02) 0%, transparent 62%),
+    radial-gradient(rgba(255, 255, 255, 0.032) 0.75px, transparent 0.75px) !important;
+  background-size: 100% 100%, 100% 100%, 100% 100%, 24px 24px !important;
+  background-attachment: fixed !important;
+  color: var(--rp-ivory);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Precision top-edge tachometer scroll needle */
+#rp-scroll-needle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 1.5px;
+  width: 0%;
+  z-index: 10050;
+  pointer-events: none;
+  background: linear-gradient(90deg, #c8ff00 0%, #d8ff4d 68%, #ff5e1f 100%);
+  box-shadow: 0 0 10px rgba(200, 255, 0, 0.65);
+  transition: width 60ms linear;
+}
+body.reel-mode #rp-scroll-needle { display: none !important; }
+
+/* Custom precision machined dark scrollbars */
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-track { background: #030304; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #23262e, #15171d);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+::-webkit-scrollbar-thumb:hover { background: #313540; }
+
+/* ---------- 2. FLOATING ANODIZED CARBON HEADER ---------- */
+nav,
+.top-nav {
+  background: rgba(4, 4, 6, 0.86) !important;
+  backdrop-filter: blur(22px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(140%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.085) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 14px 36px -14px rgba(0, 0, 0, 0.92) !important;
+}
+
+.nav-links a,
+.top-nav a {
+  border-radius: 6px;
+  transition: color 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+}
+
+/* ---------- 3. CNC-MILLED MATTE CARBON INSTRUMENT MODULES ---------- */
+.panel,
+.card,
+.rig-panel,
+.panel-box,
+.viewport-card,
+.plot-card,
+.ctrl-card,
+.rack-box,
+.electrode-box,
+.lab-card,
+.article-card,
+.focus-card,
+.standard-card,
+.reality-card,
+.handoff-card,
+.protocols-wrap,
+.bet-card,
+.opt-pert-card,
+.eq-card {
+  position: relative;
+  background: linear-gradient(180deg, var(--rp-carbon-hi) 0%, #08090c 44%, var(--rp-carbon-lo) 100%) !important;
+  border: 1px solid var(--rp-hairline) !important;
+  box-shadow:
+    inset 0 1px 0 var(--rp-specular),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.94),
+    0 20px 52px -24px rgba(0, 0, 0, 0.96),
+    0 3px 10px rgba(0, 0, 0, 0.72) !important;
+  transition: border-color 0.22s ease, box-shadow 0.24s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Anodized cursor-tracked specular chamfer sheen (layered background — zero ::before/::after collisions!) */
+.rp-sheen-card {
+  --cx: 50%;
+  --cy: -20%;
+}
+.rp-sheen-card:hover {
+  background:
+    radial-gradient(
+      420px circle at var(--cx) var(--cy),
+      rgba(255, 255, 255, 0.055),
+      rgba(200, 255, 0, 0.025) 36%,
+      transparent 70%
+    ),
+    linear-gradient(180deg, var(--rp-carbon-hi) 0%, #08090c 44%, var(--rp-carbon-lo) 100%) !important;
+}
+
+.lab-card:hover,
+.article-card:hover,
+.focus-card:hover,
+.reality-card:hover,
+.standard-card:hover {
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.96),
+    0 28px 64px -22px rgba(0, 0, 0, 0.98),
+    0 0 0 1px rgba(200, 255, 0, 0.12) !important;
+}
+
+/* Flagship featured cards get subtle brushed tachometer top-edge illumination */
+.lab-card.featured,
+.article-card.featured,
+.article-card.span-2 {
+  background:
+    radial-gradient(600px 180px at 16% 0%, rgba(200, 255, 0, 0.065), transparent 70%),
+    linear-gradient(180deg, #101218 0%, #07080b 55%, #050507 100%) !important;
+  border-color: rgba(200, 255, 0, 0.24) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(200, 255, 0, 0.34),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.96),
+    0 24px 60px -22px rgba(0, 0, 0, 0.98) !important;
+}
+.lab-card.featured.rp-sheen-card:hover,
+.article-card.featured.rp-sheen-card:hover,
+.article-card.span-2.rp-sheen-card:hover {
+  background:
+    radial-gradient(460px circle at var(--cx) var(--cy), rgba(200, 255, 0, 0.075), rgba(255, 255, 255, 0.035) 38%, transparent 72%),
+    radial-gradient(600px 180px at 16% 0%, rgba(200, 255, 0, 0.065), transparent 70%),
+    linear-gradient(180deg, #101218 0%, #07080b 55%, #050507 100%) !important;
+}
+
+/* Panel headers get crisp machined instrument divider groove */
+.panel-head,
+.panel-header,
+.card-head,
+.plot-header,
+.vp-topbar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.065) !important;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.7);
+}
+
+/* ---------- 4. RECESSED PITCH-BLACK OLED INSTRUMENT BEZELS ---------- */
+.canvas-wrap,
+.mol-canvas-wrap,
+.viewport-wrap,
+.scope-wrap,
+.heart-wrap,
+.radar-wrap {
+  background: var(--rp-oled) !important;
+  border: 1px solid rgba(255, 255, 255, 0.085) !important;
+  box-shadow:
+    inset 0 3px 18px rgba(0, 0, 0, 0.98),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.95),
+    0 1px 0 rgba(255, 255, 255, 0.065) !important;
+  border-radius: 10px !important;
+}
+
+canvas.sim-canvas,
+#synapseCanvas,
+#ephysCanvas,
+#clockCanvas,
+#curlCanvas,
+#sdeCanvas,
+#ecgCanvas,
+#apCanvas,
+#organCanvas,
+#pkCanvas,
+#cohortGridCanvas,
+#patientTraceCanvas,
+#phaseCloudCanvas,
+#assayCurveCanvas,
+#rctDistCanvas,
+#qtcSafetyCanvas,
+#kmCanvas,
+#regressionCanvas,
+#paretoCanvas {
+  background: var(--rp-oled) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+  box-shadow:
+    inset 0 2px 14px rgba(0, 0, 0, 0.96),
+    0 1px 0 rgba(255, 255, 255, 0.055) !important;
+  border-radius: 8px;
+}
+
+/* ---------- 5. RECESSED OLED TELEMETRY CELLS & TABULAR NUMERICS ---------- */
+.metric-box,
+.kpi-card,
+.vital-card,
+.meter-card,
+.field-box,
+.receipt-box,
+.diag-box,
+.atom-inspector {
+  background: linear-gradient(180deg, #040406 0%, #07080b 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+  box-shadow:
+    inset 0 2px 9px rgba(0, 0, 0, 0.92),
+    0 1px 0 rgba(255, 255, 255, 0.055) !important;
+  border-radius: 8px !important;
+}
+
+.metric-val,
+.kpi-val,
+.slider-val,
+.clock-badge,
+.solve-badge,
+.phase-badge,
+.panel-badge,
+.vital-val,
+td,
+.mono {
+  font-variant-numeric: tabular-nums;
+}
+
+.metric-lbl,
+.metric-label,
+.kpi-label,
+.panel-eyebrow,
+.panel-kicker,
+.card-kicker,
+.hero-eyebrow {
+  letter-spacing: 0.1em !important;
+}
+
+/* ---------- 6. TACTILE HARDWARE SWITCHES & CONSOLE KEYCAPS ---------- */
+.preset-btn,
+.preset-card,
+.ctrl-btn,
+.nav-btn,
+.rig-btn,
+.hud-btn,
+.mini-btn,
+.mode-tab,
+.scale-tab,
+.sys-tab,
+.scaf-tab,
+.tool-pill,
+.surg-btn,
+.filter-pill,
+.protocol-tab,
+.pill,
+.pip-pill,
+.plot-tab,
+.mini-tab,
+.toggle-btn,
+.stop-btn,
+.flip-btn,
+.pin-btn,
+.btn-ghost,
+.btn-secondary,
+.btn-card-reel {
+  background: linear-gradient(180deg, var(--rp-key-hi) 0%, var(--rp-key-lo) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.095),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.85),
+    0 3px 8px rgba(0, 0, 0, 0.75) !important;
+  transition: transform 0.1s ease, border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease, color 0.16s ease !important;
+}
+
+.preset-btn:hover,
+.preset-card:hover,
+.ctrl-btn:hover,
+.nav-btn:hover,
+.rig-btn:hover,
+.hud-btn:hover,
+.mini-btn:hover,
+.mode-tab:hover,
+.scale-tab:hover,
+.sys-tab:hover,
+.scaf-tab:hover,
+.tool-pill:hover,
+.surg-btn:hover,
+.filter-pill:hover,
+.protocol-tab:hover,
+.pill:hover,
+.pip-pill:hover,
+.plot-tab:hover,
+.mini-tab:hover,
+.btn-ghost:hover,
+.btn-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.24) !important;
+  background: linear-gradient(180deg, #1d2028 0%, #101218 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 5px 14px rgba(0, 0, 0, 0.88) !important;
+}
+
+/* Physical mechanical press detent */
+.preset-btn:active,
+.preset-card:active,
+.ctrl-btn:active,
+.nav-btn:active,
+.rig-btn:active,
+.hud-btn:active,
+.mini-btn:active,
+.mode-tab:active,
+.scale-tab:active,
+.btn:active,
+.btn-primary:active,
+.btn-card-primary:active {
+  transform: translateY(1px) scale(0.992) !important;
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.92),
+    0 1px 2px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Illuminated active LED switch state */
+.preset-btn.active,
+.preset-card.active,
+.ctrl-btn.active,
+.mode-tab.active,
+.scale-tab.active,
+.sys-tab.active,
+.scaf-tab.active,
+.tool-pill.active,
+.surg-btn.active,
+.filter-pill.active,
+.protocol-tab.active,
+.plot-tab.active,
+.mini-tab.active,
+.pip-pill.active,
+.toggle-btn.active {
+  background: linear-gradient(180deg, rgba(200, 255, 0, 0.14) 0%, rgba(16, 20, 10, 0.96) 100%) !important;
+  border-color: rgba(200, 255, 0, 0.62) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(200, 255, 0, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.9),
+    0 0 18px -4px rgba(200, 255, 0, 0.28),
+    0 4px 12px rgba(0, 0, 0, 0.85) !important;
+}
+
+/* Orange accent active state preserved cleanly */
+.preset-card[data-tone="orange"].active,
+.toggle-btn.active-orange,
+.on-orange {
+  background: linear-gradient(180deg, rgba(255, 94, 31, 0.16) 0%, rgba(22, 12, 9, 0.96) 100%) !important;
+  border-color: rgba(255, 94, 31, 0.68) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 130, 80, 0.48),
+    0 0 18px -4px rgba(255, 94, 31, 0.32),
+    0 4px 12px rgba(0, 0, 0, 0.85) !important;
+}
+
+/* Primary phosphor action buttons (Teenage Engineering illuminated solid key) */
+.btn-primary,
+.btn-launch,
+.btn-card-primary,
+.cta-trial-btn {
+  background: linear-gradient(180deg, #d8ff3d 0%, #b8eb00 100%) !important;
+  color: #050605 !important;
+  border: 1px solid #dcff5c !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.62),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.25),
+    0 8px 24px -6px rgba(200, 255, 0, 0.36),
+    0 2px 6px rgba(0, 0, 0, 0.85) !important;
+  font-weight: 700 !important;
+}
+.btn-primary:hover,
+.btn-launch:hover,
+.btn-card-primary:hover,
+.cta-trial-btn:hover {
+  background: linear-gradient(180deg, #e4ff6b 0%, #c8ff00 100%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.78),
+    0 12px 30px -6px rgba(200, 255, 0, 0.5),
+    0 3px 10px rgba(0, 0, 0, 0.9) !important;
+}
+
+/* ---------- 7. CNC-MILLED HARDWARE RANGE SLIDERS ---------- */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px !important;
+  border-radius: 999px !important;
+  background: linear-gradient(
+    90deg,
+    var(--rp-slider-fill, #c8ff00) 0%,
+    var(--rp-slider-fill, #c8ff00) var(--rp-pct, 0%),
+    #030305 var(--rp-pct, 0%),
+    #030305 100%
+  ) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.96),
+    0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"].orange { --rp-slider-fill: #ff5e1f; }
+input[type="range"].cyan   { --rp-slider-fill: #22d3ee; }
+input[type="range"].violet { --rp-slider-fill: #9b88ff; }
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px !important;
+  height: 15px !important;
+  border-radius: 50% !important;
+  background:
+    radial-gradient(circle at 50% 50%, var(--rp-slider-fill, #c8ff00) 0%, var(--rp-slider-fill, #c8ff00) 24%, #262932 28%, #12141a 78%, #07080b 100%) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.28) !important;
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0.88),
+    0 3px 8px rgba(0, 0, 0, 0.95),
+    0 0 10px -1px rgba(200, 255, 0, 0.35) !important;
+  transition: transform 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease;
+}
+input[type="range"]::-webkit-slider-thumb:hover,
+input[type="range"]:active::-webkit-slider-thumb {
+  transform: scale(1.16);
+  border-color: var(--rp-slider-fill, #c8ff00) !important;
+  box-shadow:
+    0 0 0 3px rgba(200, 255, 0, 0.16),
+    0 4px 12px rgba(0, 0, 0, 0.95),
+    0 0 14px rgba(200, 255, 0, 0.55) !important;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 15px !important;
+  height: 15px !important;
+  border-radius: 50% !important;
+  background: radial-gradient(circle at 50% 50%, var(--rp-slider-fill, #c8ff00) 0%, var(--rp-slider-fill, #c8ff00) 24%, #262932 28%, #12141a 78%, #07080b 100%) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.28) !important;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.88), 0 3px 8px rgba(0, 0, 0, 0.95) !important;
+}
+
+/* Inputs & Selects — recessed OLED console fields */
+input[type="text"],
+input[type="number"],
+input[type="password"],
+select,
+textarea {
+  background-color: #040507 !important;
+  border-color: rgba(255, 255, 255, 0.11) !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.05);
+  color: var(--rp-ivory) !important;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+  border-color: rgba(200, 255, 0, 0.58) !important;
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.92),
+    0 0 0 2px rgba(200, 255, 0, 0.14) !important;
+  outline: none;
+}
+
+/* ---------- 8. HOMEPAGE & HUB CINEMATIC STEALTH HERO ---------- */
+.hero {
+  position: relative;
+}
+
+.hero-glow {
+  opacity: 0.42 !important;
+  filter: blur(85px) !important;
+}
+
+.hero-title,
+.hero h1 {
+  background: linear-gradient(180deg, #ffffff 0%, #eae6dc 58%, #aba79e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.03em;
+}
+/* Preserve explicitly colored accent spans inside headlines */
+.hero-title span,
+.hero h1 span,
+.hero-title em,
+.hero h1 em {
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: currentColor;
+}
+
+#rp-hero-reticle {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.85;
+  mask-image: radial-gradient(ellipse 85% 78% at 50% 42%, #000 35%, transparent 98%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 78% at 50% 42%, #000 35%, transparent 98%);
+}
+
+/* ---------- 9. DRAWERS, MODALS & FLOATING HARDWARE CAPSULES ---------- */
+.math-drawer-inner,
+.ode-drawer,
+.drawer-panel,
+.modal-card {
+  background: linear-gradient(180deg, #0d0f14 0%, #050608 100%) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.11),
+    0 32px 84px rgba(0, 0, 0, 0.96) !important;
+}
+
+/* Harmonize floating Story Guide (#rps-fab) & RPrime SI (#rprime-si-fab) into CNC hardware capsules */
+#rps-fab,
+#rprime-si-fab {
+  background: linear-gradient(180deg, #15171e 0%, #08090d 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.92),
+    0 14px 36px rgba(0, 0, 0, 0.92) !important;
+  backdrop-filter: blur(16px);
+}
+#rps-fab:hover,
+#rprime-si-fab:hover {
+  border-color: rgba(200, 255, 0, 0.62) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(200, 255, 0, 0.35),
+    0 16px 40px rgba(0, 0, 0, 0.95),
+    0 0 22px -4px rgba(200, 255, 0, 0.28) !important;
+}
+
+#rps-drawer,
+#rprime-si-drawer {
+  background: rgba(6, 7, 10, 0.97) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 30px 80px rgba(0, 0, 0, 0.96) !important;
+}
+
+/* Smooth hardware boot reveal */
+.rp-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.48s cubic-bezier(0.22, 1, 0.36, 1), transform 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.rp-reveal.rp-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rp-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  #rp-hero-reticle { display: none !important; }
+}
