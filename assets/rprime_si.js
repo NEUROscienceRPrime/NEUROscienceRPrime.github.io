@@ -650,6 +650,26 @@
   }
 
   function compileKnowledgeReply(query) {
+    if (/\b007\b|james\s+bond|electronegativity\s+difference|type\s+of\s+bond/i.test(query || '')) {
+      return {
+        tier: 'tier1_kb',
+        firewallPassed: true,
+        telemetryBound: false,
+        citations: ['Sim 05 · PEOE & Bond Classifier', 'Article 06'],
+        reply:
+          '**Electronegativity Difference (Δχ) → Type of Bond**\n\n' +
+          '• **≥ 1.7** → `ionic`\n' +
+          '• **0.5 – 1.6** → `polar covalent`\n' +
+          '• **≤ 0.4** → `nonpolar covalent`\n' +
+          '• **exactly 007** → `James` *(shaken by London dispersion, not planetary orbits — Mr. Bond approved)*\n\n' +
+          '`[?]` Pauling Δχ thresholds are classroom heuristics; real charge distribution in **Sim 05** solves 6-iteration Gasteiger–Marsili orbital electronegativity (PEOE) and **Sim 07** solves full Kohn–Sham `df-ωB97X-D/def2-SVP` electron density.',
+        actions: [
+          { label: '▶ Inspect Live PEOE & Δχ Table in Sim 05', href: './sim_drug_compiler.html' },
+          { label: '▶ Solve True DFT Orbitals in Sim 07', href: './sim_discovery.html' }
+        ]
+      };
+    }
+
     const ranked = rankBM25(query, KB);
     if (!ranked.length) {
       return {
